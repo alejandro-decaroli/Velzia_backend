@@ -1,0 +1,19 @@
+{
+  "name": "velzia",
+  "version": "1.0.0",
+  "description": "Mini erp",
+  "license": "ISC",
+  "author": "Alejandro Decaroli y Gonzalo Zinni",
+  "type": "module",
+  "main": "app.js",
+  "build": "tsc -p ./tsconfig.json",
+  "scripts": {
+    "start:dev": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/app.js\""
+  },
+  "devDependencies": {
+    "@types/express": "5.0.1",
+    "@types/node": "22.15.3",
+    "tsc-watch": "6.2.1",
+    "typescript": "5.8.3"
+  }
+}
