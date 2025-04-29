@@ -245,4 +245,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Es un volumen de datos de Docker donde PostgreSQL guarda toda la información interna de la base de datos.
+data_postgres
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,linux,windows,macos,archlinuxpackages
