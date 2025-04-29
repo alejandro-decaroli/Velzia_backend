@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:15
+    container_name: velzia_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: velzia_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./data_postgres:/var/lib/postgresql/data
+      - ./base_datos.sql:/docker-entrypoint-initdb.d/base_datos.sql
+  
+  app:
+    build: .
+    container_name: velzia_app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: velzia_db
