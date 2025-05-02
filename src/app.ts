@@ -1,11 +1,18 @@
-import express from "express"
+import express from 'express';
+import router from './routes/clienteRoutes.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 
-app.get("/", (req, res) => {
-    res.send("<h1>Hello World!</h1>")
-})
+app.use(express.json());
+app.use('/clientes', router);
 
-app.listen(3000, () => {
-    console.log("Server running on port 3000")
-})
+app.get('/', (req, res) => {
+  res.send('<h1>Velzia</h1>');
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
