@@ -1,15 +1,4 @@
-import { body, param, validationResult } from 'express-validator';
-import { Request, Response, NextFunction } from 'express';
-
-// Middleware para manejar errores de validación
-export const handleValidationErrors = (req: Request, res: Response, next: NextFunction): void => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array() });
-    return;
-  }
-  next();
-};
+import { body } from 'express-validator';
 
 export const createClienteValidation = [
   body('nombre')
@@ -17,11 +6,10 @@ export const createClienteValidation = [
     .isLength({ min: 3 }).withMessage('Nombre muy corto'),
   body('siglas')
     .notEmpty().withMessage('Siglas son requeridas')
-    .isLength({ max: 10 }).withMessage('Siglas muy largas'),
+    .isLength({ min: 2 }).withMessage('Siglas muy cortas')
+    .isLength({ max: 4 }).withMessage('Siglas muy largas'),
   body('estado')
     .notEmpty().withMessage('Estado es requerido')
+    .isIn(['Activo', 'Terminado']).withMessage('Estado debe ser Activo o Terminado')
 ];
 
-export const idParamValidation = [
-  param('id').isInt().withMessage('ID debe ser un número entero')
-];

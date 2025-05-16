@@ -24,6 +24,7 @@ app.get("/", (req: Request, res: Response) => {
     res.send("<h1>ESTO es VELZIA!</h1>");
 })
 
+// Prefijos para las rutas
 app.use('/clientes', clienteRouter); // antepone /clientes a todas las rutas de clienteRouter
 app.use('/cajas', cajaRouter); // antepone /cajas a todas las rutas de cajaRouter
 app.use('/pagos', pagoRouter); // antepone /pagos a todas las rutas de pagoRouter

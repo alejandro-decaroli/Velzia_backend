@@ -11,8 +11,21 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - ./data_postgres:/var/lib/postgresql/data
-      - ./src/sql/base_datos.sql:/docker-entrypoint-initdb.d/base_datos.sql
+      - postgres_data:/var/lib/postgresql/data
+  flyway:
+    image: flyway/flyway
+    container_name: velzia_flyway
+    restart: always
+    volumes:
+      - ./src/sql:/flyway/sql
+    environment:
+      - FLYWAY_URL=jdbc:postgresql://db:5432/velzia_db
+      - FLYWAY_USER=postgres
+      - FLYWAY_PASSWORD=postgres
+      - FLYWAY_CONNECT_RETRIES=60
+    depends_on:
+      - db
+    command: migrate
   
   app:
     build: .
@@ -28,3 +41,6 @@ services:
       DB_USER: postgres
       DB_PASSWORD: postgres
       DB_NAME: velzia_db
+
+volumes:
+  postgres_data:
