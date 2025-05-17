@@ -9,7 +9,7 @@ const cajaController = {
 
   async getById(req: Request, res: Response) {
     const caja = await cajaRepository.getById(Number(req.params.id));
-    if (!caja) return res.status(404).json({ error: 'Caja no encontrada' });
+    if (!caja) return res.status(404).json({ error: 'caja no encontrado' });
     res.json(caja);
   },
 

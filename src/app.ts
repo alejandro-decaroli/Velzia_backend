@@ -20,8 +20,11 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json()); // middleware para parsear el body de las peticiones
 
+app.use('/cajas', cajaRouter);
+
+
 app.get("/", (req: Request, res: Response) => {
-    res.send("<h1>ESTO es VELZIA!</h1>");
+    res.status(200).send("<h1>ESTO es VELZIA!</h1>");
 })
 
 // Prefijos para las rutas

@@ -2,7 +2,7 @@
 GET http://localhost:3000/clientes
 
 ### Obtener cliente por ID
-GET http://localhost:3000/clientes/4
+GET http://localhost:3000/clientes/5.5
 
 ### Crear cliente
 POST http://localhost:3000/clientes/create
@@ -11,7 +11,7 @@ Content-Type: application/json
 {
   "nombre": "Ailen",
   "siglas": "AI",
-  "estado": "gf"
+  "estado": "Activo"
 }
 
 ### Actualizar cliente
