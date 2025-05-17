@@ -3,28 +3,28 @@ import { Request, Response } from 'express';
 
 const pagoController = {
   async getAll(req: Request, res: Response) {
-    const clientes = pagoRepository.getAll();
-    res.json(clientes);
+    const pagos = await pagoRepository.getAll();
+    res.json(pagos);
   },
 
   async getById(req: Request, res: Response) {
-    const cliente = pagoRepository.getById(Number(req.params.id));
-    if (!cliente) return res.status(404).json({ error: 'Cliente no encontrado' });
-    res.json(cliente);
+    const pago = await pagoRepository.getById(Number(req.params.id));
+    if (!pago) return res.status(404).json({ error: 'Pago no encontrado' });
+    res.json(pago);
   },
 
   async create(req: Request, res: Response) {
-    const cliente = pagoRepository.create(req.body);
-    res.status(201).json(cliente);
+    const pago = await pagoRepository.create(req.body);
+    res.status(201).json(pago);
   },
 
   async update(req: Request, res: Response) {
-    const cliente = pagoRepository.update(Number(req.params.id), req.body);
-    res.json(cliente);
+    const pago = await pagoRepository.update(Number(req.params.id), req.body);
+    res.json(pago);
   },
 
   async remove(req: Request, res: Response) {
-    pagoRepository.remove(Number(req.params.id));
+    await pagoRepository.remove(Number(req.params.id));
     res.status(204).send();
   }
 };

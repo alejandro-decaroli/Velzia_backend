@@ -1,12 +1,35 @@
 import express, { Request, Response } from 'express';
 import clienteController from '../controllers/clienteController.js';
+import { idParamValidation, handleValidationErrors } from '../middlewares/standardValidation.js';
+import { createClienteValidation } from '../middlewares/clienteValidations.js';
 
-const router = express.Router();
+const clienteRouter = express.Router();
 
-router.get('/', (req: Request, res: Response) => {clienteController.getAll(req, res)});
-router.get('/:id', (req: Request, res: Response) => {clienteController.getById(req, res)});
-router.post('/', (req: Request, res: Response) => {clienteController.create(req, res)});
-router.put('/:id', (req: Request, res: Response) => {clienteController.update(req, res)});
-router.delete('/:id', (req: Request, res: Response) => {clienteController.remove(req, res)});
+clienteRouter.get('/', (req: Request, res: Response) => {clienteController.getAll(req, res)});
 
-export default router;
+clienteRouter.get('/:id', 
+  idParamValidation, 
+  handleValidationErrors,
+  (req: Request, res: Response) => {clienteController.getById(req, res)}
+);
+
+clienteRouter.post('/create', 
+  createClienteValidation, 
+  handleValidationErrors,
+  (req: Request, res: Response) => {clienteController.create(req, res)}
+);
+
+clienteRouter.put('/update/:id', 
+  idParamValidation,
+  createClienteValidation, 
+  handleValidationErrors,
+  (req: Request, res: Response) => {clienteController.update(req, res)}
+);
+
+clienteRouter.delete('/delete/:id', 
+  idParamValidation, 
+  handleValidationErrors,
+  (req: Request, res: Response) => {clienteController.remove(req, res)}
+);
+
+export default clienteRouter;

@@ -1,0 +1,28 @@
+### Obtener todos los clientes
+GET http://localhost:3000/clientes
+
+### Obtener cliente por ID
+GET http://localhost:3000/clientes/5.5
+
+### Crear cliente
+POST http://localhost:3000/clientes/create
+Content-Type: application/json
+
+{
+  "nombre": "Ailen",
+  "siglas": "AI",
+  "estado": "Activo"
+}
+
+### Actualizar cliente
+PUT http://localhost:3000/clientes/update/8
+Content-Type: application/json
+
+{
+  "nombre": "Marina",
+  "siglas": "A",
+  "estado": "terminado"
+}
+
+### Eliminar cliente
+DELETE http://localhost:3000/clientes/delete/7
