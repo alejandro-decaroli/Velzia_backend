@@ -44,3 +44,6 @@ app.listen(PORT, () => {
 
 // Implementar eliminado lógico (soft delete)
 // Que se abra en el navegador para Ivan
+
+// implementar devolucion de codigos
+// socket hang out al intentar crear un ajuste con una caja que no existe

@@ -1,28 +1,28 @@
-### Obtener todos los clientes
-GET http://localhost:3000/clientes
+### Obtener todos los ajustes
+GET http://localhost:3000/ajustes
 
-### Obtener cliente por ID
-GET http://localhost:3000/clientes/1
+### Obtener ajuste por ID
+GET http://localhost:3000/ajustes/1
 
-### Crear cliente
-POST http://localhost:3000/clientes/create
+### Crear ajuste
+POST http://localhost:3000/ajustes/create
 Content-Type: application/json
 
 {
-  "nombre": "Nuevo Cliente",
-  "siglas": "NC",
-  "estado": "Activo"
+  "caja_id": 1,
+  "monto": 100.00,
+  "movimiento": "Negativo"
 }
 
-### Actualizar cliente
-PUT http://localhost:3000/clientes/update/1
+### Actualizar ajuste
+PUT http://localhost:3000/ajustes/update/1
 Content-Type: application/json
 
 {
-  "nombre": "Cliente Actualizado",
-  "siglas": "CA",
-  "estado": "Activo"
+  "caja_id": 1,
+  "monto": 100.00,
+  "movimiento": "Negativo"
 }
 
-### Eliminar cliente
-DELETE http://localhost:3000/clientes/delete/1
+### Eliminar ajuste
+DELETE http://localhost:3000/ajustes/delete/1

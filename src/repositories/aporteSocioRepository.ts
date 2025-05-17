@@ -1,35 +1,44 @@
 import db from '../config/db.js';
+import cajaRepository from './cajaRepository.js';
 
-const clienteRepository = {
+const aporteSocioRepository = {
   async getAll() {
-    const res = await db.query('SELECT * FROM cliente ORDER BY id;');
+    const res = await db.query('SELECT * FROM aporte_socio ORDER BY id;');
     return res.rows;
   },
 
   async getById(id: number) {
-    const res = await db.query('SELECT * FROM cliente WHERE id = $1', [id]);
+    const res = await db.query('SELECT * FROM aporte_socio WHERE id = $1', [id]);
     return res.rows[0];
   },
 
-  async create({ nombre, estado, siglas }: { nombre: string; estado: string; siglas: string }) {
+  async create({ caja_id, monto }: { caja_id: number; monto: number }) {
+    const caja = await cajaRepository.getById(caja_id);
+    if (!caja) {
+      throw new Error('Caja no encontrada');
+    }
     const res = await db.query(
-      'INSERT INTO cliente (nombre, estado, siglas) VALUES ($1, $2, $3) RETURNING *',
-      [nombre, estado, siglas]
+      'INSERT INTO aporte_socio (caja_id, monto) VALUES ($1, $2) RETURNING *',
+      [caja_id, monto]
     );
     return res.rows[0];
   },
 
-  async update(id: number, { nombre, estado, siglas }: { nombre: string; estado: string; siglas: string }) {
+  async update(id: number, { caja_id, monto }: { caja_id: number; monto: number }) {
+    const caja = await cajaRepository.getById(caja_id);
+    if (!caja) {
+      throw new Error('Caja no encontrada');
+    }
     const res = await db.query(
-      'UPDATE cliente SET nombre = $1, estado = $2, siglas = $3 WHERE id = $4 RETURNING *',
-      [nombre, estado, siglas, id]
+      'UPDATE aporte_socio SET caja_id = $1, monto = $2 WHERE id = $3 RETURNING *',
+      [caja_id, monto, id]
     );
     return res.rows[0];
   },
 
   async remove(id: number) {
-    await db.query('DELETE FROM cliente WHERE id = $1', [id]);
+    await db.query('DELETE FROM aporte_socio WHERE id = $1', [id]);
   }
 };
 
-export default clienteRepository;
+export default aporteSocioRepository;

@@ -1,35 +1,44 @@
 import db from '../config/db.js';
+import cajaRepository from './cajaRepository.js';
 
-const clienteRepository = {
+const ajusteRepository = {
   async getAll() {
-    const res = await db.query('SELECT * FROM cliente ORDER BY id;');
+    const res = await db.query('SELECT * FROM ajuste ORDER BY id;');
     return res.rows;
   },
 
   async getById(id: number) {
-    const res = await db.query('SELECT * FROM cliente WHERE id = $1', [id]);
+    const res = await db.query('SELECT * FROM ajuste WHERE id = $1', [id]);
     return res.rows[0];
   },
 
-  async create({ nombre, estado, siglas }: { nombre: string; estado: string; siglas: string }) {
+  async create({ caja_id, monto, movimiento }: { caja_id: number; monto: number; movimiento: string }) {
+    const caja = await cajaRepository.getById(caja_id);
+    if (!caja) {
+      throw new Error('Caja no encontrada');
+    }
     const res = await db.query(
-      'INSERT INTO cliente (nombre, estado, siglas) VALUES ($1, $2, $3) RETURNING *',
-      [nombre, estado, siglas]
+      'INSERT INTO ajuste (caja_id, monto, movimiento) VALUES ($1, $2, $3) RETURNING *',
+      [caja_id, monto, movimiento]
     );
     return res.rows[0];
   },
 
-  async update(id: number, { nombre, estado, siglas }: { nombre: string; estado: string; siglas: string }) {
+  async update(id: number, { caja_id, monto, movimiento }: { caja_id: number; monto: number; movimiento: string }) {
+    const caja = await cajaRepository.getById(caja_id);
+    if (!caja) {
+      throw new Error('Caja no encontrada');
+    }
     const res = await db.query(
-      'UPDATE cliente SET nombre = $1, estado = $2, siglas = $3 WHERE id = $4 RETURNING *',
-      [nombre, estado, siglas, id]
+      'UPDATE ajuste SET caja_id = $1, monto = $2, movimiento = $3 WHERE id = $4 RETURNING *',
+      [caja_id, monto, movimiento, id]
     );
     return res.rows[0];
   },
 
   async remove(id: number) {
-    await db.query('DELETE FROM cliente WHERE id = $1', [id]);
+    await db.query('DELETE FROM ajuste WHERE id = $1', [id]);
   }
 };
 
-export default clienteRepository;
+export default ajusteRepository;
