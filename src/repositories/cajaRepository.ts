@@ -1,35 +1,35 @@
 import db from '../config/db.js';
 
-const clienteRepository = {
+const cajaRepository = {
   async getAll() {
-    const res = await db.query('SELECT * FROM cliente ORDER BY id;');
+    const res = await db.query('SELECT * FROM caja ORDER BY id;');
     return res.rows;
   },
 
   async getById(id: number) {
-    const res = await db.query('SELECT * FROM cliente WHERE id = $1', [id]);
+    const res = await db.query('SELECT * FROM caja WHERE id = $1', [id]);
     return res.rows[0];
   },
 
-  async create({ nombre, estado, siglas }: { nombre: string; estado: string; siglas: string }) {
+  async create({ nombre, tipo }: { nombre: string; tipo: string }) {
     const res = await db.query(
-      'INSERT INTO cliente (nombre, estado, siglas) VALUES ($1, $2, $3) RETURNING *',
-      [nombre, estado, siglas]
+      'INSERT INTO caja (nombre, tipo) VALUES ($1, $2) RETURNING *',
+      [nombre, tipo]
     );
     return res.rows[0];
   },
 
-  async update(id: number, { nombre, estado, siglas }: { nombre: string; estado: string; siglas: string }) {
+  async update(id: number, { nombre, tipo }: { nombre: string; tipo: string }) {
     const res = await db.query(
-      'UPDATE cliente SET nombre = $1, estado = $2, siglas = $3 WHERE id = $4 RETURNING *',
-      [nombre, estado, siglas, id]
+      'UPDATE caja SET nombre = $1, tipo = $2 WHERE id = $3 RETURNING *',
+      [nombre, tipo, id]
     );
     return res.rows[0];
   },
 
   async remove(id: number) {
-    await db.query('DELETE FROM cliente WHERE id = $1', [id]);
+    await db.query('DELETE FROM caja WHERE id = $1', [id]);
   }
 };
 
-export default clienteRepository;
+export default cajaRepository;
