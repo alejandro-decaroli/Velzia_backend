@@ -2,7 +2,7 @@
 GET http://localhost:3000/cajas
 
 ### Obtener caja por ID
-GET http://localhost:3000/cajas/2
+GET http://localhost:3000/cajas/10
 
 ### Crear caja
 POST http://localhost:3000/cajas/create
@@ -23,4 +23,4 @@ Content-Type: application/json
 }
 
 ### Eliminar caja
-DELETE http://localhost:3000/cajas/delete/4
+DELETE http://localhost:3000/cajas/delete/10

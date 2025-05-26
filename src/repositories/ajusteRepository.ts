@@ -1,5 +1,7 @@
 import db from '../config/db.js';
 import cajaRepository from './cajaRepository.js';
+import httpErrors from 'http-errors';
+const { NotFound, BadRequest } = httpErrors;
 
 const ajusteRepository = {
   async getAll() {
@@ -9,13 +11,16 @@ const ajusteRepository = {
 
   async getById(id: number) {
     const res = await db.query('SELECT * FROM ajuste WHERE id = $1', [id]);
+    if (res.rows.length === 0) {
+      throw new NotFound('Ajuste no encontrado');
+    }
     return res.rows[0];
   },
 
   async create({ caja_id, monto, movimiento }: { caja_id: number; monto: number; movimiento: string }) {
     const caja = await cajaRepository.getById(caja_id);
     if (!caja) {
-      throw new Error('Caja no encontrada');
+      throw new NotFound('Caja no encontrada');
     }
     const res = await db.query(
       'INSERT INTO ajuste (caja_id, monto, movimiento) VALUES ($1, $2, $3) RETURNING *',
@@ -27,7 +32,7 @@ const ajusteRepository = {
   async update(id: number, { caja_id, monto, movimiento }: { caja_id: number; monto: number; movimiento: string }) {
     const caja = await cajaRepository.getById(caja_id);
     if (!caja) {
-      throw new Error('Caja no encontrada');
+      throw new NotFound('Caja no encontrada');
     }
     const res = await db.query(
       'UPDATE ajuste SET caja_id = $1, monto = $2, movimiento = $3 WHERE id = $4 RETURNING *',

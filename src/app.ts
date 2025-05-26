@@ -18,29 +18,31 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json()); // middleware para parsear el body de las peticiones
+app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
     res.status(200).send("<h1>ESTO es VELZIA!</h1>");
 })
 
 // Prefijos para las rutas
-app.use('/clientes', clienteRouter); // antepone /clientes a todas las rutas de clienteRouter
-app.use('/cajas', cajaRouter); // antepone /cajas a todas las rutas de cajaRouter
-app.use('/pagos', pagoRouter); // antepone /pagos a todas las rutas de pagoRouter
-app.use('/ventas', ventaRouter); // antepone /ventas a todas las rutas de ventaRouter
-app.use('/costo_fijos', costoFijoRouter); // antepone /costo_fijos a todas las rutas de costoFijoRouter
-app.use('/costo_variables', costoVariableRouter); // antepone /costo_variables a todas las rutas de costoVariableRouter
-app.use('/ajustes', ajusteRouter); // antepone /ajustes a todas las rutas de ajusteRouter
-app.use('/aportes_socio', aporteSocioRouter); // antepone /aportes_socio a todas las rutas de aporteSocioRouter
-app.use('/dividendos_socio', dividendoSocioRouter); // antepone /dividendos_socio a todas las rutas de dividendoSocioRouter
-app.use('/transferencias', transferenciaRouter); // antepone /transferencias a todas las rutas de transferenciaRouter
-app.use('/tasas', tasaRouter); // antepone /tasas a todas las rutas de tasaRouter
+app.use('/clientes', clienteRouter); 
+app.use('/cajas', cajaRouter);
+app.use('/pagos', pagoRouter); 
+app.use('/ventas', ventaRouter)
+app.use('/costo_fijos', costoFijoRouter);
+app.use('/costo_variables', costoVariableRouter);
+app.use('/ajustes', ajusteRouter);
+app.use('/aportes_socio', aporteSocioRouter);
+app.use('/dividendos_socio', dividendoSocioRouter);
+app.use('/transferencias', transferenciaRouter);
+app.use('/tasas', tasaRouter);
+
+// Middleware de manejo de errores
+// app.use(errorHandler as express.ErrorRequestHandler);
 
 app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`);
 })
-
 
 // Implementar eliminado lógico (soft delete)
 // Que se abra en el navegador para Ivan

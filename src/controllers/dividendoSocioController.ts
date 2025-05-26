@@ -14,8 +14,12 @@ const dividendoSocioController = {
   },
 
   async create(req: Request, res: Response) {
-    const dividendoSocio = await dividendoSocioRepository.create(req.body);
-    res.status(201).json(dividendoSocio);
+    try {
+      const dividendoSocio = await dividendoSocioRepository.create(req.body);
+      res.status(201).json(dividendoSocio);
+    } catch (error) {
+      res.status(500).json({ error: 'Error al crear el dividendo socio' });
+    }
   },
 
   async update(req: Request, res: Response) {
