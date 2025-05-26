@@ -20,9 +20,6 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json()); // middleware para parsear el body de las peticiones
 
-app.use('/cajas', cajaRouter);
-
-
 app.get("/", (req: Request, res: Response) => {
     res.status(200).send("<h1>ESTO es VELZIA!</h1>");
 })
@@ -44,6 +41,9 @@ app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`);
 })
 
-// Averiguar flyway desde hice-pack
+
 // Implementar eliminado lógico (soft delete)
 // Que se abra en el navegador para Ivan
+
+// implementar devolucion de codigos
+// socket hang out al intentar crear un ajuste con una caja que no existe

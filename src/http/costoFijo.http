@@ -1,11 +1,11 @@
-### Obtener todos los clientes
-GET http://localhost:3000/clientes
+### Obtener todos los ajustes
+GET http://localhost:3000/ajustes
 
 ### Obtener cliente por ID
-GET http://localhost:3000/clientes/1
+GET http://localhost:3000/ajustes/1
 
 ### Crear cliente
-POST http://localhost:3000/clientes/create
+POST http://localhost:3000/ajustes/create
 Content-Type: application/json
 
 {
@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 
 ### Actualizar cliente
-PUT http://localhost:3000/clientes/update/1
+PUT http://localhost:3000/ajustes/update/1
 Content-Type: application/json
 
 {
@@ -25,4 +25,4 @@ Content-Type: application/json
 }
 
 ### Eliminar cliente
-DELETE http://localhost:3000/clientes/delete/1
+DELETE http://localhost:3000/ajustes/delete/1

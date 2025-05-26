@@ -9,9 +9,9 @@ POST http://localhost:3000/pagos/create
 Content-Type: application/json
 
 {
-  "cliente_id": 2,
+  "cliente_id": 1,
   "caja_id": 2,
-  "monto": 100
+  "monto": 300.0
 }
 
 ### Actualizar pago
