@@ -11,18 +11,18 @@ const clienteRepository = {
     return res.rows[0];
   },
 
-  async create({ nombre, estado, siglas }: { nombre: string; estado: string; siglas: string }) {
+  async create({ tasa_actual, tasa_nueva}: { tasa_actual: number; tasa_nueva: number }) {
     const res = await db.query(
-      'INSERT INTO cliente (nombre, estado, siglas) VALUES ($1, $2, $3) RETURNING *',
-      [nombre, estado, siglas]
+      'INSERT INTO cliente (tasa_actual, tasa_nueva) VALUES ($1, $2, $3) RETURNING *',
+      [tasa_actual, tasa_nueva]
     );
     return res.rows[0];
   },
 
-  async update(id: number, { nombre, estado, siglas }: { nombre: string; estado: string; siglas: string }) {
+  async update(id: number, { tasa_actual, tasa_nueva}: { tasa_actual: number; tasa_nueva: number }) {
     const res = await db.query(
-      'UPDATE cliente SET nombre = $1, estado = $2, siglas = $3 WHERE id = $4 RETURNING *',
-      [nombre, estado, siglas, id]
+      'UPDATE cliente SET tasa_actual = $1, tasa_nueva = $2= $3 WHERE id = $4 RETURNING *',
+      [tasa_actual, tasa_nueva, id]
     );
     return res.rows[0];
   },

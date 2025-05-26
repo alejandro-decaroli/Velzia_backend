@@ -6,6 +6,8 @@ GET http://localhost:3000/cajas/1
 
 ### Crear caja
 POST http://localhost:3000/cajas/create
+### Crear caja
+POST http://localhost:3000/cajas/create
 Content-Type: application/json
 
 {
@@ -13,6 +15,8 @@ Content-Type: application/json
   "tipo": "Pesos"
 }
 
+### Actualizar caja
+PUT http://localhost:3000/cajas/update/1
 ### Actualizar caja
 PUT http://localhost:3000/cajas/update/1
 Content-Type: application/json

@@ -11,7 +11,7 @@ const cajaRepository = {
     return res.rows[0];
   },
 
-  async create({ nombre, tipo}: { nombre: string; tipo:string}) {
+  async create({ nombre, tipo }: { nombre: string; tipo: string }) {
     const res = await db.query(
       'INSERT INTO caja (nombre, tipo) VALUES ($1, $2) RETURNING *',
       [nombre, tipo]
@@ -19,7 +19,7 @@ const cajaRepository = {
     return res.rows[0];
   },
 
-  async update(id: number, { nombre, tipo }: { nombre: string; tipo: string}) {
+  async update(id: number, { nombre, tipo }: { nombre: string; tipo: string }) {
     const res = await db.query(
       'UPDATE caja SET nombre = $1, tipo = $2 WHERE id = $3 RETURNING *',
       [nombre, tipo, id]

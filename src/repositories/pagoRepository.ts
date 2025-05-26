@@ -23,7 +23,7 @@ const pagoRepository = {
       throw new Error('Caja no encontrada');
     }
     const res = await db.query(
-      'INSERT INTO pago (cliente_id, caja_id, monto) VALUES ($1, $2, $3) RETURNING ',
+      'INSERT INTO pago (cliente_id, caja_id, monto) VALUES ($1, $2, $3) RETURNING *',
       [cliente_id, caja_id, monto]
     );
     return res.rows[0];
@@ -39,7 +39,7 @@ const pagoRepository = {
       throw new Error('Caja no encontrada');
     }
     const res = await db.query(
-      'UPDATE pago SET cliente_id = $1, caja_id = $2, monto = $3 WHERE id = $4 RETURNING',
+      'UPDATE pago SET cliente_id = $1, caja_id = $2, monto = $3 WHERE id = $4 RETURNING *',
       [cliente_id, caja_id, monto, id]
     );
     return res.rows[0];
