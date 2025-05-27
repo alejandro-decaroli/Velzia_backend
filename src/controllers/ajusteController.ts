@@ -1,5 +1,7 @@
 import ajusteRepository from '../repositories/ajusteRepository.js';
 import { Request, Response } from 'express';
+import httpErrors from 'http-errors';
+const { NotFound, BadRequest } = httpErrors;
 
 const ajusteController = {
   async getAll(req: Request, res: Response) {
@@ -19,7 +21,7 @@ const ajusteController = {
       const ajuste = await ajusteRepository.getById(Number(req.params.id));
       res.status(200).json({ message: 'Ajuste obtenido exitosamente', ajuste });
     } catch (error: any) {
-      if (error instanceof Error) {
+      if (error instanceof NotFound) {
         return res.status(404).json({ error: error.message });
       }
       throw error;
