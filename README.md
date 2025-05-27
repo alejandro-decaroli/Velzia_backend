@@ -1,4 +1,4 @@
-![Logo](https://github.com/user-attachments/assets/d5ef7d99-236d-47bf-8aa5-fcf008527883)
+![Logo](https://github.com/user-attachments/assets/29c85e36-fe28-496c-8b20-be96fd504f4f)
 
 
 # Velzia
