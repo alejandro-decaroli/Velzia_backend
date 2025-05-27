@@ -1,28 +1,28 @@
-### Obtener todos los ajustes
-GET http://localhost:3000/ajustes
+### Obtener todos los costos fijos
+GET http://localhost:3000/costos_fijos
 
 ### Obtener cliente por ID
-GET http://localhost:3000/ajustes/1
+GET http://localhost:3000/costos_fijos/1
 
 ### Crear cliente
-POST http://localhost:3000/ajustes/create
+POST http://localhost:3000/costos_fijos/create
 Content-Type: application/json
 
 {
-  "nombre": "Nuevo Cliente",
-  "siglas": "NC",
-  "estado": "Activo"
+  "caja_id": 1,
+  "adjudicacion": "NC",
+  "monto": 100
 }
 
 ### Actualizar cliente
-PUT http://localhost:3000/ajustes/update/1
+PUT http://localhost:3000/costos_fijos/update/5
 Content-Type: application/json
 
 {
-  "nombre": "Cliente Actualizado",
-  "siglas": "CA",
-  "estado": "Activo"
+  "caja_id": 2,
+  "adjudicacion": "Cliente Actualizado",
+  "monto": 200
 }
 
 ### Eliminar cliente
-DELETE http://localhost:3000/ajustes/delete/1
+DELETE http://localhost:3000/costos_fijos/delete/5

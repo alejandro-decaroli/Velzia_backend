@@ -6,6 +6,16 @@ const clienteRepository = {
     return res.rows;
   },
 
+  async getAllNames() {
+    const res = await db.query('SELECT nombre FROM cliente ORDER BY id;');
+    return res.rows;
+  },
+
+  async getIdByName(name: string) {
+    const res = await db.query('SELECT id FROM cliente WHERE nombre = $1', [name]);
+    return res.rows[0];
+  },
+
   async getById(id: number) {
     const res = await db.query('SELECT * FROM cliente WHERE id = $1', [id]);
     return res.rows[0];

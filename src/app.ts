@@ -29,16 +29,13 @@ app.use('/clientes', clienteRouter);
 app.use('/cajas', cajaRouter);
 app.use('/pagos', pagoRouter); 
 app.use('/ventas', ventaRouter)
-app.use('/costo_fijos', costoFijoRouter);
-app.use('/costo_variables', costoVariableRouter);
+app.use('/costos_fijos', costoFijoRouter);
+app.use('/costos_variables', costoVariableRouter);
 app.use('/ajustes', ajusteRouter);
 app.use('/aportes_socio', aporteSocioRouter);
 app.use('/dividendos_socio', dividendoSocioRouter);
 app.use('/transferencias', transferenciaRouter);
 app.use('/tasas', tasaRouter);
-
-// Middleware de manejo de errores
-// app.use(errorHandler as express.ErrorRequestHandler);
 
 app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`);
@@ -47,5 +44,3 @@ app.listen(PORT, () => {
 // Implementar eliminado lógico (soft delete)
 // Que se abra en el navegador para Ivan
 
-// implementar devolucion de codigos
-// socket hang out al intentar crear un ajuste con una caja que no existe

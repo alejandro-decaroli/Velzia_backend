@@ -15,13 +15,13 @@ Content-Type: application/json
 }
 
 ### Actualizar pago
-PUT http://localhost:3000/pagos/update/2
+PUT http://localhost:3000/pagos/update/1
 Content-Type: application/json
 
 {
-  "cliente_id": 1,
-  "caja_id": 2,
-  "monto": 200
+  "nombre": "pago Actualizado",
+  "siglas": "CA",
+  "estado": "Activo"
 }
 
 ### Eliminar pago
