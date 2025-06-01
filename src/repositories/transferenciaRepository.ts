@@ -1,5 +1,7 @@
 import db from '../config/db.js';
 import cajaRepository from './cajaRepository.js';
+import httpErrors from 'http-errors';
+const { NotFound, BadRequest } = httpErrors;
 
 const transferenciaRepository = {
   async getAll() {
@@ -16,10 +18,10 @@ const transferenciaRepository = {
     const cajOg = await cajaRepository.getById(caja_origen_id);
     const cajDe = await cajaRepository.getById(caja_destino_id);
     if (!cajOg) {
-      throw new Error ('Caja de origen no encontrada');
+      throw new NotFound('Caja de origen no encontrada');
     }
     else if (!cajDe) {
-      throw new Error ('Caja de destino no encontrada');
+      throw new NotFound ('Caja de destino no encontrada');
     }
     const res = await db.query(
       'INSERT INTO transferencia (caja_origen_id, caja_destino_id, monto) VALUES ($1, $2, $3) RETURNING *',
@@ -37,6 +39,10 @@ const transferenciaRepository = {
   },
 
   async remove(id: number) {
+    const caja = await cajaRepository.getById(id);
+    if (!id) {
+      throw new NotFound('Caja no encontrada');
+    }    
     await db.query('DELETE FROM transferencia WHERE id = $1', [id]);
   }
 };
