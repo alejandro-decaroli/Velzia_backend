@@ -1,3 +1,8 @@
+CREATE TABLE moneda (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    codigo_iso VARCHAR(10) NOT NULL
+);
 CREATE TABLE cliente (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE,
@@ -11,15 +16,6 @@ CREATE TABLE caja (
     fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     moneda_id INTEGER NOT NULL REFERENCES moneda(id)
 );
-CREATE TABLE pago (
-    id SERIAL PRIMARY KEY,
-    cliente_id INTEGER NOT NULL REFERENCES cliente(id),
-    caja_id INTEGER NOT NULL REFERENCES caja(id),
-    venta_id INTEGER NOT NULL REFERENCES venta(id),
-    moneda_id INTEGER NOT NULL REFERENCES moneda(id),
-    monto NUMERIC(12, 2) NOT NULL,
-    fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
 CREATE TABLE venta (
     id SERIAL PRIMARY KEY,
     cliente_id INTEGER NOT NULL REFERENCES cliente(id),
@@ -30,6 +26,15 @@ CREATE TABLE venta (
     costo_materiales_viaticos_fletes NUMERIC(12, 2) NOT NULL,
     costo_comision NUMERIC(12, 2) NOT NULL,
     estado_venta VARCHAR(20) NOT NULL
+);
+CREATE TABLE pago (
+    id SERIAL PRIMARY KEY,
+    cliente_id INTEGER NOT NULL REFERENCES cliente(id),
+    caja_id INTEGER NOT NULL REFERENCES caja(id),
+    venta_id INTEGER NOT NULL REFERENCES venta(id),
+    moneda_id INTEGER NOT NULL REFERENCES moneda(id),
+    monto NUMERIC(12, 2) NOT NULL,
+    fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE costo_fijo (
     id SERIAL PRIMARY KEY,
@@ -44,6 +49,7 @@ CREATE TABLE costo_variable (
     caja_id INTEGER NOT NULL REFERENCES caja(id),
     cliente_id INTEGER NOT NULL REFERENCES cliente(id),
     moneda_id INTEGER NOT NULL REFERENCES moneda(id),
+    venta_id INTEGER NOT NULL REFERENCES venta(id),
     adjudicacion TEXT,
     monto NUMERIC(12, 2) NOT NULL,
     fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -85,9 +91,4 @@ CREATE TABLE tasa (
     moneda_id_origen INTEGER NOT NULL REFERENCES moneda(id),
     moneda_id_destino INTEGER NOT NULL REFERENCES moneda(id),
     tasa NUMERIC(10, 4) NOT NULL
-);
-CREATE TABLE moneda (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
-    codigo_iso VARCHAR(10) NOT NULL
 );
