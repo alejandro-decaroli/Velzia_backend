@@ -1,4 +1,6 @@
 import db from '../config/db.js';
+import httpErrors from 'http-errors';
+const { NotFound, BadRequest } = httpErrors;
 
 const clienteRepository = {
   async getAll() {
@@ -13,6 +15,9 @@ const clienteRepository = {
 
   async getIdByName(name: string) {
     const res = await db.query('SELECT id FROM cliente WHERE nombre = $1', [name]);
+    if (res.rows.length === 0) {
+      throw new NotFound('Cliente no encontrado');
+    }
     return res.rows[0];
   },
 
