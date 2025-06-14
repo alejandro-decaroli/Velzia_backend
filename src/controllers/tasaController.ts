@@ -21,8 +21,11 @@ const tasaController = {
 
   async getById(req: Request, res: Response) {
     try {
-      const tasa = await tasaRepository.getById(Number(req.params.id));
-      res.status(201).json(tasa);
+      const id = Number(req.params.id);
+      if (isNaN(id)) throw new BadRequest('ID inválido');
+
+      const tasa = await tasaRepository.getById(id);
+      res.json(tasa);
     } catch (error: any) {
       if (error instanceof BadRequest) {
         return res.status(400).json({ error: error.message });
@@ -63,6 +66,7 @@ const tasaController = {
       return res.status(500).json({ error: error.message });
     }
   },
+
 
   async remove(req: Request, res: Response) {
     try {

@@ -1,6 +1,7 @@
 import db from '../config/db.js';
 import clienteRepository from './clienteRepository.js';
 import httpErrors from 'http-errors';
+import { QueryResult } from 'pg';
 const { NotFound, BadRequest } = httpErrors;
 
 
@@ -66,7 +67,8 @@ const ventaRepository = {
   },
 
   async remove(id: number) {
-    await db.query('DELETE FROM venta WHERE id = $1', [id]);
+    const result: QueryResult = await db.query('DELETE FROM venta WHERE id = $1', [id]);
+    return result.rowCount !== 0;
   }
 };
 
