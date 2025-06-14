@@ -81,4 +81,13 @@ export const costoFijoValidation = [
       .notEmpty().withMessage('Adjudicación es requerida')
       .isString().withMessage('Adjudicación debe ser un string')
 ];
-    
+
+export const monedaValidation = [
+  body('nombre')
+    .notEmpty().withMessage('Nombre es requerido')
+    .isLength({ min: 3 }).withMessage('Nombre muy corto'),
+  body('codigo_iso')
+    .notEmpty().withMessage('Código ISO es requerido')
+    .isLength({ min: 2 }).withMessage('Código ISO muy corto')
+    .isLength({ max: 3 }).withMessage('Código ISO muy largo'),
+];

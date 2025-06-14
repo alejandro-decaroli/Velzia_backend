@@ -1,13 +1,13 @@
-import tasaRepository from '../repositories/tasaRepository.js';
+import monedaRepository from '../repositories/monedaRepository.js';
 import { Request, Response } from 'express';
 import httpErrors from 'http-errors';
 const { NotFound, BadRequest } = httpErrors;
 
-const tasaController = {
+const monedaController = {
   async getAll(req: Request, res: Response) {
     try {
-      const tasas = await tasaRepository.getAll();
-      res.status(201).json(tasas);
+      const monedas = await monedaRepository.getAll();
+      res.status(200).json({ message: 'Monedas obtenidas exitosamente', monedas });
     } catch (error: any) {
       if (error instanceof BadRequest) {
         return res.status(400).json({ error: error.message });
@@ -21,8 +21,8 @@ const tasaController = {
 
   async getById(req: Request, res: Response) {
     try {
-      const tasa = await tasaRepository.getById(Number(req.params.id));
-      res.status(201).json(tasa);
+      const moneda = await monedaRepository.getById(Number(req.params.id));
+      res.status(200).json({ message: 'Moneda obtenida exitosamente', moneda });
     } catch (error: any) {
       if (error instanceof BadRequest) {
         return res.status(400).json({ error: error.message });
@@ -36,8 +36,8 @@ const tasaController = {
 
   async create(req: Request, res: Response) {
     try {
-      const tasa = await tasaRepository.create(req.body);
-      res.status(201).json(tasa);
+      const moneda = await monedaRepository.create(req.body);
+      res.status(201).json({ message: 'Moneda creada exitosamente', moneda });
     } catch (error: any) {
       if (error instanceof BadRequest) {
         return res.status(400).json({ error: error.message });
@@ -51,8 +51,8 @@ const tasaController = {
 
   async update(req: Request, res: Response) {
     try {
-      const tasa = await tasaRepository.update(Number(req.params.id), req.body);
-      res.json(tasa);
+      const moneda = await monedaRepository.update(Number(req.params.id), req.body);
+      res.status(201).json({ message: 'Moneda actualizada exitosamente', moneda });
     } catch (error: any) {
       if (error instanceof BadRequest) {
         return res.status(400).json({ error: error.message });
@@ -66,8 +66,8 @@ const tasaController = {
 
   async remove(req: Request, res: Response) {
     try {
-      await tasaRepository.remove(Number(req.params.id));
-      res.status(204).send();
+      await monedaRepository.remove(Number(req.params.id));
+      res.status(200).json({ message: 'Moneda eliminada exitosamente' });
     } catch (error: any) {
       if (error instanceof BadRequest) {
         return res.status(400).json({ error: error.message });
@@ -80,4 +80,4 @@ const tasaController = {
   }
 };
 
-export default tasaController;
+export default monedaController;

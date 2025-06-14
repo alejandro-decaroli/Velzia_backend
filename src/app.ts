@@ -12,6 +12,7 @@ import transferenciaRouter from "./routes/transferenciaRoutes.js";
 import tasaRouter from "./routes/tasaRoutes.js";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
+import monedaRouter from "./routes/monedaRoutes.js";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use('/aportes_socio', aporteSocioRouter);
 app.use('/dividendos_socio', dividendoSocioRouter);
 app.use('/transferencias', transferenciaRouter);
 app.use('/tasas', tasaRouter);
+app.use('/monedas', monedaRouter);
 
 app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`);
