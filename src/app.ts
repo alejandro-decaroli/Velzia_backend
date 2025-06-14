@@ -46,3 +46,5 @@ app.listen(PORT, () => {
 // Implementar eliminado lógico (soft delete)
 // Que se abra en el navegador para Ivan
 
+// TODO: si se borra una caja se borran todas las entidades relacionadas a ella,
+// que hacer??

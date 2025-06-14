@@ -19,15 +19,16 @@ export const CajaValidation = [
     body('nombre')
       .notEmpty().withMessage('Nombre es requerido')
       .isLength({ min: 3 }).withMessage('Nombre muy corto'),
-    body('tipo')
-      .notEmpty().withMessage('Tipo es requerido')
-      .isIn(['Activo', 'Inactivo']).withMessage('Tipo debe ser Activo o Inactivo')
+    body('moneda_id')
+      .notEmpty().withMessage('Moneda ID es requerido')
+      .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
+    body('siglas')
+      .notEmpty().withMessage('Siglas son requeridas')
+      .isLength({ min: 2 }).withMessage('Siglas muy cortas')
+      .isLength({ max: 4 }).withMessage('Siglas muy largas'),
 ];
 
 export const PagoValidation = [
-  body('cliente_id')
-    .notEmpty().withMessage('Id es requerido')
-    .isInt({ min: 0 }).withMessage('Cliente ID debe ser un número entero'),
   body('caja_id')
     .notEmpty().withMessage('Id es requerido')
     .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
@@ -44,9 +45,6 @@ export const ClienteValidation = [
     .notEmpty().withMessage('Siglas son requeridas')
     .isLength({ min: 2 }).withMessage('Siglas muy cortas')
     .isLength({ max: 4 }).withMessage('Siglas muy largas'),
-  body('estado')
-    .notEmpty().withMessage('Estado es requerido')
-    .isIn(['Activo', 'Terminado']).withMessage('Estado debe ser Activo o Terminado')
 ];
 
 export const ajusteValidation = [

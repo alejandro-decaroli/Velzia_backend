@@ -12,26 +12,26 @@ const aporteSocioRepository = {
     return res.rows[0];
   },
 
-  async create({ caja_id, monto }: { caja_id: number; monto: number }) {
+  async create({ caja_id, monto, moneda_id, aporte }: { caja_id: number; monto: number; moneda_id: number, aporte: string }) {
     const caja = await cajaRepository.getById(caja_id);
     if (!caja) {
       throw new Error('Caja no encontrada');
     }
     const res = await db.query(
-      'INSERT INTO aporte_socio (caja_id, monto) VALUES ($1, $2) RETURNING *',
-      [caja_id, monto]
+      'INSERT INTO aporte_socio (caja_id, monto, moneda_id, aporte) VALUES ($1, $2, $3, $4) RETURNING *',
+      [caja_id, monto, moneda_id, aporte]
     );
     return res.rows[0];
   },
 
-  async update(id: number, { caja_id, monto }: { caja_id: number; monto: number }) {
+  async update(id: number, { caja_id, monto, moneda_id, aporte }: { caja_id: number; monto: number; moneda_id: number, aporte: string }) {
     const caja = await cajaRepository.getById(caja_id);
     if (!caja) {
       throw new Error('Caja no encontrada');
     }
     const res = await db.query(
-      'UPDATE aporte_socio SET caja_id = $1, monto = $2 WHERE id = $3 RETURNING *',
-      [caja_id, monto, id]
+      'UPDATE aporte_socio SET caja_id = $1, monto = $2, moneda_id = $3, aporte = $4 WHERE id = $5 RETURNING *',
+      [caja_id, monto, moneda_id, aporte, id]
     );
     return res.rows[0];
   },

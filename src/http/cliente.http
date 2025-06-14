@@ -10,8 +10,7 @@ Content-Type: application/json
 
 {
   "nombre": "Ailen",
-  "siglas": "AI",
-  "estado": "Activo"
+  "siglas": "AI"
 }
 
 ### Actualizar cliente
@@ -20,9 +19,8 @@ Content-Type: application/json
 
 {
   "nombre": "Marina",
-  "siglas": "A",
-  "estado": "terminado"
+  "siglas": "A"
 }
 
 ### Eliminar cliente
-DELETE http://localhost:3000/clientes/delete/7
+DELETE http://localhost:3000/clientes/delete/5

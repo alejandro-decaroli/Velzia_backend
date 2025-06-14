@@ -12,7 +12,9 @@ Content-Type: application/json
   "caja_id": 1,
   "cliente_id": 1,
   "adjudicacion": "Adjudicacion",
-  "monto": 100
+  "monto": 100,
+  "moneda_id": 1,
+  "venta_id": 1
 }
 
 ### Actualizar costo variable
@@ -23,7 +25,9 @@ Content-Type: application/json
   "caja_id": 1,
   "cliente_id": 1,
   "adjudicacion": "Adjudicacion",
-  "monto": 200
+  "monto": 200,
+  "moneda_id": 1,
+  "venta_id": 1
 }
 
 ### Eliminar costo variable

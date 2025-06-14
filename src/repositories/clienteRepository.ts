@@ -26,18 +26,18 @@ const clienteRepository = {
     return res.rows[0];
   },
 
-  async create({ nombre, estado, siglas }: { nombre: string; estado: string; siglas: string }) {
+  async create({ nombre, siglas }: { nombre: string; siglas: string }) {
     const res = await db.query(
-      'INSERT INTO cliente (nombre, estado, siglas) VALUES ($1, $2, $3) RETURNING *',
-      [nombre, estado, siglas]
+      'INSERT INTO cliente (nombre, siglas) VALUES ($1, $2) RETURNING *',
+      [nombre, siglas]
     );
     return res.rows[0];
   },
 
-  async update(id: number, { nombre, estado, siglas }: { nombre: string; estado: string; siglas: string }) {
+  async update(id: number, { nombre, siglas }: { nombre: string; siglas: string }) {
     const res = await db.query(
-      'UPDATE cliente SET nombre = $1, estado = $2, siglas = $3 WHERE id = $4 RETURNING *',
-      [nombre, estado, siglas, id]
+      'UPDATE cliente SET nombre = $1, siglas = $2 WHERE id = $3 RETURNING *',
+      [nombre, siglas, id]
     );
     return res.rows[0];
   },

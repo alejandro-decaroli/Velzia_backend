@@ -9,8 +9,9 @@ POST http://localhost:3000/cajas/create
 Content-Type: application/json
 
 {
-  "nombre": "GZCaja",
-  "tipo": "Pesos"
+  "nombre": "ALE_USD",
+  "moneda_id": 1,
+  "siglas": "GZ"
 }
 
 ### Actualizar caja
@@ -23,4 +24,4 @@ Content-Type: application/json
 }
 
 ### Eliminar caja
-DELETE http://localhost:3000/cajas/delete/10
+DELETE http://localhost:3000/cajas/delete/5

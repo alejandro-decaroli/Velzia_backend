@@ -1,6 +1,9 @@
 import db from '../config/db.js';
-import clienteRepository from './clienteRepository.js';
 import cajaRepository from './cajaRepository.js';
+import monedaRepository from './monedaRepository.js';
+import ventaRepository from './ventaRepository.js';
+import httpErrors from 'http-errors';
+const { NotFound } = httpErrors;
 
 const pagoRepository = {
   async getAll() {
@@ -13,39 +16,51 @@ const pagoRepository = {
     return res.rows[0];
   },
 
-  async create({ cliente_id, caja_id, monto }: { cliente_id: number; caja_id: number; monto: number }) {
-    const cli = await clienteRepository.getById(cliente_id);
+  async create({ caja_id, monto, moneda_id, venta_id }: { caja_id: number; monto: number; moneda_id: number; venta_id: number }) {
     const caja = await cajaRepository.getById(caja_id);
-    if (!cli) {
-      throw new Error('Cliente no encontrado');
-    }
+    const moneda = await monedaRepository.getById(moneda_id);
+    const venta = await ventaRepository.getById(venta_id);
     if (!caja) {
-      throw new Error('Caja no encontrada');
+      throw new NotFound('Caja no encontrada');
+    }
+    if (!moneda) {
+      throw new NotFound('Moneda no encontrada');
+    }
+    if (!venta) {
+      throw new NotFound('Venta no encontrada');
     }
     const res = await db.query(
-      'INSERT INTO pago (cliente_id, caja_id, monto) VALUES ($1, $2, $3) RETURNING *',
-      [cliente_id, caja_id, monto]
+      'INSERT INTO pago (caja_id, monto, moneda_id, venta_id) VALUES ($1, $2, $3, $4) RETURNING *',
+      [caja_id, monto, moneda_id, venta_id]
     );
     return res.rows[0];
   },
 
-  async update(id: number, { cliente_id, caja_id, monto }: { cliente_id: number; caja_id: number; monto: number }) {
-    const cli = await clienteRepository.getById(cliente_id);
+  async update(id: number, { caja_id, monto, moneda_id, venta_id }: { caja_id: number; monto: number; moneda_id: number; venta_id: number }) {
     const caja = await cajaRepository.getById(caja_id);
-    if (!cli) {
-      throw new Error('Cliente no encontrado');
-    }
+    const moneda = await monedaRepository.getById(moneda_id);
+    const venta = await ventaRepository.getById(venta_id);
     if (!caja) {
-      throw new Error('Caja no encontrada');
+      throw new NotFound('Caja no encontrada');
+    }
+    if (!moneda) {
+      throw new NotFound('Moneda no encontrada');
+    }
+    if (!venta) {
+      throw new NotFound('Venta no encontrada');
     }
     const res = await db.query(
-      'UPDATE pago SET cliente_id = $1, caja_id = $2, monto = $3 WHERE id = $4 RETURNING *',
-      [cliente_id, caja_id, monto, id]
+      'UPDATE pago SET caja_id = $1, monto = $2, moneda_id = $3, venta_id = $4 WHERE id = $5 RETURNING *',
+      [caja_id, monto, moneda_id, venta_id, id]
     );
     return res.rows[0];
   },
 
   async remove(id: number) {
+    const res = await this.getById(id);
+    if (!res) {
+      throw new NotFound('Pago no encontrado');
+    }
     await db.query('DELETE FROM pago WHERE id = $1', [id]);
   }
 };

@@ -9,7 +9,8 @@ POST http://localhost:3000/pagos/create
 Content-Type: application/json
 
 {
-  "cliente_id": 1,
+  "moneda_id": 1,
+  "venta_id": 1,
   "caja_id": 2,
   "monto": 300.0
 }
@@ -19,9 +20,10 @@ PUT http://localhost:3000/pagos/update/1
 Content-Type: application/json
 
 {
-  "nombre": "pago Actualizado",
-  "siglas": "CA",
-  "estado": "Activo"
+  "moneda_id": 1,
+  "venta_id": 1,
+  "caja_id": 2,
+  "monto": 300.0
 }
 
 ### Eliminar pago

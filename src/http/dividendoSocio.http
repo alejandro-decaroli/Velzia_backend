@@ -10,7 +10,9 @@ Content-Type: application/json
 
 {
   "caja_id": 1,
-  "monto": 100
+  "monto": 100,
+  "dividendo": "2025-06-14",
+  "moneda_id": 1
 }
 
 ### Actualizar dividendo

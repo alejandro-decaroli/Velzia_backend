@@ -14,7 +14,9 @@ Content-Type: application/json
   "costo_mano_obra": 100,
   "costo_materiales_viaticos_fletes": 50,
   "costo_comision": 20,
-  "monto_usd": "1000.00"
+  "monto_usd": 1000,
+  "moneda_id": 1,
+  "estado_venta": "Activo"
 }
 
 ### Actualizar venta
@@ -27,7 +29,9 @@ Content-Type: application/json
   "costo_mano_obra": 100,
   "costo_materiales_viaticos_fletes": 50,
   "costo_comision": 20,
-  "monto_usd": "1000.00"
+  "monto_usd": 1000,
+  "moneda_id": 1,
+  "estado_venta": "Activo"
 }
 
 ### Eliminar venta

@@ -17,26 +17,26 @@ const ajusteRepository = {
     return res.rows[0];
   },
 
-  async create({ caja_id, monto, movimiento }: { caja_id: number; monto: number; movimiento: string }) {
+  async create({ caja_id, monto, movimiento, moneda_id }: { caja_id: number; monto: number; movimiento: string, moneda_id: number }) {
     const caja = await cajaRepository.getById(caja_id);
     if (!caja) {
       throw new NotFound('Caja no encontrada');
     }
     const res = await db.query(
-      'INSERT INTO ajuste (caja_id, monto, movimiento) VALUES ($1, $2, $3) RETURNING *',
-      [caja_id, monto, movimiento]
+      'INSERT INTO ajuste (caja_id, monto, movimiento, moneda_id) VALUES ($1, $2, $3, $4) RETURNING *',
+      [caja_id, monto, movimiento, moneda_id]
     );
     return res.rows[0];
   },
 
-  async update(id: number, { caja_id, monto, movimiento }: { caja_id: number; monto: number; movimiento: string }) {
+  async update(id: number, { caja_id, monto, movimiento, moneda_id }: { caja_id: number; monto: number; movimiento: string, moneda_id: number }) {
     const caja = await cajaRepository.getById(caja_id);
     if (!caja) {
       throw new NotFound('Caja no encontrada');
     }
     const res = await db.query(
-      'UPDATE ajuste SET caja_id = $1, monto = $2, movimiento = $3 WHERE id = $4 RETURNING *',
-      [caja_id, monto, movimiento, id]
+      'UPDATE ajuste SET caja_id = $1, monto = $2, movimiento = $3, moneda_id = $4 WHERE id = $5 RETURNING *',
+      [caja_id, monto, movimiento, moneda_id, id]
     );
     return res.rows[0];
   },

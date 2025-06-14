@@ -1,28 +1,30 @@
 ### Obtener todos los costos fijos
 GET http://localhost:3000/costos_fijos
 
-### Obtener cliente por ID
+### Obtener costos fijos por ID
 GET http://localhost:3000/costos_fijos/1
 
-### Crear cliente
+### Crear costos fijos
 POST http://localhost:3000/costos_fijos/create
 Content-Type: application/json
 
 {
   "caja_id": 1,
   "adjudicacion": "NC",
-  "monto": 100
+  "monto": 100,
+  "moneda_id": 1
 }
 
-### Actualizar cliente
+### Actualizar costos fijos
 PUT http://localhost:3000/costos_fijos/update/5
 Content-Type: application/json
 
 {
   "caja_id": 2,
   "adjudicacion": "Cliente Actualizado",
-  "monto": 200
+  "monto": 200,
+  "moneda_id": 1
 }
 
-### Eliminar cliente
-DELETE http://localhost:3000/costos_fijos/delete/5
+### Eliminar costos fijos
+DELETE http://localhost:3000/costos_fijos/delete/6

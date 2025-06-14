@@ -1,5 +1,5 @@
 import db from '../config/db.js';
-import clienteRepository from './clienteRepository.js';
+import monedaRepository from './monedaRepository.js';
 import httpErrors from 'http-errors';
 import { QueryResult } from 'pg';
 const { NotFound, BadRequest } = httpErrors;
@@ -20,48 +20,51 @@ const ventaRepository = {
     }
   },
 
-  async create({ cliente_id, monto_ars, 
+  async create({ 
+    monto_ars, 
     costo_mano_obra, 
     costo_materiales_viaticos_fletes, 
     costo_comision, 
-    monto_usd }: { 
-      cliente_id: number; 
+    monto_usd,
+    moneda_id }: { 
       monto_ars: number; 
       costo_mano_obra: number, 
       costo_materiales_viaticos_fletes: number, 
       costo_comision: number, 
-      monto_usd: string 
+      monto_usd: string,
+      moneda_id: number 
     }) {
-    const cli = await clienteRepository.getById(cliente_id);
-    if (!cli) {
-      throw new NotFound ('Cliente no encontrado');
+    const moneda = await monedaRepository.getById(moneda_id);
+    if (!moneda) {
+      throw new NotFound('Moneda no encontrada');
     }
     const res = await db.query(
-      'INSERT INTO venta (cliente_id, monto_ars, costo_mano_obra, costo_materiales_viaticos_fletes, costo_comision, monto_usd) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [cliente_id, monto_ars, costo_mano_obra, costo_materiales_viaticos_fletes, costo_comision, monto_usd]
+      'INSERT INTO venta (monto_ars, costo_mano_obra, costo_materiales_viaticos_fletes, costo_comision, monto_usd, moneda_id) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [monto_ars, costo_mano_obra, costo_materiales_viaticos_fletes, costo_comision, monto_usd, moneda_id]
     );
     return res.rows[0];
   },
 
-  async update(id: number, { cliente_id, monto_ars, 
+  async update(id: number, { monto_ars, 
     costo_mano_obra, 
     costo_materiales_viaticos_fletes, 
     costo_comision, 
-    monto_usd }: { 
-      cliente_id: number; 
+    monto_usd,
+    moneda_id }: { 
       monto_ars: number; 
       costo_mano_obra: number, 
       costo_materiales_viaticos_fletes: number, 
       costo_comision: number, 
-      monto_usd: string 
+      monto_usd: string,
+      moneda_id: number 
     }) {
-    const cli = await clienteRepository.getById(cliente_id);
-    if (!cli) {
-      throw new Error ('Cliente no encontrado');
-    }    
+    const moneda = await monedaRepository.getById(moneda_id);
+    if (!moneda) {
+      throw new NotFound('Moneda no encontrada');
+    }
     const res = await db.query(
-      'UPDATE venta SET cliente_id = $1, monto_ars = $2, costo_mano_obra = $3, costo_materiales_viaticos_fletes = $4, costo_comision = $5, monto_usd = $6 WHERE id = $7 RETURNING *',
-      [cliente_id, monto_ars, costo_mano_obra, costo_materiales_viaticos_fletes, costo_comision, monto_usd, id]
+      'UPDATE venta SET monto_ars = $1, costo_mano_obra = $2, costo_materiales_viaticos_fletes = $3, costo_comision = $4, monto_usd = $5, moneda_id = $6 WHERE id = $7 RETURNING *',
+      [monto_ars, costo_mano_obra, costo_materiales_viaticos_fletes, costo_comision, monto_usd, moneda_id, id]
     );
     return res.rows[0];
   },

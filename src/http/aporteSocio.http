@@ -10,7 +10,9 @@ Content-Type: application/json
 
 {
   "caja_id": 1,
-  "monto": 100
+  "monto": 100,
+  "moneda_id": 1,
+  "aporte": "Aporte"
 }
 
 ### Actualizar aporte
@@ -19,7 +21,9 @@ Content-Type: application/json
 
 {
   "caja_id": 1,
-  "monto": 100
+  "monto": 100,
+  "moneda_id": 1,
+  "aporte": "Aporte"
 }
 
 ### Eliminar aporte

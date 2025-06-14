@@ -20,20 +20,10 @@ CREATE TABLE caja (
     fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE pago (
-    id SERIAL PRIMARY KEY,
-    moneda_id INTEGER NOT NULL REFERENCES moneda(id),
-    caja_id INTEGER NOT NULL REFERENCES caja(id),
-    monto NUMERIC(12, 2) NOT NULL,
-    fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
 CREATE TABLE venta (
     id SERIAL PRIMARY KEY,
     moneda_id INTEGER NOT NULL REFERENCES moneda(id),
     cliente_id INTEGER NOT NULL REFERENCES cliente(id),
-    pago_id INTEGER NOT NULL REFERENCES pago(id),
-    costo_variable_id INTEGER NOT NULL REFERENCES costo_variable(id),
     monto_ars NUMERIC(12, 2) NOT NULL,
     monto_usd NUMERIC(12, 2) NOT NULL,
     fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -42,6 +32,16 @@ CREATE TABLE venta (
     costo_comision NUMERIC(12, 2) NOT NULL,
     estado_venta VARCHAR(20) NOT NULL
 );
+
+CREATE TABLE pago (
+    id SERIAL PRIMARY KEY,
+    moneda_id INTEGER NOT NULL REFERENCES moneda(id),
+    venta_id INTEGER NOT NULL REFERENCES venta(id),
+    caja_id INTEGER NOT NULL REFERENCES caja(id),
+    monto NUMERIC(12, 2) NOT NULL,
+    fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 
 CREATE TABLE costo_fijo (
     id SERIAL PRIMARY KEY,
@@ -55,6 +55,7 @@ CREATE TABLE costo_fijo (
 CREATE TABLE costo_variable (
     id SERIAL PRIMARY KEY,
     moneda_id INTEGER NOT NULL REFERENCES moneda(id),
+    venta_id INTEGER NOT NULL REFERENCES venta(id),
     caja_id INTEGER NOT NULL REFERENCES caja(id),
     adjudicacion TEXT,
     monto NUMERIC(12, 2) NOT NULL,
