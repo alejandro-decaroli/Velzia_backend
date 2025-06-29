@@ -1,4 +1,4 @@
-import transferenciaRepository from '../repositories/transferenciaRepository.js';
+/* import transferenciaRepository from '../repositories/transferenciaRepository.js';
 import { Request, Response } from 'express';
 import httpErrors from 'http-errors';
 const { NotFound, BadRequest } = httpErrors;
@@ -87,3 +87,4 @@ const transferenciaController = {
 };
 
 export default transferenciaController;
+ */

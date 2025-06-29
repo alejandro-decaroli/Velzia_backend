@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+/* import express, { Request, Response } from 'express';
 import tasaController from '../controllers/tasaController.js';
 
 const tasaRouter = express.Router();
@@ -9,4 +9,4 @@ tasaRouter.post('/create', (req: Request, res: Response) => {tasaController.crea
 tasaRouter.put('/update/:id', (req: Request, res: Response) => {tasaController.update(req, res)});
 tasaRouter.delete('/delete/:id', (req: Request, res: Response) => {tasaController.remove(req, res)});
 
-export default tasaRouter;
+export default tasaRouter; */

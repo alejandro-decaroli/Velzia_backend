@@ -1,4 +1,4 @@
-import tasaRepository from '../repositories/tasaRepository.js';
+/* import tasaRepository from '../repositories/tasaRepository.js';
 import { Request, Response } from 'express';
 import httpErrors from 'http-errors';
 const { NotFound, BadRequest } = httpErrors;
@@ -85,3 +85,4 @@ const tasaController = {
 };
 
 export default tasaController;
+ */

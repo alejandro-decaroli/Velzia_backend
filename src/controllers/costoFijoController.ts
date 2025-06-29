@@ -1,4 +1,4 @@
-import costoFijoRepository from '../repositories/costoFijoRepository.js';
+/* import costoFijoRepository from '../repositories/costoFijoRepository.js';
 import { Request, Response } from 'express';
 import httpErrors from 'http-errors';
 const { NotFound, BadRequest } = httpErrors;
@@ -79,3 +79,4 @@ const costoFijoController = {
   }
 };
 export default costoFijoController;
+ */

@@ -1,4 +1,4 @@
-import costoVariableRepository from '../repositories/costoVariableRepository.js';
+/* import costoVariableRepository from '../repositories/costoVariableRepository.js';
 import { Request, Response } from 'express';
 import httpErrors from 'http-errors';
 const { NotFound, BadRequest } = httpErrors;
@@ -78,3 +78,4 @@ const costoVariableController = {
 };
 
 export default costoVariableController;
+ */

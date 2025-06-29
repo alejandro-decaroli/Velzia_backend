@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+/* import express, { Request, Response } from 'express';
 import transferenciaController from '../controllers/transferenciaController.js';
 
 const transferenciaRouter = express.Router();
@@ -9,4 +9,4 @@ transferenciaRouter.post('/create', (req: Request, res: Response) => {transferen
 transferenciaRouter.put('/update/:id', (req: Request, res: Response) => {transferenciaController.update(req, res)});
 transferenciaRouter.delete('/delete/:id', (req: Request, res: Response) => {transferenciaController.remove(req, res)});
 
-export default transferenciaRouter;
+export default transferenciaRouter; */

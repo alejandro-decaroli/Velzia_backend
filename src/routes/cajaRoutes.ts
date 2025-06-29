@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+/* import express, { Request, Response } from 'express';
 import cajaController from '../controllers/cajaController.js';
 import { handleValidationErrors, idParamValidation, CajaValidation } from '../middlewares/validations.js';
 
@@ -34,3 +34,4 @@ cajaRouter.delete('/delete/:id',
 );
 
 export default cajaRouter;
+ */

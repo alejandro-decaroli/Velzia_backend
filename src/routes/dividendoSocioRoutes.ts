@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+/* import express, { Request, Response } from 'express';
 import dividendoSocioController from '../controllers/dividendoSocioController.js';
 import { handleValidationErrors, idParamValidation, aporteDividendoSocioValidation } from '../middlewares/validations.js';
 
@@ -34,4 +34,4 @@ dividendoSocioRouter.delete('/delete/:id',
   (req: Request, res: Response) => {dividendoSocioController.remove(req, res)}
 );
 
-export default dividendoSocioRouter;
+export default dividendoSocioRouter; */

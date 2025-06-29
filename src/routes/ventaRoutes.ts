@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+/* import express, { Request, Response } from 'express';
 import ventaController from '../controllers/ventaController.js';
 
 const ventaRouter = express.Router();
@@ -9,4 +9,4 @@ ventaRouter.post('/create', (req: Request, res: Response) => {ventaController.cr
 ventaRouter.put('/update/:id', (req: Request, res: Response) => {ventaController.update(req, res)});
 ventaRouter.delete('/delete/:id', (req: Request, res: Response) => {ventaController.remove(req, res)});
 
-export default ventaRouter;
+export default ventaRouter; */

@@ -1,4 +1,4 @@
-import clienteRepository from '../repositories/clienteRepository.js';
+/* import clienteRepository from '../repositories/clienteRepository.js';
 import { Request, Response } from 'express';
 import httpErrors from 'http-errors';
 const { NotFound, BadRequest } = httpErrors;
@@ -80,3 +80,4 @@ const clienteController = {
 };
 
 export default clienteController;
+ */

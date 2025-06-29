@@ -11,21 +11,6 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-  flyway:
-    image: flyway/flyway
-    container_name: velzia_flyway
-    restart: always
-    volumes:
-      - ./src/sql:/flyway/sql
-    environment:
-      - FLYWAY_URL=jdbc:postgresql://db:5432/velzia_db
-      - FLYWAY_USER=postgres
-      - FLYWAY_PASSWORD=postgres
-      - FLYWAY_CONNECT_RETRIES=60
-    depends_on:
-      - db
-    command: migrate
-  
   app:
     build: .
     container_name: velzia_app

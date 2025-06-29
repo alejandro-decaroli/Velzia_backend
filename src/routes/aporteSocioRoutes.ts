@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+/* import express, { Request, Response } from 'express';
 import aporteSocioController from '../controllers/aporteSocioController.js';
 import { handleValidationErrors, idParamValidation, aporteDividendoSocioValidation } from '../middlewares/validations.js';
 
@@ -34,4 +34,4 @@ aporteSocioRouter.delete('/delete/:id',
   (req: Request, res: Response) => {aporteSocioController.remove(req, res)}
 );
 
-export default aporteSocioRouter;
+export default aporteSocioRouter; */

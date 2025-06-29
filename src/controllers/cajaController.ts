@@ -1,4 +1,4 @@
-import cajaRepository from '../repositories/cajaRepository.js';
+/* import cajaRepository from '../repositories/cajaRepository.js';
 import { Request, Response } from 'express';
 import httpErrors from 'http-errors';
 const { NotFound, BadRequest } = httpErrors;
@@ -69,3 +69,4 @@ const cajaController = {
 };
 
 export default cajaController;
+ */

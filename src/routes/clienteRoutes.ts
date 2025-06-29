@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+/* import express, { Request, Response } from 'express';
 import clienteController from '../controllers/clienteController.js';
 import { handleValidationErrors, idParamValidation, ClienteValidation } from '../middlewares/validations.js';
 
@@ -31,4 +31,4 @@ clienteRouter.delete('/delete/:id',
   (req: Request, res: Response) => {clienteController.remove(req, res)}
 );
 
-export default clienteRouter;
+export default clienteRouter; */

@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+/* import express, { Request, Response } from 'express';
 import ajusteController from '../controllers/ajusteController.js';
 import { handleValidationErrors, idParamValidation, ajusteValidation } from '../middlewares/validations.js';
 
@@ -34,4 +34,4 @@ ajusteRouter.delete('/delete/:id',
   (req: Request, res: Response) => {ajusteController.remove(req, res)}
 );
 
-export default ajusteRouter;
+export default ajusteRouter; */

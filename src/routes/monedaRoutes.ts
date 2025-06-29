@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+/* import express, { Request, Response } from 'express';
 import monedaController from '../controllers/monedaController.js';
 import { handleValidationErrors, idParamValidation, monedaValidation } from '../middlewares/validations.js';
 
@@ -34,4 +34,4 @@ monedaRouter.delete('/delete/:id',
   (req: Request, res: Response) => {monedaController.remove(req, res)}
 );
 
-export default monedaRouter;
+export default monedaRouter; */

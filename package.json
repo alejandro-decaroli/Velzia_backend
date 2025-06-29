@@ -18,10 +18,14 @@
     "typescript": "5.8.3"
   },
   "dependencies": {
+    "@mikro-orm/core": "6.4.16",
+    "@mikro-orm/postgresql": "6.4.16",
+    "@mikro-orm/sql-highlighter": "1.0.1",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
     "http-errors": "^2.0.0",
-    "pg": "^8.15.6"
+    "pg": "^8.15.6",
+    "reflect-metadata": "0.2.2"
   }
 }

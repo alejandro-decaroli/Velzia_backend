@@ -1,5 +1,4 @@
-import ajusteRepository from '../repositories/ajusteRepository.js';
-import { Request, Response } from 'express';
+/* import { Request, Response } from 'express';
 import httpErrors from 'http-errors';
 const { NotFound, BadRequest } = httpErrors;
 
@@ -67,4 +66,4 @@ const ajusteController = {
   }
 };
 
-export default ajusteController;
+export default ajusteController; */

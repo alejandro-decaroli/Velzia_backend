@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+/* import express, { Request, Response } from 'express';
 import pagoController from '../controllers/pagoController.js';
 import { handleValidationErrors, idParamValidation, PagoValidation } from '../middlewares/validations.js';
 
@@ -32,4 +32,4 @@ pagoRouter.delete('/delete/:id',
   (req: Request, res: Response) => {pagoController.remove(req, res)}
 );
 
-export default pagoRouter;
+export default pagoRouter; */

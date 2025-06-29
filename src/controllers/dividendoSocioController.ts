@@ -1,4 +1,4 @@
-import dividendoSocioRepository from '../repositories/dividendoSocioRepository.js';
+/* import dividendoSocioRepository from '../repositories/dividendoSocioRepository.js';
 import { Request, Response } from 'express';
 import httpErrors from 'http-errors';
 const { NotFound, BadRequest } = httpErrors;
@@ -78,3 +78,4 @@ const dividendoSocioController = {
 };
 
 export default dividendoSocioController;
+ */

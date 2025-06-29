@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+/* import express, { Request, Response } from 'express';
 import costoFijoController from '../controllers/costoFijoController.js';
 import { handleValidationErrors, idParamValidation, costoFijoValidation } from '../middlewares/validations.js';
 
@@ -34,4 +34,4 @@ costoFijoRouter.delete('/delete/:id',
   (req: Request, res: Response) => {costoFijoController.remove(req, res)}
 );
 
-export default costoFijoRouter;
+export default costoFijoRouter; */

@@ -1,4 +1,4 @@
-import monedaRepository from '../repositories/monedaRepository.js';
+/* import monedaRepository from '../repositories/monedaRepository.js';
 import { Request, Response } from 'express';
 import httpErrors from 'http-errors';
 const { NotFound, BadRequest } = httpErrors;
@@ -80,4 +80,4 @@ const monedaController = {
   }
 };
 
-export default monedaController;
+export default monedaController; */

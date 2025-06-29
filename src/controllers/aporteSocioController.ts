@@ -1,4 +1,4 @@
-import aporteSocioRepository from '../repositories/aporteSocioRepository.js';
+/* import aporteSocioRepository from '../repositories/aporteSocioRepository.js';
 import { Request, Response } from 'express';
 import httpErrors from 'http-errors';
 const { NotFound, BadRequest } = httpErrors;
@@ -80,3 +80,4 @@ const aporteSocioController = {
 };
 
 export default aporteSocioController;
+ */

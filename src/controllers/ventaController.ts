@@ -1,4 +1,4 @@
-import ventaRepository from '../repositories/ventaRepository.js';
+/* import ventaRepository from '../repositories/ventaRepository.js';
 import { Request, Response } from 'express';
 
 const ventaController = {
@@ -66,4 +66,4 @@ const ventaController = {
   }
 };
 
-export default ventaController;
+export default ventaController; */
