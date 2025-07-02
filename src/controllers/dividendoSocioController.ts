@@ -1,81 +1,92 @@
-/* import dividendoSocioRepository from '../repositories/dividendoSocioRepository.js';
 import { Request, Response } from 'express';
-import httpErrors from 'http-errors';
-const { NotFound, BadRequest } = httpErrors;
+import { orm } from '../db/orm.js';
+import { Dividendo } from '../entities/Dividendo.entities.js';
 
-const dividendoSocioController = {
-  async getAll(req: Request, res: Response) {
+const em = orm.em;
+
+async function getAll(req: Request, res: Response) {
     try {
-      const dividendoSocios = await dividendoSocioRepository.getAll();
-      res.json(dividendoSocios);
-    } catch(error: any) {
-      res.status(500).json({ error: error.message });
+      const dividendos = await em.find(Dividendo, {});
+      res.status(200).json({ message: 'Dividendos obtenidos exitosamente', dividendos });
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener los dividendos' });
     }
-  },
+}
 
-  async getById(req: Request, res: Response) {
+async function getById(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
 
-      const dividendoSocio = await dividendoSocioRepository.getById(id);
-      res.json(dividendoSocio);
+      const dividendo = await em.findOne(Dividendo, id);
+      if (!dividendo) {
+        return res.status(404).json({ message: 'Dividendo no encontrado' });
+      }
+
+      res.status(200).json({ message: 'Dividendo encontrado exitosamente', dividendo });
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error al obtener el dividendo' });
+      res.status(500).json({ message: 'Error al obtener el dividendo', error });
     }
-  },
+}
 
-  async create(req: Request, res: Response) {
+async function create(req: Request, res: Response) {
     try {
-      const dividendoSocio = await dividendoSocioRepository.create(req.body);
-      res.status(201).json(dividendoSocio);
-    } catch (error: any) {
-      res.status(500).json({ error: 'Error al crear' });
+      const dividendo = em.create(Dividendo, req.body);
+      await em.flush();
+      res.status(201).json({ message: 'Dividendo creado exitosamente', dividendo });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al crear el dividendo', error });
     }
-  },
+}
 
-  async update(req: Request, res: Response) {
-    try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
-
-      const dividendoSocio = await dividendoSocioRepository.update(id, req.body);
-      res.json(dividendoSocio);
-    } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error al actualizar' });
-    }
-  },
-
-  async remove(req: Request, res: Response) {
+async function update(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
 
-      await dividendoSocioRepository.remove(id);
+      const dividendo = await em.findOne(Dividendo, id);
+      if (!dividendo) {
+        return res.status(404).json({ message: 'Dividendo no encontrado' });
+      }
+
+      dividendo.dividendo = req.body.dividendo;
+      dividendo.monto = req.body.monto;
+      dividendo.moneda = req.body.moneda;
+      dividendo.caja = req.body.caja;
+      await em.flush();
+      res.status(201).json({ message: 'Dividendo actualizado exitosamente', dividendo });
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error al actualizar el dividendo', error });
+    }
+}
+
+async function remove(req: Request, res: Response) {
+    try {
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
+
+      const dividendo = await em.findOne(Dividendo, id);
+      if (!dividendo) {
+        return res.status(404).json({ message: 'Dividendo no encontrado' });
+      }
+
+      await em.removeAndFlush(dividendo);
       res.status(204).send();
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error al eliminar' });
+      res.status(500).json({ error: 'Error al eliminar el dividendo' });
     }
-  }
-};
+}
 
-export default dividendoSocioController;
- */
+export {
+  getAll,
+  getById,
+  create,
+  update,
+  remove
+};

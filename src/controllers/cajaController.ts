@@ -1,72 +1,92 @@
-/* import cajaRepository from '../repositories/cajaRepository.js';
 import { Request, Response } from 'express';
-import httpErrors from 'http-errors';
-const { NotFound, BadRequest } = httpErrors;
+import { orm } from '../db/orm.js';
+import { Caja } from '../entities/Caja.entities.js';
 
-const cajaController = {
-  async getAll(req: Request, res: Response) {
+const em = orm.em;
+
+async function getAll(req: Request, res: Response) {
     try {
-      const cajas = await cajaRepository.getAll();
+      const cajas = await em.find(Caja, {});
       res.status(200).json({ message: 'Cajas obtenidas exitosamente', cajas });
-    } catch (error: any) {
-      return res.status(500).json({ error: error.message });
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener las cajas' });
     }
-  },
+}
 
-  async getById(req: Request, res: Response) {
+async function getById(req: Request, res: Response) {
     try {
-      const caja = await cajaRepository.getById(Number(req.params.id));
-      res.status(200).json({ message: 'Caja obtenida exitosamente', caja });
-    } catch (error: any) {
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
       }
-      return res.status(500).json({ error: error.message });
-    }
-  },
 
-  async create(req: Request, res: Response) {
+      const caja = await em.findOne(Caja, id);
+      if (!caja) {
+        return res.status(404).json({ message: 'Caja no encontrada' });
+      }
+
+      res.status(200).json({ message: 'Caja encontrada exitosamente', caja });
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error al obtener la caja', error });
+    }
+}
+
+async function create(req: Request, res: Response) {
     try {
-      const caja = await cajaRepository.create(req.body);
+      const caja = em.create(Caja, req.body);
+      await em.flush();
       res.status(201).json({ message: 'Caja creada exitosamente', caja });
-    } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      return res.status(500).json({ error: error.message });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al crear la caja', error });
     }
-  },
+}
 
-  async update(req: Request, res: Response) {
+async function update(req: Request, res: Response) {
     try {
-      const caja = await cajaRepository.update(Number(req.params.id), req.body);
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
+
+      const caja = await em.findOne(Caja, id);
+      if (!caja) {
+        return res.status(404).json({ message: 'Caja no encontrada' });
+      }
+
+      caja.monto = req.body.monto;
+      caja.nombre = req.body.nombre;
+      caja.siglas = req.body.siglas;
+      caja.moneda = req.body.moneda;
+      await em.flush();
       res.status(201).json({ message: 'Caja actualizada exitosamente', caja });
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      return res.status(500).json({ error: error.message });
+      res.status(500).json({ message: 'Error al actualizar la caja', error });
     }
-  },
+}
 
-  async remove(req: Request, res: Response) {
+async function remove(req: Request, res: Response) {
     try {
-      await cajaRepository.remove(Number(req.params.id));
-      res.status(200).json({ message: 'Caja eliminada exitosamente' });
-    } catch (error: any) {
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
       }
-      return res.status(500).json({ error: error.message });
-    }
-  }
-};
 
-export default cajaController;
- */
+      const caja = await em.findOne(Caja, id);
+      if (!caja) {
+        return res.status(404).json({ message: 'Caja no encontrada' });
+      }
+
+      await em.removeAndFlush(caja);
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(500).json({ error: 'Error al eliminar la caja' });
+    }
+}
+
+export {
+  getAll,
+  getById,
+  create,
+  update,
+  remove
+};

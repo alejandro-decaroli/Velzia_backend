@@ -1,12 +1,26 @@
-/* import express, { Request, Response } from 'express';
-import tasaController from '../controllers/tasaController.js';
+import express, { Request, Response } from 'express';
+import { getAll, getById, create, update, remove } from '../controllers/tasaController.js';
+import { handleValidationErrors, idParamValidation } from '../middlewares/validations.js';
 
 const tasaRouter = express.Router();
 
-tasaRouter.get('/', (req: Request, res: Response) => {tasaController.getAll(req, res)});
-tasaRouter.get('/:id', (req: Request, res: Response) => {tasaController.getById(req, res)});
-tasaRouter.post('/create', (req: Request, res: Response) => {tasaController.create(req, res)});
-tasaRouter.put('/update/:id', (req: Request, res: Response) => {tasaController.update(req, res)});
-tasaRouter.delete('/delete/:id', (req: Request, res: Response) => {tasaController.remove(req, res)});
+tasaRouter.get('/', 
+    handleValidationErrors,
+    (req: Request, res: Response) => {getAll(req, res)});
+tasaRouter.get('/:id', 
+    idParamValidation,
+    handleValidationErrors,
+    (req: Request, res: Response) => {getById(req, res)});
+tasaRouter.post('/create', 
+    handleValidationErrors,
+    (req: Request, res: Response) => {create(req, res)});
+tasaRouter.put('/update/:id', 
+    idParamValidation,
+    handleValidationErrors,
+    (req: Request, res: Response) => {update(req, res)});
+tasaRouter.delete('/delete/:id', 
+    idParamValidation,
+    handleValidationErrors,
+    (req: Request, res: Response) => {remove(req, res)});
 
-export default tasaRouter; */
+export default tasaRouter;

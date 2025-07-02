@@ -1,83 +1,92 @@
-/* import aporteSocioRepository from '../repositories/aporteSocioRepository.js';
 import { Request, Response } from 'express';
-import httpErrors from 'http-errors';
-const { NotFound, BadRequest } = httpErrors;
+import { orm } from '../db/orm.js';
+import { Aporte } from '../entities/Aporte.entities.js';
 
-const aporteSocioController = {
-  async getAll(req: Request, res: Response) {
+const em = orm.em;
+
+async function getAll(req: Request, res: Response) {
     try {
-      const aportesSocio = await aporteSocioRepository.getAll();
-      res.json(aportesSocio);
+      const aportesSocio = await em.find(Aporte, {});
+      res.status(200).json({ message: 'Aportes de socios obtenidos exitosamente', aportesSocio });
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener los aportes de socios' });
     }
-  },
+}
 
-  async getById(req: Request, res: Response) {
+async function getById(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
 
-      const aporteSocio = await aporteSocioRepository.getById(id);
-      if (!aporteSocio) throw new NotFound('Aporte socio no encontrado');
+      const aporteSocio = await em.findOne(Aporte, id);
+      if (!aporteSocio) {
+        return res.status(404).json({ message: 'Aporte socio no encontrado' });
+      }
 
-      res.json(aporteSocio);
+      res.status(200).json({ message: 'Aporte socio encontrado exitosamente', aporteSocio });
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error al obtener el aporte de socio' });
+      res.status(500).json({ message: 'Error al obtener el aporte de socio', error });
     }
-  },
+}
 
-  async create(req: Request, res: Response) {
+async function create(req: Request, res: Response) {
     try {
-      const aporteSocio = await aporteSocioRepository.create(req.body);
-      res.status(201).json(aporteSocio);
+      const aporteSocio = em.create(Aporte, req.body);
+      await em.flush();
+      res.status(201).json({ message: 'Aporte socio creado exitosamente', aporteSocio });
     } catch (error) {
-      res.status(500).json({ error: 'Error al crear el aporte de socio' });
+      res.status(500).json({ message: 'Error al crear el aporte de socio', error });
     }
-  },
+}
 
-  async update(req: Request, res: Response) {
+async function update(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
 
-      const aporteSocio = await aporteSocioRepository.update(id, req.body);
-      res.json(aporteSocio);
+      const aporteSocio = await em.findOne(Aporte, id);
+      if (!aporteSocio) {
+        return res.status(404).json({ message: 'Aporte socio no encontrado' });
+      }
+
+      aporteSocio.monto = req.body.monto;
+      aporteSocio.aporte = req.body.aporte;
+      aporteSocio.moneda = req.body.moneda;
+      aporteSocio.caja = req.body.caja;
+      await em.flush();
+      res.status(201).json({ message: 'Aporte socio actualizado exitosamente', aporteSocio });
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error al actualizar el aporte de socio' });
+      res.status(500).json({ message: 'Error al actualizar el aporte de socio', error });
     }
-  },
+}
 
-  async remove(req: Request, res: Response) {
+async function remove(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
 
-      await aporteSocioRepository.remove(id);
+      const aporteSocio = await em.findOne(Aporte, id);
+      if (!aporteSocio) {
+        return res.status(404).json({ message: 'Aporte socio no encontrado' });
+      }
+
+      await em.removeAndFlush(aporteSocio);
       res.status(204).send();
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
       res.status(500).json({ error: 'Error al eliminar el aporte de socio' });
     }
-  }
-};
+}
 
-export default aporteSocioController;
- */
+export {
+  getAll,
+  getById,
+  create,
+  update,
+  remove
+};

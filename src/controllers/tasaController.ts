@@ -1,88 +1,93 @@
-/* import tasaRepository from '../repositories/tasaRepository.js';
 import { Request, Response } from 'express';
-import httpErrors from 'http-errors';
-const { NotFound, BadRequest } = httpErrors;
+import { orm } from '../db/orm.js';
+import { Tasa } from '../entities/Tasa.entities.js';
 
-const tasaController = {
-  async getAll(req: Request, res: Response) {
+const em = orm.em;
+
+async function getAll(req: Request, res: Response) {
     try {
-      const tasas = await tasaRepository.getAll();
-      res.status(201).json(tasas);
-    } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      return res.status(500).json({ error: error.message });
+      const tasas = await em.find(Tasa, {});
+      res.status(200).json({ message: 'Tasas obtenidas exitosamente', tasas });
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener las tasas' });
     }
-  },
+}
 
-  async getById(req: Request, res: Response) {
+async function getById(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
 
-      const tasa = await tasaRepository.getById(id);
-      res.json(tasa);
+      const tasa = await em.findOne(Tasa, id);
+      if (!tasa) {
+        return res.status(404).json({ message: 'Tasa no encontrada' });
+      }
+
+      res.status(200).json({ message: 'Tasa encontrada exitosamente', tasa });
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      return res.status(500).json({ error: error.message });
+      res.status(500).json({ message: 'Error al obtener la tasa', error });
     }
-  },
+}
 
-  async create(req: Request, res: Response) {
+async function create(req: Request, res: Response) {
     try {
-      const tasa = await tasaRepository.create(req.body);
-      res.status(201).json(tasa);
+      const tasa = em.create(Tasa, req.body);
+      await em.flush();
+      res.status(201).json({ message: 'Tasa creada exitosamente', tasa });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al crear la tasa', error });
+    }
+}
+
+async function update(req: Request, res: Response) {
+    try {
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
+
+      const tasa = await em.findOne(Tasa, id);
+      if (!tasa) {
+        return res.status(404).json({ message: 'Tasa no encontrada' });
+      }
+
+      tasa.fecha_vigencia = req.body.fecha_vigencia;
+      tasa.tasa = req.body.tasa;
+      tasa.activa = req.body.activa;
+      tasa.moneda_origen = req.body.moneda_origen;
+      tasa.moneda_destino = req.body.moneda_destino;
+      await em.flush();
+      res.status(201).json({ message: 'Tasa actualizada exitosamente', tasa });
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      return res.status(500).json({ error: error.message });
+      res.status(500).json({ message: 'Error al actualizar la tasa', error });
     }
-  },
+}
 
-  async update(req: Request, res: Response) {
+async function remove(req: Request, res: Response) {
     try {
-      const tasa = await tasaRepository.update(Number(req.params.id), req.body);
-      res.json(tasa);
-    } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
       }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
+
+      const tasa = await em.findOne(Tasa, id);
+      if (!tasa) {
+        return res.status(404).json({ message: 'Tasa no encontrada' });
       }
-      return res.status(500).json({ error: error.message });
-    }
-  },
 
-
-  async remove(req: Request, res: Response) {
-    try {
-      await tasaRepository.remove(Number(req.params.id));
+      await em.removeAndFlush(tasa);
       res.status(204).send();
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      return res.status(500).json({ error: error.message });
+      res.status(500).json({ error: 'Error al eliminar la tasa' });
     }
-  }
-};
+}
 
-export default tasaController;
- */
+export {
+  getAll,
+  getById,
+  create,
+  update,
+  remove
+};

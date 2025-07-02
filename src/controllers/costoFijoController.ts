@@ -1,82 +1,92 @@
-/* import costoFijoRepository from '../repositories/costoFijoRepository.js';
 import { Request, Response } from 'express';
-import httpErrors from 'http-errors';
-const { NotFound, BadRequest } = httpErrors;
+import { orm } from '../db/orm.js';
+import { CostoFijo } from '../entities/Costofijo.entities.js';
+import { Caja } from '../entities/Caja.entities.js';
 
-const costoFijoController = {
-  async getAll(req: Request, res: Response) {
+const em = orm.em;
+
+async function getAll(req: Request, res: Response) {
     try {
-      const costosFijos = await costoFijoRepository.getAll();
-      res.json(costosFijos);
-    } catch (error: any) {
+      const costosFijos = await em.find(CostoFijo, {});
+      res.status(200).json({ message: 'Costos fijos obtenidos exitosamente', costosFijos });
+    } catch (error) {
       res.status(500).json({ error: 'Error al obtener los costos fijos' });
     }
-  },
+}
 
-  async getById(req: Request, res: Response) {
+async function getById(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
 
-      const costoFijo = await costoFijoRepository.getById(id);
-      if (!costoFijo) throw new NotFound('Costo fijo no encontrado');
+      const costoFijo = await em.findOne(CostoFijo, id);
+      if (!costoFijo) {
+        return res.status(404).json({ message: 'Costo fijo no encontrado' });
+      }
 
-      res.json(costoFijo);
+      res.status(200).json({ message: 'Costo fijo encontrado exitosamente', costoFijo });
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error al obtener el costo fijo' });
+      res.status(500).json({ message: 'Error al obtener el costo fijo', error });
     }
-  },
+}
 
-  async create(req: Request, res: Response) {
+async function create(req: Request, res: Response) {
     try {
-      const costoFijo = await costoFijoRepository.create(req.body);
-      res.status(201).json(costoFijo);
-    } catch (error: any) {
-      res.status(500).json({ error: 'Error al crear el costo fijo' });
+      const costoFijo = em.create(CostoFijo, req.body);
+      await em.flush();
+      res.status(201).json({ message: 'Costo fijo creado exitosamente', costoFijo });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al crear el costo fijo', error });
     }
-  },
+}
 
-  async update(req: Request, res: Response) {
-    try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
-
-      const costoFijo = await costoFijoRepository.update(id, req.body);
-      res.json(costoFijo);
-    } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error al actualizar el costo fijo' });
-    }
-  },
-
-  async remove(req: Request, res: Response) {
+async function update(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
 
-      await costoFijoRepository.remove(id);
+      const costoFijo = await em.findOne(CostoFijo, id);
+      if (!costoFijo) {
+        return res.status(404).json({ message: 'Costo fijo no encontrado' });
+      }
+      costoFijo.adjudicacion = req.body.adjudicacion;
+      costoFijo.caja = req.body.caja;
+      costoFijo.monto = req.body.monto;
+      costoFijo.moneda = req.body.moneda;
+      await em.flush();
+      res.status(201).json({ message: 'Costo fijo actualizado exitosamente', costoFijo });
+    } catch (error: any) {
+      res.status(500).json({ message: 'Error al actualizar el costo fijo', error });
+    }
+}
+
+async function remove(req: Request, res: Response) {
+    try {
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
+
+      const costoFijo = await em.findOne(CostoFijo, id);
+      if (!costoFijo) {
+        return res.status(404).json({ message: 'Costo fijo no encontrado' });
+      }
+
+      await em.removeAndFlush(costoFijo);
       res.status(204).send();
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
       res.status(500).json({ error: 'Error al eliminar el costo fijo' });
     }
-  }
+}
+
+export {
+  getAll,
+  getById,
+  create,
+  update,
+  remove
 };
-export default costoFijoController;
- */

@@ -14,9 +14,6 @@ export class Aporte extends BaseEntity {
     @Property({ type: 'varchar', length: 20, nullable: false })
     aporte!: string;
 
-    @Property({ type: 'date', nullable: false })
-    fecha!: Date;
-
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
     monto!: number;
 }

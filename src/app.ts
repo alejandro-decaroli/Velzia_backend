@@ -1,4 +1,9 @@
-/* import clienteRouter from "./routes/clienteRoutes.js";
+import express from "express";
+import dotenv from "dotenv";
+import { Request, Response, NextFunction } from "express";
+import { RequestContext } from "@mikro-orm/core";
+import { orm, syncSchema } from "./db/orm.js";
+import clienteRouter from "./routes/clienteRoutes.js";
 import cajaRouter from "./routes/cajaRoutes.js";
 import pagoRouter from "./routes/pagoRoutes.js";
 import ventaRouter from "./routes/ventaRoutes.js";
@@ -9,44 +14,25 @@ import aporteSocioRouter from "./routes/aporteSocioRoutes.js";
 import dividendoSocioRouter from "./routes/dividendoSocioRoutes.js";
 import transferenciaRouter from "./routes/transferenciaRoutes.js";
 import tasaRouter from "./routes/tasaRoutes.js";
-import monedaRouter from "./routes/monedaRoutes.js"; */
-import express from "express";
-import dotenv from "dotenv";
-import { Request, Response, NextFunction } from "express";
-import { RequestContext } from "@mikro-orm/core";
-import { initORM, orm } from "./db/orm.js";
+import monedaRouter from "./routes/monedaRoutes.js";
+
+const PORT = process.env.PORT || 3000;
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-async function main() {
+app.use(express.json());
 
-    await initORM();
+app.use((req: Request, res: Response, next: NextFunction) => {
+    RequestContext.create(orm.em, next);   
+})
 
-    app.use(express.json());
-
-    app.get("/", (req: Request, res: Response) => {
-        res.status(200).send("<h1>ESTO es VELZIA!</h1>");
-    })
-
-    app.use((req: Request, res: Response, next: NextFunction) => {
-        RequestContext.create(orm.em, next);   
-    })
-
-    app.listen(PORT, () => {
-        console.log(`Server running in http://localhost:${PORT}`);
-    })
-}
-
-main().catch(err => {
-    console.error(err);
-    process.exit(1);
+app.get("/", (req: Request, res: Response) => {
+    res.status(200).send("<h1>ESTO es VELZIA!</h1>");
 });
 
-// Prefijos para las rutas
-/* app.use('/clientes', clienteRouter); 
+app.use('/clientes', clienteRouter);
 app.use('/cajas', cajaRouter);
 app.use('/pagos', pagoRouter); 
 app.use('/ventas', ventaRouter)
@@ -57,7 +43,13 @@ app.use('/aportes_socio', aporteSocioRouter);
 app.use('/dividendos_socio', dividendoSocioRouter);
 app.use('/transferencias', transferenciaRouter);
 app.use('/tasas', tasaRouter);
-app.use('/monedas', monedaRouter); */
+app.use('/monedas', monedaRouter);
+
+await syncSchema();
+
+app.listen(PORT, () => {
+    console.log(`Server running in http://localhost:${PORT}`);
+})
 
 // Implementar eliminado lógico (soft delete)
 // Que se abra en el navegador para Ivan

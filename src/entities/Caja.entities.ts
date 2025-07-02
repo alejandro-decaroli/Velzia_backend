@@ -46,4 +46,5 @@ export class Caja extends BaseEntity {
 
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
     monto!: number;
+
 }

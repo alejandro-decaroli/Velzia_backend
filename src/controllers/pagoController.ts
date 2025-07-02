@@ -1,85 +1,92 @@
-/* import pagoRepository from '../repositories/pagoRepository.js';
 import { Request, Response } from 'express';
-import httpErrors from 'http-errors';
-const { NotFound, BadRequest } = httpErrors;
+import { orm } from '../db/orm.js';
+import { Pago } from '../entities/Pago.entities.js';
 
-const pagoController = {
-  async getAll(req: Request, res: Response) {
+const em = orm.em;
+
+async function getAll(req: Request, res: Response) {
     try {
-      const pagos = await pagoRepository.getAll();
-      res.json(pagos);
-    } catch (error: any) {
+      const pagos = await em.find(Pago, {});
+      res.status(200).json({ message: 'Pagos obtenidos exitosamente', pagos });
+    } catch (error) {
       res.status(500).json({ error: 'Error al obtener los pagos' });
     }
-  },
+}
 
-  async getById(req: Request, res: Response) {
+async function getById(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
 
-      const pago = await pagoRepository.getById(id);
-      res.json(pago);
+      const pago = await em.findOne(Pago, id);
+      if (!pago) {
+        return res.status(404).json({ message: 'Pago no encontrado' });
+      }
+
+      res.status(200).json({ message: 'Pago encontrado exitosamente', pago });
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error al obtener el pago' });
+      res.status(500).json({ message: 'Error al obtener el pago', error });
     }
-  },
+}
 
-  async create(req: Request, res: Response) {
+async function create(req: Request, res: Response) {
     try {
-      const pago = await pagoRepository.create(req.body);
-      res.status(201).json(pago);
-    } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error al crear' });
+      const pago = em.create(Pago, req.body);
+      await em.flush();
+      res.status(201).json({ message: 'Pago creado exitosamente', pago });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al crear el pago', error });
     }
-  },
+}
 
-  async update(req: Request, res: Response) {
+async function update(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
 
-      const pago = await pagoRepository.update(id, req.body);
-      res.json(pago);
+      const pago = await em.findOne(Pago, id);
+      if (!pago) {
+        return res.status(404).json({ message: 'Pago no encontrado' });
+      }
+
+      pago.monto = req.body.monto;
+      pago.caja = req.body.caja;
+      pago.moneda = req.body.moneda;
+      pago.venta = req.body.venta;
+      await em.flush();
+      res.status(201).json({ message: 'Pago actualizado exitosamente', pago });
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error al actualizar' });
+      res.status(500).json({ message: 'Error al actualizar el pago', error });
     }
-  },
+}
 
-
-  async remove(req: Request, res: Response) {
+async function remove(req: Request, res: Response) {
     try {
       const id = Number(req.params.id);
-      if (isNaN(id)) throw new BadRequest('ID inválido');
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
 
-      await pagoRepository.remove(id);
+      const pago = await em.findOne(Pago, id);
+      if (!pago) {
+        return res.status(404).json({ message: 'Pago no encontrado' });
+      }
+
+      await em.removeAndFlush(pago);
       res.status(204).send();
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      res.status(500).json({ error: 'Error al eliminar' });
+      res.status(500).json({ error: 'Error al eliminar el pago' });
     }
-  }
-};
+}
 
-export default pagoController;
- */
+export {
+  getAll,
+  getById,
+  create,
+  update,
+  remove
+};

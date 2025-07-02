@@ -23,9 +23,6 @@ export class Venta extends BaseEntity {
     @Property({ type: 'numeric', nullable: false })
     monto_usd!: number;
     
-    @Property({ type: 'date', nullable: false })
-    fecha!: Date;
-    
     @Property({ type: 'numeric', nullable: false })
     costo_mano_obra!: number;
     

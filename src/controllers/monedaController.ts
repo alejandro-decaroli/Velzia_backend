@@ -1,83 +1,90 @@
-/* import monedaRepository from '../repositories/monedaRepository.js';
 import { Request, Response } from 'express';
-import httpErrors from 'http-errors';
-const { NotFound, BadRequest } = httpErrors;
+import { orm } from '../db/orm.js';
+import { Moneda } from '../entities/Moneda.entities.js';
 
-const monedaController = {
-  async getAll(req: Request, res: Response) {
+const em = orm.em;
+
+async function getAll(req: Request, res: Response) {
     try {
-      const monedas = await monedaRepository.getAll();
+      const monedas = await em.find(Moneda, {});
       res.status(200).json({ message: 'Monedas obtenidas exitosamente', monedas });
-    } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      return res.status(500).json({ error: error.message });
+    } catch (error) {
+      res.status(500).json({ error: 'Error al obtener las monedas' });
     }
-  },
+}
 
-  async getById(req: Request, res: Response) {
+async function getById(req: Request, res: Response) {
     try {
-      const moneda = await monedaRepository.getById(Number(req.params.id));
-      res.status(200).json({ message: 'Moneda obtenida exitosamente', moneda });
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
+
+      const moneda = await em.findOne(Moneda, id);
+      if (!moneda) {
+        return res.status(404).json({ message: 'Moneda no encontrada' });
+      }
+
+      res.status(200).json({ message: 'Moneda encontrada exitosamente', moneda });
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      return res.status(500).json({ error: error.message });
+      res.status(500).json({ message: 'Error al obtener la moneda', error });
     }
-  },
+}
 
-  async create(req: Request, res: Response) {
+async function create(req: Request, res: Response) {
     try {
-      const moneda = await monedaRepository.create(req.body);
+      const moneda = em.create(Moneda, req.body);
+      await em.flush();
       res.status(201).json({ message: 'Moneda creada exitosamente', moneda });
-    } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      return res.status(500).json({ error: error.message });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al crear la moneda', error });
     }
-  },
+}
 
-  async update(req: Request, res: Response) {
+async function update(req: Request, res: Response) {
     try {
-      const moneda = await monedaRepository.update(Number(req.params.id), req.body);
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+      }
+
+      const moneda = await em.findOne(Moneda, id);
+      if (!moneda) {
+        return res.status(404).json({ message: 'Moneda no encontrada' });
+      }
+
+      moneda.nombre = req.body.nombre;
+      moneda.codigo_iso = req.body.codigo_iso;
+      await em.flush();
       res.status(201).json({ message: 'Moneda actualizada exitosamente', moneda });
     } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
-      }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      return res.status(500).json({ error: error.message });
+      res.status(500).json({ message: 'Error al actualizar la moneda', error });
     }
-  },
+}
 
-  async remove(req: Request, res: Response) {
+async function remove(req: Request, res: Response) {
     try {
-      await monedaRepository.remove(Number(req.params.id));
-      res.status(200).json({ message: 'Moneda eliminada exitosamente' });
-    } catch (error: any) {
-      if (error instanceof BadRequest) {
-        return res.status(400).json({ error: error.message });
+      const id = Number(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
       }
-      if (error instanceof NotFound) {
-        return res.status(404).json({ error: error.message });
-      }
-      return res.status(500).json({ error: error.message });
-    }
-  }
-};
 
-export default monedaController; */
+      const moneda = await em.findOne(Moneda, id);
+      if (!moneda) {
+        return res.status(404).json({ message: 'Moneda no encontrada' });
+      }
+
+      await em.removeAndFlush(moneda);
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(500).json({ error: 'Error al eliminar la moneda' });
+    }
+}
+
+export {
+  getAll,
+  getById,
+  create,
+  update,
+  remove
+};

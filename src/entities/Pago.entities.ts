@@ -15,9 +15,6 @@ export class Pago extends BaseEntity {
     @ManyToOne('Venta', { nullable: false })
     venta!: Venta;
 
-    @Property({ type: 'date', nullable: false })
-    fecha!: Date;
-
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
     monto!: number;
 }

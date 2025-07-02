@@ -14,9 +14,6 @@ export class Dividendo extends BaseEntity {
     @Property({ type: 'varchar', length: 20, nullable: false })
     dividendo!: string;
 
-    @Property({ type: 'date', nullable: false })
-    fecha!: Date;
-
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
     monto!: number;
 }
