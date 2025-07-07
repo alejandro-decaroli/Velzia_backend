@@ -14,27 +14,18 @@ export class Cliente extends BaseEntity {
   @OneToMany('Venta', 'cliente', {cascade: [Cascade.ALL], nullable: true})
   ventas = new Collection<Venta>(this);
 
-  @Property({ persist: false })
-  get estado(): 'activo' | 'terminado' {
-    if (!this.ventas.isInitialized()) {
-        // Si las ventas no se han cargado, no podemos determinar el estado.
-        // Considera cargarlas antes de acceder a esta propiedad.
-        return 'terminado'; 
-    }
+  @Property({default: 'terminado', nullable: true})
+  estado:'terminado' | 'activo' = this.getEstado();
 
-    const tieneVentaActiva = this.ventas.getItems().some(venta => venta.estado === true);
-    return tieneVentaActiva ? 'activo' : 'terminado';
-  }
-
-  /**
-   * Verifica si el cliente ya tiene una venta activa, excluyendo la venta que se está editando.
-   * @param ventaActualId - El ID de la venta que se está creando o editando (opcional).
-   * @returns `true` si ya existe una venta activa, de lo contrario `false`.
-   */
-  hasActiveSale(ventaActualId?: number): boolean {
-    if (!this.ventas.isInitialized()) {
-        return false;
+  getEstado() {
+    if (this.ventas.length === 0) {
+      return 'terminado';
     }
-    return this.ventas.getItems().some(v => v.estado === true && v.id !== ventaActualId);
+    for (const venta of this.ventas) {
+      if (venta.estado === true) {
+        return 'activo';
+      }
+    }
+    return 'terminado';
   }
 }

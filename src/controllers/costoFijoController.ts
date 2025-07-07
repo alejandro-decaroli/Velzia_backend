@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { orm } from '../db/orm.js';
 import { CostoFijo } from '../entities/Costofijo.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
+import { Moneda } from '../entities/Moneda.entities.js';
 
 const em = orm.em;
 
@@ -34,6 +35,17 @@ async function getById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     try {
+      const moneda = await em.findOne(Moneda, req.body.moneda);
+      const caja = await em.findOne(Caja, req.body.caja);
+      if (!moneda) {
+        return res.status(404).json({ message: 'Moneda no encontrada' });
+      }
+      if (!caja) {
+        return res.status(404).json({ message: 'Caja no encontrada' });
+      }
+      if (moneda.id !== caja.moneda.id) {
+        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del costo fijo' });
+      }
       const costoFijo = em.create(CostoFijo, req.body);
       await em.flush();
       res.status(201).json({ message: 'Costo fijo creado exitosamente', costoFijo });
@@ -47,6 +59,17 @@ async function update(req: Request, res: Response) {
       const id = Number(req.params.id);
       if (isNaN(id)) {
         return res.status(400).json({ message: 'ID inválido' });
+      }
+      const moneda = await em.findOne(Moneda, req.body.moneda);
+      const caja = await em.findOne(Caja, req.body.caja);
+      if (!moneda) {
+        return res.status(404).json({ message: 'Moneda no encontrada' });
+      }
+      if (!caja) {
+        return res.status(404).json({ message: 'Caja no encontrada' });
+      }
+      if (moneda.id !== caja.moneda.id) {
+        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del costo fijo' });
       }
 
       const costoFijo = await em.findOne(CostoFijo, id);

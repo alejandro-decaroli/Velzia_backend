@@ -33,6 +33,14 @@ async function getById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     try {
+      const nombre_duplicado = await em.findOne(Moneda, { nombre: req.body.nombre });
+      const codigo_iso_duplicado = await em.findOne(Moneda, { codigo_iso: req.body.codigo_iso });
+      if (nombre_duplicado) {
+        return res.status(409).json({ message: 'Las monedas no pueden tener el mismo nombre' });
+      }
+      if (codigo_iso_duplicado) {
+        return res.status(409).json({ message: 'Las monedas no pueden tener el mismo código ISO' });
+      }
       const moneda = em.create(Moneda, req.body);
       await em.flush();
       res.status(201).json({ message: 'Moneda creada exitosamente', moneda });
@@ -52,7 +60,14 @@ async function update(req: Request, res: Response) {
       if (!moneda) {
         return res.status(404).json({ message: 'Moneda no encontrada' });
       }
-
+      const nombre_duplicado = await em.findOne(Moneda, { nombre: req.body.nombre });
+      const codigo_iso_duplicado = await em.findOne(Moneda, { codigo_iso: req.body.codigo_iso });
+      if (nombre_duplicado) {
+        return res.status(409).json({ message: 'Las monedas no pueden tener el mismo nombre' });
+      }
+      if (codigo_iso_duplicado) {
+        return res.status(409).json({ message: 'Las monedas no pueden tener el mismo código ISO' });
+      }
       moneda.nombre = req.body.nombre;
       moneda.codigo_iso = req.body.codigo_iso;
       await em.flush();

@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { orm } from '../db/orm.js';
 import { Ajuste } from '../entities/Ajuste.entities.js';
+import { Moneda } from '../entities/Moneda.entities.js';
+import { Caja } from '../entities/Caja.entities.js';
 
 const em = orm.em;
 
@@ -33,6 +35,19 @@ async function getById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     try {
+      const moneda_id = Number(req.body.moneda);
+      const caja_id = Number(req.body.caja);
+      const moneda = await em.findOne(Moneda, moneda_id);
+      const caja = await em.findOne(Caja, caja_id);
+      if (!moneda) {
+        return res.status(404).json({ message: 'Moneda no encontrada' });
+      }
+      if (!caja) {
+        return res.status(404).json({ message: 'Caja no encontrada' });
+      }
+      if (moneda.id !== caja.moneda.id) {
+        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del ajuste' });
+      }
       const ajuste = em.create(Ajuste, req.body);
       await em.flush();
       res.status(201).json({ message: 'Ajuste creado exitosamente', ajuste });
@@ -51,6 +66,19 @@ async function update(req: Request, res: Response) {
       const ajuste = await em.findOne(Ajuste, id);
       if (!ajuste) {
         return res.status(404).json({ message: 'Ajuste no encontrado' });
+      }
+      const moneda_id = Number(req.body.moneda);
+      const caja_id = Number(req.body.caja);
+      const moneda = await em.findOne(Moneda, moneda_id);
+      const caja = await em.findOne(Caja, caja_id);
+      if (!moneda) {
+        return res.status(404).json({ message: 'Moneda no encontrada' });
+      }
+      if (!caja) {
+        return res.status(404).json({ message: 'Caja no encontrada' });
+      }
+      if (moneda.id !== caja.moneda.id) {
+        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del ajuste' });
       }
       ajuste.monto = req.body.monto;
       ajuste.movimiento = req.body.movimiento;
@@ -75,7 +103,7 @@ async function remove(req: Request, res: Response) {
         return res.status(404).json({ message: 'Ajuste no encontrado' });
       }
       await em.removeAndFlush(ajuste);
-      res.status(204).send();
+      res.status(204).send()
     } catch (error: any) {
       res.status(500).json({ message: 'Error al eliminar el ajuste', error });
     }

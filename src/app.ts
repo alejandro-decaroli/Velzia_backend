@@ -51,8 +51,10 @@ app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`);
 })
 
-// Implementar eliminado lógico (soft delete)
-// Que se abra en el navegador para Ivan
-
 // TODO: si se borra una caja se borran todas las entidades relacionadas a ella,
 // que hacer??
+
+// TODO: probar si al modificar cliente o ventas se actualiza estado de cliente
+// TODO: crear una venta para un cliente activo y que no lo permita
+// TODO: agregar validacion de distintos id de cajas en transferencias, en Validations (tasas)
+// TODO: revisar 

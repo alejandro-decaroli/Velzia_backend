@@ -2,7 +2,7 @@
 GET http://localhost:3000/cajas
 
 ### Obtener caja por ID
-GET http://localhost:3000/cajas/2
+GET http://localhost:3000/cajas/1
 
 ### Crear caja
 POST http://localhost:3000/cajas/create
@@ -10,8 +10,9 @@ Content-Type: application/json
 
 {
   "nombre": "ALE_USD",
-  "moneda_id": 1,
-  "siglas": "GZ"
+  "moneda": 1,
+  "siglas": "GZ",
+  "monto": 1000
 }
 
 ### Actualizar caja
@@ -20,7 +21,9 @@ Content-Type: application/json
 
 {
   "nombre": "caja Actualizado",
-  "tipo": "CA"
+  "moneda": 1,
+  "siglas": "GZ",
+  "monto": 1000
 }
 
 ### Eliminar caja

@@ -23,6 +23,7 @@ cajaRouter.post('/create',
 
 cajaRouter.put('/update/:id', 
   idParamValidation, 
+  CajaValidation, 
   handleValidationErrors,
   (req: Request, res: Response) => {update(req, res)}
 );

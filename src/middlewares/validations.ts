@@ -19,21 +19,30 @@ export const CajaValidation = [
     body('nombre')
       .notEmpty().withMessage('Nombre es requerido')
       .isLength({ min: 3 }).withMessage('Nombre muy corto'),
-    body('moneda_id')
+    body('moneda')
       .notEmpty().withMessage('Moneda ID es requerido')
       .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
     body('siglas')
       .notEmpty().withMessage('Siglas son requeridas')
       .isLength({ min: 2 }).withMessage('Siglas muy cortas')
       .isLength({ max: 4 }).withMessage('Siglas muy largas'),
+    body('monto')
+      .notEmpty().withMessage('Monto es requerido')
+      .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
 ];
 
 export const PagoValidation = [
-  body('caja_id')
-    .notEmpty().withMessage('Id es requerido')
-    .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
-  body('monto')
-    .notEmpty().withMessage('Monto es requerido')
+    body('venta')
+      .notEmpty().withMessage('Venta ID es requerido')
+      .isInt({ min: 0 }).withMessage('Venta ID debe ser un número entero'),
+    body('moneda')
+      .notEmpty().withMessage('Moneda ID es requerido')
+      .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
+    body('caja')
+      .notEmpty().withMessage('Caja ID es requerido')
+      .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
+    body('monto')
+      .notEmpty().withMessage('Monto es requerido')
     .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo')
 ];
 
@@ -48,9 +57,12 @@ export const ClienteValidation = [
 ];
 
 export const ajusteValidation = [
-  body('caja_id')
+  body('caja')
     .notEmpty().withMessage('Caja ID es requerido')
     .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
+  body('moneda')
+    .notEmpty().withMessage('Moneda ID es requerido')
+    .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
   body('monto')
     .notEmpty().withMessage('Monto es requerido')
     .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
@@ -60,7 +72,10 @@ export const ajusteValidation = [
 ];
 
 export const aporteDividendoSocioValidation = [
-    body('caja_id')
+    body('moneda')
+      .notEmpty().withMessage('Moneda ID es requerido')
+      .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
+    body('caja')
       .notEmpty().withMessage('Caja ID es requerido')
       .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
     body('monto')
@@ -69,7 +84,10 @@ export const aporteDividendoSocioValidation = [
 ];
 
 export const costoFijoValidation = [
-    body('caja_id')
+    body('moneda')
+      .notEmpty().withMessage('Moneda ID es requerido')
+      .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
+    body('caja')
       .notEmpty().withMessage('Caja ID es requerido')
       .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
     body('monto')
@@ -78,6 +96,24 @@ export const costoFijoValidation = [
     body('adjudicacion')
       .notEmpty().withMessage('Adjudicación es requerida')
       .isString().withMessage('Adjudicación debe ser un string')
+];
+
+export const costoVariableValidation = [
+  body('moneda')
+    .notEmpty().withMessage('Moneda ID es requerido')
+    .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
+  body('caja')
+    .notEmpty().withMessage('Caja ID es requerido')
+    .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
+  body('monto')
+    .notEmpty().withMessage('Monto es requerido')
+    .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
+  body('adjudicacion')
+    .notEmpty().withMessage('Adjudicación es requerida')
+    .isString().withMessage('Adjudicación debe ser un string'),
+  body('venta')
+    .notEmpty().withMessage('Venta es requerida')
+    .isInt({ min: 0 }).withMessage('Venta ID debe ser un número entero'),
 ];
 
 export const monedaValidation = [
@@ -89,3 +125,58 @@ export const monedaValidation = [
     .isLength({ min: 2 }).withMessage('Código ISO muy corto')
     .isLength({ max: 3 }).withMessage('Código ISO muy largo'),
 ];
+
+export const tasaValidation = [
+  body('moneda_origen')
+    .notEmpty().withMessage('Moneda de origen es requerida')
+    .isInt({ min: 0 }).withMessage('Moneda de origen ID debe ser un número entero'),
+  body('moneda_destino')
+    .notEmpty().withMessage('Moneda de destino es requerida')
+    .isInt({ min: 0 }).withMessage('Moneda de destino ID debe ser un número entero'),
+  body('tasa')
+    .notEmpty().withMessage('Tasa es requerida')
+    .isFloat({ min: 0 }).withMessage('Tasa debe ser un número positivo'),
+];
+
+export const transferenciaValidation = [
+  body('moneda')
+    .notEmpty().withMessage('Moneda ID es requerida')
+    .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
+  body('caja_origen')
+    .notEmpty().withMessage('Caja de origen es requerida')
+    .isInt({ min: 0 }).withMessage('Caja de origen ID debe ser un número entero'),
+  body('caja_destino')
+    .notEmpty().withMessage('Caja de destino es requerida')
+    .isInt({ min: 0 }).withMessage('Caja de destino ID debe ser un número entero'),
+  body('monto')
+    .notEmpty().withMessage('Monto es requerido')
+    .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
+];
+
+export const ventaValidation = [
+  body('moneda')
+    .notEmpty().withMessage('Moneda ID es requerida')
+    .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
+  body('monto_ars')
+    .notEmpty().withMessage('Monto ARS es requerido')
+    .isFloat({ min: 0 }).withMessage('Monto ARS debe ser un número positivo'),
+  body('monto_usd')
+    .notEmpty().withMessage('Monto USD es requerido')
+    .isFloat({ min: 0 }).withMessage('Monto USD debe ser un número positivo'),
+  body('costo_mano_obra')
+    .notEmpty().withMessage('Costo mano de obra es requerido')
+    .isFloat({ min: 0 }).withMessage('Costo mano de obra debe ser un número positivo'),
+  body('costo_materiales_viaticos_fletes')
+    .notEmpty().withMessage('Costo materiales, viáticos y fletes es requerido')
+    .isFloat({ min: 0 }).withMessage('Costo materiales, viáticos y fletes debe ser un número positivo'),
+  body('costo_comision')
+    .notEmpty().withMessage('Costo comisión es requerido')
+    .isFloat({ min: 0 }).withMessage('Costo comisión debe ser un número positivo'),
+  body('cliente')
+    .notEmpty().withMessage('Cliente ID es requerido')
+    .isInt({ min: 0 }).withMessage('Cliente ID debe ser un número entero'),
+  body('estado')
+    .notEmpty().withMessage('Estado es requerido')
+    .isBoolean().withMessage('Estado debe ser un booleano'),
+];
+    

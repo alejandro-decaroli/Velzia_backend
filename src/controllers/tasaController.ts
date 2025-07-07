@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { orm } from '../db/orm.js';
 import { Tasa } from '../entities/Tasa.entities.js';
+import { Moneda } from '../entities/Moneda.entities.js';
 
 const em = orm.em;
 
@@ -33,6 +34,16 @@ async function getById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     try {
+      const moneda_origen_id = Number(req.body.moneda_origen);
+      const moneda_destino_id = Number(req.body.moneda_destino);
+      const moneda_origen = await em.findOne(Moneda, moneda_origen_id);
+      const moneda_destino = await em.findOne(Moneda, moneda_destino_id);
+      if (!moneda_origen || !moneda_destino) {
+        return res.status(404).json({ message: 'Moneda de origen o destino no encontrada' });
+      }
+      if (moneda_origen_id === moneda_destino_id) {
+        return res.status(400).json({ message: 'Moneda de origen y destino no pueden ser la misma' });
+      }
       const tasa = em.create(Tasa, req.body);
       await em.flush();
       res.status(201).json({ message: 'Tasa creada exitosamente', tasa });
@@ -52,12 +63,19 @@ async function update(req: Request, res: Response) {
       if (!tasa) {
         return res.status(404).json({ message: 'Tasa no encontrada' });
       }
-
-      tasa.fecha_vigencia = req.body.fecha_vigencia;
+      const moneda_origen_id = Number(req.body.moneda_origen);
+      const moneda_destino_id = Number(req.body.moneda_destino);
+      const moneda_origen = await em.findOne(Moneda, moneda_origen_id);
+      const moneda_destino = await em.findOne(Moneda, moneda_destino_id);
+      if (!moneda_origen || !moneda_destino) {
+        return res.status(404).json({ message: 'Moneda de origen o destino no encontrada' });
+      }
+      if (moneda_origen_id === moneda_destino_id) {
+        return res.status(400).json({ message: 'Moneda de origen y destino no pueden ser la misma' });
+      }
       tasa.tasa = req.body.tasa;
-      tasa.activa = req.body.activa;
-      tasa.moneda_origen = req.body.moneda_origen;
-      tasa.moneda_destino = req.body.moneda_destino;
+      tasa.moneda_origen = moneda_origen;
+      tasa.moneda_destino = moneda_destino;
       await em.flush();
       res.status(201).json({ message: 'Tasa actualizada exitosamente', tasa });
     } catch (error: any) {

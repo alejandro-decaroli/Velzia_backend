@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { orm } from '../db/orm.js';
 import { Aporte } from '../entities/Aporte.entities.js';
+import { Moneda } from '../entities/Moneda.entities.js';
+import { Caja } from '../entities/Caja.entities.js';
 
 const em = orm.em;
 
@@ -19,7 +21,17 @@ async function getById(req: Request, res: Response) {
       if (isNaN(id)) {
         return res.status(400).json({ message: 'ID inválido' });
       }
-
+      const moneda = await em.findOne(Moneda, req.body.moneda);
+      const caja = await em.findOne(Caja, req.body.caja);
+      if (!moneda) {
+        return res.status(404).json({ message: 'Moneda no encontrada' });
+      }
+      if (!caja) {
+        return res.status(404).json({ message: 'Caja no encontrada' });
+      }
+      if (moneda.id !== caja.moneda.id) {
+        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del aporte de socio' });
+      }
       const aporteSocio = await em.findOne(Aporte, id);
       if (!aporteSocio) {
         return res.status(404).json({ message: 'Aporte socio no encontrado' });
@@ -47,14 +59,23 @@ async function update(req: Request, res: Response) {
       if (isNaN(id)) {
         return res.status(400).json({ message: 'ID inválido' });
       }
-
+      const moneda = await em.findOne(Moneda, req.body.moneda);
+      const caja = await em.findOne(Caja, req.body.caja);
+      if (!moneda) {
+        return res.status(404).json({ message: 'Moneda no encontrada' });
+      }
+      if (!caja) {
+        return res.status(404).json({ message: 'Caja no encontrada' });
+      }
+      if (moneda.id !== caja.moneda.id) {
+        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del aporte de socio' });
+      }
       const aporteSocio = await em.findOne(Aporte, id);
       if (!aporteSocio) {
         return res.status(404).json({ message: 'Aporte socio no encontrado' });
       }
 
       aporteSocio.monto = req.body.monto;
-      aporteSocio.aporte = req.body.aporte;
       aporteSocio.moneda = req.body.moneda;
       aporteSocio.caja = req.body.caja;
       await em.flush();

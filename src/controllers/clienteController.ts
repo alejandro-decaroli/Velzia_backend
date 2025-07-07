@@ -34,7 +34,15 @@ async function getById(req: Request, res: Response) {
   }
 
 async function create(req: Request, res: Response) {
-      try {
+      try { 
+        const nombre_duplicado = await em.findOne(Cliente, { nombre: req.body.nombre });
+        const siglas_duplicadas = await em.findOne(Cliente, { siglas: req.body.siglas });
+        if (nombre_duplicado) {
+          return res.status(409).json({ message: 'Los clientes no pueden tener el mismo nombre' });
+        }
+        if (siglas_duplicadas) {
+          return res.status(409).json({ message: 'Los clientes no pueden tener las mismas siglas' });
+        }
         const cliente = em.create(Cliente, req.body);
         await em.flush();
         res.status(201).json({ message: 'Cliente creado exitosamente', cliente });
@@ -52,6 +60,14 @@ async function update(req: Request, res: Response) {
         const cliente = await em.findOne(Cliente, id);
         if (!cliente) {
           return res.status(404).json({ message: 'Cliente no encontrado' });
+        }
+        const nombre_duplicado = await em.findOne(Cliente, { nombre: req.body.nombre });
+        const siglas_duplicadas = await em.findOne(Cliente, { siglas: req.body.siglas });
+        if (nombre_duplicado) {
+          return res.status(409).json({ message: 'Los clientes no pueden tener el mismo nombre' });
+        }
+        if (siglas_duplicadas) {
+          return res.status(409).json({ message: 'Los clientes no pueden tener las mismas siglas' });
         }
         cliente.nombre = req.body.nombre;
         cliente.siglas = req.body.siglas;
@@ -73,7 +89,7 @@ async function remove(req: Request, res: Response) {
           return res.status(404).json({ message: 'Cliente no encontrado' });
         }
         await em.removeAndFlush(cliente);
-        res.status(204).json({ message: 'Cliente eliminado exitosamente' });
+        res.status(204).send();
       } catch (error: any) {
         res.status(500).json({ message: 'Error al eliminar el cliente', error });
       }

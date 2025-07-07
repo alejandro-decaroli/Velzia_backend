@@ -2,15 +2,15 @@
 GET http://localhost:3000/clientes
 
 ### Obtener cliente por ID
-GET http://localhost:3000/clientes/5
+GET http://localhost:3000/clientes/3
 
 ### Crear cliente
 POST http://localhost:3000/clientes/create
 Content-Type: application/json
 
 {
-  "nombre": "Ailen",
-  "siglas": "AI"
+  "nombre": "pepe2",
+  "siglas": "PP2"
 }
 
 ### Actualizar cliente
@@ -23,4 +23,4 @@ Content-Type: application/json
 }
 
 ### Eliminar cliente
-DELETE http://localhost:3000/clientes/delete/1
+DELETE http://localhost:3000/clientes/delete/5

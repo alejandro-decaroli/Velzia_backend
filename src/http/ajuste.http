@@ -9,10 +9,10 @@ POST http://localhost:3000/ajustes/create
 Content-Type: application/json
 
 {
-  "caja_id": 1,
-  "monto": 100.00,
+  "moneda": 1,
+  "caja": 1,
   "movimiento": "Negativo",
-  "moneda_id": 1
+  "monto": 100.00
 }
 
 ### Actualizar ajuste
@@ -20,11 +20,11 @@ PUT http://localhost:3000/ajustes/update/3
 Content-Type: application/json
 
 {
-  "caja_id": 1,
-  "monto": 100.00,
+  "moneda": 1,
+  "caja": 1,
   "movimiento": "Positivo",
-  "moneda_id": 1
+  "monto": 100.00
 }
 
 ### Eliminar ajuste
-DELETE http://localhost:3000/ajustes/delete/3
+DELETE http://localhost:3000/ajustes/delete/1
