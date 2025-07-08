@@ -30,7 +30,7 @@ async function getById(req: Request, res: Response) {
         return res.status(404).json({ message: 'Caja no encontrada' });
       }
       if (moneda.id !== caja.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del aporte de socio' });
+        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del aporte de socio' });
       }
       const aporteSocio = await em.findOne(Aporte, id);
       if (!aporteSocio) {
@@ -68,7 +68,7 @@ async function update(req: Request, res: Response) {
         return res.status(404).json({ message: 'Caja no encontrada' });
       }
       if (moneda.id !== caja.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del aporte de socio' });
+        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del aporte de socio' });
       }
       const aporteSocio = await em.findOne(Aporte, id);
       if (!aporteSocio) {

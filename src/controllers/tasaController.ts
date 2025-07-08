@@ -42,7 +42,7 @@ async function create(req: Request, res: Response) {
         return res.status(404).json({ message: 'Moneda de origen o destino no encontrada' });
       }
       if (moneda_origen_id === moneda_destino_id) {
-        return res.status(400).json({ message: 'Moneda de origen y destino no pueden ser la misma' });
+        return res.status(409).json({ message: 'Moneda de origen y destino no pueden ser la misma' });
       }
       const tasa = em.create(Tasa, req.body);
       await em.flush();
@@ -71,7 +71,7 @@ async function update(req: Request, res: Response) {
         return res.status(404).json({ message: 'Moneda de origen o destino no encontrada' });
       }
       if (moneda_origen_id === moneda_destino_id) {
-        return res.status(400).json({ message: 'Moneda de origen y destino no pueden ser la misma' });
+        return res.status(409).json({ message: 'Moneda de origen y destino no pueden ser la misma' });
       }
       tasa.tasa = req.body.tasa;
       tasa.moneda_origen = moneda_origen;

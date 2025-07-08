@@ -49,10 +49,10 @@ async function create(req: Request, res: Response) {
         return res.status(404).json({ message: 'Venta no encontrada' });
       }
       if (moneda.id !== caja.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda de la venta' });
+        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda de la venta' });
       }
       if (moneda.id !== venta.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la venta no coincide con la moneda de la venta' });
+        return res.status(409).json({ message: 'Moneda de la venta no coincide con la moneda de la venta' });
       }
       const pago = em.create(Pago, req.body);
       await em.flush();
@@ -86,10 +86,10 @@ async function update(req: Request, res: Response) {
         return res.status(404).json({ message: 'Venta no encontrada' });
       }
       if (moneda.id !== caja.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda de la venta' });
+        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda de la venta' });
       }
       if (moneda.id !== venta.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la venta no coincide con la moneda de la venta' });
+        return res.status(409).json({ message: 'Moneda de la venta no coincide con la moneda de la venta' });
       }
       pago.monto = req.body.monto;
       pago.caja = caja;

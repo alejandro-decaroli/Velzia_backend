@@ -4,6 +4,7 @@ import { Ajuste } from '../entities/Ajuste.entities.js';
 import { Moneda } from '../entities/Moneda.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
 
+
 const em = orm.em;
 
 
@@ -46,7 +47,7 @@ async function create(req: Request, res: Response) {
         return res.status(404).json({ message: 'Caja no encontrada' });
       }
       if (moneda.id !== caja.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del ajuste' });
+        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del ajuste' });
       }
       const ajuste = em.create(Ajuste, req.body);
       await em.flush();
@@ -78,7 +79,7 @@ async function update(req: Request, res: Response) {
         return res.status(404).json({ message: 'Caja no encontrada' });
       }
       if (moneda.id !== caja.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del ajuste' });
+        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del ajuste' });
       }
       ajuste.monto = req.body.monto;
       ajuste.movimiento = req.body.movimiento;

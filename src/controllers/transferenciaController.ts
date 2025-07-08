@@ -51,10 +51,10 @@ async function create(req: Request, res: Response) {
         return res.status(400).json({ message: 'Caja de origen y caja de destino no pueden ser iguales' });
       }
       if (moneda.id !== caja_origen.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja de origen no coincide con la moneda de la transferencia' });
+        return res.status(409).json({ message: 'Moneda de la caja de origen no coincide con la moneda de la transferencia' });
       }
       if (moneda.id !== caja_destino.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja de destino no coincide con la moneda de la transferencia' });
+        return res.status(409).json({ message: 'Moneda de la caja de destino no coincide con la moneda de la transferencia' });
       }
       const transferencia = em.create(Transferencia, req.body);
       await em.flush();
@@ -86,10 +86,10 @@ async function update(req: Request, res: Response) {
         return res.status(400).json({ message: 'Caja de origen y caja de destino no pueden ser iguales' });
       }
       if (moneda.id !== caja_origen.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja de origen no coincide con la moneda de la transferencia' });
+        return res.status(409).json({ message: 'Moneda de la caja de origen no coincide con la moneda de la transferencia' });
       }
       if (moneda.id !== caja_destino.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja de destino no coincide con la moneda de la transferencia' });
+        return res.status(409).json({ message: 'Moneda de la caja de destino no coincide con la moneda de la transferencia' });
       }
       const transferencia = await em.findOne(Transferencia, id);
       if (!transferencia) {

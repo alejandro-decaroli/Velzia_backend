@@ -2,7 +2,7 @@
 GET http://localhost:3000/ajustes
 
 ### Obtener ajuste por ID
-GET http://localhost:3000/ajustes/1
+GET http://localhost:3000/ajustes/2
 
 ### Crear ajuste
 POST http://localhost:3000/ajustes/create

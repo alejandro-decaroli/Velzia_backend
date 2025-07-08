@@ -44,7 +44,7 @@ async function create(req: Request, res: Response) {
         return res.status(404).json({ message: 'Caja no encontrada' });
       }
       if (moneda.id !== caja.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del dividendo' });
+        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del dividendo' });
       }
       const dividendo = em.create(Dividendo, req.body);
       await em.flush();
@@ -74,7 +74,7 @@ async function update(req: Request, res: Response) {
         return res.status(404).json({ message: 'Caja no encontrada' });
       }
       if (moneda.id !== caja.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del dividendo' });
+        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del dividendo' });
       }
       dividendo.monto = req.body.monto;
       dividendo.moneda = req.body.moneda;

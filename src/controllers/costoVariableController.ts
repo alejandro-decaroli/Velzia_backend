@@ -49,10 +49,10 @@ async function create(req: Request, res: Response) {
         return res.status(404).json({ message: 'Caja no encontrada' });
       }
       if (moneda.id !== venta.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la venta no coincide con la moneda del costo variable' });
+        return res.status(409).json({ message: 'Moneda de la venta no coincide con la moneda del costo variable' });
       }
       if (moneda.id !== caja.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del costo variable' });
+        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del costo variable' });
       }
       const costoVariable = em.create(CostoVariable, req.body);
       await em.flush();
@@ -81,10 +81,10 @@ async function update(req: Request, res: Response) {
         return res.status(404).json({ message: 'Caja no encontrada' });
       }
       if (moneda.id !== venta.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la venta no coincide con la moneda del costo variable' });
+        return res.status(409).json({ message: 'Moneda de la venta no coincide con la moneda del costo variable' });
       }
       if (moneda.id !== caja.moneda.id) {
-        return res.status(400).json({ message: 'Moneda de la caja no coincide con la moneda del costo variable' });
+        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del costo variable' });
       }
       const costoVariable = await em.findOne(CostoVariable, id);
       if (!costoVariable) {
