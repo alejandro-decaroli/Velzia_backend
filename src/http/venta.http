@@ -9,14 +9,14 @@ POST http://localhost:3000/ventas/create
 Content-Type: application/json
 
 {
-  "cliente_id": 1,
+  "cliente": 1,
   "monto_ars": 1000,
   "costo_mano_obra": 100,
   "costo_materiales_viaticos_fletes": 50,
   "costo_comision": 20,
   "monto_usd": 1000,
-  "moneda_id": 1,
-  "estado_venta": "Activo"
+  "moneda": 1,
+  "estado": true
 }
 
 ### Actualizar venta
@@ -24,14 +24,14 @@ PUT http://localhost:3000/ventas/update/1
 Content-Type: application/json
 
 {
-  "cliente_id": 10,
+  "cliente": 10,
   "monto_ars": 1000,
   "costo_mano_obra": 100,
   "costo_materiales_viaticos_fletes": 50,
   "costo_comision": 20,
   "monto_usd": 1000,
-  "moneda_id": 1,
-  "estado_venta": "Activo"
+  "moneda": 1,
+  "estado": true
 }
 
 ### Eliminar venta

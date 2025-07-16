@@ -9,10 +9,10 @@ POST http://localhost:3000/transferencias/create
 Content-Type: application/json
 
 {
-  "caja_origen_id": 1,
-  "caja_destino_id": 2,
+  "caja_origen": 1,
+  "caja_destino": 2,
   "monto": 1000,
-  "moneda_id": 1
+  "moneda": 1
 }
 
 ### Actualizar transferencia
@@ -20,9 +20,10 @@ PUT http://localhost:3000/transferencias/update/1
 Content-Type: application/json
 
 {
-  "caja_origen_id": 2,
-  "caja_destino_id": 1,
-  "monto": 1000
+  "caja_origen": 2,
+  "caja_destino": 1,
+  "monto": 1000,
+  "moneda": 1
 }
 
 ### Eliminar transferencia
