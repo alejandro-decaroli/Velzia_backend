@@ -11,8 +11,6 @@ Content-Type: application/json
 {
   "caja": 1,
   "monto": 100,
-  "moneda": 1
-  //"aporte": "Aporte"
 }
 
 ### Actualizar aporte
@@ -22,8 +20,6 @@ Content-Type: application/json
 {
   "caja": 1,
   "monto": 100,
-  "moneda": 1
-  //"aporte": "Aporte"
 }
 
 ### Eliminar aporte
