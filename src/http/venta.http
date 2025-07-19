@@ -9,14 +9,12 @@ POST http://localhost:3000/ventas/create
 Content-Type: application/json
 
 {
-  "cliente": 1,
-  "monto_ars": 1000,
+  "cliente": 2,
+  "monto": 1000,
   "costo_mano_obra": 100,
   "costo_materiales_viaticos_fletes": 50,
   "costo_comision": 20,
-  "monto_usd": 1000,
-  "moneda": 1,
-  "estado": true
+  "moneda": 1
 }
 
 ### Actualizar venta

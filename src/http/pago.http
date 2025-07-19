@@ -11,7 +11,7 @@ Content-Type: application/json
 {
   "moneda": 1,
   "venta": 1,
-  "caja": 2,
+  "caja": 3,
   "monto": 300.0
 }
 

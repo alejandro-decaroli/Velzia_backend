@@ -1,98 +1,52 @@
 import { Request, Response } from 'express';
-import { orm } from '../db/orm.js';
-import { Moneda } from '../entities/Moneda.entities.js';
-
-const em = orm.em;
+import { createMoneda, getAllMoneda, getByIdMoneda, removeMoneda, updateMoneda } from '../services/monedaService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
-      const monedas = await em.find(Moneda, {});
-      res.status(200).json({ message: 'Monedas obtenidas exitosamente', monedas });
-    } catch (error) {
+      const moneda = await getAllMoneda();
+      res.status(200).json({ message: 'Monedas obtenidas exitosamente', moneda });
+    } catch (error:any) {
       res.status(500).json({ error: 'Error al obtener las monedas' });
     }
 }
 
 async function getById(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-
-      const moneda = await em.findOne(Moneda, id);
-      if (!moneda) {
-        return res.status(404).json({ message: 'Moneda no encontrada' });
-      }
-
+      const moneda = await getByIdMoneda(req.body, Number(req.params.id));
       res.status(200).json({ message: 'Moneda encontrada exitosamente', moneda });
     } catch (error: any) {
-      res.status(500).json({ message: 'Error al obtener la moneda', error });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function create(req: Request, res: Response) {
     try {
-      const nombre_duplicado = await em.findOne(Moneda, { nombre: req.body.nombre });
-      const codigo_iso_duplicado = await em.findOne(Moneda, { codigo_iso: req.body.codigo_iso });
-      if (nombre_duplicado) {
-        return res.status(409).json({ message: 'Las monedas no pueden tener el mismo nombre' });
-      }
-      if (codigo_iso_duplicado) {
-        return res.status(409).json({ message: 'Las monedas no pueden tener el mismo código ISO' });
-      }
-      const moneda = em.create(Moneda, req.body);
-      await em.flush();
-      res.status(201).json({ message: 'Moneda creada exitosamente', moneda });
-    } catch (error) {
-      res.status(500).json({ message: 'Error al crear la moneda', error });
+      const moneda = await createMoneda(req.body);
+      res.status(201).json({ message: 'Moneda creada exitosamente'});
+    } catch (error:any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function update(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-
-      const moneda = await em.findOne(Moneda, id);
-      if (!moneda) {
-        return res.status(404).json({ message: 'Moneda no encontrada' });
-      }
-      const nombre_duplicado = await em.findOne(Moneda, { nombre: req.body.nombre });
-      const codigo_iso_duplicado = await em.findOne(Moneda, { codigo_iso: req.body.codigo_iso });
-      if (nombre_duplicado) {
-        return res.status(409).json({ message: 'Las monedas no pueden tener el mismo nombre' });
-      }
-      if (codigo_iso_duplicado) {
-        return res.status(409).json({ message: 'Las monedas no pueden tener el mismo código ISO' });
-      }
-      moneda.nombre = req.body.nombre;
-      moneda.codigo_iso = req.body.codigo_iso;
-      await em.flush();
-      res.status(201).json({ message: 'Moneda actualizada exitosamente', moneda });
+      const moneda = await updateMoneda(req.body, Number(req.params.id));
+      res.status(201).json({ message: 'Moneda actualizada exitosamente'});
     } catch (error: any) {
-      res.status(500).json({ message: 'Error al actualizar la moneda', error });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function remove(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-
-      const moneda = await em.findOne(Moneda, id);
-      if (!moneda) {
-        return res.status(404).json({ message: 'Moneda no encontrada' });
-      }
-
-      await em.removeAndFlush(moneda);
+      const moneda = await removeMoneda(req.body, Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {
-      res.status(500).json({ error: 'Error al eliminar la moneda' });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 

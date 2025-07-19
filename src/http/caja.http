@@ -9,14 +9,14 @@ POST http://localhost:3000/cajas/create
 Content-Type: application/json
 
 {
-  "nombre": "ALE_USD",
-  "moneda": 1,
-  "siglas": "GZ",
+  "nombre": "GZ_ARS",
+  "moneda": 2,
+  "siglas": "AAL",
   "monto": 1000
 }
 
 ### Actualizar caja
-PUT http://localhost:3000/cajas/update/1
+PUT http://localhost:3000/cajas/update/2
 Content-Type: application/json
 
 {

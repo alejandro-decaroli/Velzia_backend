@@ -13,7 +13,7 @@ Content-Type: application/json
   //"cliente_id": 1,
   "adjudicacion": "Adjudicacion",
   "monto": 100,
-  "moneda": 1,
+  "moneda": 2,
   "venta": 1
 }
 

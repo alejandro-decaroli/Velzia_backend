@@ -15,9 +15,9 @@ export class Cliente extends BaseEntity {
   ventas = new Collection<Venta>(this);
 
   @Property({default: 'terminado', nullable: true})
-  estado:'terminado' | 'activo' = this.getEstado();
+  estado:'terminado' | 'activo' = 'terminado'
 
-  getEstado() {
+  /*getEstado() {
     if (this.ventas.length === 0) {
       return 'terminado';
     }
@@ -27,5 +27,5 @@ export class Cliente extends BaseEntity {
       }
     }
     return 'terminado';
-  }
+  }*/
 }

@@ -10,9 +10,8 @@ Content-Type: application/json
 
 {
   "caja_origen": 1,
-  "caja_destino": 2,
-  "monto": 1000,
-  "moneda": 1
+  "caja_destino": 3,
+  "monto": 500
 }
 
 ### Actualizar transferencia

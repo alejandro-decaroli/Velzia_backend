@@ -1,0 +1,68 @@
+import { orm } from '../db/orm.js';
+import { Cliente } from '../entities/Cliente.entities.js';
+import createError from 'http-errors';
+const { BadRequest, NotFound, Conflict } = createError;
+
+const em = orm.em;
+
+export async function getAllClientes() {
+  const clientes = await em.find(Cliente, {});
+  return clientes;
+}
+
+export async function getByIdCliente(data:any, id:number) {
+  if (isNaN(id)) {
+    throw new BadRequest('El ID no puede ser nulo');
+  }
+  const cliente = await em.findOne(Cliente, id);
+  if (!cliente) {
+    throw new NotFound('Cliente no encontrado');
+  }
+
+  return cliente;
+}
+
+export async function createCliente(data:any) {
+  const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre });
+  const siglas_duplicadas = await em.findOne(Cliente, { siglas: data.siglas });
+  if (nombre_duplicado) {
+    throw new Conflict('Los clientes no pueden tener el mismo nombre');
+  }
+  if (siglas_duplicadas) {
+    throw new Conflict('Los clientes no pueden tener las mismas siglas');
+  }
+  await em.create(Cliente, data);
+  await em.flush();
+}
+
+export async function updateCliente(data:any, id:number) {
+  if (isNaN(id)) {
+    throw new BadRequest('El ID no puede ser nulo');
+  }
+  const cliente = await em.findOne(Cliente, id);
+  if (!cliente) {
+    throw new NotFound('Cliente no encontrado');
+  }
+  const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre });
+  const siglas_duplicadas = await em.findOne(Cliente, { siglas: data.siglas });
+  if (nombre_duplicado) {
+    throw new Conflict('Los clientes no pueden tener el mismo nombre');
+  }
+  if (siglas_duplicadas) {
+    throw new Conflict('Los clientes no pueden tener las mismas siglas');
+  }
+  cliente.nombre = data.nombre;
+  cliente.siglas = data.siglas;
+  await em.flush();
+}
+
+export async function removeCliente(data:any, id:number) {
+  if (isNaN(id)) {
+    throw new BadRequest('ID inválido');
+  }
+  const cliente = await em.findOne(Cliente, id);
+  if (!cliente) {
+    throw new NotFound('Cliente no encontrado');
+  }
+  await em.removeAndFlush(cliente);
+}

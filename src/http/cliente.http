@@ -2,7 +2,7 @@
 GET http://localhost:3000/clientes
 
 ### Obtener cliente por ID
-GET http://localhost:3000/clientes/3
+GET http://localhost:3000/clientes/1
 
 ### Crear cliente
 POST http://localhost:3000/clientes/create
