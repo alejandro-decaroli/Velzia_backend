@@ -57,4 +57,5 @@ app.listen(PORT, () => {
 // TODO: probar si al modificar cliente o ventas se actualiza estado de cliente
 // TODO: crear una venta para un cliente activo y que no lo permita
 // TODO: agregar validacion de distintos id de cajas en transferencias, en Validations (tasas)
-// TODO: revisar 
+
+

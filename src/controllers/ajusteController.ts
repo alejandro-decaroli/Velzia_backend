@@ -3,7 +3,7 @@ import { orm } from '../db/orm.js';
 import { Ajuste } from '../entities/Ajuste.entities.js';
 import { Moneda } from '../entities/Moneda.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
-
+import { BadRequest } from 'http-errors';
 
 const em = orm.em;
 
@@ -26,7 +26,7 @@ async function getById(req: Request, res: Response) {
 
       const ajuste = await em.findOne(Ajuste, id);
       if (!ajuste) {
-        return res.status(404).json({ message: 'Ajuste no encontrado' });
+        throw new BadRequest('Ajuste no encontrado');
       }
       res.status(200).json({ message: 'Ajuste obtenido exitosamente', ajuste });
     } catch (error: any) {
