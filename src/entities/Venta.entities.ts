@@ -18,10 +18,7 @@ export class Venta extends BaseEntity {
     costos_variables = new Collection<CostoVariable>(this);
 
     @Property({ type: 'numeric', nullable: false })
-    monto_ars!: number;
-    
-    @Property({ type: 'numeric', nullable: false })
-    monto_usd!: number;
+    monto!: number;
     
     @Property({ type: 'numeric', nullable: false })
     costo_mano_obra!: number;
@@ -35,6 +32,6 @@ export class Venta extends BaseEntity {
     @ManyToOne('Cliente', {nullable: false})
     cliente!: Cliente;
 
-    @Property({ default: true, nullable: false })
-    estado!: boolean;
+    @Property({ default: false, nullable: true })
+    estado?: boolean;
 }   

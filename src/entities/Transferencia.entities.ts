@@ -1,12 +1,9 @@
 import { Entity, Property, ManyToOne } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.entities.js";
-import { Moneda } from "./Moneda.entities.js";
 import { Caja } from "./Caja.entities.js";
 
 @Entity()
 export class Transferencia extends BaseEntity {
-    @ManyToOne('Moneda', { nullable: false })
-    moneda!: Moneda;
 
     @ManyToOne('Caja', { nullable: false })
     caja_origen!: Caja;

@@ -9,8 +9,11 @@ POST http://localhost:3000/tasas/create
 Content-Type: application/json
 
 {
-  "tasa_actual": 1.0,
-  "tasa_nueva": 2.0
+  //"tasa_actual": 1.0,
+  //"tasa_nueva": 2.0
+  "moneda_origen": 1 ,
+  "moneda_destino": 2,
+  "tasa": 1
 }
 
 ### Actualizar tasa
@@ -18,8 +21,11 @@ PUT http://localhost:3000/tasas/update/1
 Content-Type: application/json
 
 {
-  "tasa_actual": 1.0,
-  "tasa_nueva": 3.0
+  //"tasa_actual": 1.0,
+  //"tasa_nueva": 3.0
+  "moneda_origen": 1 ,
+  "moneda_destino": 2,
+  "tasa": 1
 }
 
 ### Eliminar tasa

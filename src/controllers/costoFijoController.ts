@@ -1,14 +1,9 @@
 import { Request, Response } from 'express';
-import { orm } from '../db/orm.js';
-import { CostoFijo } from '../entities/Costofijo.entities.js';
-import { Caja } from '../entities/Caja.entities.js';
-import { Moneda } from '../entities/Moneda.entities.js';
-
-const em = orm.em;
+import { createCostoFijo, getAllCostosFijos, getByIdCostoFijo, removeCostoFijo, updateCostoFijo } from '../services/costoFijoService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
-      const costosFijos = await em.find(CostoFijo, {});
+      const costosFijos = await getAllCostosFijos();
       res.status(200).json({ message: 'Costos fijos obtenidos exitosamente', costosFijos });
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener los costos fijos' });
@@ -17,92 +12,41 @@ async function getAll(req: Request, res: Response) {
 
 async function getById(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-
-      const costoFijo = await em.findOne(CostoFijo, id);
-      if (!costoFijo) {
-        return res.status(404).json({ message: 'Costo fijo no encontrado' });
-      }
-
+      const costoFijo = await getByIdCostoFijo(req.body, Number(req.params.id));
       res.status(200).json({ message: 'Costo fijo encontrado exitosamente', costoFijo });
     } catch (error: any) {
-      res.status(500).json({ message: 'Error al obtener el costo fijo', error });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function create(req: Request, res: Response) {
     try {
-      const moneda = await em.findOne(Moneda, req.body.moneda);
-      const caja = await em.findOne(Caja, req.body.caja);
-      if (!moneda) {
-        return res.status(404).json({ message: 'Moneda no encontrada' });
-      }
-      if (!caja) {
-        return res.status(404).json({ message: 'Caja no encontrada' });
-      }
-      if (moneda.id !== caja.moneda.id) {
-        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del costo fijo' });
-      }
-      const costoFijo = em.create(CostoFijo, req.body);
-      await em.flush();
-      res.status(201).json({ message: 'Costo fijo creado exitosamente', costoFijo });
-    } catch (error) {
-      res.status(500).json({ message: 'Error al crear el costo fijo', error });
+      const costoFijo = await createCostoFijo(req.body);
+      res.status(201).json({ message: 'Costo fijo creado exitosamente'});
+    } catch (error:any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function update(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-      const moneda = await em.findOne(Moneda, req.body.moneda);
-      const caja = await em.findOne(Caja, req.body.caja);
-      if (!moneda) {
-        return res.status(404).json({ message: 'Moneda no encontrada' });
-      }
-      if (!caja) {
-        return res.status(404).json({ message: 'Caja no encontrada' });
-      }
-      if (moneda.id !== caja.moneda.id) {
-        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del costo fijo' });
-      }
-
-      const costoFijo = await em.findOne(CostoFijo, id);
-      if (!costoFijo) {
-        return res.status(404).json({ message: 'Costo fijo no encontrado' });
-      }
-      costoFijo.adjudicacion = req.body.adjudicacion;
-      costoFijo.caja = req.body.caja;
-      costoFijo.monto = req.body.monto;
-      costoFijo.moneda = req.body.moneda;
-      await em.flush();
-      res.status(201).json({ message: 'Costo fijo actualizado exitosamente', costoFijo });
+      const costoFijo = await updateCostoFijo(req.body, Number(req.params.id));
+      res.status(201).json({ message: 'Costo fijo actualizado exitosamente'});
     } catch (error: any) {
-      res.status(500).json({ message: 'Error al actualizar el costo fijo', error });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function remove(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-
-      const costoFijo = await em.findOne(CostoFijo, id);
-      if (!costoFijo) {
-        return res.status(404).json({ message: 'Costo fijo no encontrado' });
-      }
-
-      await em.removeAndFlush(costoFijo);
+      await removeCostoFijo(req.body, Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {
-      res.status(500).json({ error: 'Error al eliminar el costo fijo' });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 

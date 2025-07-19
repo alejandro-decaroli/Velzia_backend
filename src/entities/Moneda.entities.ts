@@ -6,7 +6,6 @@ import { CostoFijo } from "./Costofijo.entities.js";
 import { CostoVariable } from "./Costovariable.entities.js";
 import { Aporte } from "./Aporte.entities.js";
 import { Dividendo } from "./Dividendo.entities.js";
-import { Transferencia } from "./Transferencia.entities.js";
 import { Tasa } from "./Tasa.entities.js";
 
 @Entity()
@@ -35,9 +34,6 @@ export class Moneda extends BaseEntity {
 
     @OneToMany('Dividendo', 'moneda', { nullable: true })
     dividendos = new Collection<Dividendo>(this);
-
-    @OneToMany('Transferencia', 'moneda', { nullable: true })
-    transferencias = new Collection<Transferencia>(this);
 
     @OneToMany('Tasa', 'moneda_origen', { nullable: true })
     tasas_origen = new Collection<Tasa>(this);

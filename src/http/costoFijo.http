@@ -9,10 +9,10 @@ POST http://localhost:3000/costos_fijos/create
 Content-Type: application/json
 
 {
-  "caja_id": 1,
+  "caja": 1,
   "adjudicacion": "NC",
   "monto": 100,
-  "moneda_id": 1
+  "moneda": 1
 }
 
 ### Actualizar costos fijos
@@ -20,10 +20,10 @@ PUT http://localhost:3000/costos_fijos/update/5
 Content-Type: application/json
 
 {
-  "caja_id": 2,
+  "caja": 2,
   "adjudicacion": "Cliente Actualizado",
   "monto": 200,
-  "moneda_id": 1
+  "moneda": 1
 }
 
 ### Eliminar costos fijos

@@ -9,10 +9,10 @@ POST http://localhost:3000/aportes_socio/create
 Content-Type: application/json
 
 {
-  "caja_id": 1,
+  "caja": 1,
   "monto": 100,
-  "moneda_id": 1,
-  "aporte": "Aporte"
+  "moneda": 1
+  //"aporte": "Aporte"
 }
 
 ### Actualizar aporte
@@ -20,10 +20,10 @@ PUT http://localhost:3000/aportes_socio/update/1
 Content-Type: application/json
 
 {
-  "caja_id": 1,
+  "caja": 1,
   "monto": 100,
-  "moneda_id": 1,
-  "aporte": "Aporte"
+  "moneda": 1
+  //"aporte": "Aporte"
 }
 
 ### Eliminar aporte

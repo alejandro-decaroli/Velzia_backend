@@ -139,9 +139,6 @@ export const tasaValidation = [
 ];
 
 export const transferenciaValidation = [
-  body('moneda')
-    .notEmpty().withMessage('Moneda ID es requerida')
-    .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
   body('caja_origen')
     .notEmpty().withMessage('Caja de origen es requerida')
     .isInt({ min: 0 }).withMessage('Caja de origen ID debe ser un número entero'),
@@ -157,12 +154,9 @@ export const ventaValidation = [
   body('moneda')
     .notEmpty().withMessage('Moneda ID es requerida')
     .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
-  body('monto_ars')
-    .notEmpty().withMessage('Monto ARS es requerido')
-    .isFloat({ min: 0 }).withMessage('Monto ARS debe ser un número positivo'),
-  body('monto_usd')
-    .notEmpty().withMessage('Monto USD es requerido')
-    .isFloat({ min: 0 }).withMessage('Monto USD debe ser un número positivo'),
+  body('monto')
+    .notEmpty().withMessage('Monto es requerido')
+    .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
   body('costo_mano_obra')
     .notEmpty().withMessage('Costo mano de obra es requerido')
     .isFloat({ min: 0 }).withMessage('Costo mano de obra debe ser un número positivo'),
@@ -175,8 +169,5 @@ export const ventaValidation = [
   body('cliente')
     .notEmpty().withMessage('Cliente ID es requerido')
     .isInt({ min: 0 }).withMessage('Cliente ID debe ser un número entero'),
-  body('estado')
-    .notEmpty().withMessage('Estado es requerido')
-    .isBoolean().withMessage('Estado debe ser un booleano'),
 ];
     

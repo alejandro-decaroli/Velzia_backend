@@ -1,16 +1,9 @@
 import { Request, Response } from 'express';
-import { orm } from '../db/orm.js';
-import { Ajuste } from '../entities/Ajuste.entities.js';
-import { Moneda } from '../entities/Moneda.entities.js';
-import { Caja } from '../entities/Caja.entities.js';
-import { BadRequest } from 'http-errors';
-
-const em = orm.em;
-
+import { createAjuste, getAllAjustes, getByIdAjuste, updateAjuste, removeAjuste } from '../services/ajusteService.js'
 
 async function getAll(req: Request, res: Response) {
     try {
-      const ajustes = await em.find(Ajuste, {});
+      const ajustes = await getAllAjustes();
       res.status(200).json({ message: 'Ajustes obtenidos exitosamente', ajustes });
     } catch (error: any) {
       res.status(500).json({ message: 'Error al obtener los ajustes', error });
@@ -19,94 +12,41 @@ async function getAll(req: Request, res: Response) {
 
 async function getById(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-
-      const ajuste = await em.findOne(Ajuste, id);
-      if (!ajuste) {
-        throw new BadRequest('Ajuste no encontrado');
-      }
+      const ajuste = await getByIdAjuste(req.body, Number(req.params.id));
       res.status(200).json({ message: 'Ajuste obtenido exitosamente', ajuste });
     } catch (error: any) {
-      res.status(500).json({ message: 'Error al obtener el ajuste', error });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function create(req: Request, res: Response) {
     try {
-      const moneda_id = Number(req.body.moneda);
-      const caja_id = Number(req.body.caja);
-      const moneda = await em.findOne(Moneda, moneda_id);
-      const caja = await em.findOne(Caja, caja_id);
-      if (!moneda) {
-        return res.status(404).json({ message: 'Moneda no encontrada' });
-      }
-      if (!caja) {
-        return res.status(404).json({ message: 'Caja no encontrada' });
-      }
-      if (moneda.id !== caja.moneda.id) {
-        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del ajuste' });
-      }
-      const ajuste = em.create(Ajuste, req.body);
-      await em.flush();
-      res.status(201).json({ message: 'Ajuste creado exitosamente', ajuste });
+      const ajuste = await createAjuste(req.body);
+      res.status(201).json({ message: 'Ajuste creado exitosamente'});
     } catch (error: any) {
-      res.status(500).json({ message: 'Error al crear el ajuste', error });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function update(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-
-      const ajuste = await em.findOne(Ajuste, id);
-      if (!ajuste) {
-        return res.status(404).json({ message: 'Ajuste no encontrado' });
-      }
-      const moneda_id = Number(req.body.moneda);
-      const caja_id = Number(req.body.caja);
-      const moneda = await em.findOne(Moneda, moneda_id);
-      const caja = await em.findOne(Caja, caja_id);
-      if (!moneda) {
-        return res.status(404).json({ message: 'Moneda no encontrada' });
-      }
-      if (!caja) {
-        return res.status(404).json({ message: 'Caja no encontrada' });
-      }
-      if (moneda.id !== caja.moneda.id) {
-        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del ajuste' });
-      }
-      ajuste.monto = req.body.monto;
-      ajuste.movimiento = req.body.movimiento;
-      ajuste.moneda = req.body.moneda;
-      ajuste.caja = req.body.caja;
-      await em.flush();
-      res.status(201).json({ message: 'Ajuste actualizado exitosamente', ajuste });
+      const ajuste = await updateAjuste(req.body, Number(req.params.id))
+      res.status(201).json({ message: 'Ajuste actualizado exitosamente'});
     } catch (error: any) {
-      res.status(500).json({ message: 'Error al actualizar el ajuste', error });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function remove(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-
-      const ajuste = await em.findOne(Ajuste, id);
-      if (!ajuste) {
-        return res.status(404).json({ message: 'Ajuste no encontrado' });
-      }
-      await em.removeAndFlush(ajuste);
+      const ajuste = await removeAjuste(req.body, Number(req.params.id));
       res.status(204).send()
     } catch (error: any) {
-      res.status(500).json({ message: 'Error al eliminar el ajuste', error });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
   }
 

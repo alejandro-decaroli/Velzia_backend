@@ -1,107 +1,52 @@
 import { Request, Response } from 'express';
-import { orm } from '../db/orm.js';
-import { Dividendo } from '../entities/Dividendo.entities.js';
-import { Caja } from '../entities/Caja.entities.js';
-import { Moneda } from '../entities/Moneda.entities.js';
-
-const em = orm.em;
+import { createDividendoSocio, getAllDividendoSocio, getByIdDividendoSocio, removeDividendoSocio, updateDividendoSocio } from '../services/dividendoSocioService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
-      const dividendos = await em.find(Dividendo, {});
-      res.status(200).json({ message: 'Dividendos obtenidos exitosamente', dividendos });
+      const dividendoSocio = await getAllDividendoSocio();
+      res.status(200).json({ message: 'dividendoSocios obtenidos exitosamente', dividendoSocio });
     } catch (error) {
-      res.status(500).json({ error: 'Error al obtener los dividendos' });
+      res.status(500).json({ error: 'Error al obtener los dividendoSocios' });
     }
 }
 
 async function getById(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-
-      const dividendo = await em.findOne(Dividendo, id);
-      if (!dividendo) {
-        return res.status(404).json({ message: 'Dividendo no encontrado' });
-      }
-
-      res.status(200).json({ message: 'Dividendo encontrado exitosamente', dividendo });
+      const dividendoSocio = await getByIdDividendoSocio(req.body, Number(req.params.id));
+      res.status(200).json({ message: 'dividendoSocio encontrado exitosamente', dividendoSocio });
     } catch (error: any) {
-      res.status(500).json({ message: 'Error al obtener el dividendo', error });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function create(req: Request, res: Response) {
     try {
-      const moneda = await em.findOne(Moneda, req.body.moneda);
-      const caja = await em.findOne(Caja, req.body.caja);
-      if (!moneda) {
-        return res.status(404).json({ message: 'Moneda no encontrada' });
-      }
-      if (!caja) {
-        return res.status(404).json({ message: 'Caja no encontrada' });
-      }
-      if (moneda.id !== caja.moneda.id) {
-        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del dividendo' });
-      }
-      const dividendo = em.create(Dividendo, req.body);
-      await em.flush();
-      res.status(201).json({ message: 'Dividendo creado exitosamente', dividendo });
-    } catch (error) {
-      res.status(500).json({ message: 'Error al crear el dividendo', error });
+      const dividendoSocio = await createDividendoSocio(req.body);
+      res.status(201).json({ message: 'dividendoSocio creado exitosamente'});
+    } catch (error:any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function update(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-
-      const dividendo = await em.findOne(Dividendo, id);
-      if (!dividendo) {
-        return res.status(404).json({ message: 'Dividendo no encontrado' });
-      }
-      const moneda = await em.findOne(Moneda, req.body.moneda);
-      const caja = await em.findOne(Caja, req.body.caja);
-      if (!moneda) {
-        return res.status(404).json({ message: 'Moneda no encontrada' });
-      }
-      if (!caja) {
-        return res.status(404).json({ message: 'Caja no encontrada' });
-      }
-      if (moneda.id !== caja.moneda.id) {
-        return res.status(409).json({ message: 'Moneda de la caja no coincide con la moneda del dividendo' });
-      }
-      dividendo.monto = req.body.monto;
-      dividendo.moneda = req.body.moneda;
-      dividendo.caja = req.body.caja;
-      await em.flush();
-      res.status(201).json({ message: 'Dividendo actualizado exitosamente', dividendo });
+      const dividendoSocio = await updateDividendoSocio(req.body, Number(req.params.id));
+      res.status(201).json({ message: 'dividendoSocio actualizado exitosamente'});
     } catch (error: any) {
-      res.status(500).json({ message: 'Error al actualizar el dividendo', error });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
 async function remove(req: Request, res: Response) {
     try {
-      const id = Number(req.params.id);
-      if (isNaN(id)) {
-        return res.status(400).json({ message: 'ID inválido' });
-      }
-
-      const dividendo = await em.findOne(Dividendo, id);
-      if (!dividendo) {
-        return res.status(404).json({ message: 'Dividendo no encontrado' });
-      }
-
-      await em.removeAndFlush(dividendo);
+      await removeDividendoSocio(req.body, Number(req.params.id))
       res.status(204).send();
     } catch (error: any) {
-      res.status(500).json({ error: 'Error al eliminar el dividendo' });
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
     }
 }
 
