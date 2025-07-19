@@ -1,7 +1,6 @@
 import { orm } from '../db/orm.js';
 import { Dividendo } from '../entities/Dividendo.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
-import { Moneda } from '../entities/Moneda.entities.js';
 import createError from 'http-errors';
 const { BadRequest, NotFound, Conflict } = createError;
 
@@ -25,17 +24,14 @@ export async function getByIdDividendoSocio(data:any, id:number) {
 }
 
 export async function createDividendoSocio(data:any) {
-  const moneda = await em.findOne(Moneda, data.moneda);
   const caja = await em.findOne(Caja, data.caja);
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada');
-  }
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
-  if (moneda.id !== caja.moneda.id) {
-    throw new Conflict('Moneda de la caja no coincide con la moneda del dividendo');
-  }
+  if (data.monto > caja.monto) {
+    throw new Conflict('No hay suficiente saldo en la caja');
+  };
+  caja.monto -= data.monto;
   const dividendo = await em.create(Dividendo, data);
   await em.flush();
 }
@@ -48,19 +44,15 @@ export async function updateDividendoSocio(data:any, id:number) {
   if (!dividendo) {
     throw new NotFound('Dividendo no encontrado');
   }
-  const moneda = await em.findOne(Moneda, data.moneda);
   const caja = await em.findOne(Caja, data.caja);
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada');
-  }
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
-  if (moneda.id !== caja.moneda.id) {
-    throw new Conflict('Moneda de la caja no coincide con la moneda del dividendo');
+  if (data.monto > caja.monto) {
+    throw new Conflict('No hay suficiente saldo en la caja');
   }
+  caja.monto -= data.monto;
   dividendo.monto = data.monto;
-  dividendo.moneda = data.moneda;
   dividendo.caja = data.caja;
   await em.flush();
 }

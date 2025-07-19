@@ -35,9 +35,6 @@ export const PagoValidation = [
     body('venta')
       .notEmpty().withMessage('Venta ID es requerido')
       .isInt({ min: 0 }).withMessage('Venta ID debe ser un número entero'),
-    body('moneda')
-      .notEmpty().withMessage('Moneda ID es requerido')
-      .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
     body('caja')
       .notEmpty().withMessage('Caja ID es requerido')
       .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
@@ -60,21 +57,15 @@ export const ajusteValidation = [
   body('caja')
     .notEmpty().withMessage('Caja ID es requerido')
     .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
-  body('moneda')
-    .notEmpty().withMessage('Moneda ID es requerido')
-    .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
   body('monto')
     .notEmpty().withMessage('Monto es requerido')
     .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
   body('movimiento')
     .notEmpty().withMessage('Movimiento es requerido')
-    .isIn(['Positivo', 'Negativo']).withMessage('Movimiento debe ser Positivo o Negativo')
+    .isIn(['ingreso', 'egreso']).withMessage('Movimiento debe ser ingreso o egreso')
 ];
 
 export const aporteDividendoSocioValidation = [
-    body('moneda')
-      .notEmpty().withMessage('Moneda ID es requerido')
-      .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
     body('caja')
       .notEmpty().withMessage('Caja ID es requerido')
       .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
@@ -84,9 +75,6 @@ export const aporteDividendoSocioValidation = [
 ];
 
 export const costoFijoValidation = [
-    body('moneda')
-      .notEmpty().withMessage('Moneda ID es requerido')
-      .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
     body('caja')
       .notEmpty().withMessage('Caja ID es requerido')
       .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
@@ -99,9 +87,6 @@ export const costoFijoValidation = [
 ];
 
 export const costoVariableValidation = [
-  body('moneda')
-    .notEmpty().withMessage('Moneda ID es requerido')
-    .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
   body('caja')
     .notEmpty().withMessage('Caja ID es requerido')
     .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),

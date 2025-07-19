@@ -1,7 +1,6 @@
 import { orm } from '../db/orm.js';
 import { Transferencia } from '../entities/Transferencia.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
-import { Moneda } from '../entities/Moneda.entities.js';
 import createError from 'http-errors';
 const { BadRequest, NotFound, Conflict } = createError;
 
@@ -38,7 +37,12 @@ export async function createTransferencia(data:any) {
   if (caja_origen.moneda !== caja_destino.moneda) {
     throw new Conflict('Moneda de la caja de origen no coincide con la moneda de la caja de destino');
   }
+  if (data.monto > caja_origen.monto) {
+    throw new BadRequest('Monto excede el saldo de la caja de origen');
+  }
   const transferencia = await em.create(Transferencia, data);
+  caja_origen.monto -= data.monto;
+  caja_destino.monto += data.monto;
   await em.flush();
 }
 
@@ -60,6 +64,10 @@ export async function updateTransferencia(data:any, id:number) {
   if (caja_origen.moneda !== caja_destino.moneda) {
     throw new Conflict('Moneda de la caja de origen no coincide con la moneda de la caja de destino');
   }
+  if (data.monto > caja_origen.monto) {
+    throw new BadRequest('Monto excede el saldo de la caja de origen');
+  }
+
   const transferencia = await em.findOne(Transferencia, id);
   if (!transferencia) {
     throw new NotFound('Transferencia no encontrada');
@@ -68,6 +76,8 @@ export async function updateTransferencia(data:any, id:number) {
   transferencia.monto = data.monto;
   transferencia.caja_origen = caja_origen;
   transferencia.caja_destino = caja_destino;
+  caja_origen.monto -= data.monto;
+  caja_destino.monto += data.monto;
   await em.flush();
 }
 

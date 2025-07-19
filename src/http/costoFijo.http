@@ -11,8 +11,7 @@ Content-Type: application/json
 {
   "caja": 1,
   "adjudicacion": "NC",
-  "monto": 100,
-  "moneda": 1
+  "monto": 1600
 }
 
 ### Actualizar costos fijos
@@ -22,8 +21,7 @@ Content-Type: application/json
 {
   "caja": 2,
   "adjudicacion": "Cliente Actualizado",
-  "monto": 200,
-  "moneda": 1
+  "monto": 200
 }
 
 ### Eliminar costos fijos

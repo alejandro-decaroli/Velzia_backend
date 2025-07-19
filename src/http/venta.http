@@ -9,7 +9,7 @@ POST http://localhost:3000/ventas/create
 Content-Type: application/json
 
 {
-  "cliente": 2,
+  "cliente": 1,
   "monto": 1000,
   "costo_mano_obra": 100,
   "costo_materiales_viaticos_fletes": 50,
@@ -22,7 +22,7 @@ PUT http://localhost:3000/ventas/update/1
 Content-Type: application/json
 
 {
-  "cliente": 10,
+  "cliente": 1,
   "monto_ars": 1000,
   "costo_mano_obra": 100,
   "costo_materiales_viaticos_fletes": 50,

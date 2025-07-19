@@ -1,6 +1,5 @@
 import { orm } from '../db/orm.js';
 import { Ajuste } from '../entities/Ajuste.entities.js';
-import { Moneda } from '../entities/Moneda.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
 import createError from 'http-errors';
 const { BadRequest, NotFound, Conflict } = createError;
@@ -27,18 +26,19 @@ export async function getByIdAjuste(data:any, id:number) {
 }
 
 export async function createAjuste(data:any) {
-  const moneda_id = Number(data.moneda);
   const caja_id = Number(data.caja);
-  const moneda = await em.findOne(Moneda, moneda_id);
   const caja = await em.findOne(Caja, caja_id);
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada'); 
-  }
+  const movimiento = data.movimiento;
   if (!caja) {
-    throw new NotFound('Caja no encontrada');
+    throw new NotFound('Caja no encontrada'); 
   }
-  if (moneda.id !== caja.moneda.id) {
-    throw new Conflict('Moneda de la caja no coincide con la moneda del ajuste');
+  if (movimiento === 'ingreso') {
+    caja.monto += data.monto;
+  } else if (movimiento === 'egreso') {
+    caja.monto -= data.monto;
+    if (caja.monto < 0) {
+      throw new BadRequest('El monto de la caja es negativo');
+    }
   }
   const ajuste = await em.create(Ajuste, data);
   await em.flush();
@@ -46,23 +46,22 @@ export async function createAjuste(data:any) {
 
 export async function updateAjuste(data:any, id:number) {
   const ajuste = await getByIdAjuste(data, id);
-  const moneda_id = Number(data.moneda);
   const caja_id = Number(data.caja);
-  const moneda = await em.findOne(Moneda, moneda_id);
   const caja = await em.findOne(Caja, caja_id);
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada'); 
-  }
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
-  if (moneda.id !== caja.moneda.id) {
-    throw new Conflict('Moneda de la caja no coincide con la moneda del ajuste');
-  }
   ajuste.monto = data.monto;
   ajuste.movimiento = data.movimiento;
-  ajuste.moneda = data.moneda;
   ajuste.caja = data.caja;
+  if (ajuste.movimiento === 'ingreso') {
+    caja.monto += data.monto;
+  } else if (ajuste.movimiento === 'egreso') {
+    caja.monto -= data.monto;
+    if (caja.monto < 0) {
+      throw new BadRequest('El monto de la caja es negativo');
+    }
+  }
   await em.flush();
 }
 

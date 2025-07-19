@@ -9,9 +9,9 @@ POST http://localhost:3000/cajas/create
 Content-Type: application/json
 
 {
-  "nombre": "GZ_ARS",
-  "moneda": 2,
-  "siglas": "AAL",
+  "nombre": "ALE",
+  "moneda": 1,
+  "siglas": "ALE",
   "monto": 1000
 }
 

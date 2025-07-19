@@ -1,7 +1,6 @@
 import { orm } from '../db/orm.js';
 import { CostoVariable } from '../entities/Costovariable.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
-import { Moneda } from '../entities/Moneda.entities.js';
 import { Venta } from '../entities/Venta.entities.js';
 import createError from 'http-errors';
 const { BadRequest, NotFound, Conflict } = createError;
@@ -27,23 +26,18 @@ export async function getByIdCostoVariable(data:any, id:number) {
 
 export async function createCostoVariable(data:any) {
   const venta = await em.findOne(Venta, data.venta);
-  const moneda = await em.findOne(Moneda, data.moneda);
   const caja = await em.findOne(Caja, data.caja);
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada');
-  }
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
-  if (moneda.id !== venta.moneda.id) {
-    throw new Conflict('Moneda de la venta no coincide con la moneda del costo variable');
+
+  if (caja.monto < data.monto) {
+    throw new Conflict('No hay suficiente saldo en la caja');
   }
-  if (moneda.id !== caja.moneda.id) {
-    throw new Conflict('Moneda de la caja no coincide con la moneda del costo Variable');
-  }
+  caja.monto -= data.monto;
   const costoVariable = await em.create(CostoVariable, data);
   await em.flush();
 }
@@ -53,24 +47,17 @@ export async function updateCostoVariable(data:any, id:number) {
     throw new BadRequest('ID inválido');
   }
   const venta = await em.findOne(Venta, data.venta);
-  const moneda = await em.findOne(Moneda, data.moneda);
   const caja = await em.findOne(Caja, data.caja);
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada');
-  }
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
-  if (moneda.id !== venta.moneda.id) {
-    throw new Conflict('Moneda de la venta no coincide con la moneda del costo variable');
-  }
-  if (moneda.id !== caja.moneda.id) {
-    throw new Conflict('Moneda de la caja no coincide con la moneda del costo Variable');
-  }
 
+  if (caja.monto < data.monto) {
+    throw new Conflict('No hay suficiente saldo en la caja');
+  }
   const costoVariable = await em.findOne(CostoVariable, id);
   if (!costoVariable) {
     throw new NotFound('Costo Variable no encontrado');
@@ -78,7 +65,7 @@ export async function updateCostoVariable(data:any, id:number) {
   costoVariable.adjudicacion = data.adjudicacion;
   costoVariable.caja = data.caja;
   costoVariable.monto = data.monto;
-  costoVariable.moneda = data.moneda;
+  caja.monto -= data.monto;
   await em.flush();
 }
 

@@ -9,11 +9,9 @@ POST http://localhost:3000/costos_variables/create
 Content-Type: application/json
 
 {
-  "caja": 1,
-  //"cliente_id": 1,
+  "caja": 2,
   "adjudicacion": "Adjudicacion",
-  "monto": 100,
-  "moneda": 2,
+  "monto": 200,
   "venta": 1
 }
 
@@ -26,7 +24,6 @@ Content-Type: application/json
   //"cliente_id": 1,
   "adjudicacion": "Adjudicacion",
   "monto": 200,
-  "moneda": 1,
   "venta": 1
 }
 

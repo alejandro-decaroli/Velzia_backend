@@ -9,8 +9,8 @@ POST http://localhost:3000/monedas/create
 Content-Type: application/json
 
 {
-  "nombre": "pesitoprueba",
-  "codigo_iso": "ARS"
+  "nombre": "dolarsitoprueba",
+  "codigo_iso": "USD"
 }
 
 ### Actualizar moneda

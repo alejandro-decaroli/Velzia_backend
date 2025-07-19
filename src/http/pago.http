@@ -9,9 +9,8 @@ POST http://localhost:3000/pagos/create
 Content-Type: application/json
 
 {
-  "moneda": 1,
   "venta": 1,
-  "caja": 3,
+  "caja": 1,
   "monto": 300.0
 }
 
@@ -20,7 +19,6 @@ PUT http://localhost:3000/pagos/update/1
 Content-Type: application/json
 
 {
-  "moneda": 1,
   "venta": 1,
   "caja": 2,
   "monto": 300.0

@@ -9,10 +9,9 @@ POST http://localhost:3000/ajustes/create
 Content-Type: application/json
 
 {
-  "moneda": 1,
   "caja": 1,
-  "movimiento": "Negativo",
-  "monto": 100.00
+  "movimiento": "ingreso",
+  "monto": 1000.00
 }
 
 ### Actualizar ajuste
@@ -20,9 +19,8 @@ PUT http://localhost:3000/ajustes/update/3
 Content-Type: application/json
 
 {
-  "moneda": 1,
   "caja": 1,
-  "movimiento": "Positivo",
+  "movimiento": "egreso",
   "monto": 100.00
 }
 

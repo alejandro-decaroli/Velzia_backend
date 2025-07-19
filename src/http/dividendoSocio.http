@@ -9,10 +9,8 @@ POST http://localhost:3000/dividendos_socio/create
 Content-Type: application/json
 
 {
-  "caja": 1,
-  "monto": 100,
-  //"dividendo": "2025-06-14",
-  "moneda": 1
+  "caja": 2,
+  "monto": 700
 }
 
 ### Actualizar dividendo
@@ -20,9 +18,8 @@ PUT http://localhost:3000/dividendos_socio/update/1
 Content-Type: application/json
 
 {
-  "caja": 1,
-  "monto": 100,
-  "moneda": 1
+  "caja": 2,
+  "monto": 100
 }
 
 ### Eliminar dividendo
