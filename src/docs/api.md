@@ -133,8 +133,12 @@ POST http://localhost:3000/clientes/create
 Content-Type: application/json
 
 {
-  "nombre": "Ailen",
-  "siglas": "AI"
+  "nombre": "pepe2",
+  "apellido": "Apellido",
+  "telefono": "12345678",
+  "email": "pepe2@gmail.com",
+  "direccion": "direccion",
+  "siglas": "PP2"
 }
 ```
 ### Actualizar cliente
@@ -143,8 +147,12 @@ PUT http://localhost:3000/clientes/update/8
 Content-Type: application/json
 
 {
-  "nombre": "Marina",
-  "siglas": "A"
+  "nombre": "pepe2",
+  "apellido": "Apellido",
+  "telefono": "12345678",
+  "email": "pepe2@gmail.com",
+  "direccion": "direccion",
+  "siglas": "PP2"
 }
 ```
 
@@ -210,8 +218,9 @@ Content-Type: application/json
 {
   "caja": 1,
   "adjudicacion": "Adjudicacion",
-  "monto": 100,
-  "venta": 1
+  "monto_real": 100,
+  "venta": 1,
+  "presupuestado": 100
 }
 ```
 
@@ -223,8 +232,9 @@ Content-Type: application/json
 {
   "caja": 1,
   "adjudicacion": "Adjudicacion",
-  "monto": 200,
-  "venta": 1
+  "monto_real": 200,
+  "venta": 1,
+  "presupuestado": 200
 }
 ```
 
@@ -405,9 +415,6 @@ Content-Type: application/json
 {
   "cliente": 1,
   "monto": 1000,
-  "costo_mano_obra": 100,
-  "costo_materiales_viaticos_fletes": 50,
-  "costo_comision": 20,
   "moneda": 1
 }
 ```
@@ -420,9 +427,6 @@ Content-Type: application/json
 {
   "cliente": 10,
   "monto": 1000,
-  "costo_mano_obra": 100,
-  "costo_materiales_viaticos_fletes": 50,
-  "costo_comision": 20,
   "moneda": 1
 }
 ```

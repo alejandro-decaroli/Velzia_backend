@@ -9,10 +9,11 @@ POST http://localhost:3000/costos_variables/create
 Content-Type: application/json
 
 {
-  "caja": 2,
+  "caja": 1,
   "adjudicacion": "Adjudicacion",
-  "monto": 200,
-  "venta": 1
+  "monto_real": 200,
+  "venta": 1,
+  "presupuestado": 200
 }
 
 ### Actualizar costo variable
@@ -23,8 +24,9 @@ Content-Type: application/json
   "caja": 1,
   //"cliente_id": 1,
   "adjudicacion": "Adjudicacion",
-  "monto": 200,
-  "venta": 1
+  "monto_real": 200,
+  "venta": 1,
+  "presupuestado": 200
 }
 
 ### Eliminar costo variable

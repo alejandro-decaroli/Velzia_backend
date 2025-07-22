@@ -52,6 +52,10 @@ export async function updateCliente(data:any, id:number) {
     throw new Conflict('Los clientes no pueden tener las mismas siglas');
   }
   cliente.nombre = data.nombre;
+  cliente.apellido = data.apellido;
+  cliente.direccion = data.direccion;
+  cliente.telefono = data.telefono;
+  cliente.email = data.email;
   cliente.siglas = data.siglas;
   await em.flush();
 }

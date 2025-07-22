@@ -19,19 +19,10 @@ export class Venta extends BaseEntity {
 
     @Property({ type: 'numeric', nullable: false })
     monto!: number;
-    
-    @Property({ type: 'numeric', nullable: false })
-    costo_mano_obra!: number;
-    
-    @Property({ type: 'numeric', nullable: false })
-    costo_materiales_viaticos_fletes!: number;
-    
-    @Property({ type: 'numeric', nullable: false })
-    costo_comision!: number;
 
     @ManyToOne('Cliente', {nullable: false})
     cliente!: Cliente;
 
-    @Property({ default: false, nullable: true })
-    estado?: boolean;
+    @Property({ default: 'activa', nullable: true })
+    estado?: 'activa' | 'finalizada'; // activa, finalizada
 }   

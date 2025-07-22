@@ -34,10 +34,10 @@ export async function createCostoVariable(data:any) {
     throw new NotFound('Caja no encontrada');
   }
 
-  if (caja.monto < data.monto) {
+  if (caja.monto < data.monto_real) {
     throw new Conflict('No hay suficiente saldo en la caja');
   }
-  caja.monto -= data.monto;
+  caja.monto -= data.monto_real;
   const costoVariable = await em.create(CostoVariable, data);
   await em.flush();
 }
@@ -55,7 +55,7 @@ export async function updateCostoVariable(data:any, id:number) {
     throw new NotFound('Caja no encontrada');
   }
 
-  if (caja.monto < data.monto) {
+  if (caja.monto < data.monto_real) {
     throw new Conflict('No hay suficiente saldo en la caja');
   }
   const costoVariable = await em.findOne(CostoVariable, id);
@@ -64,8 +64,8 @@ export async function updateCostoVariable(data:any, id:number) {
   }
   costoVariable.adjudicacion = data.adjudicacion;
   costoVariable.caja = data.caja;
-  costoVariable.monto = data.monto;
-  caja.monto -= data.monto;
+  costoVariable.monto_real = data.monto_real;
+  costoVariable.presupuestado = data.presupuestado;
   await em.flush();
 }
 

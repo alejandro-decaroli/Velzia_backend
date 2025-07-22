@@ -16,5 +16,8 @@ export class CostoVariable extends BaseEntity {
     adjudicacion!: string;
 
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
-    monto!: number;
+    presupuestado!: number;
+
+    @Property({ type: 'numeric', precision: 10, scale: 4, nullable: true })
+    monto_real?: number;
 }

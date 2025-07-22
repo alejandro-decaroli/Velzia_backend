@@ -100,7 +100,7 @@ export const costoVariableValidation = [
   body('caja')
     .notEmpty().withMessage('Caja ID es requerido')
     .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
-  body('monto')
+  body('monto_real')
     .notEmpty().withMessage('Monto es requerido')
     .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
   body('adjudicacion')
@@ -109,6 +109,9 @@ export const costoVariableValidation = [
   body('venta')
     .notEmpty().withMessage('Venta es requerida')
     .isInt({ min: 0 }).withMessage('Venta ID debe ser un número entero'),
+  body('presupuestado')
+    .notEmpty().withMessage('Presupuestado es requerido')
+    .isFloat({ min: 0 }).withMessage('Presupuestado debe ser un número positivo'),
 ];
 
 export const monedaValidation = [
@@ -152,15 +155,6 @@ export const ventaValidation = [
   body('monto')
     .notEmpty().withMessage('Monto es requerido')
     .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
-  body('costo_mano_obra')
-    .notEmpty().withMessage('Costo mano de obra es requerido')
-    .isFloat({ min: 0 }).withMessage('Costo mano de obra debe ser un número positivo'),
-  body('costo_materiales_viaticos_fletes')
-    .notEmpty().withMessage('Costo materiales, viáticos y fletes es requerido')
-    .isFloat({ min: 0 }).withMessage('Costo materiales, viáticos y fletes debe ser un número positivo'),
-  body('costo_comision')
-    .notEmpty().withMessage('Costo comisión es requerido')
-    .isFloat({ min: 0 }).withMessage('Costo comisión debe ser un número positivo'),
   body('cliente')
     .notEmpty().withMessage('Cliente ID es requerido')
     .isInt({ min: 0 }).withMessage('Cliente ID debe ser un número entero'),

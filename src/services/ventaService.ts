@@ -62,9 +62,6 @@ export async function updateVenta(data:any, id:number) {
   venta.cliente = cliente;
   venta.moneda = moneda;
   venta.monto = data.monto;
-  venta.costo_mano_obra = data.costo_mano_obra;
-  venta.costo_materiales_viaticos_fletes = data.costo_materiales_viaticos_fletes;
-  venta.costo_comision = data.costo_comision;
   venta.estado = data.estado;
   await em.flush();
 }
