@@ -10,6 +10,10 @@ Content-Type: application/json
 
 {
   "nombre": "pepe2",
+  "apellido": "Apellido",
+  "telefono": "12345678",
+  "email": "pepe2@gmail.com",
+  "direccion": "direccion",
   "siglas": "PP2"
 }
 
@@ -19,6 +23,10 @@ Content-Type: application/json
 
 {
   "nombre": "Marina",
+  "apellido": "Apellido",
+  "telefono": "12345678",
+  "email": "pepe2@gmail.com",
+  "direccion": "direccion",
   "siglas": "Am"
 }
 

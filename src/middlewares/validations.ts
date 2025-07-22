@@ -47,6 +47,16 @@ export const ClienteValidation = [
   body('nombre')
     .notEmpty().withMessage('Nombre es requerido')
     .isLength({ min: 3 }).withMessage('Nombre muy corto'),
+  body('apellido')
+    .notEmpty().withMessage('Apellido es requerido')
+    .isLength({ min: 3 }).withMessage('Apellido muy corto'),
+  body('telefono')
+    .notEmpty().withMessage('Telefono es requerido')
+    .isLength({ min: 3 }).withMessage('Telefono muy corto'),
+  body('email')
+    .isLength({ min: 3 }).withMessage('Email muy corto'),
+  body('direccion')
+    .isLength({ min: 3 }).withMessage('Direccion muy corta'),
   body('siglas')
     .notEmpty().withMessage('Siglas son requeridas')
     .isLength({ min: 2 }).withMessage('Siglas muy cortas')

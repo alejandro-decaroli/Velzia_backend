@@ -5,11 +5,23 @@ import { Venta } from "./Venta.entities.js";
 
 @Entity()
 export class Cliente extends BaseEntity {
-  @Property({ length: 100, nullable: false, unique: true })
+  @Property({ length: 100, nullable: false })
   nombre!: string;
+
+  @Property({ length: 100, nullable: false })
+  apellido!: string;
+
+  @Property({ length: 100, nullable: false })
+  telefono!: string;
+
+  @Property({ length: 100, nullable: true })
+  email?: string;
 
   @Property({ length: 3, nullable: false, unique: true })
   siglas!: string;
+
+  @Property({ length: 100, nullable: true })
+  direccion?: string;
 
   @OneToMany('Venta', 'cliente', {cascade: [Cascade.ALL], nullable: true})
   ventas = new Collection<Venta>(this);
