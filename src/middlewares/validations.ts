@@ -110,7 +110,6 @@ export const costoVariableValidation = [
     .notEmpty().withMessage('Venta es requerida')
     .isInt({ min: 0 }).withMessage('Venta ID debe ser un número entero'),
   body('presupuestado')
-    .notEmpty().withMessage('Presupuestado es requerido')
     .isFloat({ min: 0 }).withMessage('Presupuestado debe ser un número positivo'),
 ];
 

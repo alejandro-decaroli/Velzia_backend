@@ -37,7 +37,7 @@ export async function createCostoVariable(data:any) {
   if (caja.monto < data.monto_real) {
     throw new Conflict('No hay suficiente saldo en la caja');
   }
-  caja.monto -= data.monto_real;
+  caja.monto -= Number(data.monto_real);
   const costoVariable = await em.create(CostoVariable, data);
   await em.flush();
 }
@@ -62,6 +62,8 @@ export async function updateCostoVariable(data:any, id:number) {
   if (!costoVariable) {
     throw new NotFound('Costo Variable no encontrado');
   }
+  caja.monto += Number(costoVariable.monto_real);
+  caja.monto -= Number(data.monto_real);
   costoVariable.adjudicacion = data.adjudicacion;
   costoVariable.caja = data.caja;
   costoVariable.monto_real = data.monto_real;

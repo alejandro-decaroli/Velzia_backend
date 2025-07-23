@@ -11,9 +11,9 @@ Content-Type: application/json
 {
   "caja": 1,
   "adjudicacion": "Adjudicacion",
+  "presupuestado": 200,
   "monto_real": 200,
-  "venta": 1,
-  "presupuestado": 200
+  "venta": 1
 }
 
 ### Actualizar costo variable
