@@ -15,6 +15,7 @@ import dividendoSocioRouter from "./routes/dividendoSocioRoutes.js";
 import transferenciaRouter from "./routes/transferenciaRoutes.js";
 import tasaRouter from "./routes/tasaRoutes.js";
 import monedaRouter from "./routes/monedaRoutes.js";
+import usuarioRouter from "./routes/usuarioRoute.js";
 
 const PORT = process.env.PORT || 3000;
 
@@ -32,6 +33,7 @@ app.get("/", (req: Request, res: Response) => {
     res.status(200).send("<h1>ESTO es VELZIA!</h1>");
 });
 
+app.use('/usuarios', usuarioRouter);
 app.use('/clientes', clienteRouter);
 app.use('/cajas', cajaRouter);
 app.use('/pagos', pagoRouter); 
@@ -51,12 +53,6 @@ app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`);
 })
 
-// TODO: si se borra una caja se borran todas las entidades relacionadas a ella,
-// que hacer??
-
-// TODO: probar si al modificar cliente o ventas se actualiza estado de cliente
-// TODO: crear una venta para un cliente activo y que no lo permita
-// TODO: agregar validacion de distintos id de cajas en transferencias, en Validations (tasas)
 
 
 

@@ -1,7 +1,7 @@
-// src/entities/Cliente.entities.ts
-import { Entity, Property, OneToMany, Collection, Cascade } from "@mikro-orm/core";
+import { Entity, Property, OneToMany, Collection, Cascade, ManyToOne } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.entities.js";
 import { Venta } from "./Venta.entities.js";
+import { Usuario } from "./Usuario.entities.js";
 
 @Entity()
 export class Cliente extends BaseEntity {
@@ -28,6 +28,10 @@ export class Cliente extends BaseEntity {
 
   @Property({default: 'terminado', nullable: true})
   estado:'terminado' | 'activo' = 'terminado'
+
+  @ManyToOne('Usuario', 'clientes')
+  usuario!: Usuario;
+  
 
   /*getEstado() {
     if (this.ventas.length === 0) {

@@ -159,3 +159,12 @@ export const ventaValidation = [
     .isInt({ min: 0 }).withMessage('Cliente ID debe ser un número entero'),
 ];
     
+export const loginValidation = [
+    body('email')
+        .notEmpty().withMessage('Email es requerido')
+        .isEmail().withMessage('Email debe ser un email valido'),
+    body('contrasenia')
+        .notEmpty().withMessage('Contraseña es requerida')
+        .isLength({ min: 6 }).withMessage('Contraseña debe tener al menos 6 caracteres')
+];
+    
