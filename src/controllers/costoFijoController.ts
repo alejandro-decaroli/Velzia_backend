@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createCostoFijo, getAllCostosFijos, getByIdCostoFijo, removeCostoFijo, updateCostoFijo } from '../services/costoFijoService.js';
+import { createCostoFijo, getAllCostosFijos, getByIdCostoFijo, removeCostoFijo, updateCostoFijo, getListadoCostosFijosByRangeDate as getListadoCostosFijosByRangeDateService } from '../services/costoFijoService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
@@ -50,10 +50,21 @@ async function remove(req: Request, res: Response) {
     }
 }
 
+async function getListadoCostosFijosByRangeDate(req: Request, res: Response) {
+    try {
+      const costosFijos = await getListadoCostosFijosByRangeDateService(req.body);
+      res.status(200).json({ message: 'Costos fijos obtenidos exitosamente', costosFijos });
+    } catch (error:any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
+    }
+}
+
 export {
   getAll,
   getById,
   create,
   update,
-  remove
+  remove,
+  getListadoCostosFijosByRangeDate
 };

@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { getAll, getById, create, update, remove } from '../controllers/costoFijoController.js';
+import { getAll, getById, create, update, remove, getListadoCostosFijosByRangeDate } from '../controllers/costoFijoController.js';
 import { handleValidationErrors, idParamValidation, costoFijoValidation } from '../middlewares/validations.js';
 
 const costoFijoRouter = express.Router();
@@ -32,6 +32,10 @@ costoFijoRouter.delete('/delete/:id',
   idParamValidation,
   handleValidationErrors,
   (req: Request, res: Response) => {remove(req, res)}
+);
+costoFijoRouter.get('/listado/:fecha', 
+  handleValidationErrors,
+  (req: Request, res: Response) => {getListadoCostosFijosByRangeDate(req, res)}
 );
 
 export default costoFijoRouter;

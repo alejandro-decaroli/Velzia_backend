@@ -1,5 +1,6 @@
 import { orm } from '../db/orm.js';
 import { Cliente } from '../entities/Cliente.entities.js';
+import { Usuario } from '../entities/Usuario.entities.js';
 import createError from 'http-errors';
 const { BadRequest, NotFound, Conflict } = createError;
 
@@ -23,6 +24,10 @@ export async function getByIdCliente(data:any, id:number) {
 }
 
 export async function createCliente(data:any) {
+  const usuario = await em.findOne(Usuario, data.usuario);
+  if (!usuario) {
+    throw new NotFound('Usuario no encontrado');
+  }
   const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre });
   const siglas_duplicadas = await em.findOne(Cliente, { siglas: data.siglas });
   if (nombre_duplicado) {
@@ -51,6 +56,11 @@ export async function updateCliente(data:any, id:number) {
   if (siglas_duplicadas) {
     throw new Conflict('Los clientes no pueden tener las mismas siglas');
   }
+  const usuario = await em.findOne(Usuario, data.usuario);
+  if (!usuario) {
+    throw new NotFound('Usuario no encontrado');
+  }
+  cliente.usuario = usuario;
   cliente.nombre = data.nombre;
   cliente.apellido = data.apellido;
   cliente.direccion = data.direccion;

@@ -9,6 +9,7 @@ POST http://localhost:3000/clientes/create
 Content-Type: application/json
 
 {
+  "usuario": 2,
   "nombre": "pepe2",
   "apellido": "Apellido",
   "telefono": "12345678",
@@ -22,6 +23,7 @@ PUT http://localhost:3000/clientes/update/1
 Content-Type: application/json
 
 {
+  "usuario": 1,
   "nombre": "Marina",
   "apellido": "Apellido",
   "telefono": "12345678",

@@ -78,3 +78,11 @@ export async function removeVenta(data:any, id:number) {
 
   await em.removeAndFlush(venta);
 }
+
+export async function getListadoVentasByDate(data:any) {
+  const ventas = await em.find(Venta, { createdAt: { $gte: data.createdAt, $lte: data.createdAt } });
+  if (!ventas) {
+    throw new NotFound('Ventas no encontradas');
+  }
+  return ventas;
+}

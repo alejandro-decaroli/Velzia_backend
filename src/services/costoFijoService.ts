@@ -69,3 +69,8 @@ export async function removeCostoFijo(data:any, id:number) {
 
   await em.removeAndFlush(costoFijo);
 }
+
+export async function getListadoCostosFijosByRangeDate(data:any) {
+  const costosFijos = await em.find(CostoFijo, { createdAt: { $gte: data.createdAt, $lte: data.createdAt } });
+  return costosFijos;
+}

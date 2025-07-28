@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta } from '../services/ventaService.js';
+import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, getListadoVentasByDate } from '../services/ventaService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
@@ -46,10 +46,20 @@ async function remove(req: Request, res: Response) {
       res.status(status).json({ message: error.message || 'Error interno' });    }
 }
 
+async function getListadoVentasByRangeDate(req: Request, res: Response) {
+    try {
+      const ventas = await getListadoVentasByDate(req.body);
+      res.status(200).json({ message: 'Ventas obtenidas exitosamente', ventas });
+    } catch (error:any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });    }
+}
+
 export {
   getAll,
   getById,
   create,
   update,
-  remove
+  remove,
+  getListadoVentasByRangeDate
 };
