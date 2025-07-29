@@ -1,5 +1,57 @@
 ## API Reference
 
+### Obtener todos los usuarios
+```http
+GET http://localhost:3000/usuarios
+```
+
+### Obtener usuario por ID
+```http
+GET http://localhost:3000/usuarios/1
+```
+
+### Crear usuario
+```http
+POST http://localhost:3000/usuarios/sign-up
+Content-Type: application/json
+
+{
+  "nombre": "Juan",
+  "apellido": "Perez",
+  "contrasenia": "123456",
+  "email": "juan.perez@example.com"
+}
+```
+
+### Iniciar sesión
+```http
+POST http://localhost:3000/usuarios/login
+Content-Type: application/json
+
+{
+    "email": "juan.perez@example.com",
+    "contrasenia": "123456"
+}
+```
+
+### Actualizar usuario
+```http
+PUT http://localhost:3000/usuarios/update/1
+Content-Type: application/json
+
+{
+  "nombre": "Juan",
+  "apellido": "Perez",
+  "contrasenia": "123456",
+  "email": "juan.perez@example.com"
+}
+```
+
+### Eliminar usuario
+```http
+DELETE http://localhost:3000/usuarios/delete/1
+```
+
 ### Obtener todos los ajustes
 ```http
 GET http://localhost:3000/ajustes
