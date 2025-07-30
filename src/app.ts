@@ -16,6 +16,7 @@ import transferenciaRouter from "./routes/transferenciaRoutes.js";
 import tasaRouter from "./routes/tasaRoutes.js";
 import monedaRouter from "./routes/monedaRoutes.js";
 import usuarioRouter from "./routes/usuarioRoute.js";
+import cors from "cors";
 
 const PORT = process.env.PORT || 3000;
 
@@ -24,6 +25,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     RequestContext.create(orm.em, next);   
