@@ -17,7 +17,7 @@ export async function sign_In(data: any) {
     throw new BadRequest('Usuario o contraseña incorrectos');
   }
   
-  return usuario; // Devuelve el usuario si la autenticación es exitosa
+  return usuario; 
 }
 
 export async function sign_Up(data: any) {

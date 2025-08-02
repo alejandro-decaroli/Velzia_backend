@@ -1,14 +1,15 @@
 import { param, body, validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
+import { BadRequest } from 'http-errors';
 
 // Middleware para manejar errores de validación
 export const handleValidationErrors = (req: Request, res: Response, next: NextFunction): void => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array() });
-    return;
-  }
-  next();
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+    next();
 };
 
 export const idParamValidation = [

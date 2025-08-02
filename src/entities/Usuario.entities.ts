@@ -13,8 +13,8 @@ export class Usuario extends BaseEntity {
   @Property({ length: 100, nullable: false })
   contrasenia!: string;
 
-  @Property({ length: 100, nullable: true })
-  email?: string;
+  @Property({ length: 100, nullable: false })
+  email!: string;
 
   @OneToMany('Cliente', 'usuario', { cascade: [Cascade.ALL], nullable: true })
   clientes = new Collection<Cliente>(this);
