@@ -6,27 +6,27 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllTasas() {
-  const tasas = await em.find(Tasa, {});
+export async function getAllTasas(userId: number) {
+  const tasas = await em.find(Tasa, {usuario: userId});
   return tasas;
 }
 
-export async function getByIdTasa(data:any, id:number) {
+export async function getByIdTasa(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const tasa = await em.findOne(Tasa, id);
+  const tasa = await em.findOne(Tasa, {id: id, usuario: userId});
   if (!tasa) {
     throw new NotFound('Tasa no encontrada');
   }
 }
 
-export async function createTasa(data:any) {
+export async function createTasa(data:any, userId: number) {
   const moneda_origen_id = Number(data.moneda_origen);
   const moneda_destino_id = Number(data.moneda_destino);
-  const moneda_origen = await em.findOne(Moneda, moneda_origen_id);
-  const moneda_destino = await em.findOne(Moneda, moneda_destino_id);
+  const moneda_origen = await em.findOne(Moneda, {id: moneda_origen_id, usuario: userId});
+  const moneda_destino = await em.findOne(Moneda, {id: moneda_destino_id, usuario: userId});
   if (!moneda_origen || !moneda_destino) {
     throw new NotFound('Moneda de origen o destino no encontrada');
   }
@@ -37,19 +37,19 @@ export async function createTasa(data:any) {
   await em.flush();
 }
 
-export async function updateTasa(data:any, id:number) {
+export async function updateTasa(data:any, userId: number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const tasa = await em.findOne(Tasa, id);
+  const tasa = await em.findOne(Tasa, {id: id, usuario: userId});
   if (!tasa) {
     throw new NotFound('Tasa no encontrada');
   }
   const moneda_origen_id = Number(data.moneda_origen);
   const moneda_destino_id = Number(data.moneda_destino);
-  const moneda_origen = await em.findOne(Moneda, moneda_origen_id);
-  const moneda_destino = await em.findOne(Moneda, moneda_destino_id);
+  const moneda_origen = await em.findOne(Moneda, {id: moneda_origen_id, usuario: userId});
+  const moneda_destino = await em.findOne(Moneda, {id: moneda_destino_id, usuario: userId});
   if (!moneda_origen || !moneda_destino) {
     throw new NotFound('Moneda de origen o destino no encontrada');
   }
@@ -62,12 +62,12 @@ export async function updateTasa(data:any, id:number) {
   await em.flush();
 }
 
-export async function removeTasa(data:any, id:number) {
+export async function removeTasa(userId:any, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const tasa = await em.findOne(Tasa, id);
+  const tasa = await em.findOne(Tasa, {id: id, usuario: userId});
   if (!tasa) {
     throw new NotFound('Tasa no encontrada');
   }

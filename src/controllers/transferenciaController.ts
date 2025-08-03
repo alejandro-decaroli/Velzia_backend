@@ -3,7 +3,8 @@ import { createTransferencia, getAllTransferencias, getByIdTransferencia, remove
 
 async function getAll(req: Request, res: Response) {
     try {
-      const transferencias = await getAllTransferencias();
+      const userId = req.user?.id;
+      const transferencias = await getAllTransferencias(Number(userId));
       res.status(200).json({ message: 'Transferencias obtenidas exitosamente', transferencias });
     } catch (error:any) {
       res.status(500).json({ error: 'Error al obtener las transferencias' });
@@ -12,7 +13,8 @@ async function getAll(req: Request, res: Response) {
 
 async function getById(req: Request, res: Response) {
     try {
-      const transferencia = await getByIdTransferencia(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const transferencia = await getByIdTransferencia(Number(userId), Number(req.params.id));
       res.status(200).json({ message: 'Transferencia encontrada exitosamente', transferencia });
     } catch (error: any) {
       const status = error.status || 500;
@@ -22,7 +24,8 @@ async function getById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     try {
-      const transferencia = await createTransferencia(req.body);
+      const userId = req.user?.id;
+      const transferencia = await createTransferencia(req.body, Number(userId));
       res.status(201).json({ message: 'Transferencia creada exitosamente'});
     } catch (error:any) {
       const status = error.status || 500;
@@ -32,7 +35,8 @@ async function create(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
     try {
-      const transferencia = await updateTransferencia(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const transferencia = await updateTransferencia(req.body, Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Transferencia actualizada exitosamente'});
     } catch (error: any) {
       const status = error.status || 500;
@@ -42,7 +46,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
     try {
-      const transferencia = await removeTransferencia(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const transferencia = await removeTransferencia(Number(userId), Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {
       const status = error.status || 500;

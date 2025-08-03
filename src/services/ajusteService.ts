@@ -6,18 +6,18 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllAjustes() {
-  const ajustes = await em.find(Ajuste, {});
+export async function getAllAjustes(userId: number) {
+  const ajustes = await em.find(Ajuste, {usuario: userId});
   return ajustes;
 }
 
-export async function getByIdAjuste(data:any, id:number) {
+export async function getByIdAjuste(userId: number, id:number) {
 
   if (isNaN(id)) {
     throw new BadRequest('El ID no puede ser nulo');
   }
 
-  const ajuste = await em.findOne(Ajuste, id);
+  const ajuste = await em.findOne(Ajuste, {id: id, usuario: userId});
   if (!ajuste) {
     throw new NotFound('Ajuste no encontrado');
   }
@@ -25,9 +25,9 @@ export async function getByIdAjuste(data:any, id:number) {
   return ajuste;
 }
 
-export async function createAjuste(data:any) {
+export async function createAjuste(data: any, userId: number) {
   const caja_id = Number(data.caja);
-  const caja = await em.findOne(Caja, caja_id);
+  const caja = await em.findOne(Caja, {id: caja_id, usuario: userId});
   const movimiento = data.movimiento;
   if (!caja) {
     throw new NotFound('Caja no encontrada'); 
@@ -44,10 +44,10 @@ export async function createAjuste(data:any) {
   await em.flush();
 }
 
-export async function updateAjuste(data:any, id:number) {
-  const ajuste = await getByIdAjuste(data, id);
+export async function updateAjuste(data:any, userId: number, id:number) {
+  const ajuste = await getByIdAjuste(userId, id);
   const caja_id = Number(data.caja);
-  const caja = await em.findOne(Caja, caja_id);
+  const caja = await em.findOne(Caja, {id: caja_id, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
@@ -65,7 +65,7 @@ export async function updateAjuste(data:any, id:number) {
   await em.flush();
 }
 
-export async function removeAjuste(data:any, id:number){
-  const ajuste = await getByIdAjuste(data, id);
+export async function removeAjuste(userId: number, id:number){
+  const ajuste = await getByIdAjuste(userId, id);
   await em.removeAndFlush(ajuste);
 }

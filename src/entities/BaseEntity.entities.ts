@@ -1,5 +1,5 @@
 // src/entities/BaseEntity.entities.ts
-import { PrimaryKey, Property } from "@mikro-orm/core";
+import { PrimaryKey, Property, ManyToOne } from "@mikro-orm/core";
 
 export abstract class BaseEntity {
   @PrimaryKey()

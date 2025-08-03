@@ -6,25 +6,25 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllTransferencias() {
-  const transferencias = await em.find(Transferencia, {});
+export async function getAllTransferencias(userId: number) {
+  const transferencias = await em.find(Transferencia, {usuario: userId});
   return transferencias;
 }
 
-export async function getByIdTransferencia(data:any, id:number) {
+export async function getByIdTransferencia(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const transferencia = await em.findOne(Transferencia, id);
+  const transferencia = await em.findOne(Transferencia, {id: id, usuario: userId});
   if (!transferencia) {
     throw new NotFound('Transferencia no encontrada');
   }
 }
 
-export async function createTransferencia(data:any) {
-  const caja_origen = await em.findOne(Caja, data.caja_origen);
-  const caja_destino = await em.findOne(Caja, data.caja_destino);
+export async function createTransferencia(data:any, userId: number) {
+  const caja_origen = await em.findOne(Caja, {id: data.caja_origen, usuario: userId});
+  const caja_destino = await em.findOne(Caja, {id: data.caja_destino, usuario: userId});
   if (!caja_origen) {
     throw new NotFound('Caja de origen no encontrada');
   }
@@ -46,12 +46,12 @@ export async function createTransferencia(data:any) {
   await em.flush();
 }
 
-export async function updateTransferencia(data:any, id:number) {
+export async function updateTransferencia(data:any, userId: number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
-  const caja_origen = await em.findOne(Caja, data.caja_origen);
-  const caja_destino = await em.findOne(Caja, data.caja_destino);
+  const caja_origen = await em.findOne(Caja, {id: data.caja_origen, usuario: userId});
+  const caja_destino = await em.findOne(Caja, {id: data.caja_destino, usuario: userId});
   if (!caja_origen) {
     throw new NotFound('Caja de origen no encontrada');
   }
@@ -68,7 +68,7 @@ export async function updateTransferencia(data:any, id:number) {
     throw new BadRequest('Monto excede el saldo de la caja de origen');
   }
 
-  const transferencia = await em.findOne(Transferencia, id);
+  const transferencia = await em.findOne(Transferencia, {id: id, usuario: userId});
   if (!transferencia) {
     throw new NotFound('Transferencia no encontrada');
   }
@@ -81,12 +81,12 @@ export async function updateTransferencia(data:any, id:number) {
   await em.flush();
 }
 
-export async function removeTransferencia(data:any, id:number) {
+export async function removeTransferencia(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const transferencia = await em.findOne(Transferencia, id);
+  const transferencia = await em.findOne(Transferencia, {id: id, usuario: userId});
   if (!transferencia) {
     throw new NotFound('Transferencia no encontrada');
   }

@@ -4,6 +4,7 @@ import { Cliente } from "./Cliente.entities.js";
 import { Moneda } from "./Moneda.entities.js";
 import { Pago } from "./Pago.entities.js";
 import { CostoVariable } from "./Costovariable.entities.js";
+import { Usuario } from "./Usuario.entities.js";
 
 @Entity()
 export class Venta extends BaseEntity {
@@ -22,6 +23,9 @@ export class Venta extends BaseEntity {
 
     @ManyToOne('Cliente', {nullable: false})
     cliente!: Cliente;
+
+    @ManyToOne('Usuario', {nullable: false})
+    usuario!: Usuario;
 
     @Property({ default: 'activa', nullable: true })
     estado?: 'activa' | 'finalizada'; // activa, finalizada

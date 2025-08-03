@@ -8,6 +8,7 @@ import { CostoVariable } from "./Costovariable.entities.js";
 import { Aporte } from "./Aporte.entities.js";
 import { Transferencia } from "./Transferencia.entities.js";
 import { Dividendo } from "./Dividendo.entities.js";
+import { Usuario } from "./Usuario.entities.js";
 
 @Entity()
 export class Caja extends BaseEntity {
@@ -46,5 +47,8 @@ export class Caja extends BaseEntity {
 
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
     monto!: number;
+
+    @ManyToOne('Usuario', {nullable: false})
+    usuario!: Usuario;
 
 }

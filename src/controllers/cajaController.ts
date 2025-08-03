@@ -3,7 +3,8 @@ import { createCaja, getAllCajas, getByIdCaja, removeCaja, updateCaja } from '..
 
 async function getAll(req: Request, res: Response) {
     try {
-      const cajas = await getAllCajas();
+      const userId = req.user?.id;
+      const cajas = await getAllCajas(Number(userId));
       res.status(200).json({ message: 'Cajas obtenidas exitosamente', cajas });
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener las cajas' });
@@ -12,7 +13,8 @@ async function getAll(req: Request, res: Response) {
 
 async function getById(req: Request, res: Response) {
     try {
-      const caja = await getByIdCaja(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const caja = await getByIdCaja(Number(userId), Number(req.params.id));
       res.status(200).json({ message: 'Caja encontrada exitosamente', caja });
     } catch (error: any) {
       const status = error.status || 500;
@@ -22,7 +24,8 @@ async function getById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     try {
-      const caja = await createCaja(req.body);
+      const userId = req.user?.id;
+      const caja = await createCaja(req.body, Number(userId));
       res.status(201).json({ message: 'Caja creada exitosamente'});
     } catch (error:any) {
       const status = error.status || 500;
@@ -32,7 +35,8 @@ async function create(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
     try {
-      const caja = await updateCaja(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const caja = await updateCaja(req.body, Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Caja actualizada exitosamente'});
     } catch (error: any) {
       const status = error.status || 500;
@@ -42,7 +46,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
     try {
-      const caja = await removeCaja(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const caja = await removeCaja(Number(userId), Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {
       const status = error.status || 500;

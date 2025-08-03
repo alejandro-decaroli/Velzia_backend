@@ -6,16 +6,16 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllCostosFijos() {
-  const costosFijos = await em.find(CostoFijo, {});
+export async function getAllCostosFijos(userId: number) {
+  const costosFijos = await em.find(CostoFijo, {usuario: userId});
   return costosFijos;
 }
 
-export async function getByIdCostoFijo(data:any, id:number) {
+export async function getByIdCostoFijo(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('El ID no puede ser nulo');
   }
-  const costoFijo = await em.findOne(CostoFijo, id);
+  const costoFijo = await em.findOne(CostoFijo, {id: id, usuario: userId});
   if (!costoFijo) {
     throw new NotFound('Costo fijo no encontrado');
   }
@@ -23,8 +23,8 @@ export async function getByIdCostoFijo(data:any, id:number) {
   return costoFijo;
 }
 
-export async function createCostoFijo(data:any) {
-  const caja = await em.findOne(Caja, data.caja);
+export async function createCostoFijo(data:any, userId: number) {
+  const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
@@ -36,18 +36,18 @@ export async function createCostoFijo(data:any) {
   await em.flush();
 }
 
-export async function updateCostoFijo(data:any, id:number) {
+export async function updateCostoFijo(data:any, userId: number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
-  const caja = await em.findOne(Caja, data.caja);
+  const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
   if (caja.monto < data.monto) {
     throw new Conflict('No hay suficiente saldo en la caja');
   }
-  const costoFijo = await em.findOne(CostoFijo, id);
+  const costoFijo = await em.findOne(CostoFijo, {id: id, usuario: userId});
   if (!costoFijo) {
     throw new NotFound('Costo fijo no encontrado');
   }
@@ -58,11 +58,11 @@ export async function updateCostoFijo(data:any, id:number) {
   await em.flush();
 }
 
-export async function removeCostoFijo(data:any, id:number) {
+export async function removeCostoFijo(userId:any, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
-  const costoFijo = await em.findOne(CostoFijo, id);
+  const costoFijo = await em.findOne(CostoFijo, {id: id, usuario: userId});
   if (!costoFijo) {
     throw new NotFound('Costo fijo no encontrado');
   }

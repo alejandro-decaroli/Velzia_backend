@@ -2,37 +2,65 @@ import { orm } from '../db/orm.js';
 import { Usuario } from '../entities/Usuario.entities.js';
 import createError from 'http-errors';
 import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+import express, { Response, Request } from 'express';
+
+dotenv.config();
 
 const { BadRequest, NotFound, Conflict } = createError;
 const em = orm.em.fork(); // Fork the entity manager for each request
 
-export async function sign_In(data: any) {
-  const usuario = await em.findOne(Usuario, { email: data.email });
+export async function sign_In(req: Request, res: Response) {
+  const usuario = await em.findOne(Usuario, { email: req.body.email });
   if (!usuario) {
     throw new NotFound('Usuario o contraseña incorrectos');
   }
 
-  const contraseniaValida = await bcrypt.compare(data.contrasenia, usuario.contrasenia);
+  const contraseniaValida = await bcrypt.compare(req.body.contrasenia, usuario.contrasenia);
   if (!contraseniaValida) {
     throw new BadRequest('Usuario o contraseña incorrectos');
   }
+  const payload = {
+    id: usuario.id,
+    email: usuario.email,
+    nombre: usuario.nombre,
+    apellido: usuario.apellido
+  };
+
+  // 🔐 Firmar token con una clave secreta
+  const token = jwt.sign(payload, process.env.SECRET_KEY!, {
+    expiresIn: "1h" // o el tiempo que quieras
+  });
+
+  res.json({ token, user: payload });
   
-  return usuario; 
 }
 
-export async function sign_Up(data: any) {
-  const usuarioExistente = await em.findOne(Usuario, { email: data.email });
+export async function sign_Up(req: Request, res: Response) {
+  const usuarioExistente = await em.findOne(Usuario, { email: req.body.email });
   if (usuarioExistente) {
     throw new Conflict('El correo electrónico ya está en uso');
   }
 
   const saltRounds = 10;
-  data.contrasenia = await bcrypt.hash(data.contrasenia, saltRounds);
+  req.body.contrasenia = await bcrypt.hash(req.body.contrasenia, saltRounds);
 
-  const nuevoUsuario = em.create(Usuario, data);
+  const nuevoUsuario = em.create(Usuario, req.body);
   await em.flush();
-  
-  return nuevoUsuario; // Devuelve el usuario creado
+  const payload = {
+    id: nuevoUsuario.id,
+    email: nuevoUsuario.email,
+    nombre: nuevoUsuario.nombre,
+    apellido: nuevoUsuario.apellido
+  };
+
+  // 🔐 Firmar token con una clave secreta
+  const token = jwt.sign(payload, process.env.SECRET_KEY!, {
+    expiresIn: "1h" // o el tiempo que quieras
+  });
+
+  res.json({ token, user: payload }); // Devuelve el usuario creado
 }
 
 export async function getAllUsuarios() {
@@ -48,16 +76,16 @@ export async function getByIdUsuario(id:number) {
     return usuario;
 }
 
-export async function updateUsuario(data:any, id:number) {
+export async function updateUsuario(req:any, id:number) {
     const usuario = await em.findOne(Usuario, id);
     if (!usuario) {
         throw new NotFound('Usuario no encontrado');
     }
-    usuario.nombre = data.nombre;
-    usuario.apellido = data.apellido;
+    usuario.nombre = req.nombre;
+    usuario.apellido = req.apellido;
     const saltRounds = 10;
-    usuario.contrasenia = await bcrypt.hash(data.contrasenia, saltRounds);
-    usuario.email = data.email;
+    usuario.contrasenia = await bcrypt.hash(req.contrasenia, saltRounds);
+    usuario.email = req.email;
     await em.flush();
 }
 

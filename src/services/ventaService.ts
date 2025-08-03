@@ -7,25 +7,25 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllVentas() {
-  const ventas = await em.find(Venta, {});
+export async function getAllVentas(userId: number) {
+  const ventas = await em.find(Venta, {usuario: userId});
   return ventas;
 }
 
-export async function getByIdVenta(data:any, id:number) {
+export async function getByIdVenta(userId: number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
-  const venta = await em.findOne(Venta, id);
+  const venta = await em.findOne(Venta, {id: id, usuario: userId});
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
   return venta;
 }
 
-export async function createVenta(data:any) {
-  const moneda = await em.findOne(Moneda, data.moneda);
-  const cliente = await em.findOne(Cliente, data.cliente);
+export async function createVenta(data:any, userId: number) {
+  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
+  const cliente = await em.findOne(Cliente, {id: data.cliente, usuario: userId});
   if (!moneda) {
     throw new NotFound('Moneda no encontrada');
   }
@@ -39,23 +39,23 @@ export async function createVenta(data:any) {
   await em.flush();
 }
 
-export async function updateVenta(data:any, id:number) {
+export async function updateVenta(data:any, userId: number, id:number) {
   
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
-  const cliente = await em.findOne(Cliente, data.cliente);
+  const cliente = await em.findOne(Cliente, {id: data.cliente, usuario: userId});
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
   }
   //if (cliente.getEstado() === 'activo') {
   //  throw new Conflict('Cliente ya tiene una venta activa y no puede tener mas ventas activas simultaneamente');
   //}
-  const moneda = await em.findOne(Moneda, data.moneda);
+  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
   if (!moneda) {
     throw new NotFound('Moneda no encontrada');
   }
-  const venta = await em.findOne(Venta, id);
+  const venta = await em.findOne(Venta, {id: id, usuario: userId});
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
@@ -66,12 +66,12 @@ export async function updateVenta(data:any, id:number) {
   await em.flush();
 }
 
-export async function removeVenta(data:any, id:number) {
+export async function removeVenta(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const venta = await em.findOne(Venta, id);
+  const venta = await em.findOne(Venta, {id: id, usuario: userId});
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
