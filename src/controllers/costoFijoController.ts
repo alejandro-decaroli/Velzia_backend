@@ -3,7 +3,8 @@ import { createCostoFijo, getAllCostosFijos, getByIdCostoFijo, removeCostoFijo, 
 
 async function getAll(req: Request, res: Response) {
     try {
-      const costosFijos = await getAllCostosFijos();
+      const userId = req.user?.id;
+      const costosFijos = await getAllCostosFijos(Number(userId));
       res.status(200).json({ message: 'Costos fijos obtenidos exitosamente', costosFijos });
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener los costos fijos' });
@@ -12,7 +13,8 @@ async function getAll(req: Request, res: Response) {
 
 async function getById(req: Request, res: Response) {
     try {
-      const costoFijo = await getByIdCostoFijo(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const costoFijo = await getByIdCostoFijo(Number(userId), Number(req.params.id));
       res.status(200).json({ message: 'Costo fijo encontrado exitosamente', costoFijo });
     } catch (error: any) {
       const status = error.status || 500;
@@ -22,7 +24,8 @@ async function getById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     try {
-      const costoFijo = await createCostoFijo(req.body);
+      const userId = req.user?.id;
+      const costoFijo = await createCostoFijo(req.body, Number(userId));
       res.status(201).json({ message: 'Costo fijo creado exitosamente'});
     } catch (error:any) {
       const status = error.status || 500;
@@ -32,7 +35,8 @@ async function create(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
     try {
-      const costoFijo = await updateCostoFijo(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const costoFijo = await updateCostoFijo(req.body, Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Costo fijo actualizado exitosamente'});
     } catch (error: any) {
       const status = error.status || 500;
@@ -42,7 +46,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
     try {
-      await removeCostoFijo(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      await removeCostoFijo(Number(userId), Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {
       const status = error.status || 500;
@@ -52,7 +57,7 @@ async function remove(req: Request, res: Response) {
 
 async function getListadoCostosFijosByRangeDate(req: Request, res: Response) {
     try {
-      const costosFijos = await getListadoCostosFijosByRangeDateService(req.body);
+      const costosFijos = await getListadoCostosFijosByRangeDateService(req);
       res.status(200).json({ message: 'Costos fijos obtenidos exitosamente', costosFijos });
     } catch (error:any) {
       const status = error.status || 500;

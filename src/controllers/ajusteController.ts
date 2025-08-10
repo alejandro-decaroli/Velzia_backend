@@ -3,7 +3,8 @@ import { createAjuste, getAllAjustes, getByIdAjuste, updateAjuste, removeAjuste 
 
 async function getAll(req: Request, res: Response) {
     try {
-      const ajustes = await getAllAjustes();
+      const userId = req.user?.id;
+      const ajustes = await getAllAjustes(Number(userId));
       res.status(200).json({ message: 'Ajustes obtenidos exitosamente', ajustes });
     } catch (error: any) {
       res.status(500).json({ message: 'Error al obtener los ajustes', error });
@@ -12,7 +13,8 @@ async function getAll(req: Request, res: Response) {
 
 async function getById(req: Request, res: Response) {
     try {
-      const ajuste = await getByIdAjuste(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const ajuste = await getByIdAjuste(Number(userId), Number(req.params.id));
       res.status(200).json({ message: 'Ajuste obtenido exitosamente', ajuste });
     } catch (error: any) {
       const status = error.status || 500;
@@ -22,7 +24,8 @@ async function getById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     try {
-      const ajuste = await createAjuste(req.body);
+      const userId = req.user?.id;
+      const ajuste = await createAjuste(req.body, Number(userId));
       res.status(201).json({ message: 'Ajuste creado exitosamente'});
     } catch (error: any) {
       const status = error.status || 500;
@@ -32,7 +35,8 @@ async function create(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
     try {
-      const ajuste = await updateAjuste(req.body, Number(req.params.id))
+      const userId = req.user?.id;
+      const ajuste = await updateAjuste(req.body , Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Ajuste actualizado exitosamente'});
     } catch (error: any) {
       const status = error.status || 500;
@@ -42,7 +46,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
     try {
-      const ajuste = await removeAjuste(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const ajuste = await removeAjuste(Number(userId), Number(req.params.id));
       res.status(204).send()
     } catch (error: any) {
       const status = error.status || 500;

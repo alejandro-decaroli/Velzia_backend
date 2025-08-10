@@ -2,6 +2,7 @@ import { Entity, Property, ManyToOne } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.entities.js";
 import { Caja } from "./Caja.entities.js";
 import { Venta } from "./Venta.entities.js";
+import { Usuario } from "./Usuario.entities.js";
 
 @Entity()
 export class Pago extends BaseEntity {
@@ -14,4 +15,7 @@ export class Pago extends BaseEntity {
 
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
     monto!: number;
+
+    @ManyToOne('Usuario', {nullable: false})
+    usuario!: Usuario;    
 }

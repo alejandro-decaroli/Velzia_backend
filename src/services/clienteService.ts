@@ -6,16 +6,16 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllClientes() {
-  const clientes = await em.find(Cliente, {});
+export async function getAllClientes(userId: number) {
+  const clientes = await em.find(Cliente, {usuario: {id: userId}});
   return clientes;
 }
 
-export async function getByIdCliente(data:any, id:number) {
+export async function getByIdCliente(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('El ID no puede ser nulo');
   }
-  const cliente = await em.findOne(Cliente, id);
+  const cliente = await em.findOne(Cliente, {id: id, usuario: userId});
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
   }
@@ -23,13 +23,9 @@ export async function getByIdCliente(data:any, id:number) {
   return cliente;
 }
 
-export async function createCliente(data:any) {
-  const usuario = await em.findOne(Usuario, data.usuario);
-  if (!usuario) {
-    throw new NotFound('Usuario no encontrado');
-  }
-  const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre });
-  const siglas_duplicadas = await em.findOne(Cliente, { siglas: data.siglas });
+export async function createCliente(data:any, userId: number) {
+  const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre, usuario: {id: userId} });
+  const siglas_duplicadas = await em.findOne(Cliente, { siglas: data.siglas, usuario: {id: userId} });
   if (nombre_duplicado) {
     throw new Conflict('Los clientes no pueden tener el mismo nombre');
   }
@@ -40,27 +36,22 @@ export async function createCliente(data:any) {
   await em.flush();
 }
 
-export async function updateCliente(data:any, id:number) {
+export async function updateCliente(data:any, userId: number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('El ID no puede ser nulo');
   }
-  const cliente = await em.findOne(Cliente, id);
+  const cliente = await em.findOne(Cliente, {id: id, usuario: userId});
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
   }
-  const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre });
-  const siglas_duplicadas = await em.findOne(Cliente, { siglas: data.siglas });
+  const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre, usuario: userId });
+  const siglas_duplicadas = await em.findOne(Cliente, { siglas: data.siglas, usuario: userId });
   if (nombre_duplicado) {
     throw new Conflict('Los clientes no pueden tener el mismo nombre');
   }
   if (siglas_duplicadas) {
     throw new Conflict('Los clientes no pueden tener las mismas siglas');
   }
-  const usuario = await em.findOne(Usuario, data.usuario);
-  if (!usuario) {
-    throw new NotFound('Usuario no encontrado');
-  }
-  cliente.usuario = usuario;
   cliente.nombre = data.nombre;
   cliente.apellido = data.apellido;
   cliente.direccion = data.direccion;
@@ -70,11 +61,11 @@ export async function updateCliente(data:any, id:number) {
   await em.flush();
 }
 
-export async function removeCliente(data:any, id:number) {
+export async function removeCliente(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
-  const cliente = await em.findOne(Cliente, id);
+  const cliente = await em.findOne(Cliente, {id: id, usuario: userId});
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
   }

@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { createCostoVariable, getAllCostosVariables, getByIdCostoVariable, removeCostoVariable } from '../services/costoVariableService.js';
+import { createCostoVariable, getAllCostosVariables, getByIdCostoVariable, removeCostoVariable, updateCostoVariable } from '../services/costoVariableService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
-      const costosVariables = await getAllCostosVariables();
+      const userId = req.user?.id;
+      const costosVariables = await getAllCostosVariables(Number(userId));
       res.status(200).json({ message: 'Costos variables obtenidos exitosamente', costosVariables });
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener los costos variables' });
@@ -12,7 +13,8 @@ async function getAll(req: Request, res: Response) {
 
 async function getById(req: Request, res: Response) {
     try {
-      const costoVariable = await getByIdCostoVariable(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const costoVariable = await getByIdCostoVariable(Number(userId), Number(req.params.id));
       res.status(200).json({ message: 'Costo variable encontrado exitosamente', costoVariable });
     } catch (error: any) {
       const status = error.status || 500;
@@ -22,7 +24,8 @@ async function getById(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     try {
-      const costoVariable = await createCostoVariable(req.body);
+      const userId = req.user?.id;
+      const costoVariable = await createCostoVariable(req.body, Number(userId));
       res.status(201).json({ message: 'Costo variable creado exitosamente'});
     } catch (error:any) {
       const status = error.status || 500;
@@ -32,7 +35,8 @@ async function create(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
     try {
-      const costoVariable = await getByIdCostoVariable(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      const costoVariable = await updateCostoVariable(req.body, Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Costo variable actualizado exitosamente'});
     } catch (error: any) {
       const status = error.status || 500;
@@ -42,7 +46,8 @@ async function update(req: Request, res: Response) {
 
 async function remove(req: Request, res: Response) {
     try {
-      await removeCostoVariable(req.body, Number(req.params.id));
+      const userId = req.user?.id;
+      await removeCostoVariable(Number(userId), Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {
       const status = error.status || 500;

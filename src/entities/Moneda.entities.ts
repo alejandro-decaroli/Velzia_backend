@@ -1,8 +1,9 @@
-import { Entity, Property, OneToMany, Collection } from "@mikro-orm/core";
+import { Entity, Property, OneToMany, Collection, ManyToOne } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.entities.js";
 import { Caja } from "./Caja.entities.js";
 import { Venta } from "./Venta.entities.js";
 import { Tasa } from "./Tasa.entities.js";
+import { Usuario } from "./Usuario.entities.js";
 
 @Entity()
 export class Moneda extends BaseEntity {
@@ -24,4 +25,7 @@ export class Moneda extends BaseEntity {
 
     @OneToMany('Tasa', 'moneda_destino', { nullable: true })
     tasas_destino = new Collection<Tasa>(this);
+
+    @ManyToOne('Usuario', {nullable: false})
+    usuario!: Usuario;
 }

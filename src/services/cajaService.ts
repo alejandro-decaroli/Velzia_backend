@@ -6,16 +6,16 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllCajas() {
-  const cajas = await em.find(Caja, {});
+export async function getAllCajas(userId: number) {
+  const cajas = await em.find(Caja, {usuario: userId});
   return cajas;
 }
 
-export async function getByIdCaja(data:any, id:number) {
+export async function getByIdCaja(userId:any, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('El ID no puede ser nulo');
   }
-  const caja = await em.findOne(Caja, id);
+  const caja = await em.findOne(Caja, {id: id, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
@@ -23,15 +23,15 @@ export async function getByIdCaja(data:any, id:number) {
   return caja;
 }
 
-export async function createCaja(data:any) {
-  const moneda = await em.findOne(Moneda, data.moneda);
+export async function createCaja(data:any, userId:number) {
+  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
   if (!moneda) {
     throw new NotFound('Moneda no encontrada');
   }
   const name = data.nombre;
   const siglas = data.siglas;
-  const nombre_duplicado = await em.findOne(Caja, { nombre: name });
-  const siglas_duplicadas = await em.findOne(Caja, { siglas: siglas });
+  const nombre_duplicado = await em.findOne(Caja, { nombre: name, usuario: userId });
+  const siglas_duplicadas = await em.findOne(Caja, { siglas: siglas, usuario: userId });
   if (nombre_duplicado) {
     throw new Conflict('Las cajas no pueden tener el mismo nombre');
   }
@@ -42,22 +42,22 @@ export async function createCaja(data:any) {
   await em.flush();
 }
 
-export async function updateCaja(data:any, id:number) {
+export async function updateCaja(data:any, userId: number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('El ID no puede ser nulo');
   }
-  const caja = await em.findOne(Caja, id);
+  const caja = await em.findOne(Caja, {id: id, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
-  const moneda = await em.findOne(Moneda, data.moneda);
+  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
   if (!moneda) {
     throw new NotFound('Moneda no encontrada');
   }
   const name = data.nombre;
   const siglas = data.siglas;
-  const nombre_duplicado = await em.findOne(Caja, { nombre: name });
-  const siglas_duplicadas = await em.findOne(Caja, { siglas: siglas });
+  const nombre_duplicado = await em.findOne(Caja, { nombre: name, usuario: userId });
+  const siglas_duplicadas = await em.findOne(Caja, { siglas: siglas, usuario: userId });
   if (nombre_duplicado) {
     throw new Conflict('Las cajas no pueden tener el mismo nombre');
   }
@@ -71,11 +71,11 @@ export async function updateCaja(data:any, id:number) {
   await em.flush();
 }
 
-export async function removeCaja(data:any, id:number) {
+export async function removeCaja(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('El ID no puede ser nulo');
   }
-  const caja = await em.findOne(Caja, id);
+  const caja = await em.findOne(Caja, {id: id, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }

@@ -6,16 +6,16 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllDividendoSocio() {
-  const dividendoSocio = await em.find(Dividendo, {});
+export async function getAllDividendoSocio(userId: number) {
+  const dividendoSocio = await em.find(Dividendo, {usuario: userId});
   return dividendoSocio;
 }
 
-export async function getByIdDividendoSocio(data:any, id:number) {
+export async function getByIdDividendoSocio(userId:any, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('El ID no puede ser nulo');
   }
-  const dividendo = await em.findOne(Dividendo, id);
+  const dividendo = await em.findOne(Dividendo, {id: id, usuario: userId});
   if (!dividendo) {
     throw new NotFound('Dividendo no encontrado');
   }
@@ -23,8 +23,8 @@ export async function getByIdDividendoSocio(data:any, id:number) {
   return dividendo;
 }
 
-export async function createDividendoSocio(data:any) {
-  const caja = await em.findOne(Caja, data.caja);
+export async function createDividendoSocio(data:any, userId: number) {
+  const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
@@ -36,15 +36,15 @@ export async function createDividendoSocio(data:any) {
   await em.flush();
 }
 
-export async function updateDividendoSocio(data:any, id:number) {
+export async function updateDividendoSocio(data:any, userId: number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
-  const dividendo = await em.findOne(Dividendo, id);
+  const dividendo = await em.findOne(Dividendo, {id: id, usuario: userId});
   if (!dividendo) {
     throw new NotFound('Dividendo no encontrado');
   }
-  const caja = await em.findOne(Caja, data.caja);
+  const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
@@ -57,12 +57,12 @@ export async function updateDividendoSocio(data:any, id:number) {
   await em.flush();
 }
 
-export async function removeDividendoSocio(data:any, id:number) {
+export async function removeDividendoSocio(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const dividendo = await em.findOne(Dividendo, id);
+  const dividendo = await em.findOne(Dividendo, {id: id, usuario: userId});
   if (!dividendo) {
     throw new NotFound('Dividendo no encontrado');
   }

@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import { Request, Response, response } from 'express';
 import { getAllUsuarios, getByIdUsuario, updateUsuario, removeUsuario, sign_In, sign_Up} from '../services/usuarioServices.js';
 
 async function signIn(req: Request, res: Response) {
   try {
-    const usuario = await sign_In(req.body);
+    const usuario = await sign_In(req);
     res.status(200).json(usuario);
   } catch (error: any) {
     const status = error.status || 500;
@@ -13,7 +13,7 @@ async function signIn(req: Request, res: Response) {
 
 async function signUp(req: Request, res: Response) {
   try {
-    const nuevoUsuario = await sign_Up(req.body);
+    const nuevoUsuario = await sign_Up(req);
     res.status(201).json(nuevoUsuario);
   } catch (error: any) {
     const status = error.status || 500;

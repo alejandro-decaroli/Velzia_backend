@@ -7,25 +7,25 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllPagos() {
-  const pagos = await em.find(Pago, {});
+export async function getAllPagos(userId: number) {
+  const pagos = await em.find(Pago, {usuario: userId});
   return pagos;
 }
 
-export async function getByIdPago(data:any, id:number) {
+export async function getByIdPago(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const pago = await em.findOne(Pago, id);
+  const pago = await em.findOne(Pago, {id: id, usuario: userId});
   if (!pago) {
     throw new NotFound('Pago no encontrado');
   }
 }
 
-export async function createPago(data:any) {
-  const caja = await em.findOne(Caja, data.caja);
-  const venta = await em.findOne(Venta, data.venta);
+export async function createPago(data:any, userId: number) {
+  const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
+  const venta = await em.findOne(Venta, {id: data.venta, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
@@ -40,17 +40,17 @@ export async function createPago(data:any) {
   await em.flush();
 }
 
-export async function updatePago(data:any, id:number) {
+export async function updatePago(data:any, userId: number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const pago = await em.findOne(Pago, id);
+  const pago = await em.findOne(Pago, {id: id, usuario: userId});
   if (!pago) {
     throw new NotFound('Pago no encontrado');
   }
-  const caja = await em.findOne(Caja, data.caja);
-  const venta = await em.findOne(Venta, data.venta);
+  const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
+  const venta = await em.findOne(Venta, {id: data.venta, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
@@ -67,12 +67,12 @@ export async function updatePago(data:any, id:number) {
   await em.flush();
 }
 
-export async function removePago(data:any, id:number) {
+export async function removePago(userId:any, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const pago = await em.findOne(Pago, id);
+  const pago = await em.findOne(Pago, {id: id, usuario: userId});
   if (!pago) {
     throw new NotFound('Pago no encontrado');
   }

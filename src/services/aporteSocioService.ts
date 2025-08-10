@@ -6,17 +6,17 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllAportes() {
-  const aportes = await em.find(Aporte, {});
+export async function getAllAportes(userId: number) {
+  const aportes = await em.find(Aporte, {usuario: userId});
   return aportes;
 }
 
-export async function getByIdAportes(data:any, id:number) {
+export async function getByIdAportes(userId: number, id:number) {
   
   if (isNaN(id)) {
     throw new BadRequest('El ID no puede ser nulo');
   }
-  const aporteSocio = await em.findOne(Aporte, id);
+  const aporteSocio = await em.findOne(Aporte, {id: id, usuario: userId});
   if (!aporteSocio) {
     throw new NotFound('Aporte socio no encontrado');
   }
@@ -24,8 +24,9 @@ export async function getByIdAportes(data:any, id:number) {
   return aporteSocio;
 }
 
-export async function createAporte(data:any) {
-  const caja = await em.findOne(Caja, Number(data.caja));
+export async function createAporte(data:any, userId: number) {
+  const caja_id = Number(data.caja)
+  const caja = await em.findOne(Caja, {id: caja_id, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
@@ -34,15 +35,16 @@ export async function createAporte(data:any) {
   await em.flush(); 
 }
 
-export async function updateAporte(data:any, id:number) {
+export async function updateAporte(data:any, userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('El ID no puede ser nulo');
   }
-  const caja = await em.findOne(Caja, data.caja);
+  const caja_id = Number(data.caja)
+  const caja = await em.findOne(Caja, {id: caja_id, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
-  const aporteSocio = await em.findOne(Aporte, id);
+  const aporteSocio = await em.findOne(Aporte, {id: id, usuario: userId});
   if (!aporteSocio) {
     throw new NotFound('Aporte socio no encontrado');
   }
@@ -52,11 +54,11 @@ export async function updateAporte(data:any, id:number) {
   await em.flush();
 }
 
-export async function removeAporte(data:any, id:number) {
+export async function removeAporte(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('El ID no puede ser nulo');
   }
-  const aporteSocio = await em.findOne(Aporte, id);
+  const aporteSocio = await em.findOne(Aporte, {id: id, usuario: userId});
   if (!aporteSocio) {
     throw new NotFound('Aporte socio no encontrado');
   }

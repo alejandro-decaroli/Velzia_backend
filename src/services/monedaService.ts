@@ -5,25 +5,25 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllMoneda() {
-  const monedas = await em.find(Moneda, {});
+export async function getAllMoneda(userId: number) {
+  const monedas = await em.find(Moneda, {usuario: userId});
   return monedas;
 }
 
-export async function getByIdMoneda(data:any, id:number) {
+export async function getByIdMoneda(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido' );
   }
 
-  const moneda = await em.findOne(Moneda, id);
+  const moneda = await em.findOne(Moneda, {id:id, usuario: userId});
   if (!moneda) {
     throw new NotFound('Moneda no encontrada');
   }
 }
 
-export async function createMoneda(data:any) {
-  const nombre_duplicado = await em.findOne(Moneda, { nombre: data.nombre });
-  const codigo_iso_duplicado = await em.findOne(Moneda, { codigo_iso: data.codigo_iso });
+export async function createMoneda(data:any, userId: number) {
+  const nombre_duplicado = await em.findOne(Moneda, { nombre: data.nombre, usuario: userId });
+  const codigo_iso_duplicado = await em.findOne(Moneda, { codigo_iso: data.codigo_iso, usuario: userId });
   if (nombre_duplicado) {
     throw new Conflict('Las monedas no pueden tener el mismo nombre');
   }
@@ -34,17 +34,17 @@ export async function createMoneda(data:any) {
   await em.flush();
 }
 
-export async function updateMoneda(data:any, id:number) {
+export async function updateMoneda(data:any, userId: number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const moneda = await em.findOne(Moneda, id);
+  const moneda = await em.findOne(Moneda, {id: id, usuario: userId});
   if (!moneda) {
     throw new NotFound('Moneda no encontrada');
   }
-  const nombre_duplicado = await em.findOne(Moneda, { nombre: data.nombre });
-  const codigo_iso_duplicado = await em.findOne(Moneda, { codigo_iso: data.codigo_iso });
+  const nombre_duplicado = await em.findOne(Moneda, { nombre: data.nombre, usuario: userId });
+  const codigo_iso_duplicado = await em.findOne(Moneda, { codigo_iso: data.codigo_iso, usuario: userId });
   if (nombre_duplicado) {
     throw new Conflict('Las monedas no pueden tener el mismo nombre');
   }
@@ -56,12 +56,12 @@ export async function updateMoneda(data:any, id:number) {
   await em.flush();
 }
 
-export async function removeMoneda(data:any, id:number) {
+export async function removeMoneda(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
 
-  const moneda = await em.findOne(Moneda, id);
+  const moneda = await em.findOne(Moneda, {id: id, usuario: userId});
   if (!moneda) {
     throw new NotFound('Moneda no encontrada');
   }
