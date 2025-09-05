@@ -1,6 +1,6 @@
 ### Obtener todos los clientes
 GET http://localhost:3000/clientes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTQ2NjU2MjUsImV4cCI6MTc1NDY2OTIyNX0.Z5eAT_KGPo_I9yoPqeaLHb5FxD17PAE0V_XNViWMxpI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbGVAaG90bWFpbC5jb20iLCJub21icmUiOiJBbGVqYW5kcm8iLCJhcGVsbGlkbyI6IkRlY2Fyb2xpIiwiaWF0IjoxNzU3MTA1OTQ5LCJleHAiOjE3NTcxMDk1NDl9.juWoz390-6wHFICmTQjbjzWdzLXUzo79zgedq4PsFXI
 Content-Type: application/json
 
 ### Obtener cliente por ID
@@ -9,17 +9,17 @@ header: Authorization: Bearer <token>
 
 ### Crear cliente
 POST http://localhost:3000/clientes/create
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbGVAaG90bWFpbC5jb20iLCJub21icmUiOiJBbGVqYW5kcm8iLCJhcGVsbGlkbyI6IkRlY2Fyb2xpIiwiaWF0IjoxNzU0NTg0Njk3LCJleHAiOjE3NTQ1ODgyOTd9.LAfi5toR-Dx7E6CmoEodisZo28HX1sH7LRuPjqdAK1A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhbGVAaG90bWFpbC5jb20iLCJub21icmUiOiJBbGVqYW5kcm8iLCJhcGVsbGlkbyI6IkRlY2Fyb2xpIiwiaWF0IjoxNzU3MTA1OTQ5LCJleHAiOjE3NTcxMDk1NDl9.juWoz390-6wHFICmTQjbjzWdzLXUzo79zgedq4PsFXI
 Content-Type: application/json
 
 {
   "usuario": 2,
-  "nombre": "pepe2",
+  "nombre": "pepe6",
   "apellido": "Apellido",
   "telefono": "12345678",
-  "email": "pepe2@gmail.com",
+  "email": "pepe6@gmail.com",
   "direccion": "direccion",
-  "siglas": "PP2"
+  "siglas": "PP6"
 }
 
 ### Actualizar cliente
