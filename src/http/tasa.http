@@ -1,11 +1,16 @@
 ### Obtener todos las tasas
 GET http://localhost:3000/tasas
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
+Content-Type: application/json
 
 ### Obtener tasa por ID
 GET http://localhost:3000/tasas/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
+Content-Type: application/json
 
 ### Crear tasa
 POST http://localhost:3000/tasas/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
 Content-Type: application/json
 
 {
@@ -18,6 +23,7 @@ Content-Type: application/json
 
 ### Actualizar tasa
 PUT http://localhost:3000/tasas/update/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
 Content-Type: application/json
 
 {
@@ -30,3 +36,5 @@ Content-Type: application/json
 
 ### Eliminar tasa
 DELETE http://localhost:3000/tasas/delete/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
+Content-Type: application/json

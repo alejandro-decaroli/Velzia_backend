@@ -1,11 +1,16 @@
 ### Obtener todos los costos variables
 GET http://localhost:3000/costos_variables
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
+Content-Type: application/json
 
 ### Obtener costo variable por ID
 GET http://localhost:3000/costos_variables/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
+Content-Type: application/json
 
 ### Crear costo variable
 POST http://localhost:3000/costos_variables/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
 Content-Type: application/json
 
 {
@@ -18,6 +23,7 @@ Content-Type: application/json
 
 ### Actualizar costo variable
 PUT http://localhost:3000/costos_variables/update/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
 Content-Type: application/json
 
 {
@@ -31,3 +37,5 @@ Content-Type: application/json
 
 ### Eliminar costo variable
 DELETE http://localhost:3000/costos_variables/delete/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
+Content-Type: application/json

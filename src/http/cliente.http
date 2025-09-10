@@ -35,3 +35,5 @@ Content-Type: application/json
 
 ### Eliminar cliente
 DELETE http://localhost:3000/clientes/delete/6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
+Content-Type: application/json
