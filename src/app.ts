@@ -55,7 +55,7 @@ app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`);
 })
 
-// Los clientes con mismo nombre de usuarios distintos causan problemas porque la base de datos no lo acepta
+// problemas de seguridad, usuarios pueden crear entidades en nombre de otros usuarios
 
 // Hacer una plantilla CRUD base para todas las entidades
 // Implementar dicha plantilla para cada entidad

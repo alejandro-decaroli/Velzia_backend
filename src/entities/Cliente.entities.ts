@@ -17,9 +17,6 @@ export class Cliente extends BaseEntity {
   @Property({ length: 100, nullable: true })
   email?: string;
 
-  @Property({ length: 3, nullable: false })
-  siglas!: string;
-
   @Property({ length: 100, nullable: true })
   direccion?: string;
 

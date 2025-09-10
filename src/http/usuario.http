@@ -12,8 +12,8 @@ POST http://localhost:3000/usuarios/login
 Content-Type: application/json
 
 {
-    "email": "ale@hotmail.com",
-    "contrasenia": "123123"
+    "email": "juan.perez@example.com",
+    "contrasenia": "123456"
 }
 
 ### Crear un nuevo usuario
@@ -22,10 +22,10 @@ POST http://localhost:3000/usuarios/sign-up
 Content-Type: application/json
 
 {
-    "nombre": "Juan",
-    "apellido": "Perez",
+    "nombre": "Alejandro",
+    "apellido": "Decaroli",
     "contrasenia": "123456",
-    "email": "juan.perez@example.com"
+    "email": "alejandro.decaroli@example.com"
 }
 
 ### Actualizar un usuario

@@ -58,10 +58,6 @@ export const ClienteValidation = [
     .isLength({ min: 3 }).withMessage('Email muy corto'),
   body('direccion')
     .isLength({ min: 3 }).withMessage('Direccion muy corta'),
-  body('siglas')
-    .notEmpty().withMessage('Siglas son requeridas')
-    .isLength({ min: 2 }).withMessage('Siglas muy cortas')
-    .isLength({ max: 4 }).withMessage('Siglas muy largas'),
 ];
 
 export const ajusteValidation = [

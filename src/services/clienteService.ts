@@ -24,15 +24,25 @@ export async function getByIdCliente(userId:number, id:number) {
 }
 
 export async function createCliente(data:any, userId: number) {
-  const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre, usuario: {id: userId} });
-  const siglas_duplicadas = await em.findOne(Cliente, { siglas: data.siglas, usuario: {id: userId} });
+  const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre, apellido: data.apellido, usuario: {id: userId} });
   if (nombre_duplicado) {
-    throw new Conflict('Los clientes no pueden tener el mismo nombre');
+    throw new Conflict('Los clientes no pueden tener el mismo nombre y apellido');
   }
-  if (siglas_duplicadas) {
-    throw new Conflict('Los clientes no pueden tener las mismas siglas');
+  const usuario = await em.findOne(Usuario, {id: userId});
+  if (!usuario) {
+    throw new NotFound('Usuario no encontrado');
   }
-  await em.create(Cliente, data);
+  await em.create(Cliente, {
+    nombre: data.nombre,
+    apellido: data.apellido,
+    telefono: data.telefono,
+    email: data.email,
+    direccion: data.direccion,
+    usuario: usuario,
+    estado: 'terminado',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  });
   await em.flush();
 }
 
@@ -44,20 +54,15 @@ export async function updateCliente(data:any, userId: number, id:number) {
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
   }
-  const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre, usuario: userId });
-  const siglas_duplicadas = await em.findOne(Cliente, { siglas: data.siglas, usuario: userId });
+  const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre, apellido: data.apellido, usuario: {id: userId} });
   if (nombre_duplicado) {
-    throw new Conflict('Los clientes no pueden tener el mismo nombre');
-  }
-  if (siglas_duplicadas) {
-    throw new Conflict('Los clientes no pueden tener las mismas siglas');
+    throw new Conflict('Los clientes no pueden tener el mismo nombre y apellido');
   }
   cliente.nombre = data.nombre;
   cliente.apellido = data.apellido;
   cliente.direccion = data.direccion;
   cliente.telefono = data.telefono;
   cliente.email = data.email;
-  cliente.siglas = data.siglas;
   await em.flush();
 }
 
