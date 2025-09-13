@@ -2,6 +2,7 @@
 
 GET http://localhost:3000/usuarios
 
+
 ### Obtener un usuario por ID
 
 GET http://localhost:3000/usuarios/1
@@ -12,7 +13,7 @@ POST http://localhost:3000/usuarios/login
 Content-Type: application/json
 
 {
-    "email": "juan.perez@example.com",
+    "email": "gonzalo.zinni@example.com",
     "contrasenia": "123456"
 }
 
@@ -22,15 +23,16 @@ POST http://localhost:3000/usuarios/sign-up
 Content-Type: application/json
 
 {
-    "nombre": "Alejandro",
-    "apellido": "Decaroli",
+    "nombre": "Gonzalo",
+    "apellido": "Zinni",
     "contrasenia": "123456",
-    "email": "alejandro.decaroli@example.com"
+    "email": "gonzalo.zinni@example.com"
 }
 
 ### Actualizar un usuario
 
 PUT http://localhost:3000/usuarios/update/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc2MzE0NDAsImV4cCI6MTc1NzYzNTA0MH0.2S4_QcJfG7-oAeuZ3YlTg8RP0hdzv4PPLJWLEzQXcuI
 Content-Type: application/json
 
 {
@@ -41,6 +43,6 @@ Content-Type: application/json
 }
 
 ### Eliminar un usuario
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc2MzE0NDAsImV4cCI6MTc1NzYzNTA0MH0.2S4_QcJfG7-oAeuZ3YlTg8RP0hdzv4PPLJWLEzQXcuI
 DELETE http://localhost:3000/usuarios/delete/3
 

@@ -1,16 +1,19 @@
 ## API Reference
 
 ### Obtener todos los usuarios
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/usuarios
 ```
 
 ### Obtener usuario por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/usuarios/1
 ```
 
 ### Crear usuario
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/usuarios/sign-up
 Content-Type: application/json
@@ -35,6 +38,7 @@ Content-Type: application/json
 ```
 
 ### Actualizar usuario
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/usuarios/update/1
 Content-Type: application/json
@@ -48,21 +52,25 @@ Content-Type: application/json
 ```
 
 ### Eliminar usuario
+Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/usuarios/delete/1
 ```
 
 ### Obtener todos los ajustes
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/ajustes
 ```
 
 ### Obtener ajuste por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/ajustes/1
 ```
 
 ### Crear ajuste
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/ajustes/create
 Content-Type: application/json
@@ -75,6 +83,7 @@ Content-Type: application/json
 ```
 
 ### Actualizar ajuste
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/ajustes/update/1
 Content-Type: application/json
@@ -87,21 +96,25 @@ Content-Type: application/json
 ```
 
 ### Eliminar ajuste
+Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/ajustes/delete/1
 ```
 
 ### Obtener todos los aportes
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/aportes_socio
 ```
 
 ### Obtener aporte por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/aportes_socio/1
 ```
 
 ### Crear aporte
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/aportes_socio/create
 Content-Type: application/json
@@ -113,6 +126,7 @@ Content-Type: application/json
 ```
 
 ### Actualizar aporte
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/aportes_socio/update/1
 Content-Type: application/json
@@ -124,21 +138,25 @@ Content-Type: application/json
 ```
 
 ### Eliminar aporte
+Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/aportes_socio/delete/1
 ```
 
 ### Obtener todos los cajas
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/cajas
 ```
 
 ### Obtener caja por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/cajas/2
 ```
 
 ### Crear caja
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/cajas/create
 Content-Type: application/json
@@ -152,6 +170,7 @@ Content-Type: application/json
 ```
 
 ### Actualizar caja
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/cajas/update/1
 Content-Type: application/json
@@ -165,21 +184,25 @@ Content-Type: application/json
 ```
 
 ### Eliminar caja
+Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/cajas/delete/10
 ```
 
 ### Obtener todos los clientes
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/clientes
 ```
 
 ### Obtener cliente por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/clientes/5.5
 ```
 
 ### Crear cliente
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/clientes/create
 Content-Type: application/json
@@ -194,6 +217,7 @@ Content-Type: application/json
 }
 ```
 ### Actualizar cliente
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/clientes/update/8
 Content-Type: application/json
@@ -209,21 +233,25 @@ Content-Type: application/json
 ```
 
 ### Eliminar cliente
+Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/clientes/delete/7
 ```
 
 ### Obtener todos los costos fijos
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/costos_fijos
 ```
 
 ### Obtener costos fijos por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/costos_fijos/1
 ```
 
 ### Crear costos fijos
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/costos_fijos/create
 Content-Type: application/json
@@ -236,6 +264,7 @@ Content-Type: application/json
 ```
 
 ### Actualizar costos fijos
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/costos_fijos/update/5
 Content-Type: application/json
@@ -253,16 +282,19 @@ DELETE http://localhost:3000/costos_fijos/delete/5
 ```
 
 ### Obtener todos los costos variables
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/costos_variables
 ```
 
 ### Obtener costo variable por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/costos_variables/1
 ```
 
 ### Crear costo variable
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/costos_variables/create
 Content-Type: application/json
@@ -277,6 +309,7 @@ Content-Type: application/json
 ```
 
 ### Actualizar costo variable
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/costos_variables/update/1
 Content-Type: application/json
@@ -291,21 +324,25 @@ Content-Type: application/json
 ```
 
 ### Eliminar costo variable
+Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/costos_variables/delete/1
 ```
 
 ### Obtener todos los dividendos
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/dividendos_socio
 ```
 
 ### Obtener dividendo por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/dividendos_socio/1
 ```
 
 ### Crear dividendo
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/dividendos_socio/create
 Content-Type: application/json
@@ -317,6 +354,7 @@ Content-Type: application/json
 ```
 
 ### Actualizar dividendo
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/dividendos_socio/update/1
 Content-Type: application/json
@@ -328,21 +366,25 @@ Content-Type: application/json
 ```
 
 ### Eliminar dividendo
+Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/dividendos_socio/delete/1
 ```
 
 ### Obtener todos los pagos
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/pagos
 ```
 
 ### Obtener pago por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/pagos/1
 ```
 
 ### Crear pago
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/pagos/create
 Content-Type: application/json
@@ -355,6 +397,7 @@ Content-Type: application/json
 ```
 
 ### Actualizar pago
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/pagos/update/1
 Content-Type: application/json
@@ -367,21 +410,25 @@ Content-Type: application/json
 ```
 
 ### Eliminar pago
+Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/pagos/delete/1
 ```
 
 ### Obtener todos las tasas
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/tasas
 ```
 
 ### Obtener tasa por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/tasas/1
 ```
 
 ### Crear tasa
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/tasas/create
 Content-Type: application/json
@@ -394,6 +441,7 @@ Content-Type: application/json
 ```
 
 ### Actualizar tasa
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/tasas/update/1
 Content-Type: application/json
@@ -406,21 +454,25 @@ Content-Type: application/json
 ```
 
 ### Eliminar tasa
+Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/tasas/delete/1
 ```
 
 ### Obtener todos las transferencias
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/transferencias
 ```
 
 ### Obtener transferencia por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/transferencias/1
 ```
 
 ### Crear transferencia
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/transferencias/create
 Content-Type: application/json
@@ -433,6 +485,7 @@ Content-Type: application/json
 ```
 
 ### Actualizar transferencia
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/transferencias/update/1
 Content-Type: application/json
@@ -445,21 +498,25 @@ Content-Type: application/json
 ```
 
 ### Eliminar transferencia
+Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/transferencias/delete/2
 ```
 
 ### Obtener todos las ventas
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/ventas
 ```
 
 ### Obtener venta por ID
+Authorization: Bearer <token>
 ```http
 GET http://localhost:3000/ventas/1
 ```
 
 ### Crear venta
+Authorization: Bearer <token>
 ```http
 POST http://localhost:3000/ventas/create
 Content-Type: application/json
@@ -472,6 +529,7 @@ Content-Type: application/json
 ```
 
 ### Actualizar venta
+Authorization: Bearer <token>
 ```http
 PUT http://localhost:3000/ventas/update/1
 Content-Type: application/json
@@ -481,4 +539,10 @@ Content-Type: application/json
   "monto": 1000,
   "moneda": 1
 }
+```
+
+### Eliminar venta
+Authorization: Bearer <token>
+```http
+DELETE http://localhost:3000/ventas/delete/1
 ```

@@ -55,7 +55,7 @@ export async function updateCliente(data:any, userId: number, id:number) {
     throw new NotFound('Cliente no encontrado');
   }
   const nombre_duplicado = await em.findOne(Cliente, { nombre: data.nombre, apellido: data.apellido, usuario: {id: userId} });
-  if (nombre_duplicado) {
+  if (nombre_duplicado && nombre_duplicado.id !== cliente.id) {
     throw new Conflict('Los clientes no pueden tener el mismo nombre y apellido');
   }
   cliente.nombre = data.nombre;
