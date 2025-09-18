@@ -17,4 +17,12 @@ export class Transferencia extends BaseEntity {
 
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
+
+    get nombreCajaOrigen(): string {
+        return this.caja_origen?.nombre || '';
+    }
+
+    get nombreCajaDestino(): string {
+        return this.caja_destino?.nombre || '';
+    }
 }

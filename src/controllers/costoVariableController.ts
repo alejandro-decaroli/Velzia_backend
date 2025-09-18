@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createCostoVariable, getAllCostosVariables, getByIdCostoVariable, removeCostoVariable, updateCostoVariable } from '../services/costoVariableService.js';
+import { createCostoVariable, getAllCostosVariables, getByIdCostoVariable, removeCostoVariable, updateCostoVariable, pagarCostoVariable } from '../services/costoVariableService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
@@ -55,10 +55,23 @@ async function remove(req: Request, res: Response) {
     }
 }
 
+async function pagar(req: Request, res: Response) {
+    try {
+      const userId = req.user?.id;
+      const costoVariable = await pagarCostoVariable(req.body, Number(userId), Number(req.params.id));
+      res.status(201).json({ message: 'Costo variable pagado exitosamente'});
+    } catch (error: any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });
+    }
+}
+
+
 export {
   getAll,
   getById,
   create,
   update,
-  remove
+  remove,
+  pagar
 };

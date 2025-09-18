@@ -16,6 +16,7 @@ import transferenciaRouter from "./routes/transferenciaRoutes.js";
 import tasaRouter from "./routes/tasaRoutes.js";
 import monedaRouter from "./routes/monedaRoutes.js";
 import usuarioRouter from "./routes/usuarioRoute.js";
+import productoRouter from "./routes/productoRoutes.js";
 import cors from "cors";
 
 const PORT = process.env.PORT || 3000;
@@ -48,6 +49,7 @@ app.use('/dividendos_socio', dividendoSocioRouter);
 app.use('/transferencias', transferenciaRouter);
 app.use('/tasas', tasaRouter);
 app.use('/monedas', monedaRouter);
+app.use('/productos', productoRouter);
 
 await syncSchema();
 
@@ -55,8 +57,4 @@ app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`);
 })
 
-// problemas de seguridad, usuarios pueden crear entidades en nombre de otros usuarios
-
-// Hacer una plantilla CRUD base para todas las entidades
-// Implementar dicha plantilla para cada entidad
 

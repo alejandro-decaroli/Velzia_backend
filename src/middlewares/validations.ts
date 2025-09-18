@@ -23,10 +23,6 @@ export const CajaValidation = [
     body('moneda')
       .notEmpty().withMessage('Moneda ID es requerido')
       .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
-    body('siglas')
-      .notEmpty().withMessage('Siglas son requeridas')
-      .isLength({ min: 2 }).withMessage('Siglas muy cortas')
-      .isLength({ max: 4 }).withMessage('Siglas muy largas'),
     body('monto')
       .notEmpty().withMessage('Monto es requerido')
       .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
@@ -82,9 +78,6 @@ export const aporteDividendoSocioValidation = [
 ];
 
 export const costoFijoValidation = [
-    body('caja')
-      .notEmpty().withMessage('Caja ID es requerido')
-      .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
     body('monto')
       .notEmpty().withMessage('Monto es requerido')
       .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
@@ -94,20 +87,12 @@ export const costoFijoValidation = [
 ];
 
 export const costoVariableValidation = [
-  body('caja')
-    .notEmpty().withMessage('Caja ID es requerido')
-    .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
-  body('monto_real')
+  body('monto')
     .notEmpty().withMessage('Monto es requerido')
     .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
   body('adjudicacion')
     .notEmpty().withMessage('Adjudicación es requerida')
     .isString().withMessage('Adjudicación debe ser un string'),
-  body('venta')
-    .notEmpty().withMessage('Venta es requerida')
-    .isInt({ min: 0 }).withMessage('Venta ID debe ser un número entero'),
-  body('presupuestado')
-    .isFloat({ min: 0 }).withMessage('Presupuestado debe ser un número positivo'),
 ];
 
 export const monedaValidation = [
@@ -148,9 +133,6 @@ export const ventaValidation = [
   body('moneda')
     .notEmpty().withMessage('Moneda ID es requerida')
     .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
-  body('monto')
-    .notEmpty().withMessage('Monto es requerido')
-    .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
   body('cliente')
     .notEmpty().withMessage('Cliente ID es requerido')
     .isInt({ min: 0 }).withMessage('Cliente ID debe ser un número entero'),

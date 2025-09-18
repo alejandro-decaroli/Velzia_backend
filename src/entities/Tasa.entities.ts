@@ -16,5 +16,13 @@ export class Tasa extends BaseEntity {
     tasa!: number;
 
     @ManyToOne('Usuario', {nullable: false})
-    usuario!: Usuario;    
+    usuario!: Usuario;  
+
+    get nombreMonedaOrigen(): string {
+        return this.moneda_origen?.nombre || '';
+    }
+
+    get nombreMonedaDestino(): string {
+        return this.moneda_destino?.nombre || '';
+    }  
 }

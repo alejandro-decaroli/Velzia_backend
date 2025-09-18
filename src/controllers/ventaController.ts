@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, getListadoVentasByDate } from '../services/ventaService.js';
+import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, getListadoVentasByDate, cancelarVenta, pagarVenta, registrarDetalle } from '../services/ventaService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
@@ -60,11 +60,44 @@ async function getListadoVentasByRangeDate(req: Request, res: Response) {
       res.status(status).json({ message: error.message || 'Error interno' });    }
 }
 
+async function cancelar(req: Request, res: Response) {
+    try {
+      const userId = req.user?.id;
+      const venta = await cancelarVenta(Number(userId), Number(req.params.id));
+      res.status(201).json({ message: 'Venta cancelada exitosamente'});
+    } catch (error:any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });    }
+}
+
+async function pagar(req: Request, res: Response) {
+    try {
+      const userId = req.user?.id;
+      const venta = await pagarVenta(req.body, Number(userId), Number(req.params.id));
+      res.status(201).json({ message: 'Venta pagada exitosamente'});
+    } catch (error:any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });    }
+}
+
+async function registrarDetalleVenta(req: Request, res: Response) {
+    try {
+      const userId = req.user?.id;
+      const venta = await registrarDetalle(req.body, Number(userId), Number(req.params.id));
+      res.status(201).json({ message: 'Detalle de venta registrado exitosamente'});
+    } catch (error:any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });    }
+}
+
 export {
   getAll,
   getById,
   create,
   update,
   remove,
-  getListadoVentasByRangeDate
+  getListadoVentasByRangeDate,
+  cancelar,
+  pagar,
+  registrarDetalleVenta
 };

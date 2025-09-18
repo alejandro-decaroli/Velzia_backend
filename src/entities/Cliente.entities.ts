@@ -23,22 +23,7 @@ export class Cliente extends BaseEntity {
   @OneToMany('Venta', 'cliente', {cascade: [Cascade.ALL], nullable: true})
   ventas = new Collection<Venta>(this);
 
-  @Property({default: 'terminado', nullable: true})
-  estado:'terminado' | 'activo' = 'terminado'
-
   @ManyToOne('Usuario', 'clientes')
   usuario!: Usuario;
   
-
-  /*getEstado() {
-    if (this.ventas.length === 0) {
-      return 'terminado';
-    }
-    for (const venta of this.ventas) {
-      if (venta.estado === true) {
-        return 'activo';
-      }
-    }
-    return 'terminado';
-  }*/
 }

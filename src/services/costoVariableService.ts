@@ -2,6 +2,9 @@ import { orm } from '../db/orm.js';
 import { CostoVariable } from '../entities/Costovariable.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
 import { Venta } from '../entities/Venta.entities.js';
+import { Pago } from '../entities/Pago.entities.js';
+import { Usuario } from '../entities/Usuario.entities.js';
+import { Moneda } from '../entities/Moneda.entities.js';
 import createError from 'http-errors';
 const { BadRequest, NotFound, Conflict } = createError;
 
@@ -25,20 +28,24 @@ export async function getByIdCostoVariable(userId:number, id:number) {
 }
 
 export async function createCostoVariable(data:any, userId: number) {
-  const venta = await em.findOne(Venta, {id: data.venta, usuario: userId});
-  const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
-  if (!venta) {
-    throw new NotFound('Venta no encontrada');
+  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
+  if (!moneda) {
+    throw new NotFound('Moneda no encontrada');
   }
-  if (!caja) {
-    throw new NotFound('Caja no encontrada');
+  const usuario = await em.findOne(Usuario, {id: userId});
+  if (!usuario) {
+    throw new NotFound('Usuario no encontrado');
   }
-
-  if (caja.monto < data.monto_real) {
-    throw new Conflict('No hay suficiente saldo en la caja');
-  }
-  caja.monto -= Number(data.monto_real);
-  const costoVariable = await em.create(CostoVariable, data);
+  await em.create(CostoVariable, {
+    moneda: moneda,
+    adjudicacion: data.adjudicacion,
+    monto: data.monto,
+    descripcion: data.descripcion,
+    estado: 'Pendiente',
+    usuario: usuario,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  });
   await em.flush();
 }
 
@@ -46,28 +53,23 @@ export async function updateCostoVariable(data:any, userId: number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
-  const venta = await em.findOne(Venta, {id: data.venta, usuario: userId});
-  const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
-  if (!venta) {
-    throw new NotFound('Venta no encontrada');
-  }
-  if (!caja) {
-    throw new NotFound('Caja no encontrada');
-  }
-
-  if (caja.monto < data.monto_real) {
-    throw new Conflict('No hay suficiente saldo en la caja');
-  }
   const costoVariable = await em.findOne(CostoVariable, {id: id, usuario: userId});
   if (!costoVariable) {
     throw new NotFound('Costo Variable no encontrado');
   }
-  caja.monto += Number(costoVariable.monto_real);
-  caja.monto -= Number(data.monto_real);
+  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
+  if (!moneda) {
+    throw new NotFound('Moneda no encontrada');
+  }
+  const usuario = await em.findOne(Usuario, {id: userId});
+  if (!usuario) {
+    throw new NotFound('Usuario no encontrado');
+  }
   costoVariable.adjudicacion = data.adjudicacion;
-  costoVariable.caja = data.caja;
-  costoVariable.monto_real = data.monto_real;
-  costoVariable.presupuestado = data.presupuestado;
+  costoVariable.monto = data.monto;
+  costoVariable.estado = data.estado;
+  costoVariable.descripcion = data.descripcion;
+  costoVariable.moneda = moneda;
   await em.flush();
 }
 
@@ -81,4 +83,53 @@ export async function removeCostoVariable(userId:number, id:number) {
   }
 
   await em.removeAndFlush(costoVariable);
+}
+
+export async function pagarCostoVariable(data:any, userId:number, id:number) {
+
+  if (isNaN(id)) {
+    throw new BadRequest('ID inválido');
+  }
+  const costoVariable = await em.findOne(CostoVariable, {id: id, usuario: userId});
+  if (!costoVariable) {
+    throw new NotFound('Costo Variable no encontrado');
+  }
+  const usuario = await em.findOne(Usuario, {id: userId});
+  if (!usuario) {
+    throw new NotFound('Usuario no encontrado');
+  }
+  const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
+  if (!caja) {
+    throw new NotFound('Caja no encontrada');
+  }
+
+  if (costoVariable.moneda.id !== caja.moneda.id) {
+    throw new Conflict('Moneda de la caja no coincide con la moneda del costo variable');
+  }
+
+  if (caja.monto < Number(data.monto)) {
+    throw new Conflict('Fondos insuficientes');
+  }
+
+  const pago = await em.create(Pago, {
+    caja: caja,
+    costo_variable: costoVariable,
+    monto: Number(data.monto),
+    usuario: usuario,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  });
+  
+  caja.monto -= Number(data.monto);
+  await em.persistAndFlush(caja);
+  await em.persistAndFlush(pago);
+
+  const pagos = await em.find(Pago, {costo_variable: costoVariable});
+  const totalPagado = pagos.reduce((total, pago) => total + pago.monto, 0);
+
+  if (totalPagado >= costoVariable.monto) {
+    costoVariable.estado = 'Pagada';
+    await em.persistAndFlush(costoVariable);
+  }
+
 }

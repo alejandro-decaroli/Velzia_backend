@@ -39,7 +39,6 @@ export async function createCliente(data:any, userId: number) {
     email: data.email,
     direccion: data.direccion,
     usuario: usuario,
-    estado: 'terminado',
     createdAt: new Date(),
     updatedAt: new Date()
   });

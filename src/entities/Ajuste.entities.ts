@@ -8,13 +8,17 @@ export class Ajuste extends BaseEntity {
 
     @ManyToOne('Caja', { nullable: false })
     caja!: Caja;
-
+    
+    @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
+    monto!: number;
+    
     @Property({ type: 'varchar', length: 20, nullable: false })
     movimiento!: 'ingreso' | 'egreso';
 
-    @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
-    monto!: number;
-
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
+
+    get nombreCaja(): string {
+        return this.caja?.nombre || '';
+    }
 }

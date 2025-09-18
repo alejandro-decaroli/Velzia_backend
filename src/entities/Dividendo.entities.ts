@@ -14,4 +14,8 @@ export class Dividendo extends BaseEntity {
 
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
+
+    get nombreCaja(): string {
+        return this.caja?.nombre || '';
+    }
 }

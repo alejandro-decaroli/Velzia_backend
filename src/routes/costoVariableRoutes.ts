@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { create, getAll, getById, remove, update } from '../controllers/costoVariableController.js';
+import { create, getAll, getById, remove, update, pagar } from '../controllers/costoVariableController.js';
 import { handleValidationErrors, idParamValidation, costoVariableValidation } from '../middlewares/validations.js';
 import { verifyToken } from '../middlewares/auth.js';
 
@@ -34,6 +34,13 @@ costoVariableRouter.delete('/delete/:id',
     idParamValidation,
     handleValidationErrors,
     (req: Request, res: Response) => {remove(req, res)}
+);
+
+costoVariableRouter.post('/pagar/:id',
+  verifyToken,
+    idParamValidation,
+    handleValidationErrors,
+    (req: Request, res: Response) => {pagar(req, res)}
 );
 
 export default costoVariableRouter;

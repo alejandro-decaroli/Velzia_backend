@@ -2,6 +2,7 @@ import { orm } from '../db/orm.js';
 import { Caja } from '../entities/Caja.entities.js';
 import { Moneda } from '../entities/Moneda.entities.js';
 import createError from 'http-errors';
+import { Usuario } from '../entities/Usuario.entities.js';
 const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
@@ -29,16 +30,23 @@ export async function createCaja(data:any, userId:number) {
     throw new NotFound('Moneda no encontrada');
   }
   const name = data.nombre;
-  const siglas = data.siglas;
+  const monto = data.monto;
   const nombre_duplicado = await em.findOne(Caja, { nombre: name, usuario: userId });
-  const siglas_duplicadas = await em.findOne(Caja, { siglas: siglas, usuario: userId });
   if (nombre_duplicado) {
     throw new Conflict('Las cajas no pueden tener el mismo nombre');
   }
-  if (siglas_duplicadas) {
-    throw new Conflict('Las cajas no pueden tener las mismas siglas');
+  const usuario = await em.findOne(Usuario, {id: userId});
+  if (!usuario) {
+    throw new NotFound('Usuario no encontrado');
   }
-  em.create(Caja, data);
+  em.create(Caja, {
+    nombre: name,
+    monto: monto,
+    moneda: moneda,
+    usuario: usuario,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  });
   await em.flush();
 }
 
@@ -55,18 +63,12 @@ export async function updateCaja(data:any, userId: number, id:number) {
     throw new NotFound('Moneda no encontrada');
   }
   const name = data.nombre;
-  const siglas = data.siglas;
   const nombre_duplicado = await em.findOne(Caja, { nombre: name, usuario: userId });
-  const siglas_duplicadas = await em.findOne(Caja, { siglas: siglas, usuario: userId });
-  if (nombre_duplicado) {
+  if (nombre_duplicado && nombre_duplicado.id !== id) {
     throw new Conflict('Las cajas no pueden tener el mismo nombre');
-  }
-  if (siglas_duplicadas) {
-    throw new Conflict('Las cajas no pueden tener las mismas siglas');
   }
   caja.monto = data.monto;
   caja.nombre = name;
-  caja.siglas = siglas;
   caja.moneda = moneda;
   await em.flush();
 }
