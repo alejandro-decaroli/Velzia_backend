@@ -12,10 +12,6 @@ export class Aporte extends BaseEntity {
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
     monto!: number;
 
-    get nombreCaja(): string {
-        return this.caja?.nombre || '';
-    }
-
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 }

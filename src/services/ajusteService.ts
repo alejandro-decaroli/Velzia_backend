@@ -51,12 +51,15 @@ export async function updateAjuste(data:any, userId: number, id:number) {
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
+  const monto_anterior = ajuste.monto;
   ajuste.monto = data.monto;
   ajuste.movimiento = data.movimiento;
   ajuste.caja = data.caja;
   if (ajuste.movimiento === 'ingreso') {
+    caja.monto -= monto_anterior;
     caja.monto += data.monto;
   } else if (ajuste.movimiento === 'egreso') {
+    caja.monto += monto_anterior;
     caja.monto -= data.monto;
     if (caja.monto < 0) {
       throw new BadRequest('El monto de la caja es negativo');
@@ -67,5 +70,11 @@ export async function updateAjuste(data:any, userId: number, id:number) {
 
 export async function removeAjuste(userId: number, id:number){
   const ajuste = await getByIdAjuste(userId, id);
+
+  const cajas = await em.count(Caja, {ajustes: ajuste, usuario: userId});
+  if (cajas > 0) {
+    throw new Conflict('El ajuste no puede ser eliminado porque tiene cajas asociadas');
+  }
+  
   await em.removeAndFlush(ajuste);
 }

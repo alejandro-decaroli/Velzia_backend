@@ -3,6 +3,11 @@ import { Caja } from '../entities/Caja.entities.js';
 import { Moneda } from '../entities/Moneda.entities.js';
 import createError from 'http-errors';
 import { Usuario } from '../entities/Usuario.entities.js';
+import { Ajuste } from '../entities/Ajuste.entities.js';
+import { Pago } from '../entities/Pago.entities.js';
+import { Aporte } from '../entities/Aporte.entities.js';
+import { Dividendo } from '../entities/Dividendo.entities.js';
+import { Transferencia } from '../entities/Transferencia.entities.js';
 const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
@@ -43,6 +48,7 @@ export async function createCaja(data:any, userId:number) {
     nombre: name,
     monto: monto,
     moneda: moneda,
+    tipo_moneda: moneda.codigo_iso,
     usuario: usuario,
     createdAt: new Date(),
     updatedAt: new Date()
@@ -70,6 +76,7 @@ export async function updateCaja(data:any, userId: number, id:number) {
   caja.monto = data.monto;
   caja.nombre = name;
   caja.moneda = moneda;
+  caja.tipo_moneda = moneda.codigo_iso;
   await em.flush();
 }
 
@@ -81,5 +88,33 @@ export async function removeCaja(userId:number, id:number) {
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
+
+  const ajustes = await em.count(Ajuste, {caja: caja});
+  const pagos = await em.count(Pago, {caja: caja});
+  const aportes = await em.count(Aporte, {caja: caja});
+  const dividendos = await em.count(Dividendo, {caja: caja});
+  const transferencias_origen = await em.count(Transferencia, {caja_origen: caja});
+  const transferencias_destino = await em.count(Transferencia, {caja_destino: caja});
+
+  if (ajustes > 0) {
+    throw new Conflict('La caja no puede ser eliminada porque tiene ajustes asociados');
+  }
+  if (pagos > 0) {
+    throw new Conflict('La caja no puede ser eliminada porque tiene pagos asociados');
+  }
+  if (aportes > 0) {
+    throw new Conflict('La caja no puede ser eliminada porque tiene aportes asociados');
+  }
+  if (dividendos > 0) {
+    throw new Conflict('La caja no puede ser eliminada porque tiene dividendos asociados');
+  }
+  if (transferencias_origen > 0) {
+    throw new Conflict('La caja no puede ser eliminada porque tiene transferencias de origen asociadas');
+  }
+  if (transferencias_destino > 0) {
+    throw new Conflict('La caja no puede ser eliminada porque tiene transferencias de destino asociadas');
+  }
+
+
   await em.removeAndFlush(caja);
 }

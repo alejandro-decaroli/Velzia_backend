@@ -37,11 +37,14 @@ export class Caja extends BaseEntity {
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
     monto!: number;
 
+    @Property({ type: 'varchar', length: 20, nullable: false })
+    tipo_moneda!: string;
+
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 
-    tipo_moneda(): string {
-        return this.moneda?.codigo_iso || '';
+    constructor() {
+        super();
+        this.tipo_moneda = this.moneda?.codigo_iso || '';
     }
-    
 }

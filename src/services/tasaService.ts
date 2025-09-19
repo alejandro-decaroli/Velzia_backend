@@ -72,5 +72,11 @@ export async function removeTasa(userId:any, id:number) {
     throw new NotFound('Tasa no encontrada');
   }
 
+  const monedas_origen = await em.count(Moneda, {tasas_origen: tasa});
+  const monedas_destino = await em.count(Moneda, {tasas_destino: tasa});
+  if (monedas_origen > 0 || monedas_destino > 0) {
+    throw new Conflict('No se puede eliminar la tasa porque tiene monedas asociadas');
+  }
+
   await em.removeAndFlush(tasa);
 }

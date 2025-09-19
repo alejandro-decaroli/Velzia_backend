@@ -87,6 +87,21 @@ export async function removeVenta(userId:number, id:number) {
     throw new NotFound('Venta no encontrada');
   }
 
+  const pagos = await em.count(Pago, {venta: venta});
+  if (pagos > 0) {
+    throw new Conflict('No se puede eliminar la venta porque tiene pagos asociados');
+  }
+
+  const detalles = await em.count(Detalle, {venta: venta});
+  if (detalles > 0) {
+    throw new Conflict('No se puede eliminar la venta porque tiene detalles asociados');
+  }
+
+  const clientes = await em.count(Cliente, {ventas: venta});
+  if (clientes > 0) {
+    throw new Conflict('No se puede eliminar la venta porque tiene clientes asociados');
+  }
+
   await em.removeAndFlush(venta);
 }
 

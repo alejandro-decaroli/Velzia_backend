@@ -71,7 +71,10 @@ export async function removeCostoFijo(userId:any, id:number) {
   if (!costoFijo) {
     throw new NotFound('Costo fijo no encontrado');
   }
-
+  const pagos = await em.count(Pago, {costo_fijo: costoFijo, usuario: userId});
+  if (pagos > 0) {
+    throw new Conflict('El costo fijo no puede ser eliminado porque tiene pagos asociados');
+  }
   await em.removeAndFlush(costoFijo);
 }
 

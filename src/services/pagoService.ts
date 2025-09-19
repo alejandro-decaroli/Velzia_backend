@@ -3,6 +3,8 @@ import { Pago } from '../entities/Pago.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
 import { Venta } from '../entities/Venta.entities.js';
 import createError from 'http-errors';
+import { CostoFijo } from '../entities/Costofijo.entities.js';
+import { CostoVariable } from '../entities/Costovariable.entities.js';
 const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
@@ -75,6 +77,23 @@ export async function removePago(userId:any, id:number) {
   const pago = await em.findOne(Pago, {id: id, usuario: userId});
   if (!pago) {
     throw new NotFound('Pago no encontrado');
+  }
+  const cajas = await em.count(Caja, {pagos: pago});
+  if (cajas > 0) {
+    throw new Conflict('No se puede eliminar el pago porque tiene cajas asociadas');
+  }
+  const costos_fijos = await em.count(CostoFijo, {pagos: pago});
+  const costos_variables = await em.count(CostoVariable, {pagos: pago});
+  const ventas = await em.count(Venta, {pagos: pago});
+
+  if (costos_fijos > 0) {
+    throw new Conflict('No se puede eliminar el pago porque tiene costos fijos asociados');
+  }
+  if (costos_variables > 0) {
+    throw new Conflict('No se puede eliminar el pago porque tiene costos variables asociados');
+  }
+  if (ventas > 0) {
+    throw new Conflict('No se puede eliminar el pago porque tiene ventas asociadas');
   }
 
   await em.removeAndFlush(pago);

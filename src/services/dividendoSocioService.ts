@@ -67,5 +67,10 @@ export async function removeDividendoSocio(userId:number, id:number) {
     throw new NotFound('Dividendo no encontrado');
   }
 
+  const cajas = await em.count(Caja, {dividendos: dividendo});
+  if (cajas > 0) {
+    throw new Conflict('No se puede eliminar el dividendo porque tiene cajas asociadas');
+  }
+
   await em.removeAndFlush(dividendo);
 }

@@ -2,6 +2,7 @@ import { orm } from '../db/orm.js';
 import { Producto } from '../entities/Producto.entities.js';
 import { Usuario } from '../entities/Usuario.entities.js';
 import createError from 'http-errors';
+import { Detalle } from '../entities/Detalle.entities.js';
 const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
@@ -62,5 +63,9 @@ export async function updateProducto(data:any, userId: number, id:number) {
 
 export async function removeProducto(userId: number, id:number){
   const producto = await getByIdProducto(userId, id);
+  const detalles = await em.count(Detalle, {producto: producto});
+  if (detalles > 0) {
+    throw new Conflict('No se puede eliminar el producto porque tiene detalles asociados');
+  }
   await em.removeAndFlush(producto);
 }

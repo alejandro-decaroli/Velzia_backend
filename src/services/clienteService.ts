@@ -2,6 +2,7 @@ import { orm } from '../db/orm.js';
 import { Cliente } from '../entities/Cliente.entities.js';
 import { Usuario } from '../entities/Usuario.entities.js';
 import createError from 'http-errors';
+import { Venta } from '../entities/Venta.entities.js';
 const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
@@ -71,6 +72,10 @@ export async function removeCliente(userId:number, id:number) {
   const cliente = await em.findOne(Cliente, {id: id, usuario: userId});
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
+  }
+  const ventas = await em.count(Venta, {cliente: cliente, usuario: userId});
+  if (ventas > 0) {
+    throw new Conflict('El cliente no puede ser eliminado porque tiene ventas asociadas');
   }
   await em.removeAndFlush(cliente);
 }

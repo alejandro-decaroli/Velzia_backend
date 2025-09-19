@@ -1,7 +1,6 @@
 import { orm } from '../db/orm.js';
 import { CostoVariable } from '../entities/Costovariable.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
-import { Venta } from '../entities/Venta.entities.js';
 import { Pago } from '../entities/Pago.entities.js';
 import { Usuario } from '../entities/Usuario.entities.js';
 import { Moneda } from '../entities/Moneda.entities.js';
@@ -80,6 +79,10 @@ export async function removeCostoVariable(userId:number, id:number) {
   const costoVariable = await em.findOne(CostoVariable, {id: id, usuario: userId});
   if (!costoVariable) {
     throw new NotFound('Costo Variable no encontrado');
+  }
+  const pagos = await em.count(Pago, {costo_variable: costoVariable, usuario: userId});
+  if (pagos > 0) {
+    throw new Conflict('El costo variable no puede ser eliminado porque tiene pagos asociados');
   }
 
   await em.removeAndFlush(costoVariable);

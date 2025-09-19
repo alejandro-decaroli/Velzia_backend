@@ -91,5 +91,15 @@ export async function removeTransferencia(userId:number, id:number) {
     throw new NotFound('Transferencia no encontrada');
   }
 
+  const cajas = await em.count(Caja, {transferencias_origen: transferencia});
+  if (cajas > 0) {
+    throw new Conflict('No se puede eliminar la transferencia porque tiene cajas de origen asociadas');
+  }
+
+  const cajas2 = await em.count(Caja, {transferencias_destino: transferencia});
+  if (cajas2 > 0) {
+    throw new Conflict('No se puede eliminar la transferencia porque tiene cajas de destino asociadas');
+  }
+
   await em.removeAndFlush(transferencia);
 }
