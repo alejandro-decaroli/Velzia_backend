@@ -19,7 +19,6 @@ export async function getByIdCliente(userId:number, id:number) {
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
   }
-
   return cliente;
 }
 

@@ -14,8 +14,8 @@ async function getAll(req: Request, res: Response) {
 async function getById(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const monedas = await getByIdMoneda(Number(userId), Number(req.params.id));
-      res.status(200).json({ message: 'Moneda encontrada exitosamente', monedas });
+      const moneda = await getByIdMoneda(Number(userId), Number(req.params.id));
+      res.status(200).json({ message: 'Moneda encontrada exitosamente', moneda });
     } catch (error: any) {
       const status = error.status || 500;
       res.status(status).json({ message: error.message || 'Error interno' });
@@ -25,7 +25,7 @@ async function getById(req: Request, res: Response) {
 async function create(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const moneda = await createMoneda(req.body, Number(userId));
+      await createMoneda(req.body, Number(userId));
       res.status(201).json({ message: 'Moneda creada exitosamente'});
     } catch (error:any) {
       const status = error.status || 500;
@@ -36,7 +36,7 @@ async function create(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const moneda = await updateMoneda(req.body, Number(userId), Number(req.params.id));
+      await updateMoneda(req.body, Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Moneda actualizada exitosamente'});
     } catch (error: any) {
       const status = error.status || 500;
@@ -47,7 +47,7 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const moneda = await removeMoneda(Number(userId), Number(req.params.id));
+      await removeMoneda(Number(userId), Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {
       const status = error.status || 500;

@@ -25,7 +25,7 @@ async function getById(req: Request, res: Response) {
 async function create(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const ajuste = await createAjuste(req.body, Number(userId));
+      await createAjuste(req.body, Number(userId));
       res.status(201).json({ message: 'Ajuste creado exitosamente'});
     } catch (error: any) {
       const status = error.status || 500;
@@ -36,7 +36,7 @@ async function create(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const ajuste = await updateAjuste(req.body , Number(userId), Number(req.params.id));
+      await updateAjuste(req.body , Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Ajuste actualizado exitosamente'});
     } catch (error: any) {
       const status = error.status || 500;
@@ -47,7 +47,7 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const ajuste = await removeAjuste(Number(userId), Number(req.params.id));
+      await removeAjuste(Number(userId), Number(req.params.id));
       res.status(204).send()
     } catch (error: any) {
       const status = error.status || 500;

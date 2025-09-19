@@ -2,6 +2,11 @@ import { orm } from '../db/orm.js';
 import { Moneda } from '../entities/Moneda.entities.js';
 import createError from 'http-errors';
 import { Usuario } from '../entities/Usuario.entities.js';
+import { Venta } from '../entities/Venta.entities.js';
+import { Caja } from '../entities/Caja.entities.js';
+import { Tasa } from '../entities/Tasa.entities.js';
+import { CostoFijo } from '../entities/Costofijo.entities.js';
+import { CostoVariable } from '../entities/Costovariable.entities.js';
 const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
@@ -84,6 +89,32 @@ export async function removeMoneda(userId:number, id:number) {
   const moneda = await em.findOne(Moneda, {id: id, usuario: userId});
   if (!moneda) {
     throw new NotFound('Moneda no encontrada');
+  }
+
+  const ventas = await em.count(Venta, {moneda: moneda});
+  const cajas = await em.count(Caja, {moneda: moneda});
+  const tasas_origen = await em.count(Tasa, {moneda_origen: moneda});
+  const tasas_destino = await em.count(Tasa, {moneda_destino: moneda});
+  const costo_fijo = await em.count(CostoFijo, {moneda: moneda});
+  const costo_variable = await em.count(CostoVariable, {moneda: moneda});
+
+  if (ventas > 0) {
+    throw new Conflict('La moneda no puede ser eliminada porque tiene ventas asociadas');
+  }
+  if (cajas > 0) {
+    throw new Conflict('La moneda no puede ser eliminada porque tiene cajas asociadas');
+  }
+  if (tasas_origen > 0) {
+    throw new Conflict('La moneda no puede ser eliminada porque tiene tasas de origen asociadas');
+  }
+  if (tasas_destino > 0) {
+    throw new Conflict('La moneda no puede ser eliminada porque tiene tasas de destino asociadas');
+  }
+  if (costo_fijo > 0) {
+    throw new Conflict('La moneda no puede ser eliminada porque tiene costos fijos asociados');
+  }
+  if (costo_variable > 0) {
+    throw new Conflict('La moneda no puede ser eliminada porque tiene costos variables asociados');
   }
 
   await em.removeAndFlush(moneda);

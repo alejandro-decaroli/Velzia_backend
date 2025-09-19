@@ -43,8 +43,8 @@ async function getById(req: Request, res: Response) {
 
 async function update(req: Request, res: Response) {
   try {
-    const usuario = await updateUsuario(req.body, Number(req.params.id));
-    res.status(201).json({ message: 'Usuario actualizado exitosamente', usuario });
+    await updateUsuario(req.body, Number(req.params.id));
+    res.status(201).json({ message: 'Usuario actualizado exitosamente' });
   } catch (error: any) {
     const status = error.status || 500;
     res.status(status).json({ message: error.message || 'Error al actualizar el usuario' });

@@ -26,7 +26,7 @@ async function getById(req: Request, res: Response) {
 async function create(req: Request, res: Response) {
       try { 
         const userId = req.user?.id;
-        const cliente = await createCliente(req.body, Number(userId));
+        await createCliente(req.body, Number(userId));
         res.status(201).json({ message: 'Cliente creado exitosamente'});
       } catch (error: any) {
       const status = error.status || 500;
@@ -37,7 +37,7 @@ async function create(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
       try {
         const userId = req.user?.id;
-        const cliente = await updateCliente(req.body, Number(userId), Number(req.params.id));
+        await updateCliente(req.body, Number(userId), Number(req.params.id));
         res.status(201).json({ message: 'Cliente actualizado exitosamente'});
       } catch (error: any) {
       const status = error.status || 500;

@@ -25,7 +25,7 @@ async function getById(req: Request, res: Response) {
 async function create(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const pago = await createPago(req.body, Number(userId));
+      await createPago(req.body, Number(userId));
       res.status(201).json({ message: 'Pago creado exitosamente'});
     } catch (error:any) {
       const status = error.status || 500;
@@ -36,9 +36,9 @@ async function create(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const pago = await updatePago(req.body, Number(userId), Number(req.params.id));
+      await updatePago(req.body, Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Pago actualizado exitosamente'});
-    } catch (error: any) {
+    } catch (error:any) {
       const status = error.status || 500;
       res.status(status).json({ message: error.message || 'Error interno' });    }
 }
@@ -48,7 +48,7 @@ async function remove(req: Request, res: Response) {
       const userId = req.user?.id;
       await removePago(Number(userId), Number(req.params.id));
       res.status(204).send();
-    } catch (error: any) {
+    } catch (error:any) {
       const status = error.status || 500;
       res.status(status).json({ message: error.message || 'Error interno' });    }
 }

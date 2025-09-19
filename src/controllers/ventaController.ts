@@ -24,7 +24,7 @@ async function getById(req: Request, res: Response) {
 async function create(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const venta = await createVenta(req.body, Number(userId));
+      await createVenta(req.body, Number(userId));
       res.status(201).json({ message: 'Venta creada exitosamente'});
     } catch (error:any) {
       const status = error.status || 500;
@@ -34,7 +34,7 @@ async function create(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const venta = await updateVenta(req.body, Number(userId), Number(req.params.id));
+      await updateVenta(req.body, Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Venta actualizada exitosamente'});
     } catch (error: any) {
       const status = error.status || 500;
@@ -44,7 +44,7 @@ async function update(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const venta = await removeVenta(Number(userId), Number(req.params.id));
+      await removeVenta(Number(userId), Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {
       const status = error.status || 500;
@@ -63,7 +63,7 @@ async function getListadoVentasByRangeDate(req: Request, res: Response) {
 async function cancelar(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const venta = await cancelarVenta(Number(userId), Number(req.params.id));
+      await cancelarVenta(Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Venta cancelada exitosamente'});
     } catch (error:any) {
       const status = error.status || 500;
@@ -73,7 +73,7 @@ async function cancelar(req: Request, res: Response) {
 async function pagar(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const venta = await pagarVenta(req.body, Number(userId), Number(req.params.id));
+      await pagarVenta(req.body, Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Venta pagada exitosamente'});
     } catch (error:any) {
       const status = error.status || 500;
@@ -83,7 +83,7 @@ async function pagar(req: Request, res: Response) {
 async function registrarDetalleVenta(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const venta = await registrarDetalle(req.body, Number(userId), Number(req.params.id));
+      await registrarDetalle(req.body, Number(userId), Number(req.params.id));
       res.status(201).json({ message: 'Detalle de venta registrado exitosamente'});
     } catch (error:any) {
       const status = error.status || 500;

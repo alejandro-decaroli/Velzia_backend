@@ -4,18 +4,18 @@ import { createDividendoSocio, getAllDividendoSocio, getByIdDividendoSocio, remo
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const dividendoSocio = await getAllDividendoSocio(Number(userId));
-      res.status(200).json({ message: 'dividendoSocios obtenidos exitosamente', dividendoSocio });
+      const dividendo_socio = await getAllDividendoSocio(Number(userId));
+      res.status(200).json({ message: 'dividendo socios obtenidos exitosamente', dividendo_socio });
     } catch (error) {
-      res.status(500).json({ error: 'Error al obtener los dividendoSocios' });
+      res.status(500).json({ error: 'Error al obtener los dividendo socios' });
     }
 }
 
 async function getById(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const dividendoSocio = await getByIdDividendoSocio(Number(userId), Number(req.params.id));
-      res.status(200).json({ message: 'dividendoSocio encontrado exitosamente', dividendoSocio });
+      const dividendo_socio = await getByIdDividendoSocio(Number(userId), Number(req.params.id));
+      res.status(200).json({ message: 'dividendo socio encontrado exitosamente', dividendo_socio });
     } catch (error: any) {
       const status = error.status || 500;
       res.status(status).json({ message: error.message || 'Error interno' });
@@ -25,8 +25,8 @@ async function getById(req: Request, res: Response) {
 async function create(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const dividendoSocio = await createDividendoSocio(req.body, Number(userId));
-      res.status(201).json({ message: 'dividendoSocio creado exitosamente'});
+      await createDividendoSocio(req.body, Number(userId));
+      res.status(201).json({ message: 'dividendo socio creado exitosamente'});
     } catch (error:any) {
       const status = error.status || 500;
       res.status(status).json({ message: error.message || 'Error interno' });
@@ -36,8 +36,8 @@ async function create(req: Request, res: Response) {
 async function update(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const dividendoSocio = await updateDividendoSocio(req.body, Number(userId), Number(req.params.id));
-      res.status(201).json({ message: 'dividendoSocio actualizado exitosamente'});
+      await updateDividendoSocio(req.body, Number(userId), Number(req.params.id));
+      res.status(201).json({ message: 'dividendo socio actualizado exitosamente'});
     } catch (error: any) {
       const status = error.status || 500;
       res.status(status).json({ message: error.message || 'Error interno' });
