@@ -35,15 +35,17 @@ export async function createCostoVariable(data:any, userId: number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
+
   await em.create(CostoVariable, {
     moneda: moneda,
     adjudicacion: data.adjudicacion,
     monto: data.monto,
-    descripcion: data.descripcion,
+    nombre_moneda: moneda.nombre,
     estado: 'Pendiente',
     usuario: usuario,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    creadoEn: new Date(),
+    actualizadoEn: new Date(),
+    visible: true
   });
   await em.flush();
 }
@@ -64,11 +66,18 @@ export async function updateCostoVariable(data:any, userId: number, id:number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
+
+  const pagos = await em.count(Pago, {costo_variable: costoVariable, usuario: userId});
+
+  if (costoVariable.monto !== data.monto && pagos !== 0) {
+    throw new Conflict('El monto no puede ser modificado porque tiene pagos asociados');
+  }
+
   costoVariable.adjudicacion = data.adjudicacion;
   costoVariable.monto = data.monto;
-  costoVariable.estado = data.estado;
-  costoVariable.descripcion = data.descripcion;
   costoVariable.moneda = moneda;
+  costoVariable.nombre_moneda = moneda.nombre;
+  costoVariable.actualizadoEn = new Date();
   await em.flush();
 }
 
@@ -115,13 +124,20 @@ export async function pagarCostoVariable(data:any, userId:number, id:number) {
   }
 
   const pago = await em.create(Pago, {
-    caja: caja,
-    costo_variable: costoVariable,
-    monto: Number(data.monto),
-    usuario: usuario,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  });
+      caja: caja,
+      costo_variable: costoVariable,
+      monto: Number(data.monto),
+      nombre_caja: caja.nombre,
+      nombre_cliente: 'No asociado',
+      nombre_moneda: costoVariable.nombre_moneda,
+      id_costo_fijo: 'No asociado',
+      id_costo_variable: costoVariable.id.toString(),
+      id_venta: 'No asociado',
+      usuario: usuario,
+      creadoEn: new Date(),
+      actualizadoEn: new Date(),
+      visible: true
+    });
   
   caja.monto -= Number(data.monto);
   await em.persistAndFlush(caja);

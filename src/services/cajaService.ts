@@ -50,8 +50,9 @@ export async function createCaja(data:any, userId:number) {
     moneda: moneda,
     tipo_moneda: moneda.codigo_iso,
     usuario: usuario,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    visible: true,
+    creadoEn: new Date(),
+    actualizadoEn: new Date()
   });
   await em.flush();
 }
@@ -75,9 +76,37 @@ export async function updateCaja(data:any, userId: number, id:number) {
   }
   caja.monto = data.monto;
   caja.nombre = name;
-  caja.moneda = moneda;
-  caja.tipo_moneda = moneda.codigo_iso;
-  await em.flush();
+  if (caja.moneda.id !== moneda.id) {
+    const ajustes = await em.count(Ajuste, {caja: caja});
+    const pagos = await em.count(Pago, {caja: caja});
+    const aportes = await em.count(Aporte, {caja: caja});
+    const dividendos = await em.count(Dividendo, {caja: caja});
+    const transferencias_origen = await em.count(Transferencia, {caja_origen: caja});
+    const transferencias_destino = await em.count(Transferencia, {caja_destino: caja});
+
+    if (ajustes > 0) {
+      throw new Conflict('No se puede cambiar la moneda porque tiene ajustes asociados');
+    }
+    if (pagos > 0) {
+      throw new Conflict('No se puede cambiar la moneda porque tiene pagos asociados');
+    }
+    if (aportes > 0) {
+      throw new Conflict('No se puede cambiar la moneda porque tiene aportes asociados');
+    }
+    if (dividendos > 0) {
+      throw new Conflict('No se puede cambiar la moneda porque tiene dividendos asociados');
+    }
+    if (transferencias_origen > 0) {
+      throw new Conflict('No se puede cambiar la moneda porque tiene transferencias de origen asociadas');
+    }
+    if (transferencias_destino > 0) {
+      throw new Conflict('No se puede cambiar la moneda porque tiene transferencias de destino asociadas');
+    }
+      caja.moneda = moneda;
+      caja.tipo_moneda = moneda.codigo_iso;
+    }
+    caja.actualizadoEn = new Date();
+    await em.flush();
 }
 
 export async function removeCaja(userId:number, id:number) {
@@ -114,7 +143,6 @@ export async function removeCaja(userId:number, id:number) {
   if (transferencias_destino > 0) {
     throw new Conflict('La caja no puede ser eliminada porque tiene transferencias de destino asociadas');
   }
-
 
   await em.removeAndFlush(caja);
 }

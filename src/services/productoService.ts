@@ -40,8 +40,9 @@ export async function createProducto(data: any, userId: number) {
         descripcion: data.descripcion,
         stock: data.stock,
         usuario: usuario,
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        creadoEn: new Date(),
+        actualizadoEn: new Date(),
+        visible: true,
     });
     await em.flush();
 }
@@ -58,6 +59,7 @@ export async function updateProducto(data:any, userId: number, id:number) {
   producto.nombre = data.nombre;
   producto.descripcion = data.descripcion;
   producto.stock = data.stock;
+  producto.actualizadoEn = new Date();
   await em.flush();
 }
 

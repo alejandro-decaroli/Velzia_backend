@@ -14,4 +14,12 @@ export class Aporte extends BaseEntity {
 
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
+
+    @Property({ type: 'string', nullable: false })
+    nombre_caja!: string;
+
+    constructor() {
+        super();
+        this.nombre_caja = this.caja?.nombre || '';
+    }
 }

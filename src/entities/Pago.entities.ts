@@ -27,23 +27,31 @@ export class Pago extends BaseEntity {
     @ManyToOne('CostoVariable', {nullable: true, eager: true})
     costo_variable?: CostoVariable;
 
-    nombreCaja(): string {
-        return this.caja?.nombre || '';
-    }
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    nombre_caja!: string;
 
-    nombreCliente(): string {
-        return this.venta?.cliente?.nombre || '';
-    }
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    nombre_cliente!: string;
 
-    monedaVenta(): string {
-        return this.venta?.moneda?.nombre || '';
-    }
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    nombre_moneda!: string;
 
-    monedaCostoFijo(): string {
-        return this.costo_fijo?.moneda?.nombre || '';
-    }
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    id_costo_fijo!: string;
 
-    monedaCostoVariable(): string {
-        return this.costo_variable?.moneda?.nombre || '';
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    id_costo_variable!: string;
+
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    id_venta!: string;
+
+    constructor() {
+        super();
+        this.nombre_caja = this.caja?.nombre || 'No asociado';
+        this.nombre_cliente = this.venta?.cliente?.nombre || 'No asociado';
+        this.nombre_moneda = this.venta?.moneda?.nombre || 'No asociado';
+        this.id_costo_variable = this.costo_variable?.id?.toString() || 'No asociado';
+        this.id_costo_fijo = this.costo_fijo?.id?.toString() || 'No asociado';
+        this.id_venta = this.venta?.id?.toString() || 'No asociado';
     }
 }

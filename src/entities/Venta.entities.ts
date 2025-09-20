@@ -24,17 +24,25 @@ export class Venta extends BaseEntity {
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 
+    @Property({ type: 'varchar', length: 150, nullable: false})
+    nombre_cliente!: string;
+
+    @Property({ type: 'varchar', length: 150, nullable: false})
+    apellido_cliente!: string;
+
     @OneToMany('Detalle', 'venta', {cascade: [Cascade.ALL], nullable: true, eager: true})
     detalles = new Collection<Detalle>(this);
 
     @Property({ type: 'numeric', nullable: false, default: 0 })
     total!: number;
     
-    moneda_asociada(): string {
-        return this.moneda?.codigo_iso || '';
-    }
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    moneda_asociada!: string;
 
-    nombreCliente(): string {
-        return this.cliente?.nombre || '';
+    constructor() {
+        super();
+        this.nombre_cliente = this.cliente?.nombre || '';
+        this.apellido_cliente = this.cliente?.apellido || '';
+        this.moneda_asociada = this.moneda?.codigo_iso || '';
     }
 }   

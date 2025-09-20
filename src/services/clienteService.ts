@@ -38,9 +38,10 @@ export async function createCliente(data:any, userId: number) {
     telefono: data.telefono,
     email: data.email,
     direccion: data.direccion,
+    visible: true,
     usuario: usuario,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    creadoEn: new Date(),
+    actualizadoEn: new Date()
   });
   await em.flush();
 }
@@ -62,6 +63,7 @@ export async function updateCliente(data:any, userId: number, id:number) {
   cliente.direccion = data.direccion;
   cliente.telefono = data.telefono;
   cliente.email = data.email;
+  cliente.actualizadoEn = new Date();
   await em.flush();
 }
 

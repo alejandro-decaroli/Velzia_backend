@@ -40,7 +40,16 @@ export async function createAjuste(data: any, userId: number) {
       throw new BadRequest('El monto de la caja es negativo');
     }
   }
-  const ajuste = await em.create(Ajuste, data);
+  const ajuste = await em.create(Ajuste, {
+    caja: caja,
+    monto: data.monto,
+    movimiento: data.movimiento,
+    usuario: userId,
+    visible: true,
+    nombre_caja: caja.nombre,
+    creadoEn: new Date(),
+    actualizadoEn: new Date()
+  });
   await em.flush();
 }
 
@@ -51,30 +60,55 @@ export async function updateAjuste(data:any, userId: number, id:number) {
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
+  const caja_anterior = await em.findOne(Caja, {id: ajuste.caja.id, usuario: userId});
+  if (!caja_anterior) {
+    throw new NotFound('Caja anterior no encontrada');
+  }
   const monto_anterior = ajuste.monto;
+  const movimiento_anterior = ajuste.movimiento;
   ajuste.monto = data.monto;
   ajuste.movimiento = data.movimiento;
   ajuste.caja = data.caja;
-  if (ajuste.movimiento === 'ingreso') {
-    caja.monto -= monto_anterior;
+  if (movimiento_anterior === 'ingreso') {
+    caja_anterior.monto -= monto_anterior;
+    if (caja_anterior.monto < 0) {
+      throw new BadRequest('El monto de la caja es negativo');
+    }
+  } else if (movimiento_anterior === 'egreso') {
+    caja_anterior.monto += monto_anterior;
+
+  }
+  if (data.movimiento === 'ingreso') {
     caja.monto += data.monto;
-  } else if (ajuste.movimiento === 'egreso') {
-    caja.monto += monto_anterior;
+  } else if (data.movimiento === 'egreso') {
     caja.monto -= data.monto;
     if (caja.monto < 0) {
       throw new BadRequest('El monto de la caja es negativo');
     }
   }
+  ajuste.nombre_caja = caja.nombre;
+  ajuste.actualizadoEn = new Date();
   await em.flush();
 }
 
 export async function removeAjuste(userId: number, id:number){
   const ajuste = await getByIdAjuste(userId, id);
-
-  const cajas = await em.count(Caja, {ajustes: ajuste, usuario: userId});
-  if (cajas > 0) {
-    throw new Conflict('El ajuste no puede ser eliminado porque tiene cajas asociadas');
+  if (!ajuste) {
+    throw new NotFound('Ajuste no encontrado');
   }
-  
+
+  const caja = await em.findOne(Caja, {id: ajuste.caja.id, usuario: userId});
+  if (!caja) {
+    throw new NotFound('Caja no encontrada');
+  }
+  if (ajuste.movimiento === 'ingreso') {
+    caja.monto -= ajuste.monto;
+  } else if (ajuste.movimiento === 'egreso') {
+    caja.monto += ajuste.monto;
+    if (caja.monto < 0) {
+      throw new BadRequest('El monto de la caja es negativo');
+    }
+  }
+  await em.flush();
   await em.removeAndFlush(ajuste);
 }

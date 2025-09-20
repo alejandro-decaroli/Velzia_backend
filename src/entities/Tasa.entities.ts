@@ -18,11 +18,16 @@ export class Tasa extends BaseEntity {
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;  
 
-    get nombreMonedaOrigen(): string {
-        return this.moneda_origen?.nombre || '';
-    }
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    nombre_moneda_origen!: string;
 
-    get nombreMonedaDestino(): string {
-        return this.moneda_destino?.nombre || '';
-    }  
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    nombre_moneda_destino!: string;
+
+    constructor() {
+        super();
+        this.nombre_moneda_origen = this.moneda_origen?.nombre || '';
+        this.nombre_moneda_destino = this.moneda_destino?.nombre || '';
+    }
+ 
 }

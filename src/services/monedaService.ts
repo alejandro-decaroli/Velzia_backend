@@ -45,8 +45,9 @@ export async function createMoneda(data:any, userId: number) {
     nombre: data.nombre,
     codigo_iso: data.codigo_iso,
     usuario: usuario,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    creadoEn: new Date(),
+    actualizadoEn: new Date(),
+    visible: true
   });
   await em.flush();
 }
@@ -78,6 +79,7 @@ export async function updateMoneda(data:any, userId: number, id:number) {
  
   moneda.nombre = data.nombre;
   moneda.codigo_iso = data.codigo_iso;
+  moneda.actualizadoEn = new Date();
   await em.flush();
 }
 

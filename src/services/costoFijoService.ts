@@ -27,15 +27,24 @@ export async function getByIdCostoFijo(userId:number, id:number) {
 }
 
 export async function createCostoFijo(data:any, userId: number) {
+  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
+  if (!moneda) {
+    throw new NotFound('Moneda no encontrada');
+  }
+  const usuario = await em.findOne(Usuario, {id: userId});
+  if (!usuario) {
+    throw new NotFound('Usuario no encontrado');
+  }
   await em.create(CostoFijo, {
-    moneda: data.moneda,
+    moneda: moneda,
     adjudicacion: data.adjudicacion,
-    descripcion: data.descripcion,
+    nombre_moneda: moneda.nombre,
     monto: data.monto,
     estado: 'Pendiente',
-    usuario: userId,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    usuario: usuario,
+    creadoEn: new Date(),
+    actualizadoEn: new Date(),
+    visible: true
   });
   await em.flush();
 }
@@ -56,10 +65,17 @@ export async function updateCostoFijo(data:any, userId: number, id:number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
+  const pagos = await em.count(Pago, {costo_fijo: costoFijo, usuario: userId});
+  
+
   costoFijo.moneda = moneda;
+  costoFijo.nombre_moneda = moneda.nombre;
   costoFijo.adjudicacion = data.adjudicacion;
-  costoFijo.descripcion = data.descripcion;
+  if (costoFijo.monto !== data.monto && pagos !== 0) {
+    throw new Conflict('El monto no puede ser modificado porque tiene pagos asociados');
+  }
   costoFijo.monto = data.monto;
+  costoFijo.actualizadoEn = new Date();
   await em.flush();
 }
 
@@ -79,7 +95,7 @@ export async function removeCostoFijo(userId:any, id:number) {
 }
 
 export async function getListadoCostosFijosByRangeDate(data:any) {
-  const costosFijos = await em.find(CostoFijo, { createdAt: { $gte: data.createdAt, $lte: data.createdAt } });
+  const costosFijos = await em.find(CostoFijo, { creadoEn: { $gte: data.createdAt, $lte: data.createdAt } });
   return costosFijos;
 }
 
@@ -113,12 +129,17 @@ export async function pagarCostoFijo(data:any, userId:number, id:number) {
     caja: caja,
     costo_fijo: costoFijo,
     monto: Number(data.monto),
+    nombre_caja: caja.nombre,
+    nombre_cliente: 'No asociado',
+    nombre_moneda: costoFijo.nombre_moneda,
+    id_costo_fijo: costoFijo.id.toString(),
+    id_costo_variable: 'No asociado',
+    id_venta: 'No asociado',
     usuario: usuario,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    creadoEn: new Date(),
+    actualizadoEn: new Date(),
+    visible: true
   });
-
-
   
   caja.monto -= Number(data.monto);
   await em.persistAndFlush(caja);

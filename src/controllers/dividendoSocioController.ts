@@ -4,10 +4,10 @@ import { createDividendoSocio, getAllDividendoSocio, getByIdDividendoSocio, remo
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const dividendo_socio = await getAllDividendoSocio(Number(userId));
-      res.status(200).json({ message: 'dividendo socios obtenidos exitosamente', dividendo_socio });
+      const dividendos_socio = await getAllDividendoSocio(Number(userId));
+      res.status(200).json({ message: 'dividendos socios obtenidos exitosamente', dividendos_socio });
     } catch (error) {
-      res.status(500).json({ error: 'Error al obtener los dividendo socios' });
+      res.status(500).json({ error: 'Error al obtener los dividendos socios' });
     }
 }
 

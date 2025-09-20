@@ -17,9 +17,6 @@ export class CostoFijo extends BaseEntity {
     @Property({ type: 'varchar', length: 20, nullable: false })
     adjudicacion!: string;
 
-    @Property({ type: 'varchar', length: 100, nullable: true })
-    descripcion?: string;
-
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
     monto!: number;
 
@@ -29,8 +26,12 @@ export class CostoFijo extends BaseEntity {
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 
-    nombreMoneda(): string {
-        return this.moneda?.codigo_iso || '';
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    nombre_moneda!: string;
+    
+    constructor() {
+        super();
+        this.nombre_moneda = this.moneda?.codigo_iso || '';
     }
 
 }

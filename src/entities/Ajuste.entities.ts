@@ -18,7 +18,11 @@ export class Ajuste extends BaseEntity {
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 
-    get nombreCaja(): string {
-        return this.caja?.nombre || '';
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    nombre_caja!: string;
+
+    constructor() {
+        super();
+        this.nombre_caja = this.caja?.nombre || '';
     }
 }

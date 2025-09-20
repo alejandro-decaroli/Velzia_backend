@@ -5,12 +5,15 @@ export abstract class BaseEntity {
   @PrimaryKey()
   id!: number;
 
-  @Property()
-  createdAt = new Date();
+  @Property({ default: true, nullable: false })
+  visible!: boolean;
+
+  @Property({ type: 'date', defaultRaw: 'CURRENT_TIMESTAMP' })
+  creadoEn = new Date();
 
   @Property({ onUpdate: () => new Date() })
-  updatedAt = new Date();
+  actualizadoEn = new Date();
 
   @Property({ nullable: true })
-  deletedAt?: Date;
+  eliminadoEn?: Date;
 }

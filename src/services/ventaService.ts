@@ -48,8 +48,12 @@ export async function createVenta(data:any, userId: number) {
     total: 0,
     estado: 'Pendiente',
     usuario,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    nombre_cliente: cliente.nombre,
+    apellido_cliente: cliente.apellido,
+    moneda_asociada: moneda.nombre,
+    creadoEn: new Date(),
+    actualizadoEn: new Date(),
+    visible: true
 });
 
 await em.persistAndFlush(venta);
@@ -72,8 +76,12 @@ export async function updateVenta(data:any, userId: number, id:number) {
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
+  venta.total = data.total;
   venta.cliente = cliente;
+  venta.nombre_cliente = cliente.nombre;
+  venta.apellido_cliente = cliente.apellido;
   venta.moneda = moneda;
+  venta.actualizadoEn = new Date();
   await em.flush();
 }
 
@@ -92,21 +100,17 @@ export async function removeVenta(userId:number, id:number) {
     throw new Conflict('No se puede eliminar la venta porque tiene pagos asociados');
   }
 
-  const detalles = await em.count(Detalle, {venta: venta});
-  if (detalles > 0) {
-    throw new Conflict('No se puede eliminar la venta porque tiene detalles asociados');
-  }
+  const detalles = await em.find(Detalle, {venta: venta});
+  detalles.forEach(detalle => {
+    em.remove(detalle);
+  });
 
-  const clientes = await em.count(Cliente, {ventas: venta});
-  if (clientes > 0) {
-    throw new Conflict('No se puede eliminar la venta porque tiene clientes asociados');
-  }
-
+  await em.flush();
   await em.removeAndFlush(venta);
 }
 
 export async function getListadoVentasByDate(data:any) {
-  const ventas = await em.find(Venta, { createdAt: { $gte: data.createdAt, $lte: data.createdAt } });
+  const ventas = await em.find(Venta, { creadoEn: { $gte: data.createdAt, $lte: data.createdAt } });
   if (!ventas) {
     throw new NotFound('Ventas no encontradas');
   }
@@ -151,11 +155,17 @@ export async function pagarVenta(data:any, userId:number, id:number) {
 
   const pago = await em.create(Pago, {
     caja: caja,
-    venta: venta,
     monto: Number(data.monto),
+    nombre_caja: caja.nombre,
+    nombre_cliente: venta.nombre_cliente,
+    nombre_moneda: venta.moneda.nombre,
+    id_costo_fijo: 'No asociado',
+    id_costo_variable: 'No asociado',
+    id_venta: venta.id.toString(),
     usuario: usuario,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    creadoEn: new Date(),
+    actualizadoEn: new Date(),
+    visible: true
   });
   
   caja.monto += Number(data.monto);
@@ -194,8 +204,9 @@ export async function registrarDetalle(data:any, userId: number, ventaId: number
     descuento: Number(data.descuento),
     subtotal: Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100)),
     usuario: usuario,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    creadoEn: new Date(),
+    actualizadoEn: new Date(),
+    visible: true
   });
 
   venta.total += Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));

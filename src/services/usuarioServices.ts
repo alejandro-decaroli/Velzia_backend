@@ -95,6 +95,7 @@ export async function updateUsuario(req:any, id:number) {
     const saltRounds = 10;
     usuario.contrasenia = await bcrypt.hash(req.contrasenia, saltRounds);
     usuario.email = req.email;
+    usuario.actualizadoEn = new Date();
     await em.flush();
 }
 

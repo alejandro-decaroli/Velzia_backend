@@ -20,6 +20,7 @@ export async function getByIdTasa(userId:number, id:number) {
   if (!tasa) {
     throw new NotFound('Tasa no encontrada');
   }
+  return tasa;
 }
 
 export async function createTasa(data:any, userId: number) {
@@ -33,7 +34,17 @@ export async function createTasa(data:any, userId: number) {
   if (moneda_origen_id === moneda_destino_id) {
     throw new Conflict('Moneda de origen y destino no pueden ser la misma');
   }
-  const tasa = await em.create(Tasa, data);
+  await em.create(Tasa, {
+    moneda_origen: moneda_origen,
+    moneda_destino: moneda_destino,
+    tasa: data.tasa,
+    usuario: userId,
+    nombre_moneda_origen: moneda_origen.nombre,
+    nombre_moneda_destino: moneda_destino.nombre,
+    creadoEn: new Date(),
+    actualizadoEn: new Date(),
+    visible: true
+  });
   await em.flush();
 }
 
@@ -59,6 +70,9 @@ export async function updateTasa(data:any, userId: number, id:number) {
   tasa.tasa = data.tasa;
   tasa.moneda_origen = moneda_origen;
   tasa.moneda_destino = moneda_destino;
+  tasa.nombre_moneda_origen = moneda_origen.nombre;
+  tasa.nombre_moneda_destino = moneda_destino.nombre;
+  tasa.actualizadoEn = new Date();
   await em.flush();
 }
 
@@ -70,12 +84,6 @@ export async function removeTasa(userId:any, id:number) {
   const tasa = await em.findOne(Tasa, {id: id, usuario: userId});
   if (!tasa) {
     throw new NotFound('Tasa no encontrada');
-  }
-
-  const monedas_origen = await em.count(Moneda, {tasas_origen: tasa});
-  const monedas_destino = await em.count(Moneda, {tasas_destino: tasa});
-  if (monedas_origen > 0 || monedas_destino > 0) {
-    throw new Conflict('No se puede eliminar la tasa porque tiene monedas asociadas');
   }
 
   await em.removeAndFlush(tasa);

@@ -25,8 +25,8 @@ export async function getByIdAportes(userId: number, id:number) {
 }
 
 export async function createAporte(data:any, userId: number) {
-  const caja_id = Number(data.caja)
-  const caja = await em.findOne(Caja, {id: caja_id, usuario: userId});
+  
+  const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
@@ -38,8 +38,10 @@ export async function createAporte(data:any, userId: number) {
     monto: data.monto,
     caja: caja,
     usuario: usuario,
-    createdAt: new Date(),
-    updatedAt: new Date()
+    creadoEn: new Date(),
+    actualizadoEn: new Date(),
+    visible: true,
+    nombre_caja: caja.nombre,
   });
   caja.monto += data.monto;
   await em.flush(); 
@@ -62,6 +64,7 @@ export async function updateAporte(data:any, userId:number, id:number) {
   aporteSocio.monto = data.monto;
   aporteSocio.caja = data.caja;
   caja.monto += data.monto;
+  aporteSocio.actualizadoEn = new Date();
   await em.flush();
 }
 
@@ -73,9 +76,11 @@ export async function removeAporte(userId:number, id:number) {
   if (!aporteSocio) {
     throw new NotFound('Aporte socio no encontrado');
   }
-  const cajas = await em.count(Caja, {aportes: aporteSocio, usuario: userId});
-  if (cajas > 0) {
-    throw new Conflict('El aporte no puede ser eliminado porque tiene cajas asociadas');
+  const caja = await em.findOne(Caja, {id: aporteSocio.caja.id, usuario: userId});
+  if (!caja) {
+    throw new NotFound('Caja no encontrada');
   }
+  caja.monto -= aporteSocio.monto;
+  await em.flush();
   await em.removeAndFlush(aporteSocio);
 }

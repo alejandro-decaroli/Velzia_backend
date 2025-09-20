@@ -32,7 +32,15 @@ export async function createDividendoSocio(data:any, userId: number) {
     throw new Conflict('No hay suficiente saldo en la caja');
   };
   caja.monto -= data.monto;
-  const dividendo = await em.create(Dividendo, data);
+  const dividendo = await em.create(Dividendo, {
+    caja: caja,
+    monto: data.monto,
+    usuario: userId,
+    nombre_caja: caja.nombre,
+    creadoEn: new Date(),
+    actualizadoEn: new Date(),
+    visible: true
+  });
   await em.flush();
 }
 
@@ -67,10 +75,11 @@ export async function removeDividendoSocio(userId:number, id:number) {
     throw new NotFound('Dividendo no encontrado');
   }
 
-  const cajas = await em.count(Caja, {dividendos: dividendo});
-  if (cajas > 0) {
-    throw new Conflict('No se puede eliminar el dividendo porque tiene cajas asociadas');
+  const caja = await em.findOne(Caja, {dividendos: dividendo});
+  if (!caja) {
+    throw new NotFound('Caja no encontrada');
   }
-
+  caja.monto += dividendo.monto;
+  await em.flush();
   await em.removeAndFlush(dividendo);
 }

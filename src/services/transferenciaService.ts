@@ -20,6 +20,7 @@ export async function getByIdTransferencia(userId:number, id:number) {
   if (!transferencia) {
     throw new NotFound('Transferencia no encontrada');
   }
+  return transferencia;
 }
 
 export async function createTransferencia(data:any, userId: number) {
@@ -40,7 +41,18 @@ export async function createTransferencia(data:any, userId: number) {
   if (data.monto > caja_origen.monto) {
     throw new BadRequest('Monto excede el saldo de la caja de origen');
   }
-  const transferencia = await em.create(Transferencia, data);
+  await em.create(Transferencia, {
+    caja_origen: caja_origen,
+    caja_destino: caja_destino,
+    monto: data.monto,
+    motivo: data.motivo || '',
+    usuario: userId,
+    nombre_caja_origen: caja_origen.nombre,
+    nombre_caja_destino: caja_destino.nombre,
+    creadoEn: new Date(),
+    actualizadoEn: new Date(),
+    visible: true
+  });
   caja_origen.monto -= data.monto;
   caja_destino.monto += data.monto;
   await em.flush();
@@ -52,12 +64,23 @@ export async function updateTransferencia(data:any, userId: number, id:number) {
   }
   const caja_origen = await em.findOne(Caja, {id: data.caja_origen, usuario: userId});
   const caja_destino = await em.findOne(Caja, {id: data.caja_destino, usuario: userId});
+  const transferencia = await em.findOne(Transferencia, {id: id, usuario: userId});
+  if (!transferencia) {
+    throw new NotFound('Transferencia no encontrada');
+  }
+  const monto_anterior = transferencia.monto;
+  const caja_origen_anterior = transferencia.caja_origen;
+  const caja_destino_anterior = transferencia.caja_destino;
   if (!caja_origen) {
     throw new NotFound('Caja de origen no encontrada');
   }
   if (!caja_destino) {
     throw new NotFound('Caja de destino no encontrada');
   }
+
+  caja_origen_anterior.monto += monto_anterior;
+  caja_destino_anterior.monto -= monto_anterior;
+  
   if (caja_origen.id === caja_destino.id) {
     throw new BadRequest('Caja de origen y caja de destino no pueden ser iguales');
   }
@@ -67,17 +90,13 @@ export async function updateTransferencia(data:any, userId: number, id:number) {
   if (data.monto > caja_origen.monto) {
     throw new BadRequest('Monto excede el saldo de la caja de origen');
   }
-
-  const transferencia = await em.findOne(Transferencia, {id: id, usuario: userId});
-  if (!transferencia) {
-    throw new NotFound('Transferencia no encontrada');
-  }
-
   transferencia.monto = data.monto;
   transferencia.caja_origen = caja_origen;
   transferencia.caja_destino = caja_destino;
+  transferencia.motivo = data.motivo || '';
   caja_origen.monto -= data.monto;
   caja_destino.monto += data.monto;
+  transferencia.actualizadoEn = new Date();
   await em.flush();
 }
 
@@ -91,15 +110,13 @@ export async function removeTransferencia(userId:number, id:number) {
     throw new NotFound('Transferencia no encontrada');
   }
 
-  const cajas = await em.count(Caja, {transferencias_origen: transferencia});
-  if (cajas > 0) {
-    throw new Conflict('No se puede eliminar la transferencia porque tiene cajas de origen asociadas');
+  const caja_origen = await em.findOne(Caja, {transferencias_origen: transferencia});
+  const caja_destino = await em.findOne(Caja, {transferencias_destino: transferencia});
+  if (!caja_origen || !caja_destino) {
+    throw new NotFound('Caja de origen o caja de destino no encontrada');
   }
-
-  const cajas2 = await em.count(Caja, {transferencias_destino: transferencia});
-  if (cajas2 > 0) {
-    throw new Conflict('No se puede eliminar la transferencia porque tiene cajas de destino asociadas');
-  }
-
+  caja_origen.monto += transferencia.monto;
+  caja_destino.monto -= transferencia.monto;
+  await em.flush();
   await em.removeAndFlush(transferencia);
 }
