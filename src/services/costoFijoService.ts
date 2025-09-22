@@ -40,6 +40,7 @@ export async function createCostoFijo(data:any, userId: number) {
     adjudicacion: data.adjudicacion,
     nombre_moneda: moneda.nombre,
     monto: data.monto,
+    monto_pagado: 0,
     estado: 'Pendiente',
     usuario: usuario,
     creadoEn: new Date(),
@@ -66,8 +67,9 @@ export async function updateCostoFijo(data:any, userId: number, id:number) {
     throw new NotFound('Usuario no encontrado');
   }
   const pagos = await em.count(Pago, {costo_fijo: costoFijo, usuario: userId});
-  
-
+  if (pagos !== 0) {
+    throw new Conflict('El costo fijo ya tiene pagos asociados, no se puede modificar');
+  }
   costoFijo.moneda = moneda;
   costoFijo.nombre_moneda = moneda.nombre;
   costoFijo.adjudicacion = data.adjudicacion;
@@ -108,6 +110,9 @@ export async function pagarCostoFijo(data:any, userId:number, id:number) {
   if (!costoFijo) {
     throw new NotFound('Costo fijo no encontrado');
   }
+  if (costoFijo.estado === 'Pagada') {
+    throw new Conflict('El costo fijo ya se encuentra pagado');
+  }
   const usuario = await em.findOne(Usuario, {id: userId});
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
@@ -121,14 +126,14 @@ export async function pagarCostoFijo(data:any, userId:number, id:number) {
     throw new Conflict('Moneda de la caja no coincide con la moneda del costo fijo');
   }
 
-  if (caja.monto < Number(data.monto)) {
+  if (caja.monto < Number(data.monto_pagar)) {
     throw new Conflict('Fondos insuficientes');
   }
 
   const pago = await em.create(Pago, {
     caja: caja,
     costo_fijo: costoFijo,
-    monto: Number(data.monto),
+    monto: Number(data.monto_pagar),
     nombre_caja: caja.nombre,
     nombre_cliente: 'No asociado',
     nombre_moneda: costoFijo.nombre_moneda,
@@ -141,16 +146,21 @@ export async function pagarCostoFijo(data:any, userId:number, id:number) {
     visible: true
   });
   
-  caja.monto -= Number(data.monto);
+  costoFijo.monto_pagado += Number(data.monto_pagar);
+  caja.monto -= Number(data.monto_pagar);
   await em.persistAndFlush(caja);
   await em.persistAndFlush(pago);
-
+  
   const pagos = await em.find(Pago, {costo_fijo: costoFijo});
-  const totalPagado = pagos.reduce((total, pago) => total + pago.monto, 0);
-
-  if (totalPagado >= costoFijo.monto) {
+  const totalPagado = pagos.reduce((monto, pago) => Number(monto) + Number(pago.monto), 0);
+  if (totalPagado === Number(costoFijo.monto)) {
     costoFijo.estado = 'Pagada';
     await em.persistAndFlush(costoFijo);
+  } 
+  if (totalPagado > Number(costoFijo.monto)) {
+    
+    await em.removeAndFlush(pago);
+    throw new Conflict('El monto del último pago excede el monto del costo fijo');
   }
 
 }

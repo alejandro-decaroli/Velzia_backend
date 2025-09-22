@@ -14,8 +14,8 @@ async function getAll(req: Request, res: Response) {
 async function getById(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const costos_variables = await getByIdCostoVariable(Number(userId), Number(req.params.id));
-      res.status(200).json({ message: 'Costo variable encontrado exitosamente', costos_variables });
+      const costo_variable = await getByIdCostoVariable(Number(userId), Number(req.params.id));
+      res.status(200).json({ message: 'Costo variable encontrado exitosamente', costo_variable });
     } catch (error: any) {
       const status = error.status || 500;
       res.status(status).json({ message: error.message || 'Error interno' });

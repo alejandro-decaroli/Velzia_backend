@@ -1,8 +1,12 @@
 import express, { Request, Response } from 'express';
-import { signIn, signUp, getAll, getById, update, remove } from '../controllers/usuarioController.js';
+import { signIn, signUp, getAll, getById, update, remove, logOut, checkUser } from '../controllers/usuarioController.js';
 import { handleValidationErrors, loginValidation, idParamValidation } from '../middlewares/validations.js';
+import { verifyToken } from '../middlewares/auth.js';
 const usuarioRouter = express.Router();
 
+usuarioRouter.get('/check-user', 
+    (req: Request, res: Response) => {checkUser(req, res)}
+);
 
 usuarioRouter.get('/',
     handleValidationErrors,
@@ -39,5 +43,11 @@ usuarioRouter.delete('/delete/:id',
     handleValidationErrors,
     (req: Request, res: Response) => {remove(req, res)}
 );
+
+usuarioRouter.post('/logout', 
+    handleValidationErrors,
+    (req: Request, res: Response) => {logOut(req, res)}
+);
+
 
 export default usuarioRouter;

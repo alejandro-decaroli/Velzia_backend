@@ -27,5 +27,10 @@ export class Detalle extends BaseEntity {
 
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
+
+    constructor() {
+        super();
+        this.subtotal = (this.cantidad * this.precio_unitario) * (1 - (this.descuento / 100));
+    }
     
 }

@@ -18,6 +18,8 @@ import monedaRouter from "./routes/monedaRoutes.js";
 import usuarioRouter from "./routes/usuarioRoute.js";
 import productoRouter from "./routes/productoRoutes.js";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -26,7 +28,11 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors(
+    {origin: "http://localhost:5173", 
+    credentials: true }
+));
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     RequestContext.create(orm.em, next);   

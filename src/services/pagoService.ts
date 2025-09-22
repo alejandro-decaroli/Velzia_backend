@@ -108,26 +108,21 @@ export async function removePago(userId:any, id:number) {
   const costos_variables = await em.findOne(CostoVariable, {pagos: pago});
   const ventas = await em.findOne(Venta, {pagos: pago});
 
-  if (!caja) {
-    throw new NotFound('Caja no encontrada');
-  }
-  if (!costos_fijos) {
-    throw new NotFound('Costo fijo no encontrado');
-  }
-  if (!costos_variables) {
-    throw new NotFound('Costo variable no encontrado');
-  }
-  if (!ventas) {
-    throw new NotFound('Venta no encontrada');
-  }
-
   if (ventas instanceof Venta) {
-    caja.monto -= pago.monto;
+    caja!.monto -= pago.monto;
+    ventas.total_pagado -= pago.monto;
+    ventas.estado = 'Pendiente';
+    await em.flush();
   } else if (costos_fijos instanceof CostoFijo) {
-    caja.monto += pago.monto;
+    caja!.monto += pago.monto;
+    costos_fijos.monto_pagado -= pago.monto;
+    costos_fijos.estado = 'Pendiente';
+    await em.flush();
   } else if (costos_variables instanceof CostoVariable) {
-    caja.monto += pago.monto;
+    caja!.monto += pago.monto;
+    costos_variables.monto_pagado -= pago.monto;
+    costos_variables.estado = 'Pendiente';
+    await em.flush();
   }
-  await em.flush();
   await em.removeAndFlush(pago);
 }

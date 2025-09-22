@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, getListadoVentasByDate, cancelarVenta, pagarVenta, registrarDetalle } from '../services/ventaService.js';
+import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, getListadoVentasByDate, cancelarVenta, pagarVenta, registrarDetalle, DetalleVenta, delete_Detalle_Venta, update_Detalle_Venta } from '../services/ventaService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
@@ -90,6 +90,36 @@ async function registrarDetalleVenta(req: Request, res: Response) {
       res.status(status).json({ message: error.message || 'Error interno' });    }
 }
 
+async function getDetalleVenta(req: Request, res: Response) {
+    try {
+      const userId = req.user?.id;
+      const detalles = await DetalleVenta(Number(userId), Number(req.params.id));
+      res.status(200).json({ message: 'Detalle de venta obtenido exitosamente', detalles });
+    } catch (error:any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });    }
+}
+
+async function deleteDetalleVenta(req: Request, res: Response) {
+  try {
+    const userId = req.user?.id;
+    await delete_Detalle_Venta(Number(userId), Number(req.params.id));
+    res.status(200).json({ message: 'Detalle de venta eliminado exitosamente' });
+  } catch (error:any) {
+    const status = error.status || 500;
+    res.status(status).json({ message: error.message || 'Error interno' });    }
+}
+
+async function updateDetalleVenta(req: Request, res: Response) {
+  try {
+    const userId = req.user?.id;
+    await update_Detalle_Venta(req.body, Number(userId), Number(req.params.id));
+    res.status(200).json({ message: 'Detalle de venta actualizado exitosamente' });
+  } catch (error:any) {
+    const status = error.status || 500;
+    res.status(status).json({ message: error.message || 'Error interno' });    }
+}
+
 export {
   getAll,
   getById,
@@ -99,5 +129,8 @@ export {
   getListadoVentasByRangeDate,
   cancelar,
   pagar,
-  registrarDetalleVenta
+  registrarDetalleVenta,
+  getDetalleVenta,
+  deleteDetalleVenta,
+  updateDetalleVenta
 };

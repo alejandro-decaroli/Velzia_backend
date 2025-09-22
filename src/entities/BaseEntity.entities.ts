@@ -11,9 +11,9 @@ export abstract class BaseEntity {
   @Property({ type: 'date', defaultRaw: 'CURRENT_TIMESTAMP' })
   creadoEn = new Date();
 
-  @Property({ onUpdate: () => new Date() })
+  @Property({ type: 'date', onUpdate: () => new Date() })
   actualizadoEn = new Date();
 
-  @Property({ nullable: true })
+  @Property({ type: 'date', nullable: true })
   eliminadoEn?: Date;
 }

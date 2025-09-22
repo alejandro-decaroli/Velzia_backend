@@ -35,6 +35,9 @@ export class Venta extends BaseEntity {
 
     @Property({ type: 'numeric', nullable: false, default: 0 })
     total!: number;
+
+    @Property({ type: 'numeric', nullable: false, default: 0 })
+    total_pagado!: number;
     
     @Property({ type: 'varchar', length: 50, nullable: false})
     moneda_asociada!: string;

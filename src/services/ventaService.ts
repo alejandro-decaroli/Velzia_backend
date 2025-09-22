@@ -46,6 +46,7 @@ export async function createVenta(data:any, userId: number) {
     cliente,
     moneda,
     total: 0,
+    total_pagado: 0,
     estado: 'Pendiente',
     usuario,
     nombre_cliente: cliente.nombre,
@@ -75,6 +76,10 @@ export async function updateVenta(data:any, userId: number, id:number) {
   const venta = await em.findOne(Venta, {id: id, usuario: userId});
   if (!venta) {
     throw new NotFound('Venta no encontrada');
+  }
+  const pagos = await em.count(Pago, {venta: venta});
+  if (pagos !== 0) {
+    throw new Conflict('No se puede modificar la venta porque tiene pagos asociados');
   }
   venta.total = data.total;
   venta.cliente = cliente;
@@ -153,9 +158,13 @@ export async function pagarVenta(data:any, userId:number, id:number) {
     throw new Conflict('La moneda de la venta no coincide con la moneda de la caja');
   }
 
+  if (caja.monto < Number(data.monto_pagar)) {
+    throw new Conflict('Fondos insuficientes');
+  }
+
   const pago = await em.create(Pago, {
     caja: caja,
-    monto: Number(data.monto),
+    monto: Number(data.monto_pagar),
     nombre_caja: caja.nombre,
     nombre_cliente: venta.nombre_cliente,
     nombre_moneda: venta.moneda.nombre,
@@ -168,16 +177,21 @@ export async function pagarVenta(data:any, userId:number, id:number) {
     visible: true
   });
   
-  caja.monto += Number(data.monto);
+  venta.total_pagado += Number(data.monto_pagar);
+  caja.monto += Number(data.monto_pagar);
   await em.persistAndFlush(caja);
   await em.persistAndFlush(pago);
 
   const pagos = await em.find(Pago, {venta: venta});
   const totalPagado = pagos.reduce((total, pago) => total + pago.monto, 0);
 
-  if (totalPagado >= venta.total) {
+  if (totalPagado === venta.total) {
     venta.estado = 'Paga';
     await em.persistAndFlush(venta);
+  }
+  if (totalPagado > venta.total) {
+    await em.removeAndFlush(pago);
+    throw new Conflict('El monto del último pago excede el monto de la venta');
   }
 
 }
@@ -211,5 +225,35 @@ export async function registrarDetalle(data:any, userId: number, ventaId: number
 
   venta.total += Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));
 
+  await em.flush();
+}
+
+export async function DetalleVenta(userId: number, ventaId: number) {
+  const venta = await em.findOne(Venta, {id: ventaId, usuario: userId});
+  if (!venta) {
+    throw new NotFound('Venta no encontrada');
+  }
+  const detalles = await em.find(Detalle, {venta: venta});
+  return detalles;
+}
+
+export async function delete_Detalle_Venta(userId: number, detalleId: number) {
+  const detalle = await em.findOne(Detalle, {id: detalleId, usuario: userId});
+  if (!detalle) {
+    throw new NotFound('Detalle no encontrado');
+  }
+  await em.removeAndFlush(detalle);
+}
+
+export async function update_Detalle_Venta(data:any, userId: number, detalleId: number) {
+  const detalle = await em.findOne(Detalle, {id: detalleId, usuario: userId});
+  if (!detalle) {
+    throw new NotFound('Detalle no encontrado');
+  }
+  detalle.cantidad = Number(data.cantidad);
+  detalle.precio_unitario = Number(data.precio_unitario);
+  detalle.descuento = Number(data.descuento);
+  detalle.subtotal = Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));
+  detalle.actualizadoEn = new Date();
   await em.flush();
 }

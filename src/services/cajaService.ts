@@ -69,44 +69,44 @@ export async function updateCaja(data:any, userId: number, id:number) {
   if (!moneda) {
     throw new NotFound('Moneda no encontrada');
   }
-  const name = data.nombre;
-  const nombre_duplicado = await em.findOne(Caja, { nombre: name, usuario: userId });
+  const monto_anterior = caja.monto;
+  const nombre_duplicado = await em.findOne(Caja, { nombre: data.nombre, usuario: userId });
+  const ajustes = await em.count(Ajuste, {caja: caja});
+  const pagos = await em.count(Pago, {caja: caja});
+  const aportes = await em.count(Aporte, {caja: caja});
+  const dividendos = await em.count(Dividendo, {caja: caja});
+  const transferencias_origen = await em.count(Transferencia, {caja_origen: caja});
+  const transferencias_destino = await em.count(Transferencia, {caja_destino: caja});
   if (nombre_duplicado && nombre_duplicado.id !== id) {
     throw new Conflict('Las cajas no pueden tener el mismo nombre');
   }
-  caja.monto = data.monto;
-  caja.nombre = name;
-  if (caja.moneda.id !== moneda.id) {
-    const ajustes = await em.count(Ajuste, {caja: caja});
-    const pagos = await em.count(Pago, {caja: caja});
-    const aportes = await em.count(Aporte, {caja: caja});
-    const dividendos = await em.count(Dividendo, {caja: caja});
-    const transferencias_origen = await em.count(Transferencia, {caja_origen: caja});
-    const transferencias_destino = await em.count(Transferencia, {caja_destino: caja});
+  caja.nombre = data.nombre;
+  if (caja.moneda.id !== moneda.id || monto_anterior !== data.monto) {
 
     if (ajustes > 0) {
-      throw new Conflict('No se puede cambiar la moneda porque tiene ajustes asociados');
+      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene ajustes asociados');
     }
     if (pagos > 0) {
-      throw new Conflict('No se puede cambiar la moneda porque tiene pagos asociados');
+      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene pagos asociados');
     }
     if (aportes > 0) {
-      throw new Conflict('No se puede cambiar la moneda porque tiene aportes asociados');
+      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene aportes asociados');
     }
     if (dividendos > 0) {
-      throw new Conflict('No se puede cambiar la moneda porque tiene dividendos asociados');
+      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene dividendos asociados');
     }
     if (transferencias_origen > 0) {
-      throw new Conflict('No se puede cambiar la moneda porque tiene transferencias de origen asociadas');
+      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene transferencias de origen asociadas');
     }
     if (transferencias_destino > 0) {
-      throw new Conflict('No se puede cambiar la moneda porque tiene transferencias de destino asociadas');
+      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene transferencias de destino asociadas');
     }
-      caja.moneda = moneda;
-      caja.tipo_moneda = moneda.codigo_iso;
-    }
-    caja.actualizadoEn = new Date();
-    await em.flush();
+  }
+  caja.moneda = moneda;
+  caja.tipo_moneda = moneda.codigo_iso;
+  caja.monto = data.monto;
+  caja.actualizadoEn = new Date();
+  await em.flush();
 }
 
 export async function removeCaja(userId:number, id:number) {

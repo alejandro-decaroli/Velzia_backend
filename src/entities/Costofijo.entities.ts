@@ -20,6 +20,9 @@ export class CostoFijo extends BaseEntity {
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
     monto!: number;
 
+    @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
+    monto_pagado!: number;
+
     @Property({ type: 'varchar', length: 20, nullable: false, default: 'Pendiente' })
     estado!: 'Pendiente' | 'Pagada';
 

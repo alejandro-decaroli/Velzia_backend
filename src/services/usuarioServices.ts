@@ -22,7 +22,6 @@ export async function sign_In(req: Request) {
     throw new BadRequest('Usuario o contraseña incorrectos');
   }
   const payload = {
-    id: usuario.id,
     email: usuario.email,
     nombre: usuario.nombre,
     apellido: usuario.apellido
@@ -32,11 +31,9 @@ export async function sign_In(req: Request) {
   if (!process.env.SECRET_KEY) {
     throw new Error("SECRET_KEY no está definido en las variables de entorno");
   }
-  const token = jwt.sign(payload, process.env.SECRET_KEY!, {
-    expiresIn: "1h" // o el tiempo que quieras
-  });
+  const token = jwt.sign(payload, process.env.SECRET_KEY!);
 
-  return { token, user: payload }; // Devuelve el usuario creado
+  return { user: payload, token: token }; // Devuelve el usuario creado
 }
 
 export async function sign_Up(req: Request) {
@@ -55,7 +52,6 @@ export async function sign_Up(req: Request) {
     throw new NotFound('Usuario no encontrado');
   }
   const payload = {
-    id: usuario.id,
     email: usuario.email,
     nombre: usuario.nombre,
     apellido: usuario.apellido
@@ -65,11 +61,9 @@ export async function sign_Up(req: Request) {
   if (!process.env.SECRET_KEY) {
     throw new Error("SECRET_KEY no está definido en las variables de entorno");
   }
-  const token = jwt.sign(payload, process.env.SECRET_KEY!, {
-    expiresIn: "1h" // o el tiempo que quieras
-  });
+  const token = jwt.sign(payload, process.env.SECRET_KEY!);
 
-  return { token, user: payload }; // Devuelve el usuario creado
+  return { user: payload, token: token }; // Devuelve el usuario creado
 }
 
 export async function getAllUsuarios() {
