@@ -10,7 +10,7 @@ async function signIn(req: Request, res: Response) {
     const token = user_data.token;
     res.cookie('token', token, {
       httpOnly: true, 
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
       sameSite: 'strict',
     });
     res.status(200).json({ message: 'Usuario autenticado exitosamente', user_json });
@@ -27,7 +27,7 @@ async function signUp(req: Request, res: Response) {
     const token = nuevoUsuario.token;
     res.cookie('token', token, {
       httpOnly: true, 
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
       sameSite: 'strict',
     });
     res.status(201).json({ message: 'Usuario creado exitosamente', user_json });
