@@ -2,6 +2,7 @@ import { Request, Response, response } from 'express';
 import { getAllUsuarios, getByIdUsuario, updateUsuario, removeUsuario, sign_In, sign_Up} from '../services/usuarioServices.js';
 import dotenv from "dotenv";
 dotenv.config();
+import jwt from 'jsonwebtoken';
 
 async function signIn(req: Request, res: Response) {
   try {
@@ -93,7 +94,28 @@ async function checkUser(req: Request, res: Response) {
     if (!cookie) {
       return res.status(401).json({ message: 'No tiene permisos para acceder, inicie sesión' });
     }
-    return res.status(200).json({ message: 'Usuario autenticado exitosamente' });
+    if (!req.user) {
+      return res.status(401).json({ message: 'No tiene permisos para acceder, inicie sesión' });
+    }
+    const {nombre, apellido, email} = req.user;
+    return res.status(200).json({ message: 'Usuario autenticado exitosamente', nombre, apellido, email });
+  } catch (error: any) {
+    const status = error.status || 500;
+    return res.status(status).json({ message: error.message || 'Error al autenticar el usuario' });
+  }
+}
+
+async function checkAdmin(req: Request, res: Response) {
+  try {
+    const cookie = req.cookies.token;
+    if (!cookie) {
+      return res.status(401).json({ message: 'No tiene permisos para acceder, inicie sesión' });
+    }
+    if (!req.user) {
+      return res.status(401).json({ message: 'No tiene permisos para acceder, inicie sesión' });
+    }
+    const {nombre, apellido, email} = req.user;
+    return res.status(200).json({ message: 'Usuario autenticado exitosamente', nombre, apellido, email });
   } catch (error: any) {
     const status = error.status || 500;
     return res.status(status).json({ message: error.message || 'Error al autenticar el usuario' });
@@ -108,5 +130,6 @@ export {
   update,
   remove,
   logOut,
-  checkUser
+  checkUser,
+  checkAdmin
 };

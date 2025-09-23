@@ -22,6 +22,8 @@ export async function sign_In(req: Request) {
     throw new BadRequest('Usuario o contraseña incorrectos');
   }
   const payload = {
+    id: usuario.id,
+    rol: usuario.rol,
     email: usuario.email,
     nombre: usuario.nombre,
     apellido: usuario.apellido
@@ -52,6 +54,8 @@ export async function sign_Up(req: Request) {
     throw new NotFound('Usuario no encontrado');
   }
   const payload = {
+    id: usuario.id,
+    rol: usuario.rol,
     email: usuario.email,
     nombre: usuario.nombre,
     apellido: usuario.apellido

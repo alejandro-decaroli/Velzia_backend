@@ -26,6 +26,7 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
   try {
     // 👇 Forzamos el tipo correcto del payload (coincide con el que definiste en index.d.ts)
     const decoded = jwt.verify(token, secret) as {
+      rol: string;
       id: number;
       email: string;
       nombre: string;
@@ -33,6 +34,19 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
     };
 
     req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(403).json({ message: "Token inválido" });
+  }
+}
+
+export function verifyAdmin(req: Request, res: Response, next: NextFunction) {
+  try {
+    const rol = req.user?.rol;
+    if (rol !== 'admin') {
+      res.status(403).json({ message: 'No tiene permisos para acceder' });
+      return;
+    }
     next();
   } catch (error) {
     res.status(403).json({ message: "Token inválido" });

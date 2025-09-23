@@ -1,6 +1,6 @@
 ### Obtener todos los usuarios
-
 GET http://localhost:3000/usuarios
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sIjoidXNlciIsImVtYWlsIjoiZ29uemFsby56aW5uaUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkdvbnphbG8iLCJhcGVsbGlkbyI6Ilppbm5pIiwiaWF0IjoxNzU4NjQ5NjE2fQ.hzyfJXcM830spgqsP-nwZ7FJXrtgdKhyBFKqU23r-So
 
 
 ### Obtener un usuario por ID
@@ -13,7 +13,7 @@ POST http://localhost:3000/usuarios/login
 Content-Type: application/json
 
 {
-    "email": "juan.perez@example.com",
+    "email": "gonzalo.zinni@example.com",
     "contrasenia": "123456"
 }
 
@@ -23,10 +23,11 @@ POST http://localhost:3000/usuarios/sign-up
 Content-Type: application/json
 
 {
-    "nombre": "Gonzalo",
-    "apellido": "Zinni",
+    "rol": "admin",
+    "nombre": "Alejandro",
+    "apellido": "Decaroli",
     "contrasenia": "123456",
-    "email": "gonzalo.zinni@example.com"
+    "email": "alejandro.decaroli@example.com"
 }
 
 ### Actualizar un usuario

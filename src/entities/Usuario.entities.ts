@@ -14,6 +14,10 @@ import { Ajuste } from "./Ajuste.entities.js";
 
 @Entity()
 export class Usuario extends BaseEntity {
+
+  @Property({ length: 20, nullable: false, default: 'user' })
+  rol!: 'admin' | 'user';
+
   @Property({ length: 100, nullable: false })
   nombre!: string;
 
