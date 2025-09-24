@@ -69,14 +69,14 @@ ventaRouter.get('/detalle/:id',
   (req: Request, res: Response) => {getDetalleVenta(req, res)}
 );
 
-ventaRouter.delete('/detalle/delete/:id', 
+ventaRouter.delete('/detalles/delete/:id', 
   verifyToken,
   idParamValidation,
   handleValidationErrors,
   (req: Request, res: Response) => {deleteDetalleVenta(req, res)}
 );
 
-ventaRouter.put('/detalle/update/:id', 
+ventaRouter.put('/detalles/update/:id', 
   verifyToken,
   idParamValidation,
   handleValidationErrors,
