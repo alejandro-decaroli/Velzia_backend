@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, getListadoVentasByDate, cancelarVenta, pagarVenta, registrarDetalle, DetalleVenta, delete_Detalle_Venta, update_Detalle_Venta } from '../services/ventaService.js';
+import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, getListadoVentasByDate, cancelarVenta, pagarVenta, registrarDetalle, DetalleVenta, delete_Detalle_Venta, update_Detalle_Venta, DetalleVentaById } from '../services/ventaService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
@@ -93,7 +93,7 @@ async function registrarDetalleVenta(req: Request, res: Response) {
 async function getDetalleVenta(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const detalles = await DetalleVenta(Number(userId), Number(req.params.id));
+      const detalles = await DetalleVentaById(Number(userId), Number(req.params.id));
       res.status(200).json({ message: 'Detalle de venta obtenido exitosamente', detalles });
     } catch (error:any) {
       const status = error.status || 500;
