@@ -107,6 +107,7 @@ export async function removeVenta(userId:number, id:number) {
 
   const detalles = await em.find(Detalle, {venta: venta});
   detalles.forEach(detalle => {
+    detalle.producto.stock += detalle.cantidad;
     em.remove(detalle);
   });
 
@@ -217,6 +218,10 @@ export async function registrarDetalle(data:any, userId: number, ventaId: number
     throw new NotFound('Venta no encontrada');
   }
 
+  if (producto.stock < Number(data.cantidad)) {
+    throw new Conflict('Stock insuficiente');
+  }
+
   const detalle = em.create(Detalle, {
     venta: venta,
     producto: producto,
@@ -230,9 +235,11 @@ export async function registrarDetalle(data:any, userId: number, ventaId: number
     visible: true
   });
 
+  producto.stock -= Number(data.cantidad);
   venta.total += Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));
 
   await em.persistAndFlush(detalle);
+  await em.persistAndFlush(producto);
   await em.persistAndFlush(venta);
 }
 
