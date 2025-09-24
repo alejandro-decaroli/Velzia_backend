@@ -1,8 +1,15 @@
 import express, { Request, Response } from 'express';
-import { create, getAll, getById, remove, update, cancelar, pagar, getListadoVentasByRangeDate, registrarDetalleVenta, getDetalleVenta, updateDetalleVenta, deleteDetalleVenta } from '../controllers/ventaController.js';
+import { create, getAll, getById, remove, update, cancelar, pagar, getListadoVentasByRangeDate, registrarDetalleVenta, getDetalleVenta, updateDetalleVenta, deleteDetalleVenta, get_detalles, get_detalles_venta } from '../controllers/ventaController.js';
 import { ventaValidation, idParamValidation, handleValidationErrors } from '../middlewares/validations.js';
 import { verifyToken } from '../middlewares/auth.js';
+
 const ventaRouter = express.Router();
+
+ventaRouter.get('/detalles', 
+  verifyToken,
+  handleValidationErrors,
+  (req: Request, res: Response) => {get_detalles(req, res)}
+);
 
 ventaRouter.get('/', 
   verifyToken,
@@ -69,6 +76,13 @@ ventaRouter.get('/detalle/:id',
   (req: Request, res: Response) => {getDetalleVenta(req, res)}
 );
 
+ventaRouter.get('/detalle_venta/:id', 
+  verifyToken,
+  idParamValidation,
+  handleValidationErrors,
+  (req: Request, res: Response) => {get_detalles_venta(req, res)}
+);
+
 ventaRouter.delete('/detalles/delete/:id', 
   verifyToken,
   idParamValidation,
@@ -82,5 +96,6 @@ ventaRouter.put('/detalles/update/:id',
   handleValidationErrors,
   (req: Request, res: Response) => {updateDetalleVenta(req, res)}
 );
+
 
 export default ventaRouter;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, getListadoVentasByDate, cancelarVenta, pagarVenta, registrarDetalle, DetalleVenta, delete_Detalle_Venta, update_Detalle_Venta, DetalleVentaById } from '../services/ventaService.js';
+import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, getListadoVentasByDate, cancelarVenta, pagarVenta, registrarDetalle, detallesByUser, delete_Detalle_Venta, update_Detalle_Venta, DetalleVentaById, DetalleVenta } from '../services/ventaService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
@@ -100,6 +100,16 @@ async function getDetalleVenta(req: Request, res: Response) {
       res.status(status).json({ message: error.message || 'Error interno' });    }
 }
 
+async function get_detalles(req: Request, res: Response) {
+    try {
+      const userId = req.user?.id;
+      const detalles = await detallesByUser(Number(userId));
+      res.status(200).json({ message: 'Detalles obtenido exitosamente', detalles });
+    } catch (error:any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });    }
+}
+
 async function deleteDetalleVenta(req: Request, res: Response) {
   try {
     const userId = req.user?.id;
@@ -120,6 +130,16 @@ async function updateDetalleVenta(req: Request, res: Response) {
     res.status(status).json({ message: error.message || 'Error interno' });    }
 }
 
+async function get_detalles_venta(req: Request, res: Response) {
+    try {
+      const userId = req.user?.id;
+      const detalles = await DetalleVenta(Number(userId), Number(req.params.id));
+      res.status(200).json({ message: 'Detalles obtenido exitosamente', detalles });
+    } catch (error:any) {
+      const status = error.status || 500;
+      res.status(status).json({ message: error.message || 'Error interno' });    }
+}
+
 export {
   getAll,
   getById,
@@ -132,5 +152,7 @@ export {
   registrarDetalleVenta,
   getDetalleVenta,
   deleteDetalleVenta,
-  updateDetalleVenta
+  updateDetalleVenta,
+  get_detalles,
+  get_detalles_venta
 };

@@ -245,8 +245,8 @@ export async function DetalleVenta(userId: number, ventaId: number) {
   return detalles;
 }
 
-export function DetalleVentaById(userId: number, detalleId: number) {
-  const detalle = em.findOne(Detalle, {id: detalleId, usuario: userId});
+export async function DetalleVentaById(userId: number, detalleId: number) {
+  const detalle = await em.findOne(Detalle, {id: detalleId, usuario: userId});
   if (!detalle) {
     throw new NotFound('Detalle no encontrado');
   }
@@ -270,6 +270,11 @@ export async function delete_Detalle_Venta(userId: number, detalleId: number) {
   venta.total -= detalle.subtotal;
   await em.removeAndFlush(detalle);
   await em.persistAndFlush(venta);
+}
+
+export function detallesByUser(userId: number) {
+  const detalles = em.find(Detalle, {usuario: userId});
+  return detalles;
 }
 
 export async function update_Detalle_Venta(data:any, userId: number, detalleId: number) {
