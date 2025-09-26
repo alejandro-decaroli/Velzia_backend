@@ -146,6 +146,10 @@ export async function pagarCostoFijo(data:any, userId:number, id:number) {
     visible: true
   });
   
+  if (costoFijo.monto < Number(pago.monto)) {
+    throw new Conflict('El monto del pago excede el monto del costo fijo');
+  }
+  
   costoFijo.monto_pagado += Number(data.monto_pagar);
   caja.monto -= Number(data.monto_pagar);
   await em.persistAndFlush(caja);

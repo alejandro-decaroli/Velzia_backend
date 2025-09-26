@@ -143,6 +143,10 @@ export async function pagarCostoVariable(data:any, userId:number, id:number) {
       visible: true
     });
   
+  if (costoVariable.monto < Number(pago.monto)) {
+    throw new Conflict('El monto del pago excede el monto del costo variable');
+  }
+  
   caja.monto -= Number(data.monto_pagar);
   costoVariable.monto_pagado += Number(data.monto_pagar);
   await em.persistAndFlush(caja);

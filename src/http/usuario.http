@@ -24,10 +24,10 @@ Content-Type: application/json
 
 {
     "rol": "admin",
-    "nombre": "Alejandro2",
-    "apellido": "Decaroli2",
+    "nombre": "Alejandro",
+    "apellido": "Decaroli",
     "contrasenia": "123456",
-    "email": "alejandro.decaroli2@example.com"
+    "email": "alejandro.decaroli@example.com"
 }
 
 ### Actualizar un usuario

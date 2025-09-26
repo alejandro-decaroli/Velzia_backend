@@ -82,12 +82,14 @@ export async function updateVenta(data:any, userId: number, id:number) {
     throw new Conflict('No se puede modificar la venta porque tiene pagos asociados');
   }
   venta.total = data.total;
+  venta.total_pagado = data.total_pagado;
   venta.cliente = cliente;
   venta.nombre_cliente = cliente.nombre;
   venta.apellido_cliente = cliente.apellido;
   venta.moneda = moneda;
+  venta.moneda_asociada = moneda.nombre;
   venta.actualizadoEn = new Date();
-  await em.flush();
+  await em.persistAndFlush(venta);
 }
 
 export async function removeVenta(userId:number, id:number) {
@@ -184,6 +186,10 @@ export async function pagarVenta(data:any, userId:number, id:number) {
     actualizadoEn: new Date(),
     visible: true
   });
+  
+  if (venta.total < Number(pago.monto)) {
+    throw new Conflict('El monto del pago excede el monto de la venta');
+  }
   
   venta.total_pagado += Number(data.monto_pagar);
   caja.monto += Number(data.monto_pagar);
