@@ -58,7 +58,7 @@ app.use('/tasas', tasaRouter);
 app.use('/monedas', monedaRouter);
 app.use('/productos', productoRouter);
 
-await syncSchema();
+// await syncSchema();
 
 app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`);
