@@ -68,6 +68,7 @@ DB_PASSWORD=postgres
 DB_NAME=velzia_db
 DATABASE_URL=postgres://postgres:postgres@localhost:5433/velzia_db
 PORT=3000
+NODE_ENV=development
 SECRET_KEY=esta-es-una-clave-secreta-muy-larga
 FRONTEND_URL=http://localhost:5173
 
