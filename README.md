@@ -56,6 +56,8 @@ Opcionalmente pueden levantar unicamente el servicio de la base de datos de dock
   npm run start:dev
 ```
 
+Si quieren que se ejecuten los seeders al iniciar la app, deben agregar la variable de entorno START_SEEDERS=true
+
 
 ## Variables de entorno
 
@@ -71,7 +73,7 @@ PORT=3000
 NODE_ENV=development
 SECRET_KEY=esta-es-una-clave-secreta-muy-larga
 FRONTEND_URL=http://localhost:5173
-
+START_SEEDERS=true
 ```
 
 

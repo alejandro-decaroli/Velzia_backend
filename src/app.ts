@@ -64,12 +64,16 @@ app.use('/productos', productoRouter);
 if (process.env.NODE_ENV === 'development') {
     (async () => {
         await syncSchema();
-        await seed();
+        if (process.env.START_SEEDERS === 'true') {
+            await seed();
+        }
         console.log("✅ Base de datos sincronizada y seeders ejecutados");
     })();
 } else {
-    await seed();
-    console.log("✅ Base de datos sincronizada y seeders ejecutados");
+    if (process.env.START_SEEDERS === 'true') {
+        await seed();
+    }
+    console.log("✅ Base de datos sincronizada");
 }
 
 app.listen(PORT, () => {

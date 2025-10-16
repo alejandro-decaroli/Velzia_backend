@@ -2,7 +2,6 @@ import { Request, Response, response } from 'express';
 import { getAllUsuarios, getByIdUsuario, updateUsuario, removeUsuario, sign_In, sign_Up} from '../services/usuarioServices.js';
 import dotenv from "dotenv";
 dotenv.config();
-import jwt from 'jsonwebtoken';
 
 async function signIn(req: Request, res: Response) {
   try {
@@ -11,8 +10,8 @@ async function signIn(req: Request, res: Response) {
     const token = user_data.token;
     res.cookie('token', token, {
       httpOnly: true, 
-      secure: true,
-      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
     });
     res.status(200).json({ message: 'Usuario autenticado exitosamente', user_json });
   } catch (error: any) {
@@ -28,8 +27,8 @@ async function signUp(req: Request, res: Response) {
     const token = nuevoUsuario.token;
     res.cookie('token', token, {
       httpOnly: true, 
-      secure: true,
-      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'none',
     });
     res.status(201).json({ message: 'Usuario creado exitosamente', user_json });
   } catch (error: any) {
