@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
 import { RequestContext } from "@mikro-orm/core";
-import { orm, syncSchema } from "./db/orm.js";
+import { orm, syncSchema, seed } from "./db/orm.js";
 import clienteRouter from "./routes/clienteRoutes.js";
 import cajaRouter from "./routes/cajaRoutes.js";
 import pagoRouter from "./routes/pagoRoutes.js";
@@ -19,18 +19,25 @@ import usuarioRouter from "./routes/usuarioRoute.js";
 import productoRouter from "./routes/productoRoutes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+dotenv.config();
 
 
 const PORT = process.env.PORT || 3000;
 
-dotenv.config();
 
 const app = express();
+let front_url: string;
+if (process.env.NODE_ENV === 'development') {
+    front_url = "http://localhost:5173";
+}
+else {
+    front_url = process.env.FRONTEND_URL || "http://localhost:5173";
+}
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(
-    {origin: "http://localhost:5173", 
+    {origin: front_url.toString(), 
     credentials: true,
     }
 ));
@@ -38,10 +45,6 @@ app.use(cors(
 app.use((req: Request, res: Response, next: NextFunction) => {
     RequestContext.create(orm.em, next);   
 })
-
-app.get("/", (req: Request, res: Response) => {
-    res.status(200).send("<h1>ESTO es VELZIA!</h1>");
-});
 
 app.use('/usuarios', usuarioRouter);
 app.use('/clientes', clienteRouter);
@@ -58,7 +61,16 @@ app.use('/tasas', tasaRouter);
 app.use('/monedas', monedaRouter);
 app.use('/productos', productoRouter);
 
-await syncSchema();
+if (process.env.NODE_ENV === 'development') {
+    (async () => {
+        await syncSchema();
+        await seed();
+        console.log("✅ Base de datos sincronizada y seeders ejecutados");
+    })();
+} else {
+    await seed();
+    console.log("✅ Base de datos sincronizada y seeders ejecutados");
+}
 
 app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}`);

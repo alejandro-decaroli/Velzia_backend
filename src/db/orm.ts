@@ -1,6 +1,7 @@
 import { MikroORM } from "@mikro-orm/core";
 import { SqlHighlighter } from "@mikro-orm/sql-highlighter";
 import { PostgreSqlDriver } from "@mikro-orm/postgresql";
+import { MainSeeder } from '../seeder/MainSeeder.js';
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -27,4 +28,9 @@ export const orm = await MikroORM.init<PostgreSqlDriver>({
 export const syncSchema = async () => {
     const generator = orm.getSchemaGenerator();
     await generator.updateSchema();
+}
+
+export const seed = async () => {
+    const seeder = orm.getSeeder();
+    await seeder.seed(MainSeeder);
 }

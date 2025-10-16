@@ -16,7 +16,7 @@ Velzia es un mini ERP para pequeñas empresas, diseñado para ser simple y prác
 
 ## Requisitos para uso local
 
-Es necesario tener instalado [docker](https://www.docker.com/) para levantar la base de datos. Elegir el método de instalación según el sistema operativo que se utiliza
+Es necesario tener instalado [docker](https://www.docker.com/) para levantar la base de datos. Elegir el método de instalación según el sistema operativo que se utiliza.
 
 
 
@@ -48,8 +48,9 @@ Crear un archivo .env y escribir las variables de entorno que se proporcionan en
   touch .env
 ```
 
-Luego es necesario levantar la base de datos con docker para esto inicie docker en el sistema, y en el archivo de docker_compose.yaml haga click derecho y selecione "compose up". Esto levanta la base de datos, genera datos sinseticos para usar la app y levanta el servidor.
-Opcionalmente puede levantar unciamente el servicio de la base de datos y flyway para iniciar el servidor con:
+Pueden levantar el backend prendiendo los servicios de docker de la base de datos y la aplicacion, para esto ir al docker compouse, click derecho "compose up".
+
+Opcionalmente pueden levantar unicamente el servicio de la base de datos de docker y para la app correr el siguiente comando:
 
 ```bash
   npm run start:dev
@@ -67,6 +68,8 @@ DB_PASSWORD=postgres
 DB_NAME=velzia_db
 DATABASE_URL=postgres://postgres:postgres@localhost:5433/velzia_db
 PORT=3000
+SECRET_KEY=esta-es-una-clave-secreta-muy-larga
+FRONTEND_URL=http://localhost:5173
 
 ```
 
@@ -90,6 +93,9 @@ Ejecutar el siguiente comando:
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Svelte](https://img.shields.io/badge/svelte-%23f1413d.svg?style=for-the-badge&logo=svelte&logoColor=white)
+![Svelte](https://img.shields.io/badge/svelte-%23f1413d.svg?style=for-the-badge&logo=svelte&logoColor=white)
+![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)
 ## License
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)

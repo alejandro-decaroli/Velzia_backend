@@ -44,7 +44,7 @@ export async function createCaja(data:any, userId:number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
-  em.create(Caja, {
+  await em.create(Caja, {
     nombre: name,
     monto: monto,
     moneda: moneda,

@@ -1,0 +1,26 @@
+import { Seeder } from "@mikro-orm/seeder";
+import { EntityManager } from "@mikro-orm/core";
+import { Usuario } from "../entities/Usuario.entities.js";
+import { Producto } from "../entities/Producto.entities.js";
+
+export class ProductoSeeder extends Seeder {
+    async run(em: EntityManager) {
+        const usuario = await em.findOne(Usuario, 1);
+        if (!usuario) {
+            throw new Error('Usuario no encontrado');
+        }
+        await em.insertMany(Producto, [
+            { usuario: usuario, nombre: 'Manzana', descripcion: 'Manzana', stock: 10, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { usuario: usuario, nombre: 'Banana', descripcion: 'Banana', stock: 20, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { usuario: usuario, nombre: 'Pera', descripcion: 'Pera', stock: 30, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { usuario: usuario, nombre: 'Uva', descripcion: 'Uva', stock: 40, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { usuario: usuario, nombre: 'Mango', descripcion: 'Mango', stock: 50, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { usuario: usuario, nombre: 'Mandarina', descripcion: 'Mandarina', stock: 60, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { usuario: usuario, nombre: 'Mora', descripcion: 'Mora', stock: 70, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { usuario: usuario, nombre: 'Piña', descripcion: 'Piña', stock: 80, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { usuario: usuario, nombre: 'Guayaba', descripcion: 'Guayaba', stock: 90, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { usuario: usuario, nombre: 'Sandía', descripcion: 'Sandía', stock: 100, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+        ]);
+    }
+}
+    
