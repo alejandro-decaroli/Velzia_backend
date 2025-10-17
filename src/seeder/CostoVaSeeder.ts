@@ -6,10 +6,10 @@ import { CostoVariable } from "../entities/Costovariable.entities.js";
 
 export class CostoVariableSeeder extends Seeder {
     async run(em: EntityManager) {
-        const usuario = await em.findOne(Usuario, 1);
-        const moneda = await em.findOne(Moneda, 1);
-        const moneda_2 = await em.findOne(Moneda, 2);
-        const moneda_3 = await em.findOne(Moneda, 3);
+        const usuario = await em.findOne(Usuario, {id:1});
+        const moneda = await em.findOne(Moneda, {id:1, usuario:{id:1}});
+        const moneda_2 = await em.findOne(Moneda, {id:2, usuario:{id:1}});
+        const moneda_3 = await em.findOne(Moneda, {id:3, usuario:{id:1}});
         if (!usuario || !moneda || !moneda_2 || !moneda_3) {
             throw new Error('Usuario o moneda no encontrado');
         }

@@ -7,10 +7,10 @@ import { Moneda } from '../entities/Moneda.entities.js';
 
 export class CajaSeeder extends Seeder {
   async run(em: EntityManager) {
-    const usuario = await em.findOne(Usuario, 1);
-    const moneda_dolar = await em.findOne(Moneda, 1);
-    const moneda_peso = await em.findOne(Moneda, 2);
-    const moneda_euro = await em.findOne(Moneda, 3);
+    const usuario = await em.findOne(Usuario, {id:1});
+    const moneda_dolar = await em.findOne(Moneda, {id:1, usuario:{id:1}});
+    const moneda_peso = await em.findOne(Moneda, {id:2, usuario:{id:1}});
+    const moneda_euro = await em.findOne(Moneda, {id:3, usuario:{id:1}});
     if (!usuario || !moneda_dolar || !moneda_peso || !moneda_euro) {
       throw new Error('Usuario o moneda no encontrado');
     }

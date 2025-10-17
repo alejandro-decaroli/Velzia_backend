@@ -67,17 +67,14 @@ if (process.env.NODE_ENV === 'development') {
         if (process.env.START_SEEDERS === 'true') {
             await seed();
         }
-        console.log("✅ Base de datos sincronizada y seeders ejecutados");
     })();
 } else {
     if (process.env.START_SEEDERS === 'true') {
         await seed();
     }
-    console.log("✅ Base de datos sincronizada");
 }
 
 app.listen(PORT, () => {
-    console.log(`Server running in http://localhost:${PORT}`);
 })
 
 

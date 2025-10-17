@@ -10,7 +10,7 @@ export class Detalle extends BaseEntity {
     @ManyToOne('Venta', {nullable: false})
     venta!: Venta;
 
-    @ManyToOne('Producto', {nullable: false})
+    @ManyToOne('Producto', {nullable: false, eager: true})
     producto!: Producto;
     
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })

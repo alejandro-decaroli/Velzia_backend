@@ -5,7 +5,7 @@ import { Producto } from "../entities/Producto.entities.js";
 
 export class ProductoSeeder extends Seeder {
     async run(em: EntityManager) {
-        const usuario = await em.findOne(Usuario, 1);
+        const usuario = await em.findOne(Usuario, {id:1});
         if (!usuario) {
             throw new Error('Usuario no encontrado');
         }

@@ -7,17 +7,17 @@ import { Producto } from "../entities/Producto.entities.js";
 
 export class DetalleSeeder extends Seeder {
     async run(em: EntityManager) {
-        const usuario = await em.findOne(Usuario, 1);
-        const venta_1 = await em.findOne(Venta, 1);
-        const venta_2 = await em.findOne(Venta, 2);
-        const venta_3 = await em.findOne(Venta, 3);
-        const venta_4 = await em.findOne(Venta, 4);
-        const venta_5 = await em.findOne(Venta, 5);
-        const producto_1 = await em.findOne(Producto, 1);
-        const producto_2 = await em.findOne(Producto, 2);
-        const producto_3 = await em.findOne(Producto, 3);
-        const producto_4 = await em.findOne(Producto, 4);
-        const producto_5 = await em.findOne(Producto, 5);
+        const usuario = await em.findOne(Usuario, {id:1});
+        const venta_1 = await em.findOne(Venta, {id:1, usuario:{id:1}});
+        const venta_2 = await em.findOne(Venta, {id:2, usuario:{id:1}});
+        const venta_3 = await em.findOne(Venta, {id:3, usuario:{id:1}});
+        const venta_4 = await em.findOne(Venta, {id:4, usuario:{id:1}});
+        const venta_5 = await em.findOne(Venta, {id:5, usuario:{id:1}});
+        const producto_1 = await em.findOne(Producto, {id:1, usuario:{id:1}});
+        const producto_2 = await em.findOne(Producto, {id:2, usuario:{id:1}});
+        const producto_3 = await em.findOne(Producto, {id:3, usuario:{id:1}});
+        const producto_4 = await em.findOne(Producto, {id:4, usuario:{id:1}});
+        const producto_5 = await em.findOne(Producto, {id:5, usuario:{id:1}});
         if (!usuario || !venta_1 || !venta_2 || !venta_3 || !venta_4 || !venta_5 || !producto_1 || !producto_2 || !producto_3 || !producto_4 || !producto_5) {
             throw new Error('Usuario o venta no encontrado');
         }

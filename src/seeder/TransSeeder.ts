@@ -6,11 +6,11 @@ import { Transferencia } from "../entities/Transferencia.entities.js";
 
 export class TransferenciaSeeder extends Seeder {
     async run(em: EntityManager) {
-        const usuario = await em.findOne(Usuario, 1);
-        const caja_1 = await em.findOne(Caja, 1);
-        const caja_2 = await em.findOne(Caja, 2);
-        const caja_3 = await em.findOne(Caja, 3);
-        const caja_4 = await em.findOne(Caja, 4);
+        const usuario = await em.findOne(Usuario, {id:1});
+        const caja_1 = await em.findOne(Caja, {id:1, usuario:{id:1}});
+        const caja_2 = await em.findOne(Caja, {id:2, usuario:{id:1}});
+        const caja_3 = await em.findOne(Caja, {id:3, usuario:{id:1}});
+        const caja_4 = await em.findOne(Caja, {id:4, usuario:{id:1}});
         if (!usuario || !caja_1 || !caja_2 || !caja_3 || !caja_4) {
             throw new Error('Usuario o caja no encontrado');
         }

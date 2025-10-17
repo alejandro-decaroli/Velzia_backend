@@ -7,15 +7,15 @@ import { Cliente } from "../entities/Cliente.entities.js";
 
 export class VentaSeeder extends Seeder {
     async run(em: EntityManager) {
-        const usuario = await em.findOne(Usuario, 1);
-        const moneda = await em.findOne(Moneda, 1);
-        const moneda_2 = await em.findOne(Moneda, 2);
-        const moneda_3 = await em.findOne(Moneda, 3);
-        const cliente_1 = await em.findOne(Cliente, 1);
-        const cliente_2 = await em.findOne(Cliente, 2);
-        const cliente_3 = await em.findOne(Cliente, 3);
-        const cliente_4 = await em.findOne(Cliente, 4);
-        const cliente_5 = await em.findOne(Cliente, 5);
+        const usuario = await em.findOne(Usuario, {id:1});
+        const moneda = await em.findOne(Moneda, {id:1, usuario:{id:1}});
+        const moneda_2 = await em.findOne(Moneda, {id:2, usuario:{id:1}});
+        const moneda_3 = await em.findOne(Moneda, {id:3, usuario:{id:1}});
+        const cliente_1 = await em.findOne(Cliente, {id:1, usuario:{id:1}});
+        const cliente_2 = await em.findOne(Cliente, {id:2, usuario:{id:1}});
+        const cliente_3 = await em.findOne(Cliente, {id:3, usuario:{id:1}});
+        const cliente_4 = await em.findOne(Cliente, {id:4, usuario:{id:1}});
+        const cliente_5 = await em.findOne(Cliente, {id:5, usuario:{id:1}});
         if (!usuario || !moneda || !moneda_2 || !moneda_3 || !cliente_1 || !cliente_2 || !cliente_3 || !cliente_4 || !cliente_5) {
             throw new Error('Usuario o moneda no encontrado');
         }

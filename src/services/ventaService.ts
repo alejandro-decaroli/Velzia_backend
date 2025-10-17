@@ -108,12 +108,11 @@ export async function removeVenta(userId:number, id:number) {
   }
 
   const detalles = await em.find(Detalle, {venta: venta});
-  detalles.forEach(detalle => {
+  detalles.forEach(async detalle => {
     detalle.producto.stock += detalle.cantidad;
-    em.remove(detalle);
+    await em.removeAndFlush(detalle);
   });
 
-  await em.flush();
   await em.removeAndFlush(venta);
 }
 
@@ -162,7 +161,6 @@ export async function pagarVenta(data:any, userId:number, id:number) {
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
-
   if (venta.moneda.id !== caja.moneda.id) {
     throw new Conflict('La moneda de la venta no coincide con la moneda de la caja');
   }
