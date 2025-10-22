@@ -4,7 +4,8 @@ import { createCostoFijo, getAllCostosFijos, getByIdCostoFijo, removeCostoFijo, 
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const costos_fijos = await getAllCostosFijos(Number(userId));
+      const {fecha} : any = req.query;
+      const costos_fijos = await getAllCostosFijos(Number(userId), fecha);
       res.status(200).json({ message: 'Costos fijos obtenidos exitosamente', costos_fijos });
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener los costos fijos' });

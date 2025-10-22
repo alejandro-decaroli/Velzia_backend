@@ -4,7 +4,8 @@ import { createMoneda, getAllMoneda, getByIdMoneda, removeMoneda, updateMoneda }
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const monedas = await getAllMoneda(Number(userId));
+      const {fecha} : any = req.query;
+      const monedas = await getAllMoneda(Number(userId), fecha);
       res.status(200).json({ message: 'Monedas obtenidas exitosamente', monedas });
     } catch (error:any) {
       res.status(500).json({ error: 'Error al obtener las monedas' });

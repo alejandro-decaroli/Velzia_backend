@@ -5,7 +5,8 @@ import { userInfo } from 'os';
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const pagos = await getAllPagos(Number(userId));
+      const {fecha} : any = req.query;
+      const pagos = await getAllPagos(Number(userId), fecha);
       res.status(200).json({ message: 'Pagos obtenidos exitosamente', pagos });
     } catch (error:any) {
       res.status(500).json({ error: 'Error al obtener los pagos' });

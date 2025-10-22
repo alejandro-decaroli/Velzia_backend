@@ -4,7 +4,8 @@ import { createCliente, getAllClientes, getByIdCliente, removeCliente, updateCli
 async function getAll(req: Request, res: Response) {
   try {
     const userId = req.user?.id;
-    const clientes = await getAllClientes(Number(userId));
+    const {fecha} : any = req.query;
+    const clientes = await getAllClientes(Number(userId), fecha);
     res.status(200).json({ message: 'Clientes obtenidos exitosamente', clientes });
   } catch (error: any) {
     res.status(500).json({ message: 'Error al obtener los clientes', error });

@@ -4,7 +4,8 @@ import { createAjuste, getAllAjustes, getByIdAjuste, updateAjuste, removeAjuste 
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const ajustes = await getAllAjustes(Number(userId));
+      const {filtro, fecha} : any = req.query;
+      const ajustes = await getAllAjustes(Number(userId), filtro, fecha);
       res.status(200).json({ message: 'Ajustes obtenidos exitosamente', ajustes });
     } catch (error: any) {
       res.status(500).json({ message: 'Error al obtener los ajustes', error });

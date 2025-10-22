@@ -13,8 +13,9 @@ ventaRouter.get('/detalles',
 
 ventaRouter.get('/', 
   verifyToken,
-    handleValidationErrors,
-    (req: Request, res: Response) => {getAll(req, res)}
+  handleValidationErrors,
+  (req: Request, res: Response) => {getAll(req, res)}
+  
 );
 ventaRouter.get('/:id',
   verifyToken, 

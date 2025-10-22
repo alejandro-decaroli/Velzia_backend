@@ -12,9 +12,30 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllVentas(userId: number) {
-  const ventas = await em.find(Venta, {usuario: userId});
-  return ventas;
+export async function getAllVentas(userId: number, filtro: string, fecha: string) {
+  if (!fecha) {
+    fecha = new Date().toISOString().split('T')[0];
+  } else {
+    fecha = fecha.split('T')[0];
+  }
+  const fechaDate = new Date(fecha);
+  const inicioMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth(), 1);
+  const finMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth() + 1, 0, 23, 59, 59, 999);
+
+  if (filtro) {
+    const ventas = await em.find(Venta, {
+      usuario: userId,
+      creadoEn: { $gte: inicioMes, $lte: finMes },
+      estado: filtro as any
+    });
+    return ventas;
+  } else {
+    const ventas = await em.find(Venta, {
+      usuario: userId,
+      creadoEn: { $gte: inicioMes, $lte: finMes }
+    });
+    return ventas;
+  }
 }
 
 export async function getByIdVenta(userId: number, id:number) {

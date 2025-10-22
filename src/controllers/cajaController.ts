@@ -4,7 +4,8 @@ import { createCaja, getAllCajas, getByIdCaja, removeCaja, updateCaja } from '..
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const cajas = await getAllCajas(Number(userId));
+      const {fecha} : any = req.query;
+      const cajas = await getAllCajas(Number(userId), fecha);
       res.status(200).json({ message: 'Cajas obtenidas exitosamente', cajas });
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener las cajas' });

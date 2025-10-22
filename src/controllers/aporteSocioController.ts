@@ -4,7 +4,8 @@ import { createAporte, getAllAportes, getByIdAportes, removeAporte, updateAporte
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const aportes_socio = await getAllAportes(Number(userId));
+      const {fecha} : any = req.query;
+      const aportes_socio = await getAllAportes(Number(userId), fecha);
       res.status(200).json({ message: 'Aportes de socios obtenidos exitosamente', aportes_socio });
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener los aportes de socios' });

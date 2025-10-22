@@ -4,7 +4,8 @@ import { createTasa, getAllTasas, getByIdTasa, removeTasa, updateTasa } from '..
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const tasas = await getAllTasas(Number(userId));
+      const {fecha} : any = req.query;
+      const tasas = await getAllTasas(Number(userId), fecha);
       res.status(200).json({ message: 'Tasas obtenidas exitosamente', tasas });
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener las tasas' });

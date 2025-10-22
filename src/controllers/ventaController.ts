@@ -4,7 +4,8 @@ import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, getL
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const ventas = await getAllVentas(Number(userId));
+      const {filtro, fecha} : any = req.query;
+      const ventas = await getAllVentas(Number(userId), filtro, fecha);
       res.status(200).json({ message: 'Ventas obtenidas exitosamente', ventas });
     } catch (error:any) {
       res.status(500).json({ error: 'Error al obtener las ventas' });

@@ -3,7 +3,8 @@ import { createProducto, getAllProductos, getByIdProducto, updateProducto, remov
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const productos = await getAllProductos(Number(userId));
+      const {fecha} : any = req.query;
+      const productos = await getAllProductos(Number(userId), fecha);
       res.status(200).json({ message: 'Productos obtenidos exitosamente', productos });
     } catch (error: any) {
       res.status(500).json({ message: 'Error al obtener los productos', error });

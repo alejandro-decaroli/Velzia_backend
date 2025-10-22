@@ -36,5 +36,4 @@ export class CostoFijo extends BaseEntity {
         super();
         this.nombre_moneda = this.moneda?.codigo_iso || '';
     }
-
 }

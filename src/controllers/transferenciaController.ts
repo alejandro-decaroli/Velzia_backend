@@ -4,7 +4,8 @@ import { createTransferencia, getAllTransferencias, getByIdTransferencia, remove
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const transferencias = await getAllTransferencias(Number(userId));
+      const {fecha} : any = req.query;
+      const transferencias = await getAllTransferencias(Number(userId), fecha);
       res.status(200).json({ message: 'Transferencias obtenidas exitosamente', transferencias });
     } catch (error:any) {
       res.status(500).json({ error: 'Error al obtener las transferencias' });

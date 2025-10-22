@@ -7,8 +7,17 @@ const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
 
-export async function getAllClientes(userId: number) {
-  const clientes = await em.find(Cliente, {usuario: {id: userId}});
+export async function getAllClientes(userId: number, fecha: string) {
+  if (!fecha) {
+    fecha = new Date().toISOString().split('T')[0];
+  } else {
+    fecha = fecha.split('T')[0];
+  }
+  const fechaDate = new Date(fecha);
+  const inicioMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth(), 1);
+  const finMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth() + 1, 0, 23, 59, 59, 999);
+
+  const clientes = await em.find(Cliente, {usuario: {id: userId}, creadoEn: { $gte: inicioMes, $lte: finMes }});
   return clientes;
 }
 
