@@ -15,7 +15,6 @@ import { Ajuste } from "./Ajuste.entities.js";
 @Entity()
 export class Usuario extends BaseEntity {
 
-
   @Property({ length: 20, nullable: false, default: 'user'  })
   rol!: 'admin' | 'user';
 
@@ -65,7 +64,6 @@ export class Usuario extends BaseEntity {
   ajuste = new Collection<Ajuste>(this);
 
   toJSON() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { contrasenia, ...rest } = this;
     return rest;
   }

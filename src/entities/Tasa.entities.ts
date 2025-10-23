@@ -15,7 +15,7 @@ export class Tasa extends BaseEntity {
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
     tasa!: number;
 
-    @ManyToOne('Usuario', {nullable: false})
+    @ManyToOne('Usuario', {onDelete: 'cascade', cascade: [Cascade.ALL], nullable: false} as any)
     usuario!: Usuario;  
 
     @Property({ type: 'varchar', length: 50, nullable: false})

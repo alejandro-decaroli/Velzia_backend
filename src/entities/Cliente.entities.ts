@@ -23,7 +23,7 @@ export class Cliente extends BaseEntity {
   @OneToMany('Venta', 'cliente', {cascade: [Cascade.ALL], nullable: true})
   ventas = new Collection<Venta>(this);
 
-  @ManyToOne('Usuario', 'clientes')
+  @ManyToOne('Usuario', {onDelete: 'cascade', cascade: [Cascade.ALL]} as any)
   usuario!: Usuario;
   
 }

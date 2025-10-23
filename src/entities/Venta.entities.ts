@@ -21,7 +21,7 @@ export class Venta extends BaseEntity {
     @OneToMany('Pago', 'venta', {cascade: [Cascade.ALL], nullable: true})
     pagos = new Collection<Pago>(this);
 
-    @ManyToOne('Usuario', {nullable: false})
+    @ManyToOne('Usuario', {onDelete: 'cascade', cascade: [Cascade.ALL], nullable: false} as any)
     usuario!: Usuario;
 
     @Property({ type: 'varchar', length: 150, nullable: false})

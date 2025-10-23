@@ -1,4 +1,4 @@
-import { Entity, Property, ManyToOne } from "@mikro-orm/core";
+import { Entity, Property, ManyToOne, Cascade } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.entities.js";
 import { Caja } from "./Caja.entities.js";
 import { Venta } from "./Venta.entities.js";
@@ -18,7 +18,7 @@ export class Pago extends BaseEntity {
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
     monto!: number;
 
-    @ManyToOne('Usuario', {nullable: false})
+    @ManyToOne('Usuario', {onDelete: 'cascade', cascade: [Cascade.ALL], nullable: false} as any)
     usuario!: Usuario;    
 
     @ManyToOne('CostoFijo', {nullable: true, eager: true})

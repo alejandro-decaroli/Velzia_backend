@@ -1,4 +1,4 @@
-import { Entity, Property, ManyToOne } from "@mikro-orm/core";
+import { Entity, Property, ManyToOne, Cascade } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.entities.js";
 import { Caja } from "./Caja.entities.js";
 import { Usuario } from "./Usuario.entities.js";
@@ -15,7 +15,7 @@ export class Ajuste extends BaseEntity {
     @Property({ type: 'varchar', length: 20, nullable: false })
     movimiento!: 'ingreso' | 'egreso';
 
-    @ManyToOne('Usuario', {nullable: false})
+    @ManyToOne('Usuario', {onDelete: 'cascade', cascade: [Cascade.ALL], nullable: false} as any)
     usuario!: Usuario;
 
     @Property({ type: 'varchar', length: 50, nullable: false})

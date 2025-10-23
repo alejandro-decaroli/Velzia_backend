@@ -40,7 +40,7 @@ export class Caja extends BaseEntity {
     @Property({ type: 'varchar', length: 20, nullable: false })
     tipo_moneda!: string;
 
-    @ManyToOne('Usuario', {nullable: false})
+    @ManyToOne('Usuario', {onDelete: 'cascade', cascade: [Cascade.ALL], nullable: false} as any)
     usuario!: Usuario;
 
     constructor() {

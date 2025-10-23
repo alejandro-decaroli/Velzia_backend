@@ -102,6 +102,5 @@ export async function removeUsuario(id:number) {
     if (!usuario) {
         throw new NotFound('Usuario no encontrado');
     }
-    await em.remove(usuario);
-    await em.flush();
+    await em.removeAndFlush(usuario);
 }
