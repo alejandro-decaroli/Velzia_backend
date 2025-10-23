@@ -103,6 +103,9 @@ export const monedaValidation = [
     .notEmpty().withMessage('Código ISO es requerido')
     .isLength({ min: 2 }).withMessage('Código ISO muy corto')
     .isLength({ max: 3 }).withMessage('Código ISO muy largo'),
+  body('principal')
+    .notEmpty().withMessage('Principal es requerido')
+    .isBoolean().withMessage('Principal debe ser un booleano'),
 ];
 
 export const tasaValidation = [
@@ -145,5 +148,26 @@ export const loginValidation = [
     body('contrasenia')
         .notEmpty().withMessage('Contraseña es requerida')
         .isLength({ min: 6 }).withMessage('Contraseña debe tener al menos 6 caracteres')
+];
+
+export const productoValidation = [
+  body('nombre')
+    .notEmpty().withMessage('Nombre es requerido')
+    .isLength({ min: 2 }).withMessage('Nombre muy corto'),
+  body('stock')
+    .notEmpty().withMessage('Stock es requerido')
+    .isInt({ min: 0 }).withMessage('Stock debe ser un número positivo'),
+];
+
+export const detalleValidation = [
+  body('precio_unitario')
+    .notEmpty().withMessage('Precio unitario es requerido')
+    .isFloat({ min: 0 }).withMessage('Precio unitario debe ser un número positivo'),
+  body('cantidad')
+    .notEmpty().withMessage('Cantidad es requerida')
+    .isInt({ min: 0 }).withMessage('Cantidad debe ser un número positivo'),
+  body('descuento')
+    .notEmpty().withMessage('Descuento es requerido')
+    .isFloat({ min: 0 }).withMessage('Descuento debe ser un número positivo'),
 ];
     

@@ -15,7 +15,7 @@ export class Transferencia extends BaseEntity {
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
     monto!: number;
 
-    @ManyToOne('Usuario', {onDelete: 'cascade', cascade: [Cascade.ALL], nullable: false} as any)
+    @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 
     @Property({ type: 'varchar', length: 100, nullable: true })

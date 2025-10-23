@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { create, getAll, getById, remove, update, cancelar, pagar, getListadoVentasByRangeDate, registrarDetalleVenta, getDetalleVenta, updateDetalleVenta, deleteDetalleVenta, get_detalles, get_detalles_venta } from '../controllers/ventaController.js';
-import { ventaValidation, idParamValidation, handleValidationErrors } from '../middlewares/validations.js';
+import { ventaValidation, idParamValidation, handleValidationErrors, detalleValidation } from '../middlewares/validations.js';
 import { verifyToken } from '../middlewares/auth.js';
 
 const ventaRouter = express.Router();
@@ -66,6 +66,7 @@ ventaRouter.get('/listado',
 
 ventaRouter.post('/registrar_detalle/:id', 
     verifyToken,
+    detalleValidation,
     handleValidationErrors,
     (req: Request, res: Response) => {registrarDetalleVenta(req, res)}
 );
@@ -93,6 +94,7 @@ ventaRouter.delete('/detalles/delete/:id',
 
 ventaRouter.put('/detalles/update/:id', 
   verifyToken,
+  detalleValidation,
   idParamValidation,
   handleValidationErrors,
   (req: Request, res: Response) => {updateDetalleVenta(req, res)}

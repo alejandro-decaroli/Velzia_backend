@@ -25,7 +25,7 @@ export class CostoVariable extends BaseEntity {
     @OneToMany('Pago', 'costo_variable', {cascade: [Cascade.ALL], nullable: true})
     pagos = new Collection<Pago>(this);
 
-    @ManyToOne('Usuario', {onDelete: 'cascade', cascade: [Cascade.ALL], nullable: false} as any)
+    @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 
     @Property({ type: 'varchar', length: 50, nullable: false})

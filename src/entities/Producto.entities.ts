@@ -15,7 +15,7 @@ export class Producto extends BaseEntity {
     @Property({ type: 'numeric', nullable: false })
     stock!: number;
 
-    @ManyToOne('Usuario', {onDelete: 'cascade', cascade: [Cascade.ALL], nullable: false} as any)
+    @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 
     @OneToMany('Detalle', 'producto', {cascade: [Cascade.ALL], nullable: true})

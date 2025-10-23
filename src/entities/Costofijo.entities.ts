@@ -26,7 +26,7 @@ export class CostoFijo extends BaseEntity {
     @Property({ type: 'varchar', length: 20, nullable: false, default: 'Pendiente' })
     estado!: 'Pendiente' | 'Pagada';
 
-    @ManyToOne('Usuario', {onDelete: 'cascade', cascade: [Cascade.ALL], nullable: false} as any)
+    @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 
     @Property({ type: 'varchar', length: 50, nullable: false})

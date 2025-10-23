@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { handleValidationErrors, idParamValidation } from '../middlewares/validations.js';
+import { handleValidationErrors, idParamValidation, productoValidation } from '../middlewares/validations.js';
 import { create, getAll, getById, update, remove } from '../controllers/productoController.js';
 import { verifyToken } from '../middlewares/auth.js';
 
@@ -20,6 +20,7 @@ productoRouter.get('/:id',
 
 productoRouter.post('/create',
   verifyToken,
+  productoValidation,
   handleValidationErrors,
   (req: Request, res: Response) => {create(req, res)}
 );
@@ -27,6 +28,7 @@ productoRouter.post('/create',
 productoRouter.put('/update/:id', 
   verifyToken,
   idParamValidation,
+  productoValidation,
   handleValidationErrors,
   (req: Request, res: Response) => {update(req, res)}
 );

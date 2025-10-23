@@ -11,6 +11,9 @@ export class Moneda extends BaseEntity {
     @Property({ type: 'varchar', length: 50, nullable: false })
     nombre!: string;
 
+    @Property({ type: 'boolean', default: false, nullable: false })
+    principal!: boolean;
+
     @Property({ type: 'varchar', length: 3, nullable: false })
     codigo_iso!: string;
 
@@ -26,6 +29,6 @@ export class Moneda extends BaseEntity {
     @OneToMany('Tasa', 'moneda_destino', { nullable: true })
     tasas_destino = new Collection<Tasa>(this);
 
-    @ManyToOne('Usuario', {onDelete: 'cascade', cascade: [Cascade.ALL], nullable: false} as any)
+    @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 }

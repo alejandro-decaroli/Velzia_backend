@@ -50,10 +50,17 @@ export async function createMoneda(data:any, userId: number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
+  if (data.principal) {
+    const moneda_principal = await em.findOne(Moneda, {principal: true, usuario: userId});
+    if (moneda_principal) {
+      throw new Conflict('Ya existe una moneda principal');
+    }
+  }
   await em.create(Moneda, {
     nombre: data.nombre,
     codigo_iso: data.codigo_iso,
     usuario: usuario,
+    principal: data.principal,
     creadoEn: new Date(),
     actualizadoEn: new Date(),
     visible: true
@@ -85,9 +92,15 @@ export async function updateMoneda(data:any, userId: number, id:number) {
   if (codigo_iso_duplicado && codigo_iso_duplicado.id !== id) {
     throw new Conflict('Las monedas no pueden tener el mismo código ISO');
   }
- 
+  if (data.principal) {
+    const moneda_principal = await em.findOne(Moneda, {principal: true, usuario: userId});
+    if (moneda_principal && moneda_principal.id !== id) {
+      throw new Conflict('Ya existe una moneda principal');
+    }
+  }
   moneda.nombre = data.nombre;
   moneda.codigo_iso = data.codigo_iso;
+  moneda.principal = data.principal;
   moneda.actualizadoEn = new Date();
   await em.flush();
 }
