@@ -13,7 +13,8 @@ const em = orm.em;
 
 export async function getAllMoneda(userId: number, fecha: string) {
   if (!fecha) {
-    fecha = new Date().toISOString().split('T')[0];
+    const monedas = await em.find(Moneda, {usuario: userId});
+    return monedas;
   } else {
     fecha = fecha.split('T')[0];
   }

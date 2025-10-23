@@ -9,7 +9,7 @@ import { Moneda } from '../entities/Moneda.entities.js';
 
 const em = orm.em;
 
-export async function getAllCostosFijos(userId: number, fecha: string) {
+export async function getAllCostosFijos(userId: number, fecha: string, filtro: string) {
   if (!fecha) {
     fecha = new Date().toISOString().split('T')[0];
   } else {
@@ -18,7 +18,11 @@ export async function getAllCostosFijos(userId: number, fecha: string) {
   const fechaDate = new Date(fecha);
   const inicioMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth(), 1);
   const finMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth() + 1, 0, 23, 59, 59, 999);
-  const costosFijos = await em.find(CostoFijo, {usuario: userId, creadoEn: { $gte: inicioMes, $lte: finMes }});
+  if (!filtro) {
+    const costosFijos = await em.find(CostoFijo, {usuario: userId, creadoEn: { $gte: inicioMes, $lte: finMes }});
+    return costosFijos;
+  }
+  const costosFijos = await em.find(CostoFijo, {usuario: userId, creadoEn: { $gte: inicioMes, $lte: finMes }, estado: filtro as any});
   return costosFijos;
 }
 

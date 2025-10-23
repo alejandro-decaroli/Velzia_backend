@@ -4,8 +4,8 @@ import { createCostoVariable, getAllCostosVariables, getByIdCostoVariable, remov
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
-      const {fecha} : any = req.query;
-      const costos_variables = await getAllCostosVariables(Number(userId), fecha);
+      const {fecha, filtro} : any = req.query;
+      const costos_variables = await getAllCostosVariables(Number(userId), fecha, filtro);
       res.status(200).json({ message: 'Costos variables obtenidos exitosamente', costos_variables });
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener los costos variables' });
