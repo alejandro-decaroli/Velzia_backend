@@ -1,29 +1,11 @@
 import { MikroORM } from "@mikro-orm/core";
-import { SqlHighlighter } from "@mikro-orm/sql-highlighter";
-import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { MainSeeder } from '../seeder/MainSeeder.js';
 import dotenv from "dotenv";
+import config from "../../mikro-orm.config.js";
 
 dotenv.config();
 
-export const orm = await MikroORM.init<PostgreSqlDriver>({
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT),
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    dbName: process.env.DB_NAME,
-    entities: ["dist/**/*.entities.js"],
-    entitiesTs: ["src/**/*.entities.ts"],
-    clientUrl: process.env.DATABASE_URL,
-    highlighter: new SqlHighlighter(),
-    driver: PostgreSqlDriver,
-    debug: true,
-    schemaGenerator: { // no utilizar en produccion
-        disableForeignKeys: true,
-        createForeignKeyConstraints: true,
-        ignoreSchema: [],
-    }
-})
+export const orm = await MikroORM.init(config);
 
 export const syncSchema = async () => {
     const generator = orm.getSchemaGenerator();
