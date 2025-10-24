@@ -28,16 +28,16 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 let front_url: string;
 if (process.env.NODE_ENV === 'development') {
-    front_url = "http://localhost:5173";
+    front_url = "http://127.0.0.1:5173";
 }
 else {
-    front_url = process.env.FRONTEND_URL || "http://localhost:5173";
+    front_url = process.env.FRONTEND_URL || "http://127.0.0.1:5173";
 }
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors(
-    {origin: front_url.toString(), 
+    {origin: [front_url.toString(), "http://localhost:5173", "http://0.0.0.0:5173"], 
     credentials: true,
     }
 ));
