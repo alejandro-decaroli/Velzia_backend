@@ -1,0 +1,2445 @@
+{
+  "namespaces": [
+    "public"
+  ],
+  "name": "public",
+  "tables": [
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "rol": {
+          "name": "rol",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "default": "'user'",
+          "mappedType": "string"
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 100,
+          "mappedType": "string"
+        },
+        "apellido": {
+          "name": "apellido",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 100,
+          "mappedType": "string"
+        },
+        "contrasenia": {
+          "name": "contrasenia",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 100,
+          "mappedType": "string"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 100,
+          "mappedType": "string"
+        }
+      },
+      "name": "usuario",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "usuario_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {},
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "mappedType": "string"
+        },
+        "descripcion": {
+          "name": "descripcion",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 100,
+          "mappedType": "string"
+        },
+        "stock": {
+          "name": "stock",
+          "type": "numeric(10,0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 0,
+          "mappedType": "decimal"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        }
+      },
+      "name": "producto",
+      "schema": "public",
+      "indexes": [
+        {
+          "columnNames": [
+            "nombre"
+          ],
+          "composite": false,
+          "keyName": "producto_nombre_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "producto_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "producto_usuario_id_foreign": {
+          "constraintName": "producto_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.producto",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "mappedType": "string"
+        },
+        "principal": {
+          "name": "principal",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "false",
+          "mappedType": "boolean"
+        },
+        "codigo_iso": {
+          "name": "codigo_iso",
+          "type": "varchar(3)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 3,
+          "mappedType": "string"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        }
+      },
+      "name": "moneda",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "moneda_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "moneda_usuario_id_foreign": {
+          "constraintName": "moneda_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.moneda",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "moneda_origen_id": {
+          "name": "moneda_origen_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "moneda_destino_id": {
+          "name": "moneda_destino_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "tasa": {
+          "name": "tasa",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "mappedType": "decimal"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "nombre_moneda_origen": {
+          "name": "nombre_moneda_origen",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "nombre_moneda_destino": {
+          "name": "nombre_moneda_destino",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        }
+      },
+      "name": "tasa",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "tasa_moneda_origen_id_moneda_destino_id_unique",
+          "columnNames": [
+            "moneda_origen_id",
+            "moneda_destino_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "tasa_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "tasa_moneda_origen_id_foreign": {
+          "constraintName": "tasa_moneda_origen_id_foreign",
+          "columnNames": [
+            "moneda_origen_id"
+          ],
+          "localTableName": "public.tasa",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.moneda",
+          "updateRule": "cascade"
+        },
+        "tasa_moneda_destino_id_foreign": {
+          "constraintName": "tasa_moneda_destino_id_foreign",
+          "columnNames": [
+            "moneda_destino_id"
+          ],
+          "localTableName": "public.tasa",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.moneda",
+          "updateRule": "cascade"
+        },
+        "tasa_usuario_id_foreign": {
+          "constraintName": "tasa_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.tasa",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "moneda_id": {
+          "name": "moneda_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "adjudicacion": {
+          "name": "adjudicacion",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "mappedType": "string"
+        },
+        "monto": {
+          "name": "monto",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "default": "0",
+          "mappedType": "decimal"
+        },
+        "monto_pagado": {
+          "name": "monto_pagado",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "default": "0",
+          "mappedType": "decimal"
+        },
+        "estado": {
+          "name": "estado",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "default": "'Pendiente'",
+          "mappedType": "string"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "nombre_moneda": {
+          "name": "nombre_moneda",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        }
+      },
+      "name": "costo_variable",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "costo_variable_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "costo_variable_moneda_id_foreign": {
+          "constraintName": "costo_variable_moneda_id_foreign",
+          "columnNames": [
+            "moneda_id"
+          ],
+          "localTableName": "public.costo_variable",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.moneda",
+          "updateRule": "cascade"
+        },
+        "costo_variable_usuario_id_foreign": {
+          "constraintName": "costo_variable_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.costo_variable",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "moneda_id": {
+          "name": "moneda_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "adjudicacion": {
+          "name": "adjudicacion",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "mappedType": "string"
+        },
+        "monto": {
+          "name": "monto",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "mappedType": "decimal"
+        },
+        "monto_pagado": {
+          "name": "monto_pagado",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "default": "0",
+          "mappedType": "decimal"
+        },
+        "estado": {
+          "name": "estado",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "default": "'Pendiente'",
+          "mappedType": "string"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "nombre_moneda": {
+          "name": "nombre_moneda",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        }
+      },
+      "name": "costo_fijo",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "costo_fijo_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "costo_fijo_moneda_id_foreign": {
+          "constraintName": "costo_fijo_moneda_id_foreign",
+          "columnNames": [
+            "moneda_id"
+          ],
+          "localTableName": "public.costo_fijo",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.moneda",
+          "updateRule": "cascade"
+        },
+        "costo_fijo_usuario_id_foreign": {
+          "constraintName": "costo_fijo_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.costo_fijo",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 100,
+          "mappedType": "string"
+        },
+        "apellido": {
+          "name": "apellido",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 100,
+          "mappedType": "string"
+        },
+        "telefono": {
+          "name": "telefono",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 100,
+          "mappedType": "string"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 100,
+          "mappedType": "string"
+        },
+        "direccion": {
+          "name": "direccion",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 100,
+          "mappedType": "string"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        }
+      },
+      "name": "cliente",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "cliente_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "cliente_usuario_id_foreign": {
+          "constraintName": "cliente_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.cliente",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "moneda_id": {
+          "name": "moneda_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "mappedType": "string"
+        },
+        "monto": {
+          "name": "monto",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "default": "0",
+          "mappedType": "decimal"
+        },
+        "tipo_moneda": {
+          "name": "tipo_moneda",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        }
+      },
+      "name": "caja",
+      "schema": "public",
+      "indexes": [
+        {
+          "columnNames": [
+            "nombre"
+          ],
+          "composite": false,
+          "keyName": "caja_nombre_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
+          "keyName": "caja_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "caja_moneda_id_foreign": {
+          "constraintName": "caja_moneda_id_foreign",
+          "columnNames": [
+            "moneda_id"
+          ],
+          "localTableName": "public.caja",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.moneda",
+          "updateRule": "cascade"
+        },
+        "caja_usuario_id_foreign": {
+          "constraintName": "caja_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.caja",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "caja_origen_id": {
+          "name": "caja_origen_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "caja_destino_id": {
+          "name": "caja_destino_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "monto": {
+          "name": "monto",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "mappedType": "decimal"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "motivo": {
+          "name": "motivo",
+          "type": "varchar(100)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 100,
+          "mappedType": "string"
+        },
+        "nombre_caja_origen": {
+          "name": "nombre_caja_origen",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "nombre_caja_destino": {
+          "name": "nombre_caja_destino",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        }
+      },
+      "name": "transferencia",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "transferencia_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "transferencia_caja_origen_id_foreign": {
+          "constraintName": "transferencia_caja_origen_id_foreign",
+          "columnNames": [
+            "caja_origen_id"
+          ],
+          "localTableName": "public.transferencia",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.caja",
+          "updateRule": "cascade"
+        },
+        "transferencia_caja_destino_id_foreign": {
+          "constraintName": "transferencia_caja_destino_id_foreign",
+          "columnNames": [
+            "caja_destino_id"
+          ],
+          "localTableName": "public.transferencia",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.caja",
+          "updateRule": "cascade"
+        },
+        "transferencia_usuario_id_foreign": {
+          "constraintName": "transferencia_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.transferencia",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "caja_id": {
+          "name": "caja_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "monto": {
+          "name": "monto",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "mappedType": "decimal"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "nombre_caja": {
+          "name": "nombre_caja",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        }
+      },
+      "name": "dividendo",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "dividendo_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "dividendo_caja_id_foreign": {
+          "constraintName": "dividendo_caja_id_foreign",
+          "columnNames": [
+            "caja_id"
+          ],
+          "localTableName": "public.dividendo",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.caja",
+          "updateRule": "cascade"
+        },
+        "dividendo_usuario_id_foreign": {
+          "constraintName": "dividendo_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.dividendo",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "caja_id": {
+          "name": "caja_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "monto": {
+          "name": "monto",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "mappedType": "decimal"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "nombre_caja": {
+          "name": "nombre_caja",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "default": "''",
+          "mappedType": "string"
+        }
+      },
+      "name": "aporte",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "aporte_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "aporte_caja_id_foreign": {
+          "constraintName": "aporte_caja_id_foreign",
+          "columnNames": [
+            "caja_id"
+          ],
+          "localTableName": "public.aporte",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.caja",
+          "updateRule": "cascade"
+        },
+        "aporte_usuario_id_foreign": {
+          "constraintName": "aporte_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.aporte",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "caja_id": {
+          "name": "caja_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "monto": {
+          "name": "monto",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "mappedType": "decimal"
+        },
+        "movimiento": {
+          "name": "movimiento",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "mappedType": "string"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "nombre_caja": {
+          "name": "nombre_caja",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        }
+      },
+      "name": "ajuste",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "ajuste_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "ajuste_caja_id_foreign": {
+          "constraintName": "ajuste_caja_id_foreign",
+          "columnNames": [
+            "caja_id"
+          ],
+          "localTableName": "public.ajuste",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.caja",
+          "updateRule": "cascade"
+        },
+        "ajuste_usuario_id_foreign": {
+          "constraintName": "ajuste_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.ajuste",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "cliente_id": {
+          "name": "cliente_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "estado": {
+          "name": "estado",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 255,
+          "default": "'Pendiente'",
+          "mappedType": "string"
+        },
+        "moneda_id": {
+          "name": "moneda_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "nombre_cliente": {
+          "name": "nombre_cliente",
+          "type": "varchar(150)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 150,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "apellido_cliente": {
+          "name": "apellido_cliente",
+          "type": "varchar(150)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 150,
+          "default": "''",
+          "mappedType": "string"
+        },
+        "total": {
+          "name": "total",
+          "type": "numeric(10,0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 0,
+          "default": "0",
+          "mappedType": "decimal"
+        },
+        "total_pagado": {
+          "name": "total_pagado",
+          "type": "numeric(10,0)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 0,
+          "default": "0",
+          "mappedType": "decimal"
+        },
+        "moneda_asociada": {
+          "name": "moneda_asociada",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "''",
+          "mappedType": "string"
+        }
+      },
+      "name": "venta",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "venta_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "venta_cliente_id_foreign": {
+          "constraintName": "venta_cliente_id_foreign",
+          "columnNames": [
+            "cliente_id"
+          ],
+          "localTableName": "public.venta",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.cliente",
+          "updateRule": "cascade"
+        },
+        "venta_moneda_id_foreign": {
+          "constraintName": "venta_moneda_id_foreign",
+          "columnNames": [
+            "moneda_id"
+          ],
+          "localTableName": "public.venta",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.moneda",
+          "updateRule": "cascade"
+        },
+        "venta_usuario_id_foreign": {
+          "constraintName": "venta_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.venta",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "caja_id": {
+          "name": "caja_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "venta_id": {
+          "name": "venta_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "monto": {
+          "name": "monto",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "mappedType": "decimal"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "costo_fijo_id": {
+          "name": "costo_fijo_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "costo_variable_id": {
+          "name": "costo_variable_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
+        "nombre_caja": {
+          "name": "nombre_caja",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "'No asociado'",
+          "mappedType": "string"
+        },
+        "nombre_cliente": {
+          "name": "nombre_cliente",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "'No asociado'",
+          "mappedType": "string"
+        },
+        "nombre_moneda": {
+          "name": "nombre_moneda",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "'No asociado'",
+          "mappedType": "string"
+        },
+        "id_costo_fijo": {
+          "name": "id_costo_fijo",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "'No asociado'",
+          "mappedType": "string"
+        },
+        "id_costo_variable": {
+          "name": "id_costo_variable",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "'No asociado'",
+          "mappedType": "string"
+        },
+        "id_venta": {
+          "name": "id_venta",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "default": "'No asociado'",
+          "mappedType": "string"
+        }
+      },
+      "name": "pago",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "pago_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "pago_caja_id_foreign": {
+          "constraintName": "pago_caja_id_foreign",
+          "columnNames": [
+            "caja_id"
+          ],
+          "localTableName": "public.pago",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.caja",
+          "updateRule": "cascade"
+        },
+        "pago_venta_id_foreign": {
+          "constraintName": "pago_venta_id_foreign",
+          "columnNames": [
+            "venta_id"
+          ],
+          "localTableName": "public.pago",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.venta",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        },
+        "pago_usuario_id_foreign": {
+          "constraintName": "pago_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.pago",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        },
+        "pago_costo_fijo_id_foreign": {
+          "constraintName": "pago_costo_fijo_id_foreign",
+          "columnNames": [
+            "costo_fijo_id"
+          ],
+          "localTableName": "public.pago",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.costo_fijo",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        },
+        "pago_costo_variable_id_foreign": {
+          "constraintName": "pago_costo_variable_id_foreign",
+          "columnNames": [
+            "costo_variable_id"
+          ],
+          "localTableName": "public.pago",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.costo_variable",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "unsigned": false,
+          "autoincrement": true,
+          "primary": true,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "visible": {
+          "name": "visible",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "mappedType": "boolean"
+        },
+        "creado_en": {
+          "name": "creado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "default": "CURRENT_TIMESTAMP",
+          "mappedType": "date"
+        },
+        "actualizado_en": {
+          "name": "actualizado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "eliminado_en": {
+          "name": "eliminado_en",
+          "type": "date",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 0,
+          "mappedType": "date"
+        },
+        "venta_id": {
+          "name": "venta_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "producto_id": {
+          "name": "producto_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
+        "precio_unitario": {
+          "name": "precio_unitario",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "default": "0",
+          "mappedType": "decimal"
+        },
+        "cantidad": {
+          "name": "cantidad",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "default": "0",
+          "mappedType": "decimal"
+        },
+        "descuento": {
+          "name": "descuento",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "default": "0",
+          "mappedType": "decimal"
+        },
+        "subtotal": {
+          "name": "subtotal",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "default": "0",
+          "mappedType": "decimal"
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        }
+      },
+      "name": "detalle",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "detalle_pkey",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "detalle_venta_id_foreign": {
+          "constraintName": "detalle_venta_id_foreign",
+          "columnNames": [
+            "venta_id"
+          ],
+          "localTableName": "public.detalle",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.venta",
+          "updateRule": "cascade"
+        },
+        "detalle_producto_id_foreign": {
+          "constraintName": "detalle_producto_id_foreign",
+          "columnNames": [
+            "producto_id"
+          ],
+          "localTableName": "public.detalle",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.producto",
+          "updateRule": "cascade"
+        },
+        "detalle_usuario_id_foreign": {
+          "constraintName": "detalle_usuario_id_foreign",
+          "columnNames": [
+            "usuario_id"
+          ],
+          "localTableName": "public.detalle",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.usuario",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {}
+    }
+  ],
+  "nativeEnums": {}
+}
