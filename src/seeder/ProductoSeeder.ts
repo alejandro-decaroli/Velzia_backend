@@ -9,6 +9,10 @@ export class ProductoSeeder extends Seeder {
         if (!usuario) {
             throw new Error('Usuario no encontrado');
         }
+        const productos = await em.find(Producto, {});
+        if (productos.length > 0) {
+            return;
+        }
         await em.insertMany(Producto, [
             { usuario: usuario, nombre: 'Manzana', descripcion: 'Manzana', stock: 10, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
             { usuario: usuario, nombre: 'Banana', descripcion: 'Banana', stock: 20, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },

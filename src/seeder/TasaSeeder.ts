@@ -13,6 +13,10 @@ export class TasaSeeder extends Seeder {
         if (!usuario || !moneda || !moneda_2 || !moneda_3) {
             throw new Error('Usuario no encontrado');
         }
+        const tasas = await em.find(Tasa, {});
+        if (tasas.length > 0) {
+            return;
+        }
         await em.insertMany(Tasa, [
             { usuario: usuario, moneda_origen: moneda, moneda_destino: moneda_2, tasa: 2, nombre_moneda_origen: moneda.nombre, nombre_moneda_destino: moneda_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
             { usuario: usuario, moneda_origen: moneda, moneda_destino: moneda_3, tasa: 2, nombre_moneda_origen: moneda.nombre, nombre_moneda_destino: moneda_3.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },

@@ -6,6 +6,10 @@ import { EntityManager } from '@mikro-orm/core';
 
 export class UserSeeder extends Seeder {
   async run(em: EntityManager) {
+    const users = await em.find(Usuario, {});
+    if (users.length > 0) {
+      return;
+    }
     await em.insertMany(Usuario, [
       { nombre: 'Alejandro', apellido: 'Garcia', email: 'alejandro@example.com', contrasenia: await hash('123456', 10), 
         rol: 'admin', visible: true, creadoEn: new Date(), actualizadoEn: new Date() },

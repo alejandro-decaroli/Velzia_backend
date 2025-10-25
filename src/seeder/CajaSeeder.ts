@@ -14,6 +14,10 @@ export class CajaSeeder extends Seeder {
     if (!usuario || !moneda_dolar || !moneda_peso || !moneda_euro) {
       throw new Error('Usuario o moneda no encontrado');
     }
+    const cajas = await em.find(Caja, {});
+    if (cajas.length > 0) {
+      return;
+    }
     await em.insertMany(Caja, [
       { nombre: 'Caja Dolares', moneda: moneda_dolar, visible: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 10000, tipo_moneda: 'USD'},
       { nombre: 'Caja Pesos', moneda: moneda_peso, visible: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 5000, tipo_moneda: 'ARS'},

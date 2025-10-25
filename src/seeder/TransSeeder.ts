@@ -14,6 +14,10 @@ export class TransferenciaSeeder extends Seeder {
         if (!usuario || !caja_1 || !caja_2 || !caja_3 || !caja_4) {
             throw new Error('Usuario o caja no encontrado');
         }
+        const transferencias = await em.find(Transferencia, {});
+        if (transferencias.length > 0) {
+            return;
+        }
         await em.insertMany(Transferencia, [
             { usuario: usuario, caja_origen: caja_1, caja_destino: caja_3, monto: 1000, nombre_caja_origen: caja_1.nombre, nombre_caja_destino: caja_3.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, motivo: 'Transferencia de caja 1 a caja 3' },
             { usuario: usuario, caja_origen: caja_2, caja_destino: caja_4, monto: 1000, nombre_caja_origen: caja_2.nombre, nombre_caja_destino: caja_4.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, motivo: 'Transferencia de caja 2 a caja 4' },

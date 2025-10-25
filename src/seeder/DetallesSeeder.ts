@@ -21,6 +21,10 @@ export class DetalleSeeder extends Seeder {
         if (!usuario || !venta_1 || !venta_2 || !venta_3 || !venta_4 || !venta_5 || !producto_1 || !producto_2 || !producto_3 || !producto_4 || !producto_5) {
             throw new Error('Usuario o venta no encontrado');
         }
+        const detalles = await em.find(Detalle, {});
+        if (detalles.length > 0) {
+            return;
+        }
         await em.insertMany(Detalle, [
             { usuario: usuario, venta: venta_1, producto: producto_1, precio_unitario: 100, descuento:0, cantidad: 2, subtotal: 200, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
             { usuario: usuario, venta: venta_2, producto: producto_2, precio_unitario: 10, descuento:0, cantidad: 10, subtotal: 100,creadoEn: new Date(), actualizadoEn: new Date(), visible: true},

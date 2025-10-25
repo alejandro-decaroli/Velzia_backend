@@ -15,6 +15,10 @@ export class AporteSeeder extends Seeder {
         if (!usuario || !caja_1 || !caja_2 || !caja_3 || !caja_4 || !caja_5) {
             throw new Error('Usuario o caja no encontrado');
         }
+        const aportes = await em.find(Aporte, {});
+        if (aportes.length > 0) {
+            return;
+        }
         await em.insertMany(Aporte, [
             { usuario: usuario, caja: caja_1, monto: 10000, nombre_caja: caja_1.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
             { usuario: usuario, caja: caja_2, monto: 10000, nombre_caja: caja_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },

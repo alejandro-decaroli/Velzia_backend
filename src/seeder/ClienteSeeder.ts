@@ -10,6 +10,10 @@ export class ClienteSeeder extends Seeder {
     if (!usuario) {
       throw new Error('Usuario no encontrado');
     }
+    const clientes = await em.find(Cliente, {});
+    if (clientes.length > 0) {
+      return;
+    }
     await em.insertMany(Cliente, [
       { nombre: 'Alejandro', apellido: 'Garcia', email: 'alejandro@example.com', telefono: '123456789', 
         visible: true, creadoEn: new Date(), actualizadoEn: new Date(), direccion: '123 Main St', usuario: usuario},

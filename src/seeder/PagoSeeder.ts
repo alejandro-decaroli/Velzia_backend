@@ -31,6 +31,10 @@ export class PagoSeeder extends Seeder {
         if (!venta || !venta_2 || !venta_3) {
             throw new Error('Venta no encontrada');
         }
+        const pagos = await em.find(Pago, {});
+        if (pagos.length > 0) {
+            return;
+        }
         await em.insertMany(Pago, [
             { usuario: usuario, caja: caja, nombre_caja: caja.nombre, nombre_cliente: venta.nombre_cliente, nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, monto: 200, id_costo_fijo: 'No asociado', id_costo_variable: 'No asociado', id_venta: venta.id.toString(), venta: venta },
             { usuario: usuario, caja: caja_2, nombre_caja: caja_2.nombre, nombre_cliente: venta_2.nombre_cliente, nombre_moneda: moneda_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, monto: 100, id_costo_fijo: 'No asociado', id_costo_variable: 'No asociado', id_venta: venta_2.id.toString(), venta: venta_2 },

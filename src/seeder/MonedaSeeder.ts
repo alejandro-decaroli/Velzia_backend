@@ -10,6 +10,10 @@ export class MonedaSeeder extends Seeder {
     if (!usuario) {
       throw new Error('Usuario no encontrado');
     }
+    const monedas = await em.find(Moneda, {});
+    if (monedas.length > 0) {
+      return;
+    }
     await em.insertMany(Moneda, [
       { nombre: 'Dolar', codigo_iso: 'USD', visible: true, principal: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
       { nombre: 'Peso', codigo_iso: 'ARS', visible: true, principal: false, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},

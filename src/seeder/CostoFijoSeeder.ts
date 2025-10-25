@@ -13,6 +13,10 @@ export class CostoFijoSeeder extends Seeder {
         if (!usuario || !moneda || !moneda_2 || !moneda_3) {
             throw new Error('Usuario o moneda no encontrado');
         }
+        const costos_fijos = await em.find(CostoFijo, {});
+        if (costos_fijos.length > 0) {
+            return;
+        }
         await em.insertMany(CostoFijo, [
             { usuario: usuario, moneda: moneda, monto: 200, nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'TGI', monto_pagado: 200, estado: 'Pagada' },
             { usuario: usuario, moneda: moneda_2, monto: 100, nombre_moneda: moneda_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'API', monto_pagado: 0, estado: 'Pendiente' },
