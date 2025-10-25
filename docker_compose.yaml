@@ -25,5 +25,9 @@ services:
       DB_USER: postgres
       DB_PASSWORD: postgres
       DB_NAME: velzia_db
+      FRONTEND_URL: http://localhost:5173
+      START_SEEDERS: true
+      NODE_ENV: development
+    command: ["npm", "run", "start:dev"]
 volumes:
   postgres_data:
