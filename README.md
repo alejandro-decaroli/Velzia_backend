@@ -16,8 +16,7 @@ Velzia es un mini ERP para pequeñas empresas, diseñado para ser simple y prác
 
 ## Requisitos para uso local
 
-Es necesario tener instalado [docker](https://www.docker.com/) para levantar la base de datos. Elegir el método de instalación según el sistema operativo que se utiliza.
-
+Es necesario tener instalado [docker](https://www.docker.com/) y [docker compose](https://docs.docker.com/compose/).
 
 
     
@@ -35,33 +34,15 @@ Ir a la raiz del proyecto
   cd Velzia_backend
 ```
 
-Install dependencies
-
-```bash
-  npm install
-```
-
-Crear un archivo .env y escribir las variables de entorno que se proporcionan en el REEDME.
+Crear un archivo .env y escribir las variables de entorno que se proporcionan debajo.
 
 ```bash
   cd src
   touch .env
-```
+``` 
 
-Pueden levantar el backend prendiendo los servicios de docker de la base de datos y la aplicacion, para esto ir al docker compouse, click derecho "compose up".
+### Variables de entorno
 
-Opcionalmente pueden levantar unicamente el servicio de la base de datos de docker y para la app correr el siguiente comando:
-
-```bash
-  npm run start:dev
-```
-
-Si quieren que se ejecuten los seeders al iniciar la app, deben agregar la variable de entorno START_SEEDERS=true
-
-
-## Variables de entorno
-
-En un archivo .env es necesario declarar la variable de entorno
 ```
 DB_HOST=localhost
 DB_PORT=5433
@@ -76,6 +57,29 @@ FRONTEND_URL=http://localhost:5173
 START_SEEDERS=true
 ```
 
+Ahora desde docker_compose.yaml levantar primero la base datos y luego el backend.
+
+O en la terminal ejecutar:
+```
+docker-compose -f docker_compose.yaml up db
+docker-compose -f docker_compose.yaml up app
+``` 
+
+Tambien pueden levantar el backend por terminal, pero primero es necesario instalar las dependencias.
+
+```bash
+  npm install
+```
+Luego levanten con docker unicamente la base de datos postgres como se menciono previamente.
+
+Posteriormente en terminal ejecutar:
+
+```bash
+  npm run start:dev
+```
+
+Si quieren que se ejecuten los seeders al iniciar la app, deben agregar la variable de entorno START_SEEDERS=true, sino dejar en false.
+
 
 ## Ejecutar Tests
 
@@ -88,7 +92,17 @@ Ejecutar el siguiente comando:
 
 ## Documentación
 
+La aplicacion completa se encuentra desplegada en https://render.com/.
 
+El backend: https://velzia-backend.onrender.com/
+
+El frontend: https://velzia-frontend.onrender.com/
+
+Las instancias se encuentran "dormidas" por ende es necesario esperar a que "despierten" para poder utilizar la app, solo entren a los enlaces y esperen a que ambos carguen correctamente.
+
+# Documentación de la API
+
+Puedes consultar la documentación completa de la API [aquí](docs/api.md).
 ## Tech Stack
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)

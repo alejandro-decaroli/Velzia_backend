@@ -546,3 +546,71 @@ Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/ventas/delete/1
 ```
+
+### Registrar detalle de venta
+
+POST http://localhost:3000/ventas/registrar_detalle/1
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "producto": 1,
+  "cantidad": 2,
+  "precio_unitario": 100,
+  "descuento": 25
+}
+
+### Pagar venta
+POST http://localhost:3000/ventas/pagar/1
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "caja": 1,
+  "monto": 150
+}
+
+### Obtener todos los productos
+Authorization: Bearer <token>
+```http
+GET http://localhost:3000/productos
+```
+
+### Obtener producto por ID
+Authorization: Bearer <token>
+```http
+GET http://localhost:3000/productos/1
+```
+
+### Crear producto
+Authorization: Bearer <token>
+```http
+POST http://localhost:3000/productos/create
+Content-Type: application/json
+
+{
+  "nombre": "Producto",
+  "precio": 100,
+  "stock": 10
+}
+```
+
+### Actualizar producto
+Authorization: Bearer <token>
+```http
+PUT http://localhost:3000/productos/update/1
+Content-Type: application/json
+
+{
+  "nombre": "Producto",
+  "precio": 100,
+  "stock": 10
+}
+```
+
+### Eliminar producto
+Authorization: Bearer <token>
+```http
+DELETE http://localhost:3000/productos/delete/1
+```
+

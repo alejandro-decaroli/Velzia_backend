@@ -137,14 +137,6 @@ export async function removeVenta(userId:number, id:number) {
   await em.removeAndFlush(venta);
 }
 
-export async function getListadoVentasByDate(data:any) {
-  const ventas = await em.find(Venta, { creadoEn: { $gte: data.createdAt, $lte: data.createdAt } });
-  if (!ventas) {
-    throw new NotFound('Ventas no encontradas');
-  }
-  return ventas;
-}
-
 export async function cancelarVenta(userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');

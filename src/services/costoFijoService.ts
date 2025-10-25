@@ -108,11 +108,6 @@ export async function removeCostoFijo(userId:any, id:number) {
   await em.removeAndFlush(costoFijo);
 }
 
-export async function getListadoCostosFijosByRangeDate(data:any) {
-  const costosFijos = await em.find(CostoFijo, { creadoEn: { $gte: data.createdAt, $lte: data.createdAt } });
-  return costosFijos;
-}
-
 export async function pagarCostoFijo(data:any, userId:number, id:number) {
 
   if (isNaN(id)) {

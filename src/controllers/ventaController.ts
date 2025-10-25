@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, getListadoVentasByDate, cancelarVenta, pagarVenta, registrarDetalle, detallesByUser, delete_Detalle_Venta, update_Detalle_Venta, DetalleVentaById, DetalleVenta } from '../services/ventaService.js';
+import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, cancelarVenta, pagarVenta, registrarDetalle, detallesByUser, delete_Detalle_Venta, update_Detalle_Venta, DetalleVentaById, DetalleVenta } from '../services/ventaService.js';
 
 async function getAll(req: Request, res: Response) {
     try {
@@ -48,15 +48,6 @@ async function remove(req: Request, res: Response) {
       await removeVenta(Number(userId), Number(req.params.id));
       res.status(204).send();
     } catch (error: any) {
-      const status = error.status || 500;
-      res.status(status).json({ message: error.message || 'Error interno' });    }
-}
-
-async function getListadoVentasByRangeDate(req: Request, res: Response) {
-    try {
-      const ventas = await getListadoVentasByDate(req);
-      res.status(200).json({ message: 'Ventas obtenidas exitosamente', ventas });
-    } catch (error:any) {
       const status = error.status || 500;
       res.status(status).json({ message: error.message || 'Error interno' });    }
 }
@@ -147,7 +138,6 @@ export {
   create,
   update,
   remove,
-  getListadoVentasByRangeDate,
   cancelar,
   pagar,
   registrarDetalleVenta,
