@@ -69,12 +69,15 @@ if (process.env.NODE_ENV === 'development') {
         }
     })();
 } else {
-    if (process.env.START_SEEDERS === 'true') {
-        await seed();
-    }
+    (async () => {
+        if (process.env.START_SEEDERS === 'true') {
+            await seed();
+        }
+    })();
 }
 
 app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 })
 
 
