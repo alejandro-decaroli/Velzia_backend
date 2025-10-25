@@ -102,7 +102,7 @@ Las instancias se encuentran "dormidas" por ende es necesario esperar a que "des
 
 # Documentación de la API
 
-Puedes consultar la documentación completa de la API [aquí](docs/api.md).
+Puedes consultar la documentación completa de la API [aquí](src/docs/api.md).
 ## Tech Stack
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
