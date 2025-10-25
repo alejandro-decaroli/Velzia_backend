@@ -21,18 +21,12 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 dotenv.config();
 
-
-const PORT = process.env.PORT || 3000;
-
+const PORT = parseInt(process.env.PORT || "3000", 10);
 
 const app = express();
-let front_url: string;
-if (process.env.NODE_ENV === 'development') {
-    front_url = "http://localhost:5173";
-}
-else {
-    front_url = process.env.FRONTEND_URL || "https://velzia-frontend.onrender.com";
-}
+const front_url = process.env.NODE_ENV === "development"
+    ? "http://localhost:5173"
+    : process.env.FRONTEND_URL || "https://velzia-frontend.onrender.com";
 
 app.use(express.json());
 app.use(cookieParser());
@@ -61,20 +55,27 @@ app.use('/tasas', tasaRouter);
 app.use('/monedas', monedaRouter);
 app.use('/productos', productoRouter);
 
-if (process.env.NODE_ENV === 'development') {
-    (async () => {
-        await syncSchema();
-        if (process.env.START_SEEDERS === 'true') {
-            await seed();
+(async () => {
+    try {
+        if (process.env.NODE_ENV === "development") {
+            await syncSchema();
+            if (process.env.START_SEEDERS === "true") {
+                await seed();
+            }
+        } else {
+            if (process.env.START_SEEDERS === "true") {
+                await seed();
+            }
         }
-    })();
-} else {
-    (async () => {
-        if (process.env.START_SEEDERS === 'true') {
-            await seed();
-        }
-    })();
-}
+
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error("Error starting server:", err);
+        process.exit(1); // Avisa a Render que el proceso falló
+    }
+})();
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
