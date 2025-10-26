@@ -5,6 +5,9 @@ export abstract class BaseEntity {
   @PrimaryKey()
   id!: number;
 
+  @Property({ type: 'string', nullable: true })
+  codigo?: string;
+
   @Property({ default: true, nullable: false })
   visible!: boolean;
 

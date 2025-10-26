@@ -20,11 +20,11 @@ export class AporteSeeder extends Seeder {
             return;
         }
         await em.insertMany(Aporte, [
-            { usuario: usuario, caja: caja_1, monto: 10000, nombre_caja: caja_1.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
-            { usuario: usuario, caja: caja_2, monto: 10000, nombre_caja: caja_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
-            { usuario: usuario, caja: caja_3, monto: 10000, nombre_caja: caja_3.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
-            { usuario: usuario, caja: caja_4, monto: 10000, nombre_caja: caja_4.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
-            { usuario: usuario, caja: caja_5, monto: 10000, nombre_caja: caja_5.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { codigo: '1', usuario: usuario, caja: caja_1, monto: 10000, nombre_caja: caja_1.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { codigo: '2', usuario: usuario, caja: caja_2, monto: 10000, nombre_caja: caja_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { codigo: '3', usuario: usuario, caja: caja_3, monto: 10000, nombre_caja: caja_3.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { codigo: '4', usuario: usuario, caja: caja_4, monto: 10000, nombre_caja: caja_4.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { codigo: '5', usuario: usuario, caja: caja_5, monto: 10000, nombre_caja: caja_5.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
         ]);
     }
 }

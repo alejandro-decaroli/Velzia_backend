@@ -53,7 +53,10 @@ export async function createCaja(data:any, userId:number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
+  const cant_cajas = await em.count(Caja, {usuario: userId});
+  const codigo = String(cant_cajas + 1);
   await em.create(Caja, {
+    codigo: codigo,
     nombre: name,
     monto: monto,
     moneda: moneda,

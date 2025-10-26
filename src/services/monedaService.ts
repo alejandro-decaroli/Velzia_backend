@@ -56,7 +56,10 @@ export async function createMoneda(data:any, userId: number) {
       throw new Conflict('Ya existe una moneda principal');
     }
   }
+  const cant_monedas = await em.count(Moneda, {usuario: userId});
+  const codigo = String(cant_monedas + 1);
   await em.create(Moneda, {
+    codigo: codigo,
     nombre: data.nombre,
     codigo_iso: data.codigo_iso,
     usuario: usuario,

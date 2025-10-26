@@ -20,11 +20,11 @@ export class AjusteSeeder extends Seeder {
             return;
         }
         await em.insertMany(Ajuste, [
-            { usuario: usuario, caja: caja_1, monto: 1000, nombre_caja: caja_1.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, movimiento: 'ingreso' },
-            { usuario: usuario, caja: caja_2, monto: 350, nombre_caja: caja_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, movimiento: 'ingreso' },
-            { usuario: usuario, caja: caja_3, monto: 500, nombre_caja: caja_3.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, movimiento: 'ingreso' },
-            { usuario: usuario, caja: caja_4, monto: 200, nombre_caja: caja_4.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, movimiento: 'egreso' },
-            { usuario: usuario, caja: caja_5, monto: 100, nombre_caja: caja_5.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, movimiento: 'egreso' },
+            { codigo: '1', usuario: usuario, caja: caja_1, monto: 1000, nombre_caja: caja_1.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, movimiento: 'ingreso' },
+            { codigo: '2', usuario: usuario, caja: caja_2, monto: 350, nombre_caja: caja_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, movimiento: 'ingreso' },
+            { codigo: '3', usuario: usuario, caja: caja_3, monto: 500, nombre_caja: caja_3.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, movimiento: 'ingreso' },
+            { codigo: '4', usuario: usuario, caja: caja_4, monto: 200, nombre_caja: caja_4.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, movimiento: 'egreso' },
+            { codigo: '5', usuario: usuario, caja: caja_5, monto: 100, nombre_caja: caja_5.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, movimiento: 'egreso' },
         ]);
     }
 }

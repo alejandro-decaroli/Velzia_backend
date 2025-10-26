@@ -62,8 +62,10 @@ export async function createVenta(data:any, userId: number) {
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
   }
-
+  const cant_ventas = await em.count(Venta, {usuario: userId});
+  const codigo = String(cant_ventas + 1);
   const venta = em.create(Venta, {
+    codigo: codigo,
     cliente,
     moneda,
     total: 0,
@@ -182,16 +184,20 @@ export async function pagarVenta(data:any, userId:number, id:number) {
     throw new Conflict('Fondos insuficientes');
   }
 
+  const cant_pagos = await em.count(Pago, {usuario: userId});
+  const codigo = String(cant_pagos + 1);
+
   const pago = await em.create(Pago, {
     caja: caja,
     monto: Number(data.monto_pagar),
+    codigo: codigo,
     venta: venta,
     nombre_caja: caja.nombre,
     nombre_cliente: venta.nombre_cliente,
     nombre_moneda: venta.moneda.nombre,
     id_costo_fijo: 'No asociado',
     id_costo_variable: 'No asociado',
-    id_venta: venta.id.toString(),
+    id_venta: String(venta.codigo),
     usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date(),
@@ -239,9 +245,12 @@ export async function registrarDetalle(data:any, userId: number, ventaId: number
     throw new Conflict('Stock insuficiente');
   }
 
+  const cant_detalles = await em.count(Detalle, {usuario: userId});
+  const codigo = String(cant_detalles + 1);
   const detalle = em.create(Detalle, {
     venta: venta,
     producto: producto,
+    codigo: codigo,
     cantidad: Number(data.cantidad),
     precio_unitario: Number(data.precio_unitario),
     descuento: Number(data.descuento),

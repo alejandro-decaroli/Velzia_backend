@@ -18,11 +18,11 @@ export class CostoVariableSeeder extends Seeder {
             return;
         }
         await em.insertMany(CostoVariable, [
-            { usuario: usuario, moneda: moneda, monto: 200, nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'TGI', monto_pagado: 200, estado: 'Pagada' },
-            { usuario: usuario, moneda: moneda_2, monto: 100, nombre_moneda: moneda_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'API', monto_pagado: 0, estado: 'Pendiente' },
-            { usuario: usuario, moneda: moneda_3, monto: 500, nombre_moneda: moneda_3.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'GAS', monto_pagado: 0, estado: 'Pendiente' },
-            { usuario: usuario, moneda: moneda, monto: 1000, nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'AGUA', monto_pagado: 1000, estado: 'Pagada' },
-            { usuario: usuario, moneda: moneda_2, monto: 1000, nombre_moneda: moneda_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'TELEFONO', monto_pagado: 500, estado: 'Pendiente' },
+            { codigo: '1', usuario: usuario, moneda: moneda, monto: 200, nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'TGI', monto_pagado: 200, estado: 'Pagada' },
+            { codigo: '2', usuario: usuario, moneda: moneda_2, monto: 100, nombre_moneda: moneda_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'API', monto_pagado: 0, estado: 'Pendiente' },
+            { codigo: '3', usuario: usuario, moneda: moneda_3, monto: 500, nombre_moneda: moneda_3.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'GAS', monto_pagado: 0, estado: 'Pendiente' },
+            { codigo: '4', usuario: usuario, moneda: moneda, monto: 1000, nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'AGUA', monto_pagado: 1000, estado: 'Pagada' },
+            { codigo: '5', usuario: usuario, moneda: moneda_2, monto: 1000, nombre_moneda: moneda_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'TELEFONO', monto_pagado: 500, estado: 'Pendiente' },
         ]);
     }
 }

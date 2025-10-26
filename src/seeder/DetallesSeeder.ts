@@ -26,11 +26,11 @@ export class DetalleSeeder extends Seeder {
             return;
         }
         await em.insertMany(Detalle, [
-            { usuario: usuario, venta: venta_1, producto: producto_1, precio_unitario: 100, descuento:0, cantidad: 2, subtotal: 200, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
-            { usuario: usuario, venta: venta_2, producto: producto_2, precio_unitario: 10, descuento:0, cantidad: 10, subtotal: 100,creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
-            { usuario: usuario, venta: venta_3, producto: producto_3, precio_unitario: 100, descuento:0, cantidad: 5, subtotal: 500,creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
-            { usuario: usuario, venta: venta_4, producto: producto_4, precio_unitario: 25, descuento:0, cantidad: 4, subtotal: 100,creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
-            { usuario: usuario, venta: venta_5, producto: producto_5, precio_unitario: 20, descuento:0, cantidad: 5, subtotal: 100,creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
+            { codigo: '1', usuario: usuario, venta: venta_1, producto: producto_1, precio_unitario: 100, descuento:0, cantidad: 2, subtotal: 200, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { codigo: '2', usuario: usuario, venta: venta_2, producto: producto_2, precio_unitario: 10, descuento:0, cantidad: 10, subtotal: 100,creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
+            { codigo: '3', usuario: usuario, venta: venta_3, producto: producto_3, precio_unitario: 100, descuento:0, cantidad: 5, subtotal: 500,creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
+            { codigo: '4', usuario: usuario, venta: venta_4, producto: producto_4, precio_unitario: 25, descuento:0, cantidad: 4, subtotal: 100,creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
+            { codigo: '5', usuario: usuario, venta: venta_5, producto: producto_5, precio_unitario: 20, descuento:0, cantidad: 5, subtotal: 100,creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
         ]);
     }
 }

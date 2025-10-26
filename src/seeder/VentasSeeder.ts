@@ -24,11 +24,11 @@ export class VentaSeeder extends Seeder {
             return;
         }
         await em.insertMany(Venta, [
-            { usuario: usuario, moneda: moneda, total: 200, total_pagado: 200, estado: 'Paga', nombre_cliente: cliente_1.nombre, apellido_cliente: cliente_1.apellido, moneda_asociada: moneda.codigo_iso, cliente: cliente_1, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
-            { usuario: usuario, moneda: moneda_2, total: 100, total_pagado: 100, estado: 'Paga', nombre_cliente: cliente_2.nombre, apellido_cliente: cliente_2.apellido, moneda_asociada: moneda_2.codigo_iso, cliente: cliente_2, creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
-            { usuario: usuario, moneda: moneda_3, total: 500, total_pagado: 500, estado: 'Paga', nombre_cliente: cliente_3.nombre, apellido_cliente: cliente_3.apellido, moneda_asociada: moneda_3.codigo_iso, cliente: cliente_3, creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
-            { usuario: usuario, moneda: moneda, total: 100, total_pagado: 0, estado: 'Pendiente', nombre_cliente: cliente_4.nombre, apellido_cliente: cliente_4.apellido, moneda_asociada: moneda.codigo_iso, cliente: cliente_4, creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
-            { usuario: usuario, moneda: moneda_2, total: 100, total_pagado: 0, estado: 'Pendiente', nombre_cliente: cliente_5.nombre, apellido_cliente: cliente_5.apellido, moneda_asociada: moneda_2.codigo_iso, cliente: cliente_5, creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
+            { codigo: '1', usuario: usuario, moneda: moneda, total: 200, total_pagado: 200, estado: 'Paga', nombre_cliente: cliente_1.nombre, apellido_cliente: cliente_1.apellido, moneda_asociada: moneda.codigo_iso, cliente: cliente_1, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { codigo: '2', usuario: usuario, moneda: moneda_2, total: 100, total_pagado: 100, estado: 'Paga', nombre_cliente: cliente_2.nombre, apellido_cliente: cliente_2.apellido, moneda_asociada: moneda_2.codigo_iso, cliente: cliente_2, creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
+            { codigo: '3', usuario: usuario, moneda: moneda_3, total: 500, total_pagado: 500, estado: 'Paga', nombre_cliente: cliente_3.nombre, apellido_cliente: cliente_3.apellido, moneda_asociada: moneda_3.codigo_iso, cliente: cliente_3, creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
+            { codigo: '4', usuario: usuario, moneda: moneda, total: 100, total_pagado: 0, estado: 'Pendiente', nombre_cliente: cliente_4.nombre, apellido_cliente: cliente_4.apellido, moneda_asociada: moneda.codigo_iso, cliente: cliente_4, creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
+            { codigo: '5', usuario: usuario, moneda: moneda_2, total: 100, total_pagado: 0, estado: 'Pendiente', nombre_cliente: cliente_5.nombre, apellido_cliente: cliente_5.apellido, moneda_asociada: moneda_2.codigo_iso, cliente: cliente_5, creadoEn: new Date(), actualizadoEn: new Date(), visible: true},
         ]);
     }
 }

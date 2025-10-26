@@ -39,8 +39,11 @@ export async function createDividendoSocio(data:any, userId: number) {
   if (data.monto > caja.monto) {
     throw new Conflict('No hay suficiente saldo en la caja');
   };
+  const cant_dividendos = await em.count(Dividendo, {usuario: userId});
+  const codigo = String(cant_dividendos + 1);
   caja.monto -= data.monto;
   const dividendo = await em.create(Dividendo, {
+    codigo: codigo,
     caja: caja,
     monto: data.monto,
     usuario: userId,

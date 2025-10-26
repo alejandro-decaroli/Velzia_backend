@@ -39,11 +39,15 @@ export async function createProducto(data: any, userId: number) {
     if (!usuario) {
         throw new NotFound('Usuario no encontrado');
     }
+    
     const nombre_duplicado = await em.findOne(Producto, { nombre: data.nombre, usuario: {id: userId} });
     if (nombre_duplicado) {
         throw new Conflict('Los productos no pueden tener el mismo nombre');
     }
+    const cant_productos = await em.count(Producto, {usuario: userId});
+    const codigo = String(cant_productos + 1);
     await em.create(Producto, {
+        codigo: codigo,
         nombre: data.nombre,
         descripcion: data.descripcion,
         stock: data.stock,

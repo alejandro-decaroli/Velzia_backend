@@ -32,6 +32,7 @@ export async function getByIdTransferencia(userId:number, id:number) {
 }
 
 export async function createTransferencia(data:any, userId: number) {
+ 
   const caja_origen = await em.findOne(Caja, {id: data.caja_origen, usuario: userId});
   const caja_destino = await em.findOne(Caja, {id: data.caja_destino, usuario: userId});
   if (!caja_origen) {
@@ -49,7 +50,10 @@ export async function createTransferencia(data:any, userId: number) {
   if (data.monto > caja_origen.monto) {
     throw new BadRequest('Monto excede el saldo de la caja de origen');
   }
+  const cant_transferencias = await em.count(Transferencia, {usuario: userId});
+  const codigo = String(cant_transferencias + 1);
   await em.create(Transferencia, {
+    codigo: codigo,
     caja_origen: caja_origen,
     caja_destino: caja_destino,
     monto: data.monto,

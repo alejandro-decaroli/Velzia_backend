@@ -15,9 +15,9 @@ export class MonedaSeeder extends Seeder {
       return;
     }
     await em.insertMany(Moneda, [
-      { nombre: 'Dolar', codigo_iso: 'USD', visible: true, principal: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
-      { nombre: 'Peso', codigo_iso: 'ARS', visible: true, principal: false, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
-      { nombre: 'Euro', codigo_iso: 'EUR', visible: true, principal: false, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
+      { codigo: '1', nombre: 'Dolar', codigo_iso: 'USD', visible: true, principal: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
+      { codigo: '2', nombre: 'Peso', codigo_iso: 'ARS', visible: true, principal: false, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
+      { codigo: '3', nombre: 'Euro', codigo_iso: 'EUR', visible: true, principal: false, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
     ]);
   }
 }

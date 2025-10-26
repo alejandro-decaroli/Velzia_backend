@@ -47,7 +47,10 @@ export async function createCostoFijo(data:any, userId: number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
+  const cant_costos_fijos = await em.count(CostoFijo, {usuario: userId});
+  const codigo = String(cant_costos_fijos + 1);
   await em.create(CostoFijo, {
+    codigo: codigo,
     moneda: moneda,
     adjudicacion: data.adjudicacion,
     nombre_moneda: moneda.nombre,
@@ -137,14 +140,18 @@ export async function pagarCostoFijo(data:any, userId:number, id:number) {
     throw new Conflict('Fondos insuficientes');
   }
 
+  const cant_pagos = await em.count(Pago, {usuario: userId});
+  const codigo = String(cant_pagos + 1);
+
   const pago = await em.create(Pago, {
     caja: caja,
     costo_fijo: costoFijo,
+    codigo: codigo,
     monto: Number(data.monto_pagar),
     nombre_caja: caja.nombre,
     nombre_cliente: 'No asociado',
     nombre_moneda: costoFijo.nombre_moneda,
-    id_costo_fijo: costoFijo.id.toString(),
+    id_costo_fijo: String(costoFijo.codigo),
     id_costo_variable: 'No asociado',
     id_venta: 'No asociado',
     usuario: usuario,

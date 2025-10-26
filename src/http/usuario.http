@@ -13,7 +13,7 @@ POST http://localhost:3000/usuarios/login
 Content-Type: application/json
 
 {
-    "email": "gonzalo.zinni@example.com",
+    "email": "alejandro@example.com",
     "contrasenia": "123456"
 }
 

@@ -41,7 +41,10 @@ export async function createCliente(data:any, userId: number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
+  const cant_clientes = await em.count(Cliente, {usuario: userId});
+  const codigo = String(cant_clientes + 1);
   await em.create(Cliente, {
+    codigo: codigo,
     nombre: data.nombre,
     apellido: data.apellido,
     telefono: data.telefono,
