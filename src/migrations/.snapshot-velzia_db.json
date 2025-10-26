@@ -15,6 +15,16 @@
           "nullable": false,
           "mappedType": "integer"
         },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
         "visible": {
           "name": "visible",
           "type": "boolean",
@@ -136,6 +146,16 @@
           "primary": true,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
         },
         "visible": {
           "name": "visible",
@@ -271,6 +291,16 @@
           "nullable": false,
           "mappedType": "integer"
         },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
         "visible": {
           "name": "visible",
           "type": "boolean",
@@ -393,6 +423,16 @@
           "primary": true,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
         },
         "visible": {
           "name": "visible",
@@ -573,6 +613,16 @@
           "nullable": false,
           "mappedType": "integer"
         },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
         "visible": {
           "name": "visible",
           "type": "boolean",
@@ -743,6 +793,16 @@
           "nullable": false,
           "mappedType": "integer"
         },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
         "visible": {
           "name": "visible",
           "type": "boolean",
@@ -912,6 +972,16 @@
           "nullable": false,
           "mappedType": "integer"
         },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
         "visible": {
           "name": "visible",
           "type": "boolean",
@@ -1054,6 +1124,16 @@
           "primary": true,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
         },
         "visible": {
           "name": "visible",
@@ -1211,6 +1291,16 @@
           "primary": true,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
         },
         "visible": {
           "name": "visible",
@@ -1390,6 +1480,16 @@
           "nullable": false,
           "mappedType": "integer"
         },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
         "visible": {
           "name": "visible",
           "type": "boolean",
@@ -1526,6 +1626,16 @@
           "nullable": false,
           "mappedType": "integer"
         },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
         "visible": {
           "name": "visible",
           "type": "boolean",
@@ -1661,6 +1771,16 @@
           "primary": true,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
         },
         "visible": {
           "name": "visible",
@@ -1807,6 +1927,16 @@
           "primary": true,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
         },
         "visible": {
           "name": "visible",
@@ -2010,6 +2140,16 @@
           "primary": true,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
         },
         "visible": {
           "name": "visible",
@@ -2267,6 +2407,16 @@
           "primary": true,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "codigo": {
+          "name": "codigo",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
         },
         "visible": {
           "name": "visible",
