@@ -41,13 +41,17 @@ export async function createCliente(data:any, userId: number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
-  const cant_clientes = await em.find(Cliente, {usuario: userId});
-  const ultimo_cliente = cant_clientes[cant_clientes.length - 1];
-  let codigo = '';
-  if (!ultimo_cliente) {
+  let codigo: string;
+  const clientes = await em.find(Cliente, {usuario: userId});
+  const clienteConCodigoMasGrande = clientes.length
+  ? clientes.reduce((max, cliente) =>
+      Number(cliente.codigo) > Number(max.codigo) ? cliente : max
+    )
+  : '1';
+  if (clienteConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_cliente.codigo) + 1);
+    codigo = String(Number(clienteConCodigoMasGrande.codigo) + 1);
   }
   await em.create(Cliente, {
     codigo: codigo,

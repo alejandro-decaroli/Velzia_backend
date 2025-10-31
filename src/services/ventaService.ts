@@ -62,13 +62,17 @@ export async function createVenta(data:any, userId: number) {
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
   }
-  const cant_ventas = await em.find(Venta, {usuario: userId});
-  const ultimo_ventas = cant_ventas[cant_ventas.length - 1];
-  let codigo = '';
-  if (!ultimo_ventas) {
+  let codigo: string;
+  const ventas = await em.find(Venta, {usuario: userId});
+  const ventaConCodigoMasGrande = ventas.length
+  ? ventas.reduce((max, venta) =>
+      Number(venta.codigo) > Number(max.codigo) ? venta : max
+    )
+  : '1';
+  if (ventaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_ventas.codigo) + 1);
+    codigo = String(Number(ventaConCodigoMasGrande.codigo) + 1);
   }
   const venta = em.create(Venta, {
     codigo: codigo,
@@ -190,13 +194,17 @@ export async function pagarVenta(data:any, userId:number, id:number) {
     throw new Conflict('Fondos insuficientes');
   }
 
-  const cant_pagos = await em.find(Pago, {usuario: userId});
-  const ultimo_pago = cant_pagos[cant_pagos.length - 1];
-  let codigo = '';
-  if (!ultimo_pago) {
+  let codigo: string;
+  const arrayPagos = await em.find(Pago, {usuario: userId});
+  const pagoConCodigoMasGrande = arrayPagos.length
+  ? arrayPagos.reduce((max, pago) =>
+      Number(pago.codigo) > Number(max.codigo) ? pago : max
+    )
+  : '1';
+  if (pagoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_pago.codigo) + 1);
+    codigo = String(Number(pagoConCodigoMasGrande.codigo) + 1);
   }
   const pago = await em.create(Pago, {
     caja: caja,

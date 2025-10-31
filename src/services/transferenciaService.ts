@@ -50,13 +50,17 @@ export async function createTransferencia(data:any, userId: number) {
   if (data.monto > caja_origen.monto) {
     throw new BadRequest('Monto excede el saldo de la caja de origen');
   }
-  const cant_transferencias = await em.find(Transferencia, {usuario: userId});
-  const ultimo_transferencia = cant_transferencias[cant_transferencias.length - 1];
-  let codigo = '';
-  if (!ultimo_transferencia) {
+  let codigo: string;
+  const transferencias = await em.find(Transferencia, {usuario: userId});
+  const transferenciaConCodigoMasGrande = transferencias.length
+  ? transferencias.reduce((max, transferencia) =>
+      Number(transferencia.codigo) > Number(max.codigo) ? transferencia : max
+    )
+  : '1';
+  if (transferenciaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_transferencia.codigo) + 1);
+    codigo = String(Number(transferenciaConCodigoMasGrande.codigo) + 1);
   }
   await em.create(Transferencia, {
     codigo: codigo,

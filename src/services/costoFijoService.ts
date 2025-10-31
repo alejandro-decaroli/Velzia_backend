@@ -47,13 +47,17 @@ export async function createCostoFijo(data:any, userId: number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
-  const cant_costos_fijos = await em.find(CostoFijo, {usuario: userId});
-  const ultimo_costo_fijo = cant_costos_fijos[cant_costos_fijos.length - 1];
-  let codigo = '';
-  if (!ultimo_costo_fijo) {
+  let codigo: string;
+  const costosFijos = await em.find(CostoFijo, {usuario: userId});
+  const costoFijoConCodigoMasGrande = costosFijos.length
+  ? costosFijos.reduce((max, costoFijo) =>
+      Number(costoFijo.codigo) > Number(max.codigo) ? costoFijo : max
+    )
+  : '1';
+  if (costoFijoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_costo_fijo.codigo) + 1);
+    codigo = String(Number(costoFijoConCodigoMasGrande.codigo) + 1);
   }
   await em.create(CostoFijo, {
     codigo: codigo,
@@ -148,13 +152,17 @@ export async function pagarCostoFijo(data:any, userId:number, id:number) {
     throw new Conflict('Fondos insuficientes');
   }
 
-  const cant_pagos = await em.find(Pago, {usuario: userId});
-  const ultimo_pago = cant_pagos[cant_pagos.length - 1];
-  let codigo = '';
-  if (!ultimo_pago) {
+  let codigo: string;
+  const arrayPagos = await em.find(Pago, {usuario: userId});
+  const pagoConCodigoMasGrande = arrayPagos.length
+  ? arrayPagos.reduce((max, pago) =>
+      Number(pago.codigo) > Number(max.codigo) ? pago : max
+    )
+  : '1';
+  if (pagoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_pago.codigo) + 1);
+    codigo = String(Number(pagoConCodigoMasGrande.codigo) + 1);
   }
 
   const pago = await em.create(Pago, {

@@ -46,13 +46,17 @@ export async function createAporte(data:any, userId: number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
-  const cant_aportes = await em.find(Aporte, {usuario: userId});
-  const ultimo_aporte = cant_aportes[cant_aportes.length - 1];
-  let codigo = '';
-  if (!ultimo_aporte) {
+  let codigo: string;
+  const aportes = await em.find(Aporte, {usuario: userId});
+  const aporteConCodigoMasGrande = aportes.length
+  ? aportes.reduce((max, aporte) =>
+      Number(aporte.codigo) > Number(max.codigo) ? aporte : max
+    )
+  : '1';
+  if (aporteConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_aporte.codigo) + 1);
+    codigo = String(Number(aporteConCodigoMasGrande.codigo) + 1);
   }
   await em.create(Aporte, {
     codigo: codigo,

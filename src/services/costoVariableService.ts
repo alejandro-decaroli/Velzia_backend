@@ -47,13 +47,17 @@ export async function createCostoVariable(data:any, userId: number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
-  const cant_costos_variables = await em.find(CostoVariable, {usuario: userId});
-  const ultimo_costo_variable = cant_costos_variables[cant_costos_variables.length - 1];
-  let codigo = '';
-  if (!ultimo_costo_variable) {
+  let codigo: string;
+  const costosVariables = await em.find(CostoVariable, {usuario: userId});
+  const costoVariableConCodigoMasGrande = costosVariables.length
+  ? costosVariables.reduce((max, costoVariable) =>
+      Number(costoVariable.codigo) > Number(max.codigo) ? costoVariable : max
+    )
+  : '1';
+  if (costoVariableConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_costo_variable.codigo) + 1);
+    codigo = String(Number(costoVariableConCodigoMasGrande.codigo) + 1);
   }
   await em.create(CostoVariable, {
     codigo: codigo,
@@ -155,13 +159,17 @@ export async function pagarCostoVariable(data:any, userId:number, id:number) {
     throw new Conflict('Fondos insuficientes');
   }
 
-  const cant_pagos = await em.find(Pago, {usuario: userId});
-  const ultimo_pago = cant_pagos[cant_pagos.length - 1];
-  let codigo = '';
-  if (!ultimo_pago) {
+  let codigo: string;
+  const arrayPagos = await em.find(Pago, {usuario: userId});
+  const pagoConCodigoMasGrande = arrayPagos.length
+  ? arrayPagos.reduce((max, pago) =>
+      Number(pago.codigo) > Number(max.codigo) ? pago : max
+    )
+  : '1';
+  if (pagoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_pago.codigo) + 1);
+    codigo = String(Number(pagoConCodigoMasGrande.codigo) + 1);
   }
 
   const pago = await em.create(Pago, {

@@ -51,13 +51,17 @@ export async function createPago(data:any, userId: number) {
     throw new Conflict('Moneda de la caja no coincide con la moneda de la venta');
   }
   caja.monto += data.monto;
-  const cant_pagos = await em.find(Pago, {usuario: userId});
-  const ultimo_pago = cant_pagos[cant_pagos.length - 1];
-  let codigo = '';
-  if (!ultimo_pago) {
+  let codigo: string;
+  const pagos = await em.find(Pago, {usuario: userId});
+  const pagoConCodigoMasGrande = pagos.length
+  ? pagos.reduce((max, pago) =>
+      Number(pago.codigo) > Number(max.codigo) ? pago : max
+    )
+  : '1';
+  if (pagoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_pago.codigo) + 1);
+    codigo = String(Number(pagoConCodigoMasGrande.codigo) + 1);
   }
   await em.create(Pago, {
     codigo: codigo,

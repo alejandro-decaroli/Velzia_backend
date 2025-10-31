@@ -56,13 +56,17 @@ export async function createMoneda(data:any, userId: number) {
       throw new Conflict('Ya existe una moneda principal');
     }
   }
-  const cant_monedas = await em.find(Moneda, {usuario: userId});
-  const ultimo_moneda = cant_monedas[cant_monedas.length - 1];
-  let codigo = '';
-  if (!ultimo_moneda) {
+  let codigo: string;
+  const monedas = await em.find(Moneda, {usuario: userId});
+  const monedaConCodigoMasGrande = monedas.length
+  ? monedas.reduce((max, moneda) =>
+      Number(moneda.codigo) > Number(max.codigo) ? moneda : max
+    )
+  : '1';
+  if (monedaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_moneda.codigo) + 1);
+    codigo = String(Number(monedaConCodigoMasGrande.codigo) + 1);
   }
   await em.create(Moneda, {
     codigo: codigo,

@@ -42,13 +42,17 @@ export async function createTasa(data:any, userId: number) {
   if (moneda_origen_id === moneda_destino_id) {
     throw new Conflict('Moneda de origen y destino no pueden ser la misma');
   }
-  const cant_tasas = await em.find(Tasa, {usuario: userId});
-  const ultimo_tasa = cant_tasas[cant_tasas.length - 1];
-  let codigo = '';
-  if (!ultimo_tasa) {
+  let codigo: string;
+  const tasas = await em.find(Tasa, {usuario: userId});
+  const tasaConCodigoMasGrande = tasas.length
+  ? tasas.reduce((max, tasa) =>
+      Number(tasa.codigo) > Number(max.codigo) ? tasa : max
+    )
+  : '1';
+  if (tasaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ultimo_tasa.codigo) + 1);
+    codigo = String(Number(tasaConCodigoMasGrande.codigo) + 1);
   }
   await em.create(Tasa, {
     codigo: codigo,

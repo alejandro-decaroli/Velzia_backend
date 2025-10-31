@@ -44,13 +44,17 @@ export async function createProducto(data: any, userId: number) {
     if (nombre_duplicado) {
         throw new Conflict('Los productos no pueden tener el mismo nombre');
     }
-    const cant_productos = await em.find(Producto, {usuario: userId});
-    const ultimo_producto = cant_productos[cant_productos.length - 1];
-    let codigo = '';
-    if (!ultimo_producto) {
+    let codigo: string;
+    const productos = await em.find(Producto, {usuario: userId});
+    const productoConCodigoMasGrande = productos.length
+    ? productos.reduce((max, producto) =>
+        Number(producto.codigo) > Number(max.codigo) ? producto : max
+      )
+    : '1';
+    if (productoConCodigoMasGrande === '1') {
       codigo = '1';
     } else {
-      codigo = String(Number(ultimo_producto.codigo) + 1);
+      codigo = String(Number(productoConCodigoMasGrande.codigo) + 1);
     }
     await em.create(Producto, {
         codigo: codigo,
