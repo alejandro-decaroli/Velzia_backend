@@ -53,8 +53,14 @@ export async function createCaja(data:any, userId:number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
-  const cant_cajas = await em.count(Caja, {usuario: userId});
-  const codigo = String(cant_cajas + 1);
+  const cant_cajas = await em.find(Caja, {usuario: userId});
+  const ultimo_caja = cant_cajas[cant_cajas.length - 1];
+  let codigo = '';
+  if (!ultimo_caja) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_caja.codigo) + 1);
+  }
   await em.create(Caja, {
     codigo: codigo,
     nombre: name,

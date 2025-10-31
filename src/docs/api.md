@@ -259,7 +259,9 @@ Content-Type: application/json
 {
   "caja": 1,
   "adjudicacion": "NC",
-  "monto": 100
+  "monto": 100,
+  "moneda": 1,
+  "categoria": "Costo fijo"
 }
 ```
 
@@ -272,11 +274,14 @@ Content-Type: application/json
 {
   "caja": 2,
   "adjudicacion": "Cliente Actualizado",
-  "monto": 200
+  "monto": 200,
+  "moneda": 1,
+  "categoria": "Costo fijo"
 }
 ```
 
 ### Eliminar costos fijos
+Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/costos_fijos/delete/5
 ```
@@ -301,10 +306,12 @@ Content-Type: application/json
 
 {
   "caja": 1,
-  "adjudicacion": "Adjudicacion",
-  "monto_real": 100,
-  "venta": 1,
-  "presupuestado": 100
+  "adjudicacion": "Adjudicacion", 
+  "cantidad": 1,
+  "precio_unitario": 100,
+  "unidad": "unidad",
+  "moneda": 1,
+  "categoria": "Costo variable"
 }
 ```
 
@@ -317,9 +324,11 @@ Content-Type: application/json
 {
   "caja": 1,
   "adjudicacion": "Adjudicacion",
-  "monto_real": 200,
-  "venta": 1,
-  "presupuestado": 200
+  "cantidad": 1,
+  "precio_unitario": 200,
+  "unidad": "unidad",
+  "moneda": 1,
+  "categoria": "Costo variable"
 }
 ```
 

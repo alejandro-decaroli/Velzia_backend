@@ -51,8 +51,14 @@ export async function createPago(data:any, userId: number) {
     throw new Conflict('Moneda de la caja no coincide con la moneda de la venta');
   }
   caja.monto += data.monto;
-  const cant_pagos = await em.count(Pago, {usuario: userId});
-  const codigo = String(cant_pagos + 1);
+  const cant_pagos = await em.find(Pago, {usuario: userId});
+  const ultimo_pago = cant_pagos[cant_pagos.length - 1];
+  let codigo = '';
+  if (!ultimo_pago) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_pago.codigo) + 1);
+  }
   await em.create(Pago, {
     codigo: codigo,
     caja: caja,

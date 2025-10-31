@@ -47,11 +47,18 @@ export async function createCostoFijo(data:any, userId: number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
-  const cant_costos_fijos = await em.count(CostoFijo, {usuario: userId});
-  const codigo = String(cant_costos_fijos + 1);
+  const cant_costos_fijos = await em.find(CostoFijo, {usuario: userId});
+  const ultimo_costo_fijo = cant_costos_fijos[cant_costos_fijos.length - 1];
+  let codigo = '';
+  if (!ultimo_costo_fijo) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_costo_fijo.codigo) + 1);
+  }
   await em.create(CostoFijo, {
     codigo: codigo,
     moneda: moneda,
+    categoria: data.categoria,
     adjudicacion: data.adjudicacion,
     nombre_moneda: moneda.nombre,
     monto: data.monto,
@@ -86,6 +93,7 @@ export async function updateCostoFijo(data:any, userId: number, id:number) {
     throw new Conflict('El costo fijo ya tiene pagos asociados, no se puede modificar');
   }
   costoFijo.moneda = moneda;
+  costoFijo.categoria = data.categoria;
   costoFijo.nombre_moneda = moneda.nombre;
   costoFijo.adjudicacion = data.adjudicacion;
   if (costoFijo.monto !== data.monto && pagos !== 0) {
@@ -140,8 +148,14 @@ export async function pagarCostoFijo(data:any, userId:number, id:number) {
     throw new Conflict('Fondos insuficientes');
   }
 
-  const cant_pagos = await em.count(Pago, {usuario: userId});
-  const codigo = String(cant_pagos + 1);
+  const cant_pagos = await em.find(Pago, {usuario: userId});
+  const ultimo_pago = cant_pagos[cant_pagos.length - 1];
+  let codigo = '';
+  if (!ultimo_pago) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_pago.codigo) + 1);
+  }
 
   const pago = await em.create(Pago, {
     caja: caja,

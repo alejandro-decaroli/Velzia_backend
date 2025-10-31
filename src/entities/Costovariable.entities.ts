@@ -13,6 +13,18 @@ export class CostoVariable extends BaseEntity {
     @Property({ type: 'varchar', length: 20, nullable: false })
     adjudicacion!: string;
 
+    @Property({ type: 'varchar', length: 20, nullable: false })
+    categoria!: string;
+    
+    @Property({ type: 'varchar', length: 20, nullable: false })
+    unidad!: string;
+
+    @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
+    cantidad!: number;
+
+    @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
+    precio_unitario!: number;
+
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
     monto!: number;
 
@@ -35,5 +47,6 @@ export class CostoVariable extends BaseEntity {
     constructor() {
         super();
         this.nombre_moneda = this.moneda?.codigo_iso || '';
+        this.monto = this.cantidad * this.precio_unitario;
     }
 }

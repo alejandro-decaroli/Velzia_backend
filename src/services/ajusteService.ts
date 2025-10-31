@@ -61,8 +61,14 @@ export async function createAjuste(data: any, userId: number) {
       throw new BadRequest('El monto de la caja es negativo');
     }
   }
-  const cant_ajustes = await em.count(Ajuste, {usuario: userId});
-  const codigo = String(cant_ajustes + 1);
+  const cant_ajustes = await em.find(Ajuste, {usuario: userId});
+  const ultimo_ajuste = cant_ajustes[cant_ajustes.length - 1];
+  let codigo = '';
+  if (!ultimo_ajuste) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_ajuste.codigo) + 1);
+  }
   const ajuste = await em.create(Ajuste, {
     caja: caja,
     codigo: codigo,

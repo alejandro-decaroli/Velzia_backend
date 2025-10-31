@@ -62,8 +62,14 @@ export async function createVenta(data:any, userId: number) {
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
   }
-  const cant_ventas = await em.count(Venta, {usuario: userId});
-  const codigo = String(cant_ventas + 1);
+  const cant_ventas = await em.find(Venta, {usuario: userId});
+  const ultimo_ventas = cant_ventas[cant_ventas.length - 1];
+  let codigo = '';
+  if (!ultimo_ventas) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_ventas.codigo) + 1);
+  }
   const venta = em.create(Venta, {
     codigo: codigo,
     cliente,
@@ -184,9 +190,14 @@ export async function pagarVenta(data:any, userId:number, id:number) {
     throw new Conflict('Fondos insuficientes');
   }
 
-  const cant_pagos = await em.count(Pago, {usuario: userId});
-  const codigo = String(cant_pagos + 1);
-
+  const cant_pagos = await em.find(Pago, {usuario: userId});
+  const ultimo_pago = cant_pagos[cant_pagos.length - 1];
+  let codigo = '';
+  if (!ultimo_pago) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_pago.codigo) + 1);
+  }
   const pago = await em.create(Pago, {
     caja: caja,
     monto: Number(data.monto_pagar),

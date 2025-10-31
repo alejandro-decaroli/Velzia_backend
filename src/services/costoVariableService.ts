@@ -47,13 +47,23 @@ export async function createCostoVariable(data:any, userId: number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
-  const cant_costos_variables = await em.count(CostoVariable, {usuario: userId});
-  const codigo = String(cant_costos_variables + 1);
+  const cant_costos_variables = await em.find(CostoVariable, {usuario: userId});
+  const ultimo_costo_variable = cant_costos_variables[cant_costos_variables.length - 1];
+  let codigo = '';
+  if (!ultimo_costo_variable) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_costo_variable.codigo) + 1);
+  }
   await em.create(CostoVariable, {
     codigo: codigo,
     moneda: moneda,
+    categoria: data.categoria,
+    unidad: data.unidad,
+    cantidad: data.cantidad,
+    precio_unitario: data.precio_unitario,
     adjudicacion: data.adjudicacion,
-    monto: data.monto,
+    monto: data.cantidad * data.precio_unitario,
     nombre_moneda: moneda.nombre,
     monto_pagado: 0,
     estado: 'Pendiente',
@@ -89,7 +99,11 @@ export async function updateCostoVariable(data:any, userId: number, id:number) {
   }
 
   costoVariable.adjudicacion = data.adjudicacion;
-  costoVariable.monto = data.monto;
+  costoVariable.categoria = data.categoria;
+  costoVariable.unidad = data.unidad;
+  costoVariable.cantidad = data.cantidad;
+  costoVariable.precio_unitario = data.precio_unitario;
+  costoVariable.monto = data.cantidad * data.precio_unitario;
   costoVariable.moneda = moneda;
   costoVariable.nombre_moneda = moneda.nombre;
   costoVariable.actualizadoEn = new Date();
@@ -141,8 +155,14 @@ export async function pagarCostoVariable(data:any, userId:number, id:number) {
     throw new Conflict('Fondos insuficientes');
   }
 
-  const cant_pagos = await em.count(Pago, {usuario: userId});
-  const codigo = String(cant_pagos + 1);
+  const cant_pagos = await em.find(Pago, {usuario: userId});
+  const ultimo_pago = cant_pagos[cant_pagos.length - 1];
+  let codigo = '';
+  if (!ultimo_pago) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_pago.codigo) + 1);
+  }
 
   const pago = await em.create(Pago, {
       caja: caja,

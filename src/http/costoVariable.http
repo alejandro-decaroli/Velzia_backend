@@ -17,7 +17,10 @@ Content-Type: application/json
   "moneda": 2,
   "descripcion": "Costo variable",
   "adjudicacion": "Adjudicacion",
-  "monto": 200
+  "monto": 200,
+  "cantidad": 1,
+  "precio_unitario": 200,
+  "unidad": "unidad"
 }
 
 ### Actualizar costo variable
@@ -29,7 +32,9 @@ Content-Type: application/json
   "moneda": 2,
   "descripcion": "Costo variable 1",
   "adjudicacion": "Adjudicacion",
-  "estado": "Pendiente",
+  "cantidad": 1,
+  "precio_unitario": 200,
+  "unidad": "unidad",
   "monto": 200
 }
 
@@ -45,5 +50,8 @@ Content-Type: application/json
 
 {
   "caja": 2,
-  "monto": 200
+  "monto": 200,
+  "cantidad": 1,
+  "precio_unitario": 200,
+  "unidad": "unidad"
 }

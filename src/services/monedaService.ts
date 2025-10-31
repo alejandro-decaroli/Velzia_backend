@@ -56,8 +56,14 @@ export async function createMoneda(data:any, userId: number) {
       throw new Conflict('Ya existe una moneda principal');
     }
   }
-  const cant_monedas = await em.count(Moneda, {usuario: userId});
-  const codigo = String(cant_monedas + 1);
+  const cant_monedas = await em.find(Moneda, {usuario: userId});
+  const ultimo_moneda = cant_monedas[cant_monedas.length - 1];
+  let codigo = '';
+  if (!ultimo_moneda) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_moneda.codigo) + 1);
+  }
   await em.create(Moneda, {
     codigo: codigo,
     nombre: data.nombre,

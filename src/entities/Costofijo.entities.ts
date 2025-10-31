@@ -14,6 +14,9 @@ export class CostoFijo extends BaseEntity {
     @OneToMany('Pago', 'costo_fijo', {cascade: [Cascade.ALL], nullable: true})
     pagos = new Collection<Pago>(this);
 
+    @Property({ type: 'varchar', length: 50, nullable: false})
+    categoria!: string;
+
     @Property({ type: 'varchar', length: 20, nullable: false })
     adjudicacion!: string;
 

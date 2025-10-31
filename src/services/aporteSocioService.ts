@@ -46,8 +46,14 @@ export async function createAporte(data:any, userId: number) {
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
   }
-  const cant_aportes = await em.count(Aporte, {usuario: userId});
-  const codigo = String(cant_aportes + 1);
+  const cant_aportes = await em.find(Aporte, {usuario: userId});
+  const ultimo_aporte = cant_aportes[cant_aportes.length - 1];
+  let codigo = '';
+  if (!ultimo_aporte) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_aporte.codigo) + 1);
+  }
   await em.create(Aporte, {
     codigo: codigo,
     monto: data.monto,

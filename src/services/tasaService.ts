@@ -42,8 +42,14 @@ export async function createTasa(data:any, userId: number) {
   if (moneda_origen_id === moneda_destino_id) {
     throw new Conflict('Moneda de origen y destino no pueden ser la misma');
   }
-  const cant_tasas = await em.count(Tasa, {usuario: userId});
-  const codigo = String(cant_tasas + 1);
+  const cant_tasas = await em.find(Tasa, {usuario: userId});
+  const ultimo_tasa = cant_tasas[cant_tasas.length - 1];
+  let codigo = '';
+  if (!ultimo_tasa) {
+    codigo = '1';
+  } else {
+    codigo = String(Number(ultimo_tasa.codigo) + 1);
+  }
   await em.create(Tasa, {
     codigo: codigo,
     moneda_origen: moneda_origen,
