@@ -683,6 +683,50 @@
           "length": 20,
           "mappedType": "string"
         },
+        "categoria": {
+          "name": "categoria",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "mappedType": "string"
+        },
+        "unidad": {
+          "name": "unidad",
+          "type": "varchar(20)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 20,
+          "mappedType": "string"
+        },
+        "cantidad": {
+          "name": "cantidad",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "default": "0",
+          "mappedType": "decimal"
+        },
+        "precio_unitario": {
+          "name": "precio_unitario",
+          "type": "numeric(10,4)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "precision": 10,
+          "scale": 4,
+          "default": "0",
+          "mappedType": "decimal"
+        },
         "monto": {
           "name": "monto",
           "type": "numeric(10,4)",
@@ -852,6 +896,16 @@
           "primary": false,
           "nullable": false,
           "mappedType": "integer"
+        },
+        "categoria": {
+          "name": "categoria",
+          "type": "varchar(50)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 50,
+          "mappedType": "string"
         },
         "adjudicacion": {
           "name": "adjudicacion",
