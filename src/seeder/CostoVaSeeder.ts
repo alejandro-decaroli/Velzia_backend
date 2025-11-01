@@ -18,11 +18,11 @@ export class CostoVariableSeeder extends Seeder {
             return;
         }
         await em.insertMany(CostoVariable, [
-            { codigo: '1', usuario: usuario, moneda: moneda, monto: 200, nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'TGI', categoria: 'Impuesto', cantidad: 10, precio_unitario: 20, unidad: 'USD', monto_pagado: 200, estado: 'Pagada' },
-            { codigo: '2', usuario: usuario, moneda: moneda_2, monto: 100, nombre_moneda: moneda_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'API', categoria: 'Impuesto', cantidad: 10, precio_unitario: 10, unidad: 'ARS', monto_pagado: 0, estado: 'Pendiente' },
-            { codigo: '3', usuario: usuario, moneda: moneda_3, monto: 500, nombre_moneda: moneda_3.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'GAS', categoria: 'Servicio', cantidad: 10, precio_unitario: 50, unidad: 'EUR', monto_pagado: 0, estado: 'Pendiente' },
-            { codigo: '4', usuario: usuario, moneda: moneda, monto: 1000, nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'AGUA', categoria: 'Servicio', cantidad: 10, precio_unitario: 100, unidad: 'USD', monto_pagado: 1000, estado: 'Pagada' },
-            { codigo: '5', usuario: usuario, moneda: moneda_2, monto: 1000, nombre_moneda: moneda_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, adjudicacion: 'TELEFONO', categoria: 'Servicio', cantidad: 10, precio_unitario: 100, unidad: 'ARS', monto_pagado: 500, estado: 'Pendiente' },
+            { cod: 'CV_1', usuario: usuario, moneda: moneda, monto: 200, creadoEn: new Date(), actualizadoEn: new Date(), adjudicacion: 'TGI', categoria: 'Impuesto', cantidad: 10, precio_unitario: 20, unidad: 'USD', monto_pagado: 200, estado: 'Pagada' },
+            { cod: 'CV_2', usuario: usuario, moneda: moneda_2, monto: 100, creadoEn: new Date(), actualizadoEn: new Date(), adjudicacion: 'API', categoria: 'Impuesto', cantidad: 10, precio_unitario: 10, unidad: 'ARS', monto_pagado: 0, estado: 'Pendiente' },
+            { cod: 'CV_3', usuario: usuario, moneda: moneda_3, monto: 500, creadoEn: new Date(), actualizadoEn: new Date(), adjudicacion: 'GAS', categoria: 'Servicio', cantidad: 10, precio_unitario: 50, unidad: 'EUR', monto_pagado: 0, estado: 'Pendiente' },
+            { cod: 'CV_4', usuario: usuario, moneda: moneda, monto: 1000, creadoEn: new Date(), actualizadoEn: new Date(), adjudicacion: 'AGUA', categoria: 'Servicio', cantidad: 10, precio_unitario: 100, unidad: 'USD', monto_pagado: 1000, estado: 'Pagada' },
+            { cod: 'CV_5', usuario: usuario, moneda: moneda_2, monto: 1000, creadoEn: new Date(), actualizadoEn: new Date(), adjudicacion: 'TELEFONO', categoria: 'Servicio', cantidad: 10, precio_unitario: 100, unidad: 'ARS', monto_pagado: 500, estado: 'Pendiente' },
         ]);
     }
 }

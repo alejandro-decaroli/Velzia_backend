@@ -10,7 +10,7 @@ import { Usuario } from "./Usuario.entities.js";
 
 @Entity()
 export class Caja extends BaseEntity {
-    @ManyToOne('Moneda', { nullable: false })
+    @ManyToOne('Moneda', { nullable: false, eager: true })
     moneda!: Moneda;
     
     @OneToMany('Ajuste', 'caja', {cascade: [Cascade.ALL], nullable: true})
@@ -37,14 +37,6 @@ export class Caja extends BaseEntity {
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
     monto!: number;
 
-    @Property({ type: 'varchar', length: 20, nullable: false })
-    tipo_moneda!: string;
-
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
-
-    constructor() {
-        super();
-        this.tipo_moneda = this.moneda?.codigo_iso || '';
-    }
 }

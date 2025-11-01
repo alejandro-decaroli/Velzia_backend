@@ -19,11 +19,11 @@ export class CajaSeeder extends Seeder {
       return;
     }
     await em.insertMany(Caja, [
-      { codigo: '1', nombre: 'Caja Dolares', moneda: moneda_dolar, visible: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 10000, tipo_moneda: 'USD'},
-      { codigo: '2', nombre: 'Caja Pesos', moneda: moneda_peso, visible: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 5000, tipo_moneda: 'ARS'},
-      { codigo: '3', nombre: 'Caja Dolares 2', moneda: moneda_dolar, visible: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 1000, tipo_moneda: 'USD'},
-      { codigo: '4', nombre: 'Caja Pesos 2', moneda: moneda_peso, visible: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 3000, tipo_moneda: 'ARS'},
-      { codigo: '5', nombre: 'Caja Euros', moneda: moneda_euro, visible: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 5000, tipo_moneda: 'EUR'},
+      { cod: 'CA_1', nombre: 'Caja Dolares', moneda: moneda_dolar, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 10000},
+      { cod: 'CA_2', nombre: 'Caja Pesos', moneda: moneda_peso, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 5000},
+      { cod: 'CA_3', nombre: 'Caja Dolares 2', moneda: moneda_dolar, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 1000},
+      { cod: 'CA_4', nombre: 'Caja Pesos 2', moneda: moneda_peso, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 3000},
+      { cod: 'CA_5', nombre: 'Caja Euros', moneda: moneda_euro, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 5000},
     ]);
   }
 }

@@ -40,13 +40,4 @@ export class CostoVariable extends BaseEntity {
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 
-    @Property({ type: 'varchar', length: 50, nullable: false})
-    nombre_moneda!: string;
-
-
-    constructor() {
-        super();
-        this.nombre_moneda = this.moneda?.codigo_iso || '';
-        this.monto = this.cantidad * this.precio_unitario;
-    }
 }

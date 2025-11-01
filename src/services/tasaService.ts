@@ -46,25 +46,22 @@ export async function createTasa(data:any, userId: number) {
   const tasas = await em.find(Tasa, {usuario: userId});
   const tasaConCodigoMasGrande = tasas.length
   ? tasas.reduce((max, tasa) =>
-      Number(tasa.codigo) > Number(max.codigo) ? tasa : max
+      Number(tasa.cod) > Number(max.cod) ? tasa : max
     )
   : '1';
   if (tasaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(tasaConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(tasaConCodigoMasGrande.cod) + 1);
   }
   await em.create(Tasa, {
-    codigo: codigo,
+    cod: 'TAS_' + codigo,
     moneda_origen: moneda_origen,
     moneda_destino: moneda_destino,
     tasa: data.tasa,
     usuario: userId,
-    nombre_moneda_origen: moneda_origen.nombre,
-    nombre_moneda_destino: moneda_destino.nombre,
     creadoEn: new Date(),
-    actualizadoEn: new Date(),
-    visible: true
+    actualizadoEn: new Date()
   });
   await em.flush();
 }
@@ -91,8 +88,6 @@ export async function updateTasa(data:any, userId: number, id:number) {
   tasa.tasa = data.tasa;
   tasa.moneda_origen = moneda_origen;
   tasa.moneda_destino = moneda_destino;
-  tasa.nombre_moneda_origen = moneda_origen.nombre;
-  tasa.nombre_moneda_destino = moneda_destino.nombre;
   tasa.actualizadoEn = new Date();
   await em.flush();
 }

@@ -57,22 +57,20 @@ export async function createCaja(data:any, userId:number) {
   const cajas = await em.find(Caja, {usuario: userId});
   const cajaConCodigoMasGrande = cajas.length
   ? cajas.reduce((max, caja) =>
-      Number(caja.codigo) > Number(max.codigo) ? caja : max
+      Number(caja.cod) > Number(max.cod) ? caja : max
     )
   : '1';
   if (cajaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(cajaConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(cajaConCodigoMasGrande.cod) + 1);
   }
   await em.create(Caja, {
-    codigo: codigo,
+    cod: 'CA_' + codigo,
     nombre: name,
     monto: monto,
     moneda: moneda,
-    tipo_moneda: moneda.codigo_iso,
     usuario: usuario,
-    visible: true,
     creadoEn: new Date(),
     actualizadoEn: new Date()
   });
@@ -125,7 +123,6 @@ export async function updateCaja(data:any, userId: number, id:number) {
     }
   }
   caja.moneda = moneda;
-  caja.tipo_moneda = moneda.codigo_iso;
   caja.monto = data.monto;
   caja.actualizadoEn = new Date();
   await em.flush();

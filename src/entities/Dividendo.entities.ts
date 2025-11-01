@@ -6,7 +6,7 @@ import { Usuario } from "./Usuario.entities.js";
 @Entity()
 export class Dividendo extends BaseEntity {
 
-    @ManyToOne('Caja', { nullable: false })
+    @ManyToOne('Caja', { nullable: false, eager: true})
     caja!: Caja;
 
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
@@ -15,11 +15,4 @@ export class Dividendo extends BaseEntity {
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 
-    @Property({ type: 'varchar', length: 50, nullable: false})
-    nombre_caja!: string;
-
-    constructor() {
-        super();
-        this.nombre_caja = this.caja?.nombre || '';
-    }
 }

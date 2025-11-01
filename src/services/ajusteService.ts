@@ -65,22 +65,21 @@ export async function createAjuste(data: any, userId: number) {
   const ajustes = await em.find(Ajuste, {usuario: userId});
   const ajusteConCodigoMasGrande = ajustes.length
   ? ajustes.reduce((max, ajuste) =>
-      Number(ajuste.codigo) > Number(max.codigo) ? ajuste : max
+      Number(ajuste.cod) > Number(max.cod) ? ajuste : max
     )
   : '1';
   if (ajusteConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ajusteConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(ajusteConCodigoMasGrande.cod) + 1);
   }
-  const ajuste = await em.create(Ajuste, {
+  await em.create(Ajuste, {
     caja: caja,
-    codigo: codigo,
+    cod: 'AJ_' + codigo,
     monto: data.monto,
     movimiento: data.movimiento,
     usuario: userId,
-    visible: true,
-    nombre_caja: caja.nombre,
+
     creadoEn: new Date(),
     actualizadoEn: new Date()
   });
@@ -120,7 +119,6 @@ export async function updateAjuste(data:any, userId: number, id:number) {
       throw new BadRequest('El monto de la caja es negativo');
     }
   }
-  ajuste.nombre_caja = caja.nombre;
   ajuste.actualizadoEn = new Date();
   await em.flush();
 }

@@ -77,6 +77,10 @@ app.use('/productos', productoRouter);
     }
 })();
 
+app.get('/', (req: Request, res: Response) => {
+    res.json('Backend Velzia desplegado!');
+});
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 })

@@ -55,28 +55,21 @@ export async function createPago(data:any, userId: number) {
   const pagos = await em.find(Pago, {usuario: userId});
   const pagoConCodigoMasGrande = pagos.length
   ? pagos.reduce((max, pago) =>
-      Number(pago.codigo) > Number(max.codigo) ? pago : max
+      Number(pago.cod) > Number(max.cod) ? pago : max
     )
   : '1';
   if (pagoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(pagoConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(pagoConCodigoMasGrande.cod) + 1);
   }
   await em.create(Pago, {
-    codigo: codigo,
+    cod: 'PA_' + codigo,
     caja: caja,
     monto: data.monto,
     usuario: usuario,
-    nombre_caja: caja.nombre,
-    nombre_cliente: venta.nombre_cliente,
-    nombre_moneda: venta.moneda.nombre,
-    id_costo_fijo: 'No asociado',
-    id_costo_variable: 'No asociado',
-    id_venta: 'No asociado',
     creadoEn: new Date(),
-    actualizadoEn: new Date(),
-    visible: true
+    actualizadoEn: new Date()
   });
   await em.flush();
 }
@@ -105,12 +98,6 @@ export async function updatePago(data:any, userId: number, id:number) {
   pago.monto = data.monto;
   pago.caja = caja;
   pago.venta = venta;
-  pago.nombre_caja = caja.nombre;
-  pago.nombre_cliente = venta.nombre_cliente;
-  pago.id_costo_fijo = data.id_costo_fijo || 'No asociado';
-  pago.id_costo_variable = data.id_costo_variable || 'No asociado';
-  pago.id_venta = data.id_venta || 'No asociado';
-  pago.nombre_moneda = data.nombre_moneda || venta.moneda.nombre;
   pago.actualizadoEn = new Date();
   await em.flush();
 }

@@ -45,22 +45,21 @@ export async function createCliente(data:any, userId: number) {
   const clientes = await em.find(Cliente, {usuario: userId});
   const clienteConCodigoMasGrande = clientes.length
   ? clientes.reduce((max, cliente) =>
-      Number(cliente.codigo) > Number(max.codigo) ? cliente : max
+      Number(cliente.cod) > Number(max.cod) ? cliente : max
     )
   : '1';
   if (clienteConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(clienteConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(clienteConCodigoMasGrande.cod) + 1);
   }
   await em.create(Cliente, {
-    codigo: codigo,
+    cod: 'CL_' + codigo,
     nombre: data.nombre,
     apellido: data.apellido,
     telefono: data.telefono,
     email: data.email,
     direccion: data.direccion,
-    visible: true,
     usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date()

@@ -28,8 +28,12 @@ export class PagoSeeder extends Seeder {
         const venta = await em.findOne(Venta, {id:1, usuario:{id:1}});
         const venta_2 = await em.findOne(Venta, {id:2, usuario:{id:1}});
         const venta_3 = await em.findOne(Venta, {id:3, usuario:{id:1}});
-        if (!venta || !venta_2 || !venta_3) {
-            throw new Error('Venta no encontrada');
+        const costo_fijo_1 = await em.findOne(CostoFijo, {id:1, usuario:{id:1}});
+        const costo_variable_1 = await em.findOne(CostoVariable, {id:1, usuario:{id:1}});
+        const costo_fijo_2 = await em.findOne(CostoFijo, {id:4, usuario:{id:1}});
+        const costo_variable_2 = await em.findOne(CostoVariable, {id:4, usuario:{id:1}});
+        if (!venta || !venta_2 || !venta_3 || !costo_fijo_1 || !costo_variable_1 || !costo_fijo_2 || !costo_variable_2) {
+            throw new Error('Venta o costo no encontrada');
         }
         const pagos = await em.find(Pago, {});
         if (pagos.length > 0) {
@@ -37,13 +41,13 @@ export class PagoSeeder extends Seeder {
         }
 
         await em.insertMany(Pago, [
-            { codigo: '1', usuario: usuario, caja: caja, nombre_caja: caja.nombre, nombre_cliente: venta.nombre_cliente, nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, monto: 200, id_costo_fijo: 'No asociado', id_costo_variable: 'No asociado', id_venta: venta.id.toString(), venta: venta },
-            { codigo: '2', usuario: usuario, caja: caja_2, nombre_caja: caja_2.nombre, nombre_cliente: venta_2.nombre_cliente, nombre_moneda: moneda_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, monto: 100, id_costo_fijo: 'No asociado', id_costo_variable: 'No asociado', id_venta: venta_2.id.toString(), venta: venta_2 },
-            { codigo: '3', usuario: usuario, caja: caja_3, nombre_caja: caja_3.nombre, nombre_cliente: venta_3.nombre_cliente, nombre_moneda: moneda_3.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, monto: 500, id_costo_fijo: 'No asociado', id_costo_variable: 'No asociado', id_venta: venta_3.id.toString(), venta: venta_3 },
-            { codigo: '4', usuario: usuario, caja: caja, nombre_caja: caja.nombre, nombre_cliente: 'No asociado', nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, monto: 200, id_costo_fijo: '1', id_costo_variable: 'No asociado', id_venta: 'No asociado' },
-            { codigo: '5', usuario: usuario, caja: caja, nombre_caja: caja.nombre, nombre_cliente: 'No asociado', nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, monto: 1000, id_costo_fijo: '4', id_costo_variable: 'No asociado', id_venta: 'No asociado' },
-            { codigo: '6', usuario: usuario, caja: caja, nombre_caja: caja.nombre, nombre_cliente: 'No asociado', nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, monto: 200, id_costo_fijo: 'No asociado', id_costo_variable: '1', id_venta: 'No asociado' },
-            { codigo: '7', usuario: usuario, caja: caja, nombre_caja: caja.nombre, nombre_cliente: 'No asociado', nombre_moneda: moneda.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true, monto: 1000, id_costo_fijo: 'No asociado', id_costo_variable: '4', id_venta: 'No asociado' },
+            { cod: 'PA_1', usuario: usuario, caja: caja, creadoEn: new Date(), actualizadoEn: new Date(), monto: 200, venta: venta },
+            { cod: 'PA_2', usuario: usuario, caja: caja_2, creadoEn: new Date(), actualizadoEn: new Date(), monto: 100, venta: venta_2 },
+            { cod: 'PA_3', usuario: usuario, caja: caja_3, creadoEn: new Date(), actualizadoEn: new Date(), monto: 500, venta: venta_3 },
+            { cod: 'PA_4', usuario: usuario, caja: caja, creadoEn: new Date(), actualizadoEn: new Date(), monto: 200, costo_fijo: costo_fijo_1 },
+            { cod: 'PA_5', usuario: usuario, caja: caja, creadoEn: new Date(), actualizadoEn: new Date(), monto: 1000, costo_fijo: costo_fijo_2 },
+            { cod: 'PA_6', usuario: usuario, caja: caja, creadoEn: new Date(), actualizadoEn: new Date(), monto: 200, costo_variable: costo_variable_1 },
+            { cod: 'PA_7', usuario: usuario, caja: caja, creadoEn: new Date(), actualizadoEn: new Date(), monto: 1000, costo_variable: costo_variable_2 },
         ]);
     }
 }

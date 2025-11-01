@@ -15,8 +15,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -24,16 +24,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -147,8 +137,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -156,16 +146,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -291,8 +271,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -300,16 +280,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -424,8 +394,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -433,16 +403,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -512,28 +472,6 @@
           "primary": false,
           "nullable": false,
           "mappedType": "integer"
-        },
-        "nombre_moneda_origen": {
-          "name": "nombre_moneda_origen",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "''",
-          "mappedType": "string"
-        },
-        "nombre_moneda_destino": {
-          "name": "nombre_moneda_destino",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "''",
-          "mappedType": "string"
         }
       },
       "name": "tasa",
@@ -613,8 +551,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -622,16 +560,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -770,17 +698,6 @@
           "primary": false,
           "nullable": false,
           "mappedType": "integer"
-        },
-        "nombre_moneda": {
-          "name": "nombre_moneda",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "''",
-          "mappedType": "string"
         }
       },
       "name": "costo_variable",
@@ -837,8 +754,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -846,16 +763,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -959,17 +866,6 @@
           "primary": false,
           "nullable": false,
           "mappedType": "integer"
-        },
-        "nombre_moneda": {
-          "name": "nombre_moneda",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "''",
-          "mappedType": "string"
         }
       },
       "name": "costo_fijo",
@@ -1026,8 +922,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -1035,16 +931,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -1179,8 +1065,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -1188,16 +1074,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -1260,17 +1136,6 @@
           "scale": 4,
           "default": "0",
           "mappedType": "decimal"
-        },
-        "tipo_moneda": {
-          "name": "tipo_moneda",
-          "type": "varchar(20)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 20,
-          "default": "''",
-          "mappedType": "string"
         },
         "usuario_id": {
           "name": "usuario_id",
@@ -1346,8 +1211,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -1355,16 +1220,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -1444,28 +1299,6 @@
           "nullable": true,
           "length": 100,
           "mappedType": "string"
-        },
-        "nombre_caja_origen": {
-          "name": "nombre_caja_origen",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "''",
-          "mappedType": "string"
-        },
-        "nombre_caja_destino": {
-          "name": "nombre_caja_destino",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "''",
-          "mappedType": "string"
         }
       },
       "name": "transferencia",
@@ -1534,8 +1367,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -1543,16 +1376,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -1613,17 +1436,6 @@
           "primary": false,
           "nullable": false,
           "mappedType": "integer"
-        },
-        "nombre_caja": {
-          "name": "nombre_caja",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "''",
-          "mappedType": "string"
         }
       },
       "name": "dividendo",
@@ -1680,8 +1492,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -1689,16 +1501,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -1826,8 +1628,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -1835,16 +1637,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -1915,17 +1707,6 @@
           "primary": false,
           "nullable": false,
           "mappedType": "integer"
-        },
-        "nombre_caja": {
-          "name": "nombre_caja",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "''",
-          "mappedType": "string"
         }
       },
       "name": "ajuste",
@@ -1982,8 +1763,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -1991,16 +1772,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -2071,28 +1842,6 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "nombre_cliente": {
-          "name": "nombre_cliente",
-          "type": "varchar(150)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 150,
-          "default": "''",
-          "mappedType": "string"
-        },
-        "apellido_cliente": {
-          "name": "apellido_cliente",
-          "type": "varchar(150)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 150,
-          "default": "''",
-          "mappedType": "string"
-        },
         "total": {
           "name": "total",
           "type": "numeric(10,0)",
@@ -2116,17 +1865,6 @@
           "scale": 0,
           "default": "0",
           "mappedType": "decimal"
-        },
-        "moneda_asociada": {
-          "name": "moneda_asociada",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "''",
-          "mappedType": "string"
         }
       },
       "name": "venta",
@@ -2195,8 +1933,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -2204,16 +1942,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",
@@ -2301,72 +2029,6 @@
           "primary": false,
           "nullable": true,
           "mappedType": "integer"
-        },
-        "nombre_caja": {
-          "name": "nombre_caja",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "'No asociado'",
-          "mappedType": "string"
-        },
-        "nombre_cliente": {
-          "name": "nombre_cliente",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "'No asociado'",
-          "mappedType": "string"
-        },
-        "nombre_moneda": {
-          "name": "nombre_moneda",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "'No asociado'",
-          "mappedType": "string"
-        },
-        "id_costo_fijo": {
-          "name": "id_costo_fijo",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "'No asociado'",
-          "mappedType": "string"
-        },
-        "id_costo_variable": {
-          "name": "id_costo_variable",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "'No asociado'",
-          "mappedType": "string"
-        },
-        "id_venta": {
-          "name": "id_venta",
-          "type": "varchar(50)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 50,
-          "default": "'No asociado'",
-          "mappedType": "string"
         }
       },
       "name": "pago",
@@ -2462,8 +2124,8 @@
           "nullable": false,
           "mappedType": "integer"
         },
-        "codigo": {
-          "name": "codigo",
+        "cod": {
+          "name": "cod",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -2471,16 +2133,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "visible": {
-          "name": "visible",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "true",
-          "mappedType": "boolean"
         },
         "creado_en": {
           "name": "creado_en",

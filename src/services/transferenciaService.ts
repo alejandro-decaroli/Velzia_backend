@@ -54,26 +54,23 @@ export async function createTransferencia(data:any, userId: number) {
   const transferencias = await em.find(Transferencia, {usuario: userId});
   const transferenciaConCodigoMasGrande = transferencias.length
   ? transferencias.reduce((max, transferencia) =>
-      Number(transferencia.codigo) > Number(max.codigo) ? transferencia : max
+      Number(transferencia.cod) > Number(max.cod) ? transferencia : max
     )
   : '1';
   if (transferenciaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(transferenciaConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(transferenciaConCodigoMasGrande.cod) + 1);
   }
   await em.create(Transferencia, {
-    codigo: codigo,
+    cod: 'TR_' + codigo,
     caja_origen: caja_origen,
     caja_destino: caja_destino,
     monto: data.monto,
     motivo: data.motivo || '',
     usuario: userId,
-    nombre_caja_origen: caja_origen.nombre,
-    nombre_caja_destino: caja_destino.nombre,
     creadoEn: new Date(),
-    actualizadoEn: new Date(),
-    visible: true
+    actualizadoEn: new Date()
   });
   caja_origen.monto -= data.monto;
   caja_destino.monto += data.monto;

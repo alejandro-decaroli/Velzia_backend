@@ -66,28 +66,24 @@ export async function createVenta(data:any, userId: number) {
   const ventas = await em.find(Venta, {usuario: userId});
   const ventaConCodigoMasGrande = ventas.length
   ? ventas.reduce((max, venta) =>
-      Number(venta.codigo) > Number(max.codigo) ? venta : max
+      Number(venta.cod) > Number(max.cod) ? venta : max
     )
   : '1';
   if (ventaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ventaConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(ventaConCodigoMasGrande.cod) + 1);
   }
   const venta = em.create(Venta, {
-    codigo: codigo,
+    cod: 'VEN_' + codigo,
     cliente,
     moneda,
     total: 0,
     total_pagado: 0,
     estado: 'Pendiente',
     usuario,
-    nombre_cliente: cliente.nombre,
-    apellido_cliente: cliente.apellido,
-    moneda_asociada: moneda.nombre,
     creadoEn: new Date(),
-    actualizadoEn: new Date(),
-    visible: true
+    actualizadoEn: new Date()
 });
 
 await em.persistAndFlush(venta);
@@ -117,10 +113,7 @@ export async function updateVenta(data:any, userId: number, id:number) {
   venta.total = data.total;
   venta.total_pagado = data.total_pagado;
   venta.cliente = cliente;
-  venta.nombre_cliente = cliente.nombre;
-  venta.apellido_cliente = cliente.apellido;
   venta.moneda = moneda;
-  venta.moneda_asociada = moneda.nombre;
   venta.actualizadoEn = new Date();
   await em.persistAndFlush(venta);
 }
@@ -198,29 +191,22 @@ export async function pagarVenta(data:any, userId:number, id:number) {
   const arrayPagos = await em.find(Pago, {usuario: userId});
   const pagoConCodigoMasGrande = arrayPagos.length
   ? arrayPagos.reduce((max, pago) =>
-      Number(pago.codigo) > Number(max.codigo) ? pago : max
+      Number(pago.cod) > Number(max.cod) ? pago : max
     )
   : '1';
   if (pagoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(pagoConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(pagoConCodigoMasGrande.cod) + 1);
   }
   const pago = await em.create(Pago, {
     caja: caja,
     monto: Number(data.monto_pagar),
-    codigo: codigo,
+    cod: 'PAG_' + codigo,
     venta: venta,
-    nombre_caja: caja.nombre,
-    nombre_cliente: venta.nombre_cliente,
-    nombre_moneda: venta.moneda.nombre,
-    id_costo_fijo: 'No asociado',
-    id_costo_variable: 'No asociado',
-    id_venta: String(venta.codigo),
     usuario: usuario,
     creadoEn: new Date(),
-    actualizadoEn: new Date(),
-    visible: true
+    actualizadoEn: new Date()
   });
   
   if (venta.total < Number(pago.monto)) {
@@ -269,15 +255,14 @@ export async function registrarDetalle(data:any, userId: number, ventaId: number
   const detalle = em.create(Detalle, {
     venta: venta,
     producto: producto,
-    codigo: codigo,
+    cod: 'DE_' + codigo,
     cantidad: Number(data.cantidad),
     precio_unitario: Number(data.precio_unitario),
     descuento: Number(data.descuento),
     subtotal: Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100)),
     usuario: usuario,
     creadoEn: new Date(),
-    actualizadoEn: new Date(),
-    visible: true
+    actualizadoEn: new Date()
   });
 
   producto.stock -= Number(data.cantidad);

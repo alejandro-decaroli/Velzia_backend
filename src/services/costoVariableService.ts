@@ -51,16 +51,16 @@ export async function createCostoVariable(data:any, userId: number) {
   const costosVariables = await em.find(CostoVariable, {usuario: userId});
   const costoVariableConCodigoMasGrande = costosVariables.length
   ? costosVariables.reduce((max, costoVariable) =>
-      Number(costoVariable.codigo) > Number(max.codigo) ? costoVariable : max
+      Number(costoVariable.cod) > Number(max.cod) ? costoVariable : max
     )
   : '1';
   if (costoVariableConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(costoVariableConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(costoVariableConCodigoMasGrande.cod) + 1);
   }
   await em.create(CostoVariable, {
-    codigo: codigo,
+    cod: 'CV_' + codigo,
     moneda: moneda,
     categoria: data.categoria,
     unidad: data.unidad,
@@ -68,13 +68,11 @@ export async function createCostoVariable(data:any, userId: number) {
     precio_unitario: data.precio_unitario,
     adjudicacion: data.adjudicacion,
     monto: data.cantidad * data.precio_unitario,
-    nombre_moneda: moneda.nombre,
     monto_pagado: 0,
     estado: 'Pendiente',
     usuario: usuario,
     creadoEn: new Date(),
-    actualizadoEn: new Date(),
-    visible: true
+    actualizadoEn: new Date()
   });
   await em.flush();
 }
@@ -109,7 +107,6 @@ export async function updateCostoVariable(data:any, userId: number, id:number) {
   costoVariable.precio_unitario = data.precio_unitario;
   costoVariable.monto = data.cantidad * data.precio_unitario;
   costoVariable.moneda = moneda;
-  costoVariable.nombre_moneda = moneda.nombre;
   costoVariable.actualizadoEn = new Date();
   await em.flush();
 }
@@ -163,30 +160,23 @@ export async function pagarCostoVariable(data:any, userId:number, id:number) {
   const arrayPagos = await em.find(Pago, {usuario: userId});
   const pagoConCodigoMasGrande = arrayPagos.length
   ? arrayPagos.reduce((max, pago) =>
-      Number(pago.codigo) > Number(max.codigo) ? pago : max
+      Number(pago.cod) > Number(max.cod) ? pago : max
     )
   : '1';
   if (pagoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(pagoConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(pagoConCodigoMasGrande.cod) + 1);
   }
 
   const pago = await em.create(Pago, {
       caja: caja,
       costo_variable: costoVariable,
       monto: Number(data.monto_pagar),
-      codigo: codigo,
-      nombre_caja: caja.nombre,
-      nombre_cliente: 'No asociado',
-      nombre_moneda: costoVariable.nombre_moneda,
-      id_costo_fijo: 'No asociado',
-      id_costo_variable: String(costoVariable.codigo),
-      id_venta: 'No asociado',
+      cod: 'PA_' + codigo,
       usuario: usuario,
       creadoEn: new Date(),
-      actualizadoEn: new Date(),
-      visible: true
+      actualizadoEn: new Date()
     });
   
   if (costoVariable.monto < Number(pago.monto)) {

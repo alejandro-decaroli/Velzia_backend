@@ -6,10 +6,7 @@ export abstract class BaseEntity {
   id!: number;
 
   @Property({ type: 'string', nullable: true })
-  codigo?: string;
-
-  @Property({ default: true, nullable: false })
-  visible!: boolean;
+  cod?: string;
 
   @Property({ type: 'date', defaultRaw: 'CURRENT_TIMESTAMP' })
   creadoEn = new Date();

@@ -60,23 +60,22 @@ export async function createMoneda(data:any, userId: number) {
   const monedas = await em.find(Moneda, {usuario: userId});
   const monedaConCodigoMasGrande = monedas.length
   ? monedas.reduce((max, moneda) =>
-      Number(moneda.codigo) > Number(max.codigo) ? moneda : max
+      Number(moneda.cod) > Number(max.cod) ? moneda : max
     )
   : '1';
   if (monedaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(monedaConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(monedaConCodigoMasGrande.cod) + 1);
   }
   await em.create(Moneda, {
-    codigo: codigo,
+    cod: 'MO_' + codigo,
     nombre: data.nombre,
     codigo_iso: data.codigo_iso,
     usuario: usuario,
     principal: data.principal,
     creadoEn: new Date(),
-    actualizadoEn: new Date(),
-    visible: true
+    actualizadoEn: new Date()
   });
   await em.flush();
 }

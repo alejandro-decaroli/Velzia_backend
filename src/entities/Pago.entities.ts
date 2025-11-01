@@ -9,7 +9,7 @@ import { CostoVariable } from "./Costovariable.entities.js";
 @Entity()
 export class Pago extends BaseEntity {
 
-    @ManyToOne('Caja', { nullable: false })
+    @ManyToOne('Caja', { nullable: false, eager: true })
     caja!: Caja;
 
     @ManyToOne('Venta', { nullable: true, eager: true })
@@ -27,31 +27,4 @@ export class Pago extends BaseEntity {
     @ManyToOne('CostoVariable', {nullable: true, eager: true})
     costo_variable?: CostoVariable;
 
-    @Property({ type: 'varchar', length: 50, nullable: false})
-    nombre_caja!: string;
-
-    @Property({ type: 'varchar', length: 50, nullable: false})
-    nombre_cliente!: string;
-
-    @Property({ type: 'varchar', length: 50, nullable: false})
-    nombre_moneda!: string;
-
-    @Property({ type: 'varchar', length: 50, nullable: false})
-    id_costo_fijo!: string;
-
-    @Property({ type: 'varchar', length: 50, nullable: false})
-    id_costo_variable!: string;
-
-    @Property({ type: 'varchar', length: 50, nullable: false})
-    id_venta!: string;
-
-    constructor() {
-        super();
-        this.nombre_caja = this.caja?.nombre || 'No asociado';
-        this.nombre_cliente = this.venta?.cliente?.nombre || 'No asociado';
-        this.nombre_moneda = this.venta?.moneda?.nombre || 'No asociado';
-        this.id_costo_variable = this.costo_variable?.id?.toString() || 'No asociado';
-        this.id_costo_fijo = this.costo_fijo?.id?.toString() || 'No asociado';
-        this.id_venta = this.venta?.id?.toString() || 'No asociado';
-    }
 }

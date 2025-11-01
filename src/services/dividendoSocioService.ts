@@ -43,24 +43,22 @@ export async function createDividendoSocio(data:any, userId: number) {
   const dividendos = await em.find(Dividendo, {usuario: userId});
   const dividendoConCodigoMasGrande = dividendos.length
   ? dividendos.reduce((max, dividendo) =>
-      Number(dividendo.codigo) > Number(max.codigo) ? dividendo : max
+      Number(dividendo.cod) > Number(max.cod) ? dividendo : max
     )
   : '1';
   if (dividendoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(dividendoConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(dividendoConCodigoMasGrande.cod) + 1);
   }
   caja.monto -= data.monto;
   const dividendo = await em.create(Dividendo, {
-    codigo: codigo,
+    cod: 'DIV_' + codigo,
     caja: caja,
     monto: data.monto,
     usuario: userId,
-    nombre_caja: caja.nombre,
     creadoEn: new Date(),
-    actualizadoEn: new Date(),
-    visible: true
+    actualizadoEn: new Date()
   });
   await em.flush();
 }

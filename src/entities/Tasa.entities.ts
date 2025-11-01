@@ -6,10 +6,10 @@ import { Usuario } from "./Usuario.entities.js";
 @Unique({ properties: ['moneda_origen', 'moneda_destino'] })
 @Entity()
 export class Tasa extends BaseEntity {
-    @ManyToOne('Moneda', { nullable: false })
+    @ManyToOne('Moneda', { nullable: false, eager: true})
     moneda_origen!: Moneda;
 
-    @ManyToOne('Moneda', { nullable: false })
+    @ManyToOne('Moneda', { nullable: false, eager: true})
     moneda_destino!: Moneda;
 
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
@@ -17,17 +17,5 @@ export class Tasa extends BaseEntity {
 
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;  
-
-    @Property({ type: 'varchar', length: 50, nullable: false})
-    nombre_moneda_origen!: string;
-
-    @Property({ type: 'varchar', length: 50, nullable: false})
-    nombre_moneda_destino!: string;
-
-    constructor() {
-        super();
-        this.nombre_moneda_origen = this.moneda_origen?.nombre || '';
-        this.nombre_moneda_destino = this.moneda_destino?.nombre || '';
-    }
  
 }

@@ -20,11 +20,11 @@ export class DividendoSeeder extends Seeder {
             return;
         }
         await em.insertMany(Dividendo, [
-            { codigo: '1', usuario: usuario, caja: caja_1, monto: 200, nombre_caja: caja_1.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
-            { codigo: '2', usuario: usuario, caja: caja_2, monto: 100, nombre_caja: caja_2.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
-            { codigo: '3', usuario: usuario, caja: caja_3, monto: 500, nombre_caja: caja_3.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
-            { codigo: '4', usuario: usuario, caja: caja_4, monto: 1000, nombre_caja: caja_4.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
-            { codigo: '5', usuario: usuario, caja: caja_1, monto: 1000, nombre_caja: caja_1.nombre, creadoEn: new Date(), actualizadoEn: new Date(), visible: true },
+            { cod: 'DI_1', usuario: usuario, caja: caja_1, monto: 200, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'DI_2', usuario: usuario, caja: caja_2, monto: 100, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'DI_3', usuario: usuario, caja: caja_3, monto: 500, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'DI_4', usuario: usuario, caja: caja_4, monto: 1000, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'DI_5', usuario: usuario, caja: caja_1, monto: 1000, creadoEn: new Date(), actualizadoEn: new Date() },
         ]);
     }
 }

@@ -1,4 +1,3 @@
-// seeders/UserSeeder.ts
 import { Seeder } from '@mikro-orm/seeder';
 import { Moneda } from '../entities/Moneda.entities.js';
 import { EntityManager } from '@mikro-orm/core';
@@ -15,9 +14,9 @@ export class MonedaSeeder extends Seeder {
       return;
     }
     await em.insertMany(Moneda, [
-      { codigo: '1', nombre: 'Dolar', codigo_iso: 'USD', visible: true, principal: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
-      { codigo: '2', nombre: 'Peso', codigo_iso: 'ARS', visible: true, principal: false, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
-      { codigo: '3', nombre: 'Euro', codigo_iso: 'EUR', visible: true, principal: false, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
+      { cod: 'MO_1', nombre: 'Dolar', codigo_iso: 'USD', principal: true, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
+      { cod: 'MO_2', nombre: 'Peso', codigo_iso: 'ARS', principal: false, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
+      { cod: 'MO_3', nombre: 'Euro', codigo_iso: 'EUR', principal: false, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario},
     ]);
   }
 }

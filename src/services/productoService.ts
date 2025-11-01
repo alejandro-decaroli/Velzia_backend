@@ -48,23 +48,22 @@ export async function createProducto(data: any, userId: number) {
     const productos = await em.find(Producto, {usuario: userId});
     const productoConCodigoMasGrande = productos.length
     ? productos.reduce((max, producto) =>
-        Number(producto.codigo) > Number(max.codigo) ? producto : max
+        Number(producto.cod) > Number(max.cod) ? producto : max
       )
     : '1';
     if (productoConCodigoMasGrande === '1') {
       codigo = '1';
     } else {
-      codigo = String(Number(productoConCodigoMasGrande.codigo) + 1);
+      codigo = String(Number(productoConCodigoMasGrande.cod) + 1);
     }
     await em.create(Producto, {
-        codigo: codigo,
+        cod: 'PRO_' + codigo,
         nombre: data.nombre,
         descripcion: data.descripcion,
         stock: data.stock,
         usuario: usuario,
         creadoEn: new Date(),
         actualizadoEn: new Date(),
-        visible: true,
     });
     await em.flush();
 }

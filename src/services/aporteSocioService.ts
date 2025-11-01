@@ -50,22 +50,21 @@ export async function createAporte(data:any, userId: number) {
   const aportes = await em.find(Aporte, {usuario: userId});
   const aporteConCodigoMasGrande = aportes.length
   ? aportes.reduce((max, aporte) =>
-      Number(aporte.codigo) > Number(max.codigo) ? aporte : max
+      Number(aporte.cod) > Number(max.cod) ? aporte : max
     )
   : '1';
   if (aporteConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(aporteConCodigoMasGrande.codigo) + 1);
+    codigo = String(Number(aporteConCodigoMasGrande.cod) + 1);
   }
   await em.create(Aporte, {
-    codigo: codigo,
+    cod: 'AP_' + codigo,
     monto: data.monto,
     caja: caja,
     usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date(),
-    visible: true,
     nombre_caja: caja.nombre,
   });
   caja.monto += data.monto;
