@@ -1,6 +1,6 @@
 ### Obtener todos las ventas
 GET http://localhost:3000/ventas
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzYxNDM0NTY0fQ.2R2kG5aV7jb0mfDiflduA5Rmklb_WJRdRuRMR49qOns
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyby5kZWNhcm9saUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiRGVjYXJvbGkiLCJpYXQiOjE3NjIxMTAwODZ9.ZymT6preQMwvMBhVp1QpwUPFMrbPi79Mrzkb0wHeonE
 Content-Type: application/json
 
 ### Obtener venta por ID
@@ -14,8 +14,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 Content-Type: application/json
 
 {
-  "cliente": 1,
-  "moneda": 1
+  "cliente": 12,
+  "moneda": 4
 }
 
 ### Actualizar venta
@@ -41,24 +41,24 @@ Content-Type: application/json
 
 ### Registrar detalle de venta
 
-POST http://localhost:3000/ventas/registrar_detalle/1
+POST http://localhost:3000/ventas/registrar_detalle/6
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnb256YWxvLnppbm5pQGV4YW1wbGUuY29tIiwibm9tYnJlIjoiR29uemFsbyIsImFwZWxsaWRvIjoiWmlubmkiLCJpYXQiOjE3NTgxNTM1MjcsImV4cCI6MTc1ODE1NzEyN30.cqMIBIXXqW7HH3yp0c1_dIyJZIFOyVmVR7_7nJ69Jbc
 Content-Type: application/json
 
 {
-  "producto": 1,
+  "producto": 11,
   "cantidad": 2,
   "precio_unitario": 100,
   "descuento": 25
 }
 
 ### Pagar venta
-POST http://localhost:3000/ventas/pagar/1
+POST http://localhost:3000/ventas/pagar/6
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnb256YWxvLnppbm5pQGV4YW1wbGUuY29tIiwibm9tYnJlIjoiR29uemFsbyIsImFwZWxsaWRvIjoiWmlubmkiLCJpYXQiOjE3NTgxNTM1MjcsImV4cCI6MTc1ODE1NzEyN30.cqMIBIXXqW7HH3yp0c1_dIyJZIFOyVmVR7_7nJ69Jbc
 Content-Type: application/json
 
 {
-  "caja": 1,
-  "monto": 150
+  "caja": 6,
+  "monto_pagar": 150
 }
 

@@ -6,7 +6,7 @@ import { Detalle } from "./Detalle.entities.js";
 @Entity()
 export class Producto extends BaseEntity {
     
-    @Property({ type: 'varchar', length: 20, nullable: false, unique: true })
+    @Property({ type: 'varchar', length: 20, nullable: false })
     nombre!: string;
 
     @Property({ type: 'varchar', length: 100, nullable: true })

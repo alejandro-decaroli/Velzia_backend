@@ -1,10 +1,9 @@
 ### Obtener todos los usuarios
 GET http://localhost:3000/usuarios
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyby5kZWNhcm9saUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiRGVjYXJvbGkiLCJpYXQiOjE3NjA1NDYxNjZ9.voonHpm5VdeZrlCwTIDFpdo-62I81ItCsYMBgGO7tio
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyby5kZWNhcm9saUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiRGVjYXJvbGkiLCJpYXQiOjE3NjIxMTAwODZ9.ZymT6preQMwvMBhVp1QpwUPFMrbPi79Mrzkb0wHeonE
 
 
 ### Obtener un usuario por ID
-
 GET http://localhost:3000/usuarios/1
 
 ### Iniciar sesión

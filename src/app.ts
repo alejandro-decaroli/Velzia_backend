@@ -6,7 +6,7 @@ import { orm, syncSchema, seed } from "./db/orm.js";
 import clienteRouter from "./routes/clienteRoutes.js";
 import cajaRouter from "./routes/cajaRoutes.js";
 import pagoRouter from "./routes/pagoRoutes.js";
-import ventaRouter from "./routes/ventaRoutes.js";
+import ventaRouter from "./routes/ventaRoutes.js";4
 import costoFijoRouter from "./routes/costoFijoRoutes.js";
 import costoVariableRouter from "./routes/costoVariableRoutes.js";
 import ajusteRouter from "./routes/ajusteRoutes.js";

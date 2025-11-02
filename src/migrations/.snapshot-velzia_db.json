@@ -223,16 +223,6 @@
       "schema": "public",
       "indexes": [
         {
-          "columnNames": [
-            "nombre"
-          ],
-          "composite": false,
-          "keyName": "producto_nombre_unique",
-          "constraint": true,
-          "primary": false,
-          "unique": true
-        },
-        {
           "keyName": "producto_pkey",
           "columnNames": [
             "id"
@@ -1561,17 +1551,6 @@
           "primary": false,
           "nullable": false,
           "mappedType": "integer"
-        },
-        "nombre_caja": {
-          "name": "nombre_caja",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 255,
-          "default": "''",
-          "mappedType": "string"
         }
       },
       "name": "aporte",

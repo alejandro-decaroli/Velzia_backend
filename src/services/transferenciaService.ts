@@ -54,13 +54,13 @@ export async function createTransferencia(data:any, userId: number) {
   const transferencias = await em.find(Transferencia, {usuario: userId});
   const transferenciaConCodigoMasGrande = transferencias.length
   ? transferencias.reduce((max, transferencia) =>
-      Number(transferencia.cod) > Number(max.cod) ? transferencia : max
+      Number(transferencia.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? transferencia : max
     )
   : '1';
   if (transferenciaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(transferenciaConCodigoMasGrande.cod) + 1);
+    codigo = String(Number(transferenciaConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
   await em.create(Transferencia, {
     cod: 'TR_' + codigo,

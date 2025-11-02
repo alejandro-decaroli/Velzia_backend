@@ -1,6 +1,6 @@
 ### Obtener todos las monedas
 GET http://localhost:3000/monedas
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnb256YWxvLnppbm5pQGV4YW1wbGUuY29tIiwibm9tYnJlIjoiR29uemFsbyIsImFwZWxsaWRvIjoiWmlubmkiLCJpYXQiOjE3NTgxNTM1MjcsImV4cCI6MTc1ODE1NzEyN30.cqMIBIXXqW7HH3yp0c1_dIyJZIFOyVmVR7_7nJ69Jbc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyby5kZWNhcm9saUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiRGVjYXJvbGkiLCJpYXQiOjE3NjIxMTAwODZ9.ZymT6preQMwvMBhVp1QpwUPFMrbPi79Mrzkb0wHeonE
 Content-Type: application/json
 
 ### Obtener moneda por ID
@@ -10,12 +10,13 @@ Content-Type: application/json
 
 ### Crear moneda
 POST http://localhost:3000/monedas/create
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnb256YWxvLnppbm5pQGV4YW1wbGUuY29tIiwibm9tYnJlIjoiR29uemFsbyIsImFwZWxsaWRvIjoiWmlubmkiLCJpYXQiOjE3NTgxNTM1MjcsImV4cCI6MTc1ODE1NzEyN30.cqMIBIXXqW7HH3yp0c1_dIyJZIFOyVmVR7_7nJ69Jbc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyby5kZWNhcm9saUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiRGVjYXJvbGkiLCJpYXQiOjE3NjIxMTAwODZ9.ZymT6preQMwvMBhVp1QpwUPFMrbPi79Mrzkb0wHeonE
 Content-Type: application/json
 
 {
   "nombre": "pesos",
-  "codigo_iso": "ARS"
+  "codigo_iso": "ARS",
+  "principal": true
 }
 
 ### Actualizar moneda
@@ -24,8 +25,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 Content-Type: application/json
 
 {
-  "nombre": "Dolar2",
-  "codigo_iso": "USD"
+  "nombre": "Dolar2", 
+  "codigo_iso": "USD",
+  "principal": false
 }
 
 ### Eliminar moneda

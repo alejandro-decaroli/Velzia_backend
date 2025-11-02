@@ -1,6 +1,6 @@
 ### Obtener todos los costos variables
 GET http://localhost:3000/costos_variables
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnb256YWxvLnppbm5pQGV4YW1wbGUuY29tIiwibm9tYnJlIjoiR29uemFsbyIsImFwZWxsaWRvIjoiWmlubmkiLCJpYXQiOjE3NTgxNTM1MjcsImV4cCI6MTc1ODE1NzEyN30.cqMIBIXXqW7HH3yp0c1_dIyJZIFOyVmVR7_7nJ69Jbc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyby5kZWNhcm9saUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiRGVjYXJvbGkiLCJpYXQiOjE3NjIxMTAwODZ9.ZymT6preQMwvMBhVp1QpwUPFMrbPi79Mrzkb0wHeonE
 Content-Type: application/json
 
 ### Obtener costo variable por ID
@@ -10,11 +10,12 @@ Content-Type: application/json
 
 ### Crear costo variable
 POST http://localhost:3000/costos_variables/create
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnb256YWxvLnppbm5pQGV4YW1wbGUuY29tIiwibm9tYnJlIjoiR29uemFsbyIsImFwZWxsaWRvIjoiWmlubmkiLCJpYXQiOjE3NTgxNTM1MjcsImV4cCI6MTc1ODE1NzEyN30.cqMIBIXXqW7HH3yp0c1_dIyJZIFOyVmVR7_7nJ69Jbc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyby5kZWNhcm9saUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiRGVjYXJvbGkiLCJpYXQiOjE3NjIxMTAwODZ9.ZymT6preQMwvMBhVp1QpwUPFMrbPi79Mrzkb0wHeonE
 Content-Type: application/json
 
 {
-  "moneda": 2,
+  "moneda": 4,
+  "categoria": "Costo variable",
   "descripcion": "Costo variable",
   "adjudicacion": "Adjudicacion",
   "monto": 200,
@@ -29,7 +30,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 Content-Type: application/json
 
 {
-  "moneda": 2,
+  "moneda": 4,
+  "categoria": "Costo variable",
   "descripcion": "Costo variable 1",
   "adjudicacion": "Adjudicacion",
   "cantidad": 1,
@@ -44,13 +46,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 Content-Type: application/json
 
 ### Pagar costos variables
-POST http://localhost:3000/costos_variables/pagar/1
+POST http://localhost:3000/costos_variables/pagar/6
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnb256YWxvLnppbm5pQGV4YW1wbGUuY29tIiwibm9tYnJlIjoiR29uemFsbyIsImFwZWxsaWRvIjoiWmlubmkiLCJpYXQiOjE3NTgxNTM1MjcsImV4cCI6MTc1ODE1NzEyN30.cqMIBIXXqW7HH3yp0c1_dIyJZIFOyVmVR7_7nJ69Jbc
 Content-Type: application/json
 
 {
-  "caja": 2,
-  "monto": 200,
+  "caja": 6,
+  "monto_pagar": 200,
   "cantidad": 1,
   "precio_unitario": 200,
   "unidad": "unidad"

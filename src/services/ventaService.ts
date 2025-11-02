@@ -66,13 +66,13 @@ export async function createVenta(data:any, userId: number) {
   const ventas = await em.find(Venta, {usuario: userId});
   const ventaConCodigoMasGrande = ventas.length
   ? ventas.reduce((max, venta) =>
-      Number(venta.cod) > Number(max.cod) ? venta : max
+      Number(venta.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? venta : max
     )
   : '1';
   if (ventaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ventaConCodigoMasGrande.cod) + 1);
+    codigo = String(Number(ventaConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
   const venta = em.create(Venta, {
     cod: 'VEN_' + codigo,
@@ -183,21 +183,17 @@ export async function pagarVenta(data:any, userId:number, id:number) {
     throw new Conflict('La moneda de la venta no coincide con la moneda de la caja');
   }
 
-  if (caja.monto < Number(data.monto_pagar)) {
-    throw new Conflict('Fondos insuficientes');
-  }
-
   let codigo: string;
   const arrayPagos = await em.find(Pago, {usuario: userId});
   const pagoConCodigoMasGrande = arrayPagos.length
   ? arrayPagos.reduce((max, pago) =>
-      Number(pago.cod) > Number(max.cod) ? pago : max
+      Number(pago.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? pago : max
     )
   : '1';
   if (pagoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(pagoConCodigoMasGrande.cod) + 1);
+    codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
   const pago = await em.create(Pago, {
     caja: caja,
@@ -250,8 +246,18 @@ export async function registrarDetalle(data:any, userId: number, ventaId: number
     throw new Conflict('Stock insuficiente');
   }
 
-  const cant_detalles = await em.count(Detalle, {usuario: userId});
-  const codigo = String(cant_detalles + 1);
+  let codigo: string;
+  const cant_detalles = await em.find(Detalle, {usuario: userId});
+  const detalleConCodigoMasGrande = cant_detalles.length
+  ? cant_detalles.reduce((max, detalle) =>
+      Number(detalle.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? detalle : max
+    )
+  : '1';
+  if (detalleConCodigoMasGrande === '1') {
+    codigo = '1';
+  } else {
+    codigo = String(Number(detalleConCodigoMasGrande.cod?.split('_')[1]) + 1);
+  }
   const detalle = em.create(Detalle, {
     venta: venta,
     producto: producto,

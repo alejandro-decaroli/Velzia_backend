@@ -57,13 +57,13 @@ export async function createCaja(data:any, userId:number) {
   const cajas = await em.find(Caja, {usuario: userId});
   const cajaConCodigoMasGrande = cajas.length
   ? cajas.reduce((max, caja) =>
-      Number(caja.cod) > Number(max.cod) ? caja : max
+      Number(caja.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? caja : max
     )
   : '1';
   if (cajaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(cajaConCodigoMasGrande.cod) + 1);
+    codigo = String(Number(cajaConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
   await em.create(Caja, {
     cod: 'CA_' + codigo,

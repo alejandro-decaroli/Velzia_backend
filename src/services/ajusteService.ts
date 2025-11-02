@@ -65,13 +65,13 @@ export async function createAjuste(data: any, userId: number) {
   const ajustes = await em.find(Ajuste, {usuario: userId});
   const ajusteConCodigoMasGrande = ajustes.length
   ? ajustes.reduce((max, ajuste) =>
-      Number(ajuste.cod) > Number(max.cod) ? ajuste : max
+      Number(ajuste.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? ajuste : max
     )
   : '1';
   if (ajusteConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(ajusteConCodigoMasGrande.cod) + 1);
+    codigo = String(Number(ajusteConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
   await em.create(Ajuste, {
     caja: caja,

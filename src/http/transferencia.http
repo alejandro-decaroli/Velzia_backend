@@ -16,7 +16,8 @@ Content-Type: application/json
 {
   "caja_origen": 1,
   "caja_destino": 3,
-  "monto": 500
+  "monto": 500,
+  "motivo": "Motivo"
 }
 
 ### Actualizar transferencia
@@ -28,7 +29,7 @@ Content-Type: application/json
   "caja_origen": 2,
   "caja_destino": 1,
   "monto": 1000,
-  "moneda": 1
+  "motivo": "Motivo"
 }
 
 ### Eliminar transferencia

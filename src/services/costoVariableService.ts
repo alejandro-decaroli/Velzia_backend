@@ -51,13 +51,13 @@ export async function createCostoVariable(data:any, userId: number) {
   const costosVariables = await em.find(CostoVariable, {usuario: userId});
   const costoVariableConCodigoMasGrande = costosVariables.length
   ? costosVariables.reduce((max, costoVariable) =>
-      Number(costoVariable.cod) > Number(max.cod) ? costoVariable : max
+      Number(costoVariable.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? costoVariable : max
     )
   : '1';
   if (costoVariableConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(costoVariableConCodigoMasGrande.cod) + 1);
+    codigo = String(Number(costoVariableConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
   await em.create(CostoVariable, {
     cod: 'CV_' + codigo,
@@ -160,13 +160,13 @@ export async function pagarCostoVariable(data:any, userId:number, id:number) {
   const arrayPagos = await em.find(Pago, {usuario: userId});
   const pagoConCodigoMasGrande = arrayPagos.length
   ? arrayPagos.reduce((max, pago) =>
-      Number(pago.cod) > Number(max.cod) ? pago : max
+      Number(pago.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? pago : max
     )
   : '1';
   if (pagoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(pagoConCodigoMasGrande.cod) + 1);
+    codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
 
   const pago = await em.create(Pago, {

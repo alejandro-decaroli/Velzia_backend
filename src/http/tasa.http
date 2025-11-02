@@ -14,8 +14,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 Content-Type: application/json
 
 {
-  //"tasa_actual": 1.0,
-  //"tasa_nueva": 2.0
   "moneda_origen": 1 ,
   "moneda_destino": 2,
   "tasa": 2
@@ -27,8 +25,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiO
 Content-Type: application/json
 
 {
-  //"tasa_actual": 1.0,
-  //"tasa_nueva": 3.0
   "moneda_origen": 1 ,
   "moneda_destino": 2,
   "tasa": 1

@@ -43,13 +43,13 @@ export async function createDividendoSocio(data:any, userId: number) {
   const dividendos = await em.find(Dividendo, {usuario: userId});
   const dividendoConCodigoMasGrande = dividendos.length
   ? dividendos.reduce((max, dividendo) =>
-      Number(dividendo.cod) > Number(max.cod) ? dividendo : max
+      Number(dividendo.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? dividendo : max
     )
   : '1';
   if (dividendoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(dividendoConCodigoMasGrande.cod) + 1);
+    codigo = String(Number(dividendoConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
   caja.monto -= data.monto;
   const dividendo = await em.create(Dividendo, {

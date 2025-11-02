@@ -1,21 +1,21 @@
 ### Obtener todos los cajas
 GET http://localhost:3000/cajas
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnb256YWxvLnppbm5pQGV4YW1wbGUuY29tIiwibm9tYnJlIjoiR29uemFsbyIsImFwZWxsaWRvIjoiWmlubmkiLCJpYXQiOjE3NTgxNTM1MjcsImV4cCI6MTc1ODE1NzEyN30.cqMIBIXXqW7HH3yp0c1_dIyJZIFOyVmVR7_7nJ69Jbc
+Authorization: BearereyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyby5kZWNhcm9saUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiRGVjYXJvbGkiLCJpYXQiOjE3NjIxMTAwODZ9.ZymT6preQMwvMBhVp1QpwUPFMrbPi79Mrzkb0wHeonE
 Content-Type: application/json
 
 ### Obtener caja por ID
-GET http://localhost:3000/cajas/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc1MzAyODYsImV4cCI6MTc1NzUzMzg4Nn0.09Nzw2bmAaLDQxr6Ybb5sa_d1dg6xaLLlULcoX5yGIU
+GET http://localhost:3000/cajas/6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyby5kZWNhcm9saUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiRGVjYXJvbGkiLCJpYXQiOjE3NjIxMTAwODZ9.ZymT6preQMwvMBhVp1QpwUPFMrbPi79Mrzkb0wHeonE
 Content-Type: application/json
 
 ### Crear caja
 POST http://localhost:3000/cajas/create
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnb256YWxvLnppbm5pQGV4YW1wbGUuY29tIiwibm9tYnJlIjoiR29uemFsbyIsImFwZWxsaWRvIjoiWmlubmkiLCJpYXQiOjE3NTgxNTM1MjcsImV4cCI6MTc1ODE1NzEyN30.cqMIBIXXqW7HH3yp0c1_dIyJZIFOyVmVR7_7nJ69Jbc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyby5kZWNhcm9saUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiRGVjYXJvbGkiLCJpYXQiOjE3NjIxMTAwODZ9.ZymT6preQMwvMBhVp1QpwUPFMrbPi79Mrzkb0wHeonE
 Content-Type: application/json
 
 {
-  "nombre": "GONZALO",
-  "moneda": 2,
+  "nombre": "Caja pesos",
+  "moneda": 4,
   "monto": 1000
 }
 
@@ -26,8 +26,7 @@ Content-Type: application/json
 
 {
   "nombre": "caja Actualizado",
-  "moneda": 1,
-  "siglas": "GZ",
+  "moneda": 4,
   "monto": 1000
 }
 

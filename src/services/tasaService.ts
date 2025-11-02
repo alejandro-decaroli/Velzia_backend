@@ -46,13 +46,13 @@ export async function createTasa(data:any, userId: number) {
   const tasas = await em.find(Tasa, {usuario: userId});
   const tasaConCodigoMasGrande = tasas.length
   ? tasas.reduce((max, tasa) =>
-      Number(tasa.cod) > Number(max.cod) ? tasa : max
+      Number(tasa.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? tasa : max
     )
   : '1';
   if (tasaConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(tasaConCodigoMasGrande.cod) + 1);
+    codigo = String(Number(tasaConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
   await em.create(Tasa, {
     cod: 'TAS_' + codigo,

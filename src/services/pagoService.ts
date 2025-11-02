@@ -55,13 +55,13 @@ export async function createPago(data:any, userId: number) {
   const pagos = await em.find(Pago, {usuario: userId});
   const pagoConCodigoMasGrande = pagos.length
   ? pagos.reduce((max, pago) =>
-      Number(pago.cod) > Number(max.cod) ? pago : max
+      Number(pago.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? pago : max
     )
   : '1';
   if (pagoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(pagoConCodigoMasGrande.cod) + 1);
+    codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
   await em.create(Pago, {
     cod: 'PA_' + codigo,
