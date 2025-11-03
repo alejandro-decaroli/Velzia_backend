@@ -198,7 +198,7 @@ export async function pagarVenta(data:any, userId:number, id:number) {
   const pago = await em.create(Pago, {
     caja: caja,
     monto: Number(data.monto_pagar),
-    cod: 'PAG_' + codigo,
+    cod: 'PA_' + codigo,
     venta: venta,
     usuario: usuario,
     creadoEn: new Date(),

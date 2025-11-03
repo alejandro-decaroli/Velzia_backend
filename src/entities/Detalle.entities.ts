@@ -7,7 +7,7 @@ import { Venta } from "./Venta.entities.js";
 @Entity()
 export class Detalle extends BaseEntity {
     
-    @ManyToOne('Venta', {nullable: false})
+    @ManyToOne('Venta', {nullable: false, eager: true})
     venta!: Venta;
 
     @ManyToOne('Producto', {nullable: false, eager: true})

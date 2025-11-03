@@ -42,6 +42,9 @@ export async function createTasa(data:any, userId: number) {
   if (moneda_origen_id === moneda_destino_id) {
     throw new Conflict('Moneda de origen y destino no pueden ser la misma');
   }
+  if (moneda_origen.principal === false) {
+    throw new Conflict('Moneda de origen debe ser la moneda principal');
+  }
   let codigo: string;
   const tasas = await em.find(Tasa, {usuario: userId});
   const tasaConCodigoMasGrande = tasas.length
