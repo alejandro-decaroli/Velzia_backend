@@ -18,8 +18,8 @@ export class TasaSeeder extends Seeder {
             return;
         }
         await em.insertMany(Tasa, [
-            { cod: 'TA_1', usuario: usuario, moneda_origen: moneda, moneda_destino: moneda_2, tasa: 2, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'TA_2', usuario: usuario, moneda_origen: moneda, moneda_destino: moneda_3, tasa: 2, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'TAS_1', usuario: usuario, moneda_origen: moneda, moneda_destino: moneda_2, tasa: 2, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'TAS_2', usuario: usuario, moneda_origen: moneda, moneda_destino: moneda_3, tasa: 2, creadoEn: new Date(), actualizadoEn: new Date() },
         ]);
     }
 }
