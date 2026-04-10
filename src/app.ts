@@ -73,7 +73,7 @@ app.use('/productos', productoRouter);
         });
     } catch (err) {
         console.error("Error starting server:", err);
-        process.exit(1); // Avisa a Render que el proceso falló
+        process.exit(1); 
     }
 })();
 
@@ -86,3 +86,12 @@ app.listen(PORT, () => {
 })
 
 
+/*
+    1) Eliminar todos los comentarios [x]
+    2) Desplegar en Render
+    3) Agregar descripcion al propousal [x]
+    4) Revisar modelo de dominio (todas las entidades deben pertenecer a un usuario)
+    5) Reciclar codigo del front, mejorarlo con Claude, y redefinir que reportes mostrar
+    6) Escribir test unitarios e integradores
+    7) Revisar que funcionen todos los http
+*/

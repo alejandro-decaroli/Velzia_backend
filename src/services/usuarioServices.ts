@@ -9,7 +9,7 @@ import express, { Response, Request } from 'express';
 dotenv.config();
 
 const { BadRequest, NotFound, Conflict } = createError;
-const em = orm.em.fork(); // Fork the entity manager for each request
+const em = orm.em.fork(); 
 
 export async function sign_In(req: Request) {
   const usuario = await em.findOne(Usuario, { email: req.body.email });
@@ -29,13 +29,13 @@ export async function sign_In(req: Request) {
     apellido: usuario.apellido
   };
 
-  // 🔐 Firmar token con una clave secreta
+
   if (!process.env.SECRET_KEY) {
     throw new Error("SECRET_KEY no está definido en las variables de entorno");
   }
   const token = jwt.sign(payload, process.env.SECRET_KEY!);
 
-  return { user: payload, token: token }; // Devuelve el usuario creado
+  return { user: payload, token: token };
 }
 
 export async function sign_Up(req: Request) {
@@ -61,13 +61,13 @@ export async function sign_Up(req: Request) {
     apellido: usuario.apellido
   };
 
-  // 🔐 Firmar token con una clave secreta
+
   if (!process.env.SECRET_KEY) {
     throw new Error("SECRET_KEY no está definido en las variables de entorno");
   }
   const token = jwt.sign(payload, process.env.SECRET_KEY!);
 
-  return { user: payload, token: token }; // Devuelve el usuario creado
+  return { user: payload, token: token }; 
 }
 
 export async function getAllUsuarios() {

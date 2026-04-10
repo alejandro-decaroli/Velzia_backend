@@ -8,7 +8,6 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
 
   let token = req.cookies?.token;
 
-  // 👇 Si no hay cookie, probamos con header Authorization
   if (!token && req.headers.authorization) {
     token = req.headers.authorization.split(" ")[1];
   }
@@ -24,7 +23,6 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
   }
 
   try {
-    // 👇 Forzamos el tipo correcto del payload (coincide con el que definiste en index.d.ts)
     const decoded = jwt.verify(token, secret) as {
       rol: string;
       id: number;

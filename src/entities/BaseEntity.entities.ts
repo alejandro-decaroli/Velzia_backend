@@ -1,4 +1,3 @@
-// src/entities/BaseEntity.entities.ts
 import { PrimaryKey, Property, ManyToOne } from "@mikro-orm/core";
 
 export abstract class BaseEntity {

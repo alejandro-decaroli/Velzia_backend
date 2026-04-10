@@ -1,4 +1,3 @@
-// seeders/UserSeeder.ts
 import { Seeder } from '@mikro-orm/seeder';
 import { Caja } from '../entities/Caja.entities.js';
 import { EntityManager } from '@mikro-orm/core';

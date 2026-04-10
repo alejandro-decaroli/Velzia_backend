@@ -1,10 +1,10 @@
 ### Obtener todos los usuarios
 GET http://localhost:3000/usuarios
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Niwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyby5kZWNhcm9saUBleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiRGVjYXJvbGkiLCJpYXQiOjE3NjIxMTAwODZ9.ZymT6preQMwvMBhVp1QpwUPFMrbPi79Mrzkb0wHeonE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sIjoidXNlciIsImVtYWlsIjoiZ29uemFsb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkdvbnphbG8iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImlhdCI6MTc3NTgzMzE0NX0.rakG7w5xaA85G5_UZ8bklHMWwWKEWJohJF2NACJ8X94
 
 
 ### Obtener un usuario por ID
-GET http://localhost:3000/usuarios/1
+GET http://localhost:3000/usuarios/4
 
 ### Iniciar sesión
 
@@ -43,6 +43,6 @@ Content-Type: application/json
 }
 
 ### Eliminar un usuario
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiUGVyZXoiLCJpYXQiOjE3NTc2MzE0NDAsImV4cCI6MTc1NzYzNTA0MH0.2S4_QcJfG7-oAeuZ3YlTg8RP0hdzv4PPLJWLEzQXcuI
-DELETE http://localhost:3000/usuarios/delete/3
+DELETE http://localhost:3000/usuarios/delete/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sIjoidXNlciIsImVtYWlsIjoiZ29uemFsb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkdvbnphbG8iLCJhcGVsbGlkbyI6IkdhcmNpYSIsImlhdCI6MTc3NTgzMzE0NX0.rakG7w5xaA85G5_UZ8bklHMWwWKEWJohJF2NACJ8X94
 

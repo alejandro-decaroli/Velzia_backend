@@ -1,4 +1,3 @@
-// seeders/UserSeeder.ts
 import { Seeder } from '@mikro-orm/seeder';
 import { Usuario } from '../entities/Usuario.entities.js';
 import { hash } from 'bcrypt';
