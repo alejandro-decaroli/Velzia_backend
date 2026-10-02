@@ -67,15 +67,6 @@ export const ajusteValidation = [
     .isIn(['ingreso', 'egreso']).withMessage('Movimiento debe ser ingreso o egreso')
 ];
 
-export const aporteDividendoSocioValidation = [
-    body('caja')
-      .notEmpty().withMessage('Caja ID es requerido')
-      .isInt({ min: 0 }).withMessage('Caja ID debe ser un número entero'),
-    body('monto')
-      .notEmpty().withMessage('Monto es requerido')
-      .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
-];
-
 export const costoFijoValidation = [
     body('monto')
       .notEmpty().withMessage('Monto es requerido')
@@ -86,24 +77,6 @@ export const costoFijoValidation = [
     body('categoria')
       .notEmpty().withMessage('Categoria es requerida')
       .isString().withMessage('Categoria debe ser un string'),
-];
-
-export const costoVariableValidation = [
-  body('adjudicacion')
-    .notEmpty().withMessage('Adjudicación es requerida')
-    .isString().withMessage('Adjudicación debe ser un string'),
-  body('categoria')
-    .notEmpty().withMessage('Categoria es requerida')
-    .isString().withMessage('Categoria debe ser un string'),
-  body('cantidad')
-    .notEmpty().withMessage('Cantidad es requerida')
-    .isInt({ min: 0 }).withMessage('Cantidad debe ser un número entero'),
-  body('precio_unitario')
-    .notEmpty().withMessage('Precio unitario es requerido')
-    .isFloat({ min: 0 }).withMessage('Precio unitario debe ser un número positivo'),
-  body('unidad')
-    .notEmpty().withMessage('Unidad es requerida')
-    .isString().withMessage('Unidad debe ser un string'),
 ];
 
 export const monedaValidation = [

@@ -4,7 +4,6 @@ import { Caja } from '../entities/Caja.entities.js';
 import { Venta } from '../entities/Venta.entities.js';
 import createError from 'http-errors';
 import { CostoFijo } from '../entities/Costofijo.entities.js';
-import { CostoVariable } from '../entities/Costovariable.entities.js';
 import { Usuario } from '../entities/Usuario.entities.js';
 const { BadRequest, NotFound, Conflict } = createError;
 
@@ -113,7 +112,6 @@ export async function removePago(userId:any, id:number) {
   }
   const caja = await em.findOne(Caja, {pagos: pago});
   const costos_fijos = await em.findOne(CostoFijo, {pagos: pago});
-  const costos_variables = await em.findOne(CostoVariable, {pagos: pago});
   const ventas = await em.findOne(Venta, {pagos: pago});
 
   if (ventas instanceof Venta) {
@@ -125,11 +123,6 @@ export async function removePago(userId:any, id:number) {
     caja!.monto += pago.monto;
     costos_fijos.monto_pagado -= pago.monto;
     costos_fijos.estado = 'Pendiente';
-    await em.flush();
-  } else if (costos_variables instanceof CostoVariable) {
-    caja!.monto += pago.monto;
-    costos_variables.monto_pagado -= pago.monto;
-    costos_variables.estado = 'Pendiente';
     await em.flush();
   }
   await em.removeAndFlush(pago);

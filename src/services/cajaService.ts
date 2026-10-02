@@ -5,8 +5,6 @@ import createError from 'http-errors';
 import { Usuario } from '../entities/Usuario.entities.js';
 import { Ajuste } from '../entities/Ajuste.entities.js';
 import { Pago } from '../entities/Pago.entities.js';
-import { Aporte } from '../entities/Aporte.entities.js';
-import { Dividendo } from '../entities/Dividendo.entities.js';
 import { Transferencia } from '../entities/Transferencia.entities.js';
 const { BadRequest, NotFound, Conflict } = createError;
 
@@ -14,11 +12,10 @@ const em = orm.em;
 
 export async function getAllCajas(userId: number, fecha: string) {
   if (!fecha) {
-    fecha = new Date().toISOString().split('T')[0];
-  } else {
-    fecha = fecha.split('T')[0];
+    return await em.find(Caja, {usuario: userId});
   }
-  const fechaDate = new Date(fecha);
+
+  const fechaDate = new Date(fecha.split('T')[0]);
   const inicioMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth(), 1);
   const finMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth() + 1, 0, 23, 59, 59, 999);
 
@@ -93,8 +90,6 @@ export async function updateCaja(data:any, userId: number, id:number) {
   const nombre_duplicado = await em.findOne(Caja, { nombre: data.nombre, usuario: userId });
   const ajustes = await em.count(Ajuste, {caja: caja});
   const pagos = await em.count(Pago, {caja: caja});
-  const aportes = await em.count(Aporte, {caja: caja});
-  const dividendos = await em.count(Dividendo, {caja: caja});
   const transferencias_origen = await em.count(Transferencia, {caja_origen: caja});
   const transferencias_destino = await em.count(Transferencia, {caja_destino: caja});
   if (nombre_duplicado && nombre_duplicado.id !== id) {
@@ -108,12 +103,6 @@ export async function updateCaja(data:any, userId: number, id:number) {
     }
     if (pagos > 0) {
       throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene pagos asociados');
-    }
-    if (aportes > 0) {
-      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene aportes asociados');
-    }
-    if (dividendos > 0) {
-      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene dividendos asociados');
     }
     if (transferencias_origen > 0) {
       throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene transferencias de origen asociadas');
@@ -139,8 +128,6 @@ export async function removeCaja(userId:number, id:number) {
 
   const ajustes = await em.count(Ajuste, {caja: caja});
   const pagos = await em.count(Pago, {caja: caja});
-  const aportes = await em.count(Aporte, {caja: caja});
-  const dividendos = await em.count(Dividendo, {caja: caja});
   const transferencias_origen = await em.count(Transferencia, {caja_origen: caja});
   const transferencias_destino = await em.count(Transferencia, {caja_destino: caja});
 
@@ -149,12 +136,6 @@ export async function removeCaja(userId:number, id:number) {
   }
   if (pagos > 0) {
     throw new Conflict('La caja no puede ser eliminada porque tiene pagos asociados');
-  }
-  if (aportes > 0) {
-    throw new Conflict('La caja no puede ser eliminada porque tiene aportes asociados');
-  }
-  if (dividendos > 0) {
-    throw new Conflict('La caja no puede ser eliminada porque tiene dividendos asociados');
   }
   if (transferencias_origen > 0) {
     throw new Conflict('La caja no puede ser eliminada porque tiene transferencias de origen asociadas');

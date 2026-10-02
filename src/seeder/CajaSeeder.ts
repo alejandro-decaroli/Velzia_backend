@@ -18,7 +18,7 @@ export class CajaSeeder extends Seeder {
       return;
     }
     await em.insertMany(Caja, [
-      { cod: 'CA_1', nombre: 'Caja Dolares', moneda: moneda_dolar, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 10000},
+      { cod: 'CA_1', nombre: 'Caja Dolares', moneda: moneda_dolar, creadoEn: new Date(2026, 5, 22), actualizadoEn: new Date(), usuario: usuario, monto: 10000},
       { cod: 'CA_2', nombre: 'Caja Pesos', moneda: moneda_peso, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 5000},
       { cod: 'CA_3', nombre: 'Caja Dolares 2', moneda: moneda_dolar, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 1000},
       { cod: 'CA_4', nombre: 'Caja Pesos 2', moneda: moneda_peso, creadoEn: new Date(), actualizadoEn: new Date(), usuario: usuario, monto: 3000},

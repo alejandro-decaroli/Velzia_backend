@@ -4,7 +4,6 @@ import { Caja } from "./Caja.entities.js";
 import { Venta } from "./Venta.entities.js";
 import { Usuario } from "./Usuario.entities.js";
 import { CostoFijo } from "./Costofijo.entities.js";
-import { CostoVariable } from "./Costovariable.entities.js";
 
 @Entity()
 export class Pago extends BaseEntity {
@@ -23,8 +22,5 @@ export class Pago extends BaseEntity {
 
     @ManyToOne('CostoFijo', {nullable: true, eager: true})
     costo_fijo?: CostoFijo;
-
-    @ManyToOne('CostoVariable', {nullable: true, eager: true})
-    costo_variable?: CostoVariable;
 
 }

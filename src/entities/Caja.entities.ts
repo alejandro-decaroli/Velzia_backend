@@ -3,9 +3,7 @@ import { BaseEntity } from "./BaseEntity.entities.js";
 import { Moneda } from "./Moneda.entities.js";
 import { Ajuste } from "./Ajuste.entities.js";
 import { Pago } from "./Pago.entities.js";
-import { Aporte } from "./Aporte.entities.js";
 import { Transferencia } from "./Transferencia.entities.js";
-import { Dividendo } from "./Dividendo.entities.js";
 import { Usuario } from "./Usuario.entities.js";
 
 @Entity()
@@ -18,12 +16,6 @@ export class Caja extends BaseEntity {
     
     @OneToMany('Pago', 'caja', {cascade: [Cascade.ALL], nullable: true})
     pagos = new Collection<Pago>(this);
-    
-    @OneToMany('Aporte', 'caja', {cascade: [Cascade.ALL], nullable: true})
-    aportes = new Collection<Aporte>(this);
-    
-    @OneToMany('Dividendo', 'caja', {cascade: [Cascade.ALL], nullable: true})
-    dividendos = new Collection<Dividendo>(this);
     
     @OneToMany('Transferencia', 'caja_origen', {cascade: [Cascade.ALL], nullable: true})
     transferencias_origen = new Collection<Transferencia>(this);

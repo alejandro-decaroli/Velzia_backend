@@ -8,10 +8,7 @@ import cajaRouter from "./routes/cajaRoutes.js";
 import pagoRouter from "./routes/pagoRoutes.js";
 import ventaRouter from "./routes/ventaRoutes.js";4
 import costoFijoRouter from "./routes/costoFijoRoutes.js";
-import costoVariableRouter from "./routes/costoVariableRoutes.js";
 import ajusteRouter from "./routes/ajusteRoutes.js";
-import aporteSocioRouter from "./routes/aporteSocioRoutes.js";
-import dividendoSocioRouter from "./routes/dividendoSocioRoutes.js";
 import transferenciaRouter from "./routes/transferenciaRoutes.js";
 import tasaRouter from "./routes/tasaRoutes.js";
 import monedaRouter from "./routes/monedaRoutes.js";
@@ -46,10 +43,7 @@ app.use('/cajas', cajaRouter);
 app.use('/pagos', pagoRouter); 
 app.use('/ventas', ventaRouter)
 app.use('/costos_fijos', costoFijoRouter);
-app.use('/costos_variables', costoVariableRouter);
 app.use('/ajustes', ajusteRouter);
-app.use('/aportes_socio', aporteSocioRouter);
-app.use('/dividendos_socio', dividendoSocioRouter);
 app.use('/transferencias', transferenciaRouter);
 app.use('/tasas', tasaRouter);
 app.use('/monedas', monedaRouter);
@@ -87,11 +81,15 @@ app.listen(PORT, () => {
 
 
 /*
-    1) Eliminar todos los comentarios [x]
+    1) Eliminar todos los comentarios []
     2) Desplegar en Render
     3) Agregar descripcion al propousal [x]
-    4) Revisar modelo de dominio (todas las entidades deben pertenecer a un usuario)
+    4) Revisar modelo de dominio []
     5) Reciclar codigo del front, mejorarlo con Claude, y redefinir que reportes mostrar
     6) Escribir test unitarios e integradores
     7) Revisar que funcionen todos los http
+    8) Error al crear tasas
+    9) Las cajas junto con otras entidades no se cargan de manera predeterminada
+    10) object.Object en tasas y monedas (columnas repetidas)
+    11) Mejorar la seccion de reportes
 */
