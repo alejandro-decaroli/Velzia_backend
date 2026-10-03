@@ -1,6 +1,5 @@
 import { orm } from '../db/orm.js';
 import { Caja } from '../entities/Caja.entities.js';
-import { Moneda } from '../entities/Moneda.entities.js';
 import createError from 'http-errors';
 import { Usuario } from '../entities/Usuario.entities.js';
 import { Ajuste } from '../entities/Ajuste.entities.js';
@@ -36,10 +35,6 @@ export async function getByIdCaja(userId:any, id:number) {
 }
 
 export async function createCaja(data:any, userId:number) {
-  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada');
-  }
   const name = data.nombre;
   const monto = data.monto;
   const nombre_duplicado = await em.findOne(Caja, { nombre: name, usuario: userId });
@@ -66,7 +61,6 @@ export async function createCaja(data:any, userId:number) {
     cod: 'CA_' + codigo,
     nombre: name,
     monto: monto,
-    moneda: moneda,
     usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date()
@@ -82,10 +76,6 @@ export async function updateCaja(data:any, userId: number, id:number) {
   if (!caja) {
     throw new NotFound('Caja no encontrada');
   }
-  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada');
-  }
   const monto_anterior = caja.monto;
   const nombre_duplicado = await em.findOne(Caja, { nombre: data.nombre, usuario: userId });
   const ajustes = await em.count(Ajuste, {caja: caja});
@@ -96,22 +86,21 @@ export async function updateCaja(data:any, userId: number, id:number) {
     throw new Conflict('Las cajas no pueden tener el mismo nombre');
   }
   caja.nombre = data.nombre;
-  if (caja.moneda.id !== moneda.id || monto_anterior !== data.monto) {
+  if (monto_anterior !== data.monto) {
 
     if (ajustes > 0) {
-      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene ajustes asociados');
+      throw new Conflict('No se puede cambiar el monto porque tiene ajustes asociados');
     }
     if (pagos > 0) {
-      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene pagos asociados');
+      throw new Conflict('No se puede cambiar el monto porque tiene pagos asociados');
     }
     if (transferencias_origen > 0) {
-      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene transferencias de origen asociadas');
+      throw new Conflict('No se puede cambiar el monto porque tiene transferencias de origen asociadas');
     }
     if (transferencias_destino > 0) {
-      throw new Conflict('No se puede cambiar la moneda ni el monto porque tiene transferencias de destino asociadas');
+      throw new Conflict('No se puede cambiar el monto porque tiene transferencias de destino asociadas');
     }
   }
-  caja.moneda = moneda;
   caja.monto = data.monto;
   caja.actualizadoEn = new Date();
   await em.flush();

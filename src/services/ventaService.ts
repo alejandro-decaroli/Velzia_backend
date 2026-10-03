@@ -1,6 +1,5 @@
 import { orm } from '../db/orm.js';
 import { Venta } from '../entities/Venta.entities.js';
-import { Moneda } from '../entities/Moneda.entities.js';
 import { Cliente } from '../entities/Cliente.entities.js';
 import { Usuario } from '../entities/Usuario.entities.js';
 import createError from 'http-errors';
@@ -50,14 +49,10 @@ export async function getByIdVenta(userId: number, id:number) {
 }
 
 export async function createVenta(data:any, userId: number) {
-  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
   const cliente = await em.findOne(Cliente, {id: data.cliente, usuario: userId});
   const usuario = await em.findOne(Usuario, {id: userId});
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
-  }
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada');
   }
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
@@ -77,7 +72,6 @@ export async function createVenta(data:any, userId: number) {
   const venta = em.create(Venta, {
     cod: 'VEN_' + codigo,
     cliente,
-    moneda,
     total: 0,
     total_pagado: 0,
     estado: 'Pendiente',
@@ -98,10 +92,6 @@ export async function updateVenta(data:any, userId: number, id:number) {
   if (!cliente) {
     throw new NotFound('Cliente no encontrado');
   }
-  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada');
-  }
   const venta = await em.findOne(Venta, {id: id, usuario: userId});
   if (!venta) {
     throw new NotFound('Venta no encontrada');
@@ -113,7 +103,6 @@ export async function updateVenta(data:any, userId: number, id:number) {
   venta.total = data.total;
   venta.total_pagado = data.total_pagado;
   venta.cliente = cliente;
-  venta.moneda = moneda;
   venta.actualizadoEn = new Date();
   await em.persistAndFlush(venta);
 }
@@ -178,9 +167,6 @@ export async function pagarVenta(data:any, userId:number, id:number) {
   const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
-  }
-  if (venta.moneda.id !== caja.moneda.id) {
-    throw new Conflict('La moneda de la venta no coincide con la moneda de la caja');
   }
 
   let codigo: string;

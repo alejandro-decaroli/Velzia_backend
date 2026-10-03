@@ -15,7 +15,6 @@ Content-Type: application/json
 {
   "adjudicacion": "NC",
   "monto": 200,
-  "moneda": 4,
   "categoria": "Costo fijo"
 }
 

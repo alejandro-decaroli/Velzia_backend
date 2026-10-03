@@ -3,8 +3,6 @@ import { BaseEntity } from "./BaseEntity.entities.js";
 import { Cliente } from "./Cliente.entities.js";
 import { Venta } from "./Venta.entities.js";
 import { Transferencia } from "./Transferencia.entities.js";
-import { Tasa } from "./Tasa.entities.js";
-import { Moneda } from "./Moneda.entities.js";
 import { Pago } from "./Pago.entities.js";
 import { CostoFijo } from "./Costofijo.entities.js";
 import { Ajuste } from "./Ajuste.entities.js";
@@ -36,14 +34,8 @@ export class Usuario extends BaseEntity {
   @OneToMany('Transferencia', 'usuario', { cascade: [Cascade.ALL], nullable: true })
   transferencia = new Collection<Transferencia>(this);
 
-  @OneToMany('Tasa', 'usuario', { cascade: [Cascade.ALL], nullable: true })
-  tasa = new Collection<Tasa>(this);
-
   @OneToMany('Pago', 'usuario', { cascade: [Cascade.ALL], nullable: true })
   pago = new Collection<Pago>(this);
-
-  @OneToMany('Moneda', 'usuario', { cascade: [Cascade.ALL], nullable: true })
-  moneda = new Collection<Moneda>(this);
 
   @OneToMany('CostoFijo', 'usuario', { cascade: [Cascade.ALL], nullable: true })
   costoFijo = new Collection<CostoFijo>(this);

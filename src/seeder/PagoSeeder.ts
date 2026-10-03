@@ -1,7 +1,6 @@
 import { Seeder } from "@mikro-orm/seeder";
 import { EntityManager } from "@mikro-orm/core";
 import { Usuario } from "../entities/Usuario.entities.js";
-import { Moneda } from "../entities/Moneda.entities.js";
 import { Pago } from "../entities/Pago.entities.js";
 import { CostoFijo } from "../entities/Costofijo.entities.js";
 import { Caja } from "../entities/Caja.entities.js";
@@ -12,11 +11,8 @@ import { Venta } from "../entities/Venta.entities.js";
 export class PagoSeeder extends Seeder {
     async run(em: EntityManager) {
         const usuario = await em.findOne(Usuario, {id:1});
-        const moneda = await em.findOne(Moneda, {id:1, usuario:{id:1}});
-        const moneda_2 = await em.findOne(Moneda, {id:2, usuario:{id:1}});
-        const moneda_3 = await em.findOne(Moneda, {id:3, usuario:{id:1}});
-        if (!usuario || !moneda || !moneda_2 || !moneda_3) {
-            throw new Error('Usuario o moneda no encontrado');
+        if (!usuario) {
+            throw new Error('Usuario no encontrado');
         }
         const caja = await em.findOne(Caja, {id:1, usuario:{id:1}});
         const caja_2 = await em.findOne(Caja, {id:2, usuario:{id:1}});

@@ -10,8 +10,6 @@ import ventaRouter from "./routes/ventaRoutes.js";4
 import costoFijoRouter from "./routes/costoFijoRoutes.js";
 import ajusteRouter from "./routes/ajusteRoutes.js";
 import transferenciaRouter from "./routes/transferenciaRoutes.js";
-import tasaRouter from "./routes/tasaRoutes.js";
-import monedaRouter from "./routes/monedaRoutes.js";
 import usuarioRouter from "./routes/usuarioRoute.js";
 import productoRouter from "./routes/productoRoutes.js";
 import cors from "cors";
@@ -45,8 +43,6 @@ app.use('/ventas', ventaRouter)
 app.use('/costos_fijos', costoFijoRouter);
 app.use('/ajustes', ajusteRouter);
 app.use('/transferencias', transferenciaRouter);
-app.use('/tasas', tasaRouter);
-app.use('/monedas', monedaRouter);
 app.use('/productos', productoRouter);
 
 (async () => {

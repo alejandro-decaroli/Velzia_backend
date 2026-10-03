@@ -121,7 +121,6 @@ Content-Type: application/json
 
 {
   "nombre": "GZCaja",
-  "moneda": 1,
   "monto": 100
 }
 ```
@@ -134,7 +133,6 @@ Content-Type: application/json
 
 {
   "nombre": "caja Actualizado",
-  "moneda": 1,
   "monto": 100
 }
 ```
@@ -214,7 +212,6 @@ Content-Type: application/json
   "caja": 1,
   "adjudicacion": "NC",
   "monto": 100,
-  "moneda": 1,
   "categoria": "Costo fijo"
 }
 ```
@@ -229,7 +226,6 @@ Content-Type: application/json
   "caja": 2,
   "adjudicacion": "Cliente Actualizado",
   "monto": 200,
-  "moneda": 1,
   "categoria": "Costo fijo"
 }
 ```
@@ -294,50 +290,6 @@ Content-Type: application/json
 Authorization: Bearer <token>
 ```http
 DELETE http://localhost:3000/pagos/delete/1
-```
-
-### Obtener todos las tasas
-Authorization: Bearer <token>
-```http
-GET http://localhost:3000/tasas
-```
-
-### Obtener tasa por ID
-Authorization: Bearer <token>
-```http
-GET http://localhost:3000/tasas/1
-```
-
-### Crear tasa
-Authorization: Bearer <token>
-```http
-POST http://localhost:3000/tasas/create
-Content-Type: application/json
-
-{
-  "moneda_origen": 1,
-  "moneda_destino": 2,
-  "tasa": 2
-}
-```
-
-### Actualizar tasa
-Authorization: Bearer <token>
-```http
-PUT http://localhost:3000/tasas/update/1
-Content-Type: application/json
-
-{
-  "moneda_origen": 1,
-  "moneda_destino": 2,
-  "tasa": 2
-}
-```
-
-### Eliminar tasa
-Authorization: Bearer <token>
-```http
-DELETE http://localhost:3000/tasas/delete/1
 ```
 
 ### Obtener todos las transferencias
@@ -405,8 +357,7 @@ POST http://localhost:3000/ventas/create
 Content-Type: application/json
 
 {
-  "cliente": 1,
-  "moneda": 1
+  "cliente": 1
 }
 ```
 
@@ -417,8 +368,7 @@ PUT http://localhost:3000/ventas/update/1
 Content-Type: application/json
 
 {
-  "cliente": 10,
-  "moneda": 1
+  "cliente": 10
 }
 ```
 

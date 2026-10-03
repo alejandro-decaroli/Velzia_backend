@@ -5,7 +5,6 @@ import { Pago } from '../entities/Pago.entities.js';
 import { Usuario } from '../entities/Usuario.entities.js';
 import createError from 'http-errors';
 const { BadRequest, NotFound, Conflict } = createError;
-import { Moneda } from '../entities/Moneda.entities.js';
 
 const em = orm.em;
 
@@ -39,10 +38,6 @@ export async function getByIdCostoFijo(userId:number, id:number) {
 }
 
 export async function createCostoFijo(data:any, userId: number) {
-  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada');
-  }
   const usuario = await em.findOne(Usuario, {id: userId});
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
@@ -61,7 +56,6 @@ export async function createCostoFijo(data:any, userId: number) {
   }
   await em.create(CostoFijo, {
     cod: 'CF_' + codigo,
-    moneda: moneda,
     categoria: data.categoria,
     adjudicacion: data.adjudicacion,
     monto: data.monto,
@@ -82,10 +76,6 @@ export async function updateCostoFijo(data:any, userId: number, id:number) {
   if (!costoFijo) {
     throw new NotFound('Costo fijo no encontrado');
   }
-  const moneda = await em.findOne(Moneda, {id: data.moneda, usuario: userId});
-  if (!moneda) {
-    throw new NotFound('Moneda no encontrada');
-  }
   const usuario = await em.findOne(Usuario, {id: userId});
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
@@ -94,7 +84,6 @@ export async function updateCostoFijo(data:any, userId: number, id:number) {
   if (pagos !== 0) {
     throw new Conflict('El costo fijo ya tiene pagos asociados, no se puede modificar');
   }
-  costoFijo.moneda = moneda;
   costoFijo.categoria = data.categoria;
   costoFijo.adjudicacion = data.adjudicacion;
   if (costoFijo.monto !== data.monto && pagos !== 0) {
@@ -139,10 +128,6 @@ export async function pagarCostoFijo(data:any, userId:number, id:number) {
   const caja = await em.findOne(Caja, {id: data.caja, usuario: userId});
   if (!caja) {
     throw new NotFound('Caja no encontrada');
-  }
-
-  if (costoFijo.moneda.id !== caja.moneda.id) {
-    throw new Conflict('Moneda de la caja no coincide con la moneda del costo fijo');
   }
 
   if (caja.monto < Number(data.monto_pagar)) {

@@ -1,6 +1,5 @@
 import { Entity, Property, ManyToOne, OneToMany, Cascade, Collection } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.entities.js";
-import { Moneda } from "./Moneda.entities.js";
 import { Ajuste } from "./Ajuste.entities.js";
 import { Pago } from "./Pago.entities.js";
 import { Transferencia } from "./Transferencia.entities.js";
@@ -8,8 +7,6 @@ import { Usuario } from "./Usuario.entities.js";
 
 @Entity()
 export class Caja extends BaseEntity {
-    @ManyToOne('Moneda', { nullable: false, eager: true })
-    moneda!: Moneda;
     
     @OneToMany('Ajuste', 'caja', {cascade: [Cascade.ALL], nullable: true})
     ajustes = new Collection<Ajuste>(this);

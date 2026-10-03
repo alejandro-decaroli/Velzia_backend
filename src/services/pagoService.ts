@@ -46,9 +46,6 @@ export async function createPago(data:any, userId: number) {
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
-  if (venta.moneda !== caja.moneda) {
-    throw new Conflict('Moneda de la caja no coincide con la moneda de la venta');
-  }
   caja.monto += data.monto;
   let codigo: string;
   const pagos = await em.find(Pago, {usuario: userId});
@@ -89,9 +86,6 @@ export async function updatePago(data:any, userId: number, id:number) {
   }
   if (!venta) {
     throw new NotFound('Venta no encontrada');
-  }
-  if (venta.moneda !== caja.moneda) {
-    throw new Conflict('Moneda de la caja no coincide con la moneda de la venta');
   }
   caja.monto += data.monto;
   pago.monto = data.monto;

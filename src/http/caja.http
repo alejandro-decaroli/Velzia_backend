@@ -15,7 +15,6 @@ Content-Type: application/json
 
 {
   "nombre": "Caja pesos",
-  "moneda": 4,
   "monto": 1000
 }
 
@@ -26,7 +25,6 @@ Content-Type: application/json
 
 {
   "nombre": "caja Actualizado",
-  "moneda": 4,
   "monto": 1000
 }
 

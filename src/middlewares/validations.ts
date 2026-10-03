@@ -19,9 +19,6 @@ export const CajaValidation = [
     body('nombre')
       .notEmpty().withMessage('Nombre es requerido')
       .isLength({ min: 3 }).withMessage('Nombre muy corto'),
-    body('moneda')
-      .notEmpty().withMessage('Moneda ID es requerido')
-      .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
     body('monto')
       .notEmpty().withMessage('Monto es requerido')
       .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
@@ -79,31 +76,6 @@ export const costoFijoValidation = [
       .isString().withMessage('Categoria debe ser un string'),
 ];
 
-export const monedaValidation = [
-  body('nombre')
-    .notEmpty().withMessage('Nombre es requerido')
-    .isLength({ min: 3 }).withMessage('Nombre muy corto'),
-  body('codigo_iso')
-    .notEmpty().withMessage('Código ISO es requerido')
-    .isLength({ min: 2 }).withMessage('Código ISO muy corto')
-    .isLength({ max: 3 }).withMessage('Código ISO muy largo'),
-  body('principal')
-    .notEmpty().withMessage('Principal es requerido')
-    .isBoolean().withMessage('Principal debe ser un booleano'),
-];
-
-export const tasaValidation = [
-  body('moneda_origen')
-    .notEmpty().withMessage('Moneda de origen es requerida')
-    .isInt({ min: 0 }).withMessage('Moneda de origen ID debe ser un número entero'),
-  body('moneda_destino')
-    .notEmpty().withMessage('Moneda de destino es requerida')
-    .isInt({ min: 0 }).withMessage('Moneda de destino ID debe ser un número entero'),
-  body('tasa')
-    .notEmpty().withMessage('Tasa es requerida')
-    .isFloat({ min: 0 }).withMessage('Tasa debe ser un número positivo'),
-];
-
 export const transferenciaValidation = [
   body('caja_origen')
     .notEmpty().withMessage('Caja de origen es requerida')
@@ -117,9 +89,6 @@ export const transferenciaValidation = [
 ];
 
 export const ventaValidation = [
-  body('moneda')
-    .notEmpty().withMessage('Moneda ID es requerida')
-    .isInt({ min: 0 }).withMessage('Moneda ID debe ser un número entero'),
   body('cliente')
     .notEmpty().withMessage('Cliente ID es requerido')
     .isInt({ min: 0 }).withMessage('Cliente ID debe ser un número entero'),

@@ -44,9 +44,6 @@ export async function createTransferencia(data:any, userId: number) {
   if (caja_origen.id === caja_destino.id) {
     throw new BadRequest('Caja de origen y caja de destino no pueden ser iguales');
   }
-  if (caja_origen.moneda !== caja_destino.moneda) {
-    throw new Conflict('Moneda de la caja de origen no coincide con la moneda de la caja de destino');
-  }
   if (data.monto > caja_origen.monto) {
     throw new BadRequest('Monto excede el saldo de la caja de origen');
   }
@@ -102,9 +99,6 @@ export async function updateTransferencia(data:any, userId: number, id:number) {
   
   if (caja_origen.id === caja_destino.id) {
     throw new BadRequest('Caja de origen y caja de destino no pueden ser iguales');
-  }
-  if (caja_origen.moneda !== caja_destino.moneda) {
-    throw new Conflict('Moneda de la caja de origen no coincide con la moneda de la caja de destino');
   }
   if (data.monto > caja_origen.monto) {
     throw new BadRequest('Monto excede el saldo de la caja de origen');
