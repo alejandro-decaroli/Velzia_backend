@@ -1,0 +1,36 @@
+### Obtener todos los proveedores
+GET http://localhost:3000/proveedores
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+
+### Obtener proveedor por ID
+GET http://localhost:3000/proveedores/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+
+### Crear proveedor
+POST http://localhost:3000/proveedores/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+Content-Type: application/json
+
+{
+  "razon_social": "Distribuidora del Centro S.A.",
+  "cuit": "30-71998877-3",
+  "telefono": "011-4321-5678",
+  "email": "ventas@distribuidoradelcentro.com",
+  "direccion": "Av. Colón 456, Córdoba"
+}
+
+### Actualizar proveedor
+PUT http://localhost:3000/proveedores/update/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+Content-Type: application/json
+
+{
+  "razon_social": "Distribuidora Frutihortícola Central Modificada S.A.",
+  "telefono": "011-9999-8888",
+  "email": "nuevoemail@frutihorticola.com",
+  "direccion": "Nueva dirección 789, CABA"
+}
+
+### Eliminar proveedor
+DELETE http://localhost:3000/proveedores/delete/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE

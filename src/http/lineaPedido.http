@@ -1,0 +1,37 @@
+### Obtener todas las líneas de pedidos
+GET http://localhost:3000/lineas_pedidos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+
+### Obtener línea de pedido por ID
+GET http://localhost:3000/lineas_pedidos/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+
+### Obtener líneas de pedido por ID de Pedido
+GET http://localhost:3000/lineas_pedidos/pedido/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+
+### Crear línea de pedido
+POST http://localhost:3000/lineas_pedidos/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+Content-Type: application/json
+
+{
+  "pedido": 1,
+  "producto": 1,
+  "cantidad": 10,
+  "precio": 50
+}
+
+### Actualizar línea de pedido
+PUT http://localhost:3000/lineas_pedidos/update/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+Content-Type: application/json
+
+{
+  "cantidad": 20,
+  "precio": 55
+}
+
+### Eliminar línea de pedido
+DELETE http://localhost:3000/lineas_pedidos/delete/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE

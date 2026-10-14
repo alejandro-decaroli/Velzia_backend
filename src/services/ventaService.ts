@@ -5,7 +5,6 @@ import { Usuario } from '../entities/Usuario.entities.js';
 import createError from 'http-errors';
 import { Detalle } from '../entities/Detalle.entities.js';
 import { Producto } from '../entities/Producto.entities.js';
-import { Pago } from '../entities/Pago.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
 const { BadRequest, NotFound, Conflict } = createError;
 
@@ -96,10 +95,6 @@ export async function updateVenta(data:any, userId: number, id:number) {
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
-  const pagos = await em.count(Pago, {venta: venta});
-  if (pagos !== 0) {
-    throw new Conflict('No se puede modificar la venta porque tiene pagos asociados');
-  }
   venta.total = data.total;
   venta.total_pagado = data.total_pagado;
   venta.cliente = cliente;
@@ -115,11 +110,6 @@ export async function removeVenta(userId:number, id:number) {
   const venta = await em.findOne(Venta, {id: id, usuario: userId});
   if (!venta) {
     throw new NotFound('Venta no encontrada');
-  }
-
-  const pagos = await em.count(Pago, {venta: venta});
-  if (pagos > 0) {
-    throw new Conflict('No se puede eliminar la venta porque tiene pagos asociados');
   }
 
   const detalles = await em.find(Detalle, {venta: venta});
@@ -150,16 +140,21 @@ export async function pagarVenta(data:any, userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
-  const venta = await em.findOne(Venta, {id: id, usuario: userId});
+  const venta = await em.findOne(Venta, {id: id, usuario: userId}, { populate: ['pago'] });
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
   if (venta.estado === 'Cancelada') {
     throw new Conflict('La venta ya se encuentra cancelada');
   }
-  if (venta.estado === 'Paga') {
-    throw new Conflict('La venta ya se encuentra pagada');
+  if (venta.estado === 'Paga' || venta.pago) {
+    throw new Conflict('La venta ya se encuentra pagada. Solo se permite un único pago.');
   }
+
+  if (Number(venta.total) <= 0) {
+    throw new BadRequest('La venta debe tener un total mayor a 0 para registrar un pago');
+  }
+
   const usuario = await em.findOne(Usuario, {id: userId});
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');
@@ -169,49 +164,20 @@ export async function pagarVenta(data:any, userId:number, id:number) {
     throw new NotFound('Caja no encontrada');
   }
 
+  // No se permite pago en cuotas: debe pagarse el total de la venta
+  const monto = Number(venta.total);
+  if (data.monto_pagar && Number(data.monto_pagar) !== monto) {
+    throw new BadRequest(`El pago debe ser por el total de la venta ($${monto}). No se permiten pagos en cuotas.`);
+  }
+
   let codigo: string;
-  const arrayPagos = await em.find(Pago, {usuario: userId});
-  const pagoConCodigoMasGrande = arrayPagos.length
-  ? arrayPagos.reduce((max, pago) =>
-      Number(pago.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? pago : max
-    )
-  : '1';
-  if (pagoConCodigoMasGrande === '1') {
-    codigo = '1';
-  } else {
-    codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
-  }
-  const pago = await em.create(Pago, {
-    caja: caja,
-    monto: Number(data.monto_pagar),
-    cod: 'PA_' + codigo,
-    venta: venta,
-    usuario: usuario,
-    creadoEn: new Date(),
-    actualizadoEn: new Date()
-  });
-  
-  if (venta.total < Number(pago.monto)) {
-    throw new Conflict('El monto del pago excede el monto de la venta');
-  }
-  
-  venta.total_pagado += Number(data.monto_pagar);
-  caja.monto += Number(data.monto_pagar);
+
+  venta.total_pagado = monto;
+  venta.estado = 'Paga';
+  caja.monto += monto;
+
   await em.persistAndFlush(caja);
-  await em.persistAndFlush(pago);
-
-  const pagos = await em.find(Pago, {venta: venta});
-  const totalPagado = pagos.reduce((total, pago) => total + pago.monto, 0);
-  
-  if (totalPagado === Number(venta.total)) {
-    venta.estado = 'Paga';
-    await em.persistAndFlush(venta);
-  }
-  if (totalPagado > Number(venta.total)) {
-    await em.removeAndFlush(pago);
-    throw new Conflict('El monto del último pago excede el monto de la venta');
-  }
-
+  await em.persistAndFlush(venta);
 }
 
 export async function registrarDetalle(data:any, userId: number, ventaId: number) {
@@ -292,10 +258,6 @@ export async function delete_Detalle_Venta(userId: number, detalleId: number) {
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
-  const pagos = await em.count(Pago, {venta: venta, usuario: userId});
-  if (pagos !== 0) {
-    throw new Conflict('No se puede eliminar el detalle porque tiene pagos asociados');
-  }
   venta.total -= detalle.subtotal;
   await em.removeAndFlush(detalle);
   await em.persistAndFlush(venta);
@@ -314,10 +276,6 @@ export async function update_Detalle_Venta(data:any, userId: number, detalleId: 
   const venta = await em.findOne(Venta, {id: detalle.venta.id, usuario: userId});
   if (!venta) {
     throw new NotFound('Venta no encontrada');
-  }
-  const pagos = await em.count(Pago, {venta: venta, usuario: userId});
-  if (pagos !== 0) {
-    throw new Conflict('No se puede modificar el detalle porque tiene pagos asociados');
   }
   detalle.cantidad = Number(data.cantidad);
   detalle.precio_unitario = Number(data.precio_unitario);

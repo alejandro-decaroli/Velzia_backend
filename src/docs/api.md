@@ -190,56 +190,56 @@ Authorization: Bearer <token>
 DELETE http://localhost:3000/clientes/delete/7
 ```
 
-### Obtener todos los costos fijos
+### Obtener todos los costos
 Authorization: Bearer <token>
 ```http
-GET http://localhost:3000/costos_fijos
+GET http://localhost:3000/costos
 ```
 
-### Obtener costos fijos por ID
+### Obtener costo por ID
 Authorization: Bearer <token>
 ```http
-GET http://localhost:3000/costos_fijos/1
+GET http://localhost:3000/costos/1
 ```
 
-### Crear costos fijos
+### Crear costo
 Authorization: Bearer <token>
 ```http
-POST http://localhost:3000/costos_fijos/create
+POST http://localhost:3000/costos/create
 Content-Type: application/json
 
 {
-  "caja": 1,
-  "adjudicacion": "NC",
+  "descripcion": "Servicio de Internet",
   "monto": 100,
-  "categoria": "Costo fijo"
+  "categoria": "Servicio",
+  "estado": "Pendiente"
 }
 ```
 
-### Actualizar costos fijos
+### Actualizar costo
 Authorization: Bearer <token>
 ```http
-PUT http://localhost:3000/costos_fijos/update/5
+PUT http://localhost:3000/costos/update/5
 Content-Type: application/json
 
 {
-  "caja": 2,
-  "adjudicacion": "Cliente Actualizado",
+  "descripcion": "Servicio de Internet Fibra",
   "monto": 200,
-  "categoria": "Costo fijo"
+  "categoria": "Servicio",
+  "estado": "Pendiente"
 }
 ```
 
-### Eliminar costos fijos
+### Eliminar costo
 Authorization: Bearer <token>
 ```http
-DELETE http://localhost:3000/costos_fijos/delete/5
+DELETE http://localhost:3000/costos/delete/5
 ```
 
-### Pagar costos fijos
+### Pagar costo
 Authorization: Bearer <token>
 ```http
-POST http://localhost:3000/costos_fijos/pagar/5
+POST http://localhost:3000/costos/pagar/5
 Content-Type: application/json
 
 {

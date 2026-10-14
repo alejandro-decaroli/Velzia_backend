@@ -1,0 +1,70 @@
+### Obtener todos los pedidos
+GET http://localhost:3000/pedidos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+
+### Obtener pedido por ID
+GET http://localhost:3000/pedidos/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+
+### Obtener líneas de un pedido
+GET http://localhost:3000/pedidos/1/lineas
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+
+### Crear pedido
+POST http://localhost:3000/pedidos/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+Content-Type: application/json
+
+{
+  "proveedor": 1,
+  "fecha_emision": "2026-10-12T10:00:00.000Z",
+  "estado": "Pendiente",
+  "total": 0
+}
+
+### Crear pedido con líneas de pedido incluidas
+POST http://localhost:3000/pedidos/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+Content-Type: application/json
+
+{
+  "proveedor": 2,
+  "fecha_emision": "2026-10-12T12:00:00.000Z",
+  "estado": "Pendiente",
+  "lineas": [
+    {
+      "producto": 1,
+      "cantidad": 10,
+      "precio": 120
+    },
+    {
+      "producto": 2,
+      "cantidad": 5,
+      "precio": 80
+    }
+  ]
+}
+
+### Actualizar pedido
+PUT http://localhost:3000/pedidos/update/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+Content-Type: application/json
+
+{
+  "estado": "Recibido",
+  "fecha_recepcion": "2026-10-12T15:30:00.000Z"
+}
+
+### Eliminar pedido
+DELETE http://localhost:3000/pedidos/delete/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+
+### Pagar pedido (pago único total)
+POST http://localhost:3000/pedidos/pagar/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sIjoiYWRtaW4iLCJlbWFpbCI6ImFsZWphbmRyb0BleGFtcGxlLmNvbSIsIm5vbWJyZSI6IkFsZWphbmRybyIsImFwZWxsaWRvIjoiR2FyY2lhIiwiaWF0IjoxNzc1ODMzNDg0fQ.aF-3FY2n7tCmZOkW-GXHYRKjqIU_FBXkjgAUk_D5aPE
+Content-Type: application/json
+
+{
+  "caja": 1,
+  "monto_pagar": 1500
+}

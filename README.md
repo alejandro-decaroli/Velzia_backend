@@ -3,7 +3,11 @@
 
 # Velzia
 
-Velzia es un mini ERP para pequeñas empresas, diseñado para puedan gestionar sus productos, clientes, ventas, costos entre otras cosas.
+Velzia es una herramienta para registrar ventas, pedidos, pagos, cobros, transferencias y entidades de un negocio pequeño, a fin de:
+
+    Auditar los registros para tener una trazabilidad del flujo de dinero del negocio.
+    Tener datos con los cuales analizar, y extraer información valiosa para el dueño del negocio.
+
 
 
 

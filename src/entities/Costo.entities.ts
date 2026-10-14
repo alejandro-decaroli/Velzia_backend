@@ -1,26 +1,26 @@
-import { Entity, Property, ManyToOne, OneToMany, Cascade } from "@mikro-orm/core";
+import { Entity, Property, ManyToOne, OneToOne, Cascade } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.entities.js";
 import { Usuario } from "./Usuario.entities.js";
 import { Pago } from "./Pago.entities.js";
-import { Collection } from "@mikro-orm/core";
 
 @Entity()
-export class CostoFijo extends BaseEntity {
+export class Costo extends BaseEntity {
 
-    @OneToMany('Pago', 'costo_fijo', {cascade: [Cascade.ALL], nullable: true})
-    pagos = new Collection<Pago>(this);
+    @OneToOne('Pago', 'costo', { nullable: true, eager: true })
+    pago?: Pago;
+
+    get pagos() {
+        return this.pago ? [this.pago] : [];
+    }
 
     @Property({ type: 'varchar', length: 50, nullable: false})
     categoria!: string;
 
-    @Property({ type: 'varchar', length: 20, nullable: false })
-    adjudicacion!: string;
+    @Property({ type: 'varchar', length: 150, nullable: false })
+    descripcion!: string;
 
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
     monto!: number;
-
-    @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
-    monto_pagado!: number;
 
     @Property({ type: 'varchar', length: 20, nullable: false, default: 'Pendiente' })
     estado!: 'Pendiente' | 'Pagada';

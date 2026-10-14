@@ -5,13 +5,13 @@ import { RequestContext } from "@mikro-orm/core";
 import { orm, syncSchema, seed } from "./db/orm.js";
 import clienteRouter from "./routes/clienteRoutes.js";
 import cajaRouter from "./routes/cajaRoutes.js";
-import pagoRouter from "./routes/pagoRoutes.js";
-import ventaRouter from "./routes/ventaRoutes.js";4
-import costoFijoRouter from "./routes/costoFijoRoutes.js";
-import ajusteRouter from "./routes/ajusteRoutes.js";
-import transferenciaRouter from "./routes/transferenciaRoutes.js";
+import ventaRouter from "./routes/ventaRoutes.js";
+import costoRouter from "./routes/costoRoutes.js";
 import usuarioRouter from "./routes/usuarioRoute.js";
 import productoRouter from "./routes/productoRoutes.js";
+import proveedorRouter from "./routes/proveedorRoutes.js";
+import pedidoRouter from "./routes/pedidoRoutes.js";
+import lineaPedidoRouter from "./routes/lineaPedidoRoutes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 dotenv.config();
@@ -38,12 +38,19 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use('/usuarios', usuarioRouter);
 app.use('/clientes', clienteRouter);
 app.use('/cajas', cajaRouter);
-app.use('/pagos', pagoRouter); 
-app.use('/ventas', ventaRouter)
-app.use('/costos_fijos', costoFijoRouter);
-app.use('/ajustes', ajusteRouter);
-app.use('/transferencias', transferenciaRouter);
+app.use('/ventas', ventaRouter);
+app.use('/costos', costoRouter);
+app.use('/costos_fijos', costoRouter);
 app.use('/productos', productoRouter);
+app.use('/proveedores', proveedorRouter);
+app.use('/pedidos', pedidoRouter);
+app.use('/lineas_pedidos', lineaPedidoRouter);
+app.use('/lineas_pedido', lineaPedidoRouter);
+
+
+app.get('/', (req: Request, res: Response) => {
+    res.json('Backend Velzia desplegado!');
+});
 
 (async () => {
     try {
@@ -67,25 +74,23 @@ app.use('/productos', productoRouter);
     }
 })();
 
-app.get('/', (req: Request, res: Response) => {
-    res.json('Backend Velzia desplegado!');
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-})
-
 
 /*
-    1) Eliminar todos los comentarios []
-    2) Desplegar en Render
-    3) Agregar descripcion al propousal [x]
-    4) Revisar modelo de dominio []
-    5) Reciclar codigo del front, mejorarlo con Claude, y redefinir que reportes mostrar
-    6) Escribir test unitarios e integradores
-    7) Revisar que funcionen todos los http
-    8) Error al crear tasas
-    9) Las cajas junto con otras entidades no se cargan de manera predeterminada
-    10) object.Object en tasas y monedas (columnas repetidas)
-    11) Mejorar la seccion de reportes
+    
+    1) Eliminar todo de moneda y tasas [x]
+    2) Cambiar atributos y nombre de costos fijos [x]
+    3) Crear proveedores [x]
+    4) Crear pedidos [x]
+    5) Crear tabla intermedia de linea de pedidos [x]
+    6) Venta, Pedido y Costo deben tener un solo Pago no varios [x]
+    7) Pago, ajustes y transferencias son movimientos financieros que tienen los mismos atributos pero distintas descripciones y categorias
+    (Borrar entidades, y crear entidad mov financiero) []
+    8) Crear operaciones de pago, transferencia y ajuste de caja []
+    9) Arreglar las operaciones de arriba para el caja service []
+    
+    8) Arreglar como se calculan los reportes (ver listado y detalles github) []
+    9) Revisar que funcionen todos los http []
+    7) Escribir test unitarios e integradores []
+    10) Actualizar el propousal []
+    11) Desplegar en Render []
 */

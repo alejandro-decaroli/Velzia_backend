@@ -15,4 +15,25 @@ export abstract class BaseEntity {
 
   @Property({ type: 'date', nullable: true })
   eliminadoEn?: Date;
+
+  get createdAt(): Date | undefined {
+    return this.creadoEn;
+  }
+  set createdAt(val: Date | undefined) {
+    if (val) this.creadoEn = val;
+  }
+
+  get updatedAt(): Date | undefined {
+    return this.actualizadoEn;
+  }
+  set updatedAt(val: Date | undefined) {
+    if (val) this.actualizadoEn = val;
+  }
+
+  get deletedAt(): Date | undefined {
+    return this.eliminadoEn;
+  }
+  set deletedAt(val: Date | undefined) {
+    this.eliminadoEn = val;
+  }
 }

@@ -9,7 +9,10 @@ import { ProductoSeeder } from "./ProductoSeeder.js";
 import { VentaSeeder } from "./VentasSeeder.js";
 import { PagoSeeder } from "./PagoSeeder.js";
 import { DetalleSeeder } from "./DetallesSeeder.js";
-import { CostoFijoSeeder } from "./CostoFijoSeeder.js";
+import { CostoSeeder } from "./CostoSeeder.js";
+import { ProveedorSeeder } from "./ProveedorSeeder.js";
+import { PedidoSeeder } from "./PedidoSeeder.js";
+import { LineaPedidoSeeder } from "./LineaPedidoSeeder.js";
 
 export class MainSeeder extends Seeder {
     async run(em: EntityManager): Promise<void> {
@@ -25,8 +28,14 @@ export class MainSeeder extends Seeder {
         await ajusteSeeder.run(em);
         const productoSeeder = new ProductoSeeder();
         await productoSeeder.run(em);
-        const costoFijoSeeder = new CostoFijoSeeder();
-        await costoFijoSeeder.run(em);
+        const costoSeeder = new CostoSeeder();
+        await costoSeeder.run(em);
+        const proveedorSeeder = new ProveedorSeeder();
+        await proveedorSeeder.run(em);
+        const pedidoSeeder = new PedidoSeeder();
+        await pedidoSeeder.run(em);
+        const lineaPedidoSeeder = new LineaPedidoSeeder();
+        await lineaPedidoSeeder.run(em);
         const ventaSeeder = new VentaSeeder();
         await ventaSeeder.run(em);
         const detalleSeeder = new DetalleSeeder();
@@ -35,4 +44,5 @@ export class MainSeeder extends Seeder {
         await pagoSeeder.run(em);
     }
 }
+
   

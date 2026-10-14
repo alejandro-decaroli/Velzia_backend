@@ -14,8 +14,12 @@ export class Venta extends BaseEntity {
     @Property({ default: 'Pendiente', nullable: false })
     estado!: 'Paga' | 'Pendiente' | 'Cancelada';
 
-    @OneToMany('Pago', 'venta', {cascade: [Cascade.ALL], nullable: true})
-    pagos = new Collection<Pago>(this);
+    @OneToOne('Pago', 'venta', { nullable: true, eager: true })
+    pago?: Pago;
+
+    get pagos() {
+        return this.pago ? [this.pago] : [];
+    }
 
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
