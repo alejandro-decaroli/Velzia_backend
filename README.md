@@ -3,17 +3,11 @@
 
 # Velzia
 
-<<<<<<< HEAD
 Velzia es una herramienta para registrar ventas, pedidos, pagos, cobros, transferencias y entidades de un negocio pequeño, a fin de:
 
     Auditar los registros para tener una trazabilidad del flujo de dinero del negocio.
     Tener datos con los cuales analizar, y extraer información valiosa para el dueño del negocio.
 
-=======
-Velzia es una herramienta para registrar diversos movimientos financieros y entidades de un negocio pequeño, a fin de: 
-1) Auditar los registros y hacer conciliación de cajas.
-2) Tener datos con los cuales analizar, extraer información valiosa para el dueño del negocio. 
->>>>>>> 977b2ff97f1ed28646828fa0f0afb09f8ab110a1
 
 
 
