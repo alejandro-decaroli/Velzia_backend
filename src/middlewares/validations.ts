@@ -90,13 +90,28 @@ export const costoFijoValidation = costoValidation;
 export const transferenciaValidation = [
   body('caja_origen')
     .notEmpty().withMessage('Caja de origen es requerida')
-    .isInt({ min: 0 }).withMessage('Caja de origen ID debe ser un número entero'),
+    .isInt({ min: 1 }).withMessage('Caja de origen ID debe ser un número entero'),
   body('caja_destino')
     .notEmpty().withMessage('Caja de destino es requerida')
-    .isInt({ min: 0 }).withMessage('Caja de destino ID debe ser un número entero'),
+    .isInt({ min: 1 }).withMessage('Caja de destino ID debe ser un número entero'),
   body('monto')
     .notEmpty().withMessage('Monto es requerido')
-    .isFloat({ min: 0 }).withMessage('Monto debe ser un número positivo'),
+    .isFloat({ gt: 0 }).withMessage('Monto debe ser un número mayor a 0'),
+  body('descripcion')
+    .optional()
+    .isString().withMessage('Descripción debe ser un texto')
+];
+
+export const conciliacionValidation = [
+  body('caja_id')
+    .optional()
+    .isInt({ min: 1 }).withMessage('Caja ID debe ser un número entero'),
+  body('monto_fisico')
+    .notEmpty().withMessage('Monto físico es requerido')
+    .isFloat({ min: 0 }).withMessage('Monto físico debe ser mayor o igual a 0'),
+  body('descripcion')
+    .optional()
+    .isString().withMessage('Descripción debe ser un texto')
 ];
 
 export const ventaValidation = [
