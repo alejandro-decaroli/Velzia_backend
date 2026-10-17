@@ -1,7 +1,8 @@
 import { Entity, Property, ManyToOne, OneToMany, Cascade, Collection } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.entities.js";
 import { Usuario } from "./Usuario.entities.js";
-import { Detalle } from "./Detalle.entities.js";
+import { LineaVenta } from "./LineaVenta.entities.js";
+import { LineaPedido } from "./LineaPedido.entities.js";
 
 @Entity()
 export class Producto extends BaseEntity {
@@ -18,6 +19,9 @@ export class Producto extends BaseEntity {
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 
-    @OneToMany('Detalle', 'producto', {cascade: [Cascade.ALL], nullable: true})
-    detalles = new Collection<Detalle>(this);
+    @OneToMany('LineaVenta', 'producto', {cascade: [Cascade.ALL], nullable: true})
+    linea_venta = new Collection<LineaVenta>(this);
+
+    @OneToMany('LineaPedido', 'producto', {cascade: [Cascade.ALL], nullable: true})
+    lineas_pedido = new Collection<LineaPedido>(this);
 }

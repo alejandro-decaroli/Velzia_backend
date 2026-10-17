@@ -20,11 +20,11 @@ export class VentaSeeder extends Seeder {
             return;
         }
         await em.insertMany(Venta, [
-            { cod: 'VE_1', usuario: usuario, total: 200, total_pagado: 200, estado: 'Paga', cliente: cliente_1, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'VE_2', usuario: usuario, total: 100, total_pagado: 100, estado: 'Paga', cliente: cliente_2, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'VE_3', usuario: usuario, total: 500, total_pagado: 500, estado: 'Paga', cliente: cliente_3, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'VE_4', usuario: usuario, total: 100, total_pagado: 0, estado: 'Pendiente', cliente: cliente_4, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'VE_5', usuario: usuario, total: 100, total_pagado: 0, estado: 'Pendiente', cliente: cliente_5, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'VE_1', usuario: usuario, total: 200, estado: 'Paga', cliente: cliente_1, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'VE_2', usuario: usuario, total: 100, estado: 'Paga', cliente: cliente_2, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'VE_3', usuario: usuario, total: 500, estado: 'Paga', cliente: cliente_3, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'VE_4', usuario: usuario, total: 100, estado: 'Pendiente', cliente: cliente_4, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'VE_5', usuario: usuario, total: 100, estado: 'Pendiente', cliente: cliente_5, creadoEn: new Date(), actualizadoEn: new Date() },
         ]);
     }
 }

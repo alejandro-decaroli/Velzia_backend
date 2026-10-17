@@ -23,6 +23,10 @@ export class LineaPedidoSeeder extends Seeder {
       throw new Error('Usuario o pedidos no encontrados para LineaPedidoSeeder');
     }
 
+    if (!producto1 || !producto2 || !producto3 || !producto4) {
+      throw new Error('Productos no encontrados para LineaPedidoSeeder');
+    }
+
     const lineas = await em.find(LineaPedido, {});
     if (lineas.length > 0) {
       return;
@@ -32,7 +36,7 @@ export class LineaPedidoSeeder extends Seeder {
       {
         cod: 'LP_1',
         pedido: pedido1,
-        producto: producto1 || undefined,
+        producto: producto1,
         cantidad: 15,
         precio: 50,
         subtotal: 750,
@@ -43,7 +47,7 @@ export class LineaPedidoSeeder extends Seeder {
       {
         cod: 'LP_2',
         pedido: pedido1,
-        producto: producto2 || undefined,
+        producto: producto2,
         cantidad: 15,
         precio: 50,
         subtotal: 750,
@@ -54,7 +58,7 @@ export class LineaPedidoSeeder extends Seeder {
       {
         cod: 'LP_3',
         pedido: pedido2,
-        producto: producto3 || undefined,
+        producto: producto3,
         cantidad: 10,
         precio: 80,
         subtotal: 800,
@@ -65,7 +69,7 @@ export class LineaPedidoSeeder extends Seeder {
       {
         cod: 'LP_4',
         pedido: pedido3,
-        producto: producto1 || undefined,
+        producto: producto1,
         cantidad: 20,
         precio: 60,
         subtotal: 1200,
@@ -76,7 +80,7 @@ export class LineaPedidoSeeder extends Seeder {
       {
         cod: 'LP_5',
         pedido: pedido4 ? pedido4 : pedido1,
-        producto: producto4 || undefined,
+        producto: producto4,
         cantidad: 25,
         precio: 100,
         subtotal: 2500,

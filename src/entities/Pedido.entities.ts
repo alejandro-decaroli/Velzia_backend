@@ -1,9 +1,9 @@
-import { Entity, Property, ManyToOne, OneToMany, OneToOne, Collection, Cascade } from "@mikro-orm/core";
+import { Entity, Property, ManyToOne, OneToMany, OneToOne, Collection, Cascade, type Rel } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.entities.js";
 import { Proveedor } from "./Proveedor.entities.js";
 import { LineaPedido } from "./LineaPedido.entities.js";
 import { Usuario } from "./Usuario.entities.js";
-import { Pago } from "./Pago.entities.js";
+import type { MovF } from "./MovF.entities.js";
 
 @Entity()
 export class Pedido extends BaseEntity {
@@ -23,21 +23,18 @@ export class Pedido extends BaseEntity {
   @ManyToOne('Proveedor', { nullable: false, eager: true })
   proveedor!: Proveedor;
 
+  @OneToOne('MovF', 'pedido', { nullable: true })
+  mov_f?: Rel<MovF>;
+
   @OneToMany('LineaPedido', 'pedido', { cascade: [Cascade.ALL], nullable: true, eager: true })
   lineas = new Collection<LineaPedido>(this);
 
-  @ManyToOne('Usuario', { nullable: true })
-  usuario?: Usuario;
+  @ManyToOne('Usuario', { nullable: false })
+  usuario!: Usuario;
 
-  @OneToOne('Pago', 'pedido', { nullable: true, eager: true })
-  pago?: Pago;
 
   get lineas_pedido() {
     return this.lineas;
-  }
-
-  get pagos() {
-    return this.pago ? [this.pago] : [];
   }
 
 }

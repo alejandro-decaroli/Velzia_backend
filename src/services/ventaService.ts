@@ -3,9 +3,10 @@ import { Venta } from '../entities/Venta.entities.js';
 import { Cliente } from '../entities/Cliente.entities.js';
 import { Usuario } from '../entities/Usuario.entities.js';
 import createError from 'http-errors';
-import { Detalle } from '../entities/Detalle.entities.js';
+import { LineaVenta } from '../entities/LineaVenta.entities.js';
 import { Producto } from '../entities/Producto.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
+import { MovF } from '../entities/MovF.entities.js';
 const { BadRequest, NotFound, Conflict } = createError;
 
 const em = orm.em;
@@ -72,7 +73,6 @@ export async function createVenta(data:any, userId: number) {
     cod: 'VEN_' + codigo,
     cliente,
     total: 0,
-    total_pagado: 0,
     estado: 'Pendiente',
     usuario,
     creadoEn: new Date(),
@@ -95,8 +95,11 @@ export async function updateVenta(data:any, userId: number, id:number) {
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
+  if (venta.estado == "Paga" || venta.estado == "Cancelada") {
+    throw new Conflict('La venta ya se encuentra paga o cancelada');
+  }
   venta.total = data.total;
-  venta.total_pagado = data.total_pagado;
+  venta.estado = data.estado;
   venta.cliente = cliente;
   venta.actualizadoEn = new Date();
   await em.persistAndFlush(venta);
@@ -111,8 +114,17 @@ export async function removeVenta(userId:number, id:number) {
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
-
-  const detalles = await em.find(Detalle, {venta: venta});
+  if (venta.estado == "Paga") {
+    const pago = await em.findOne(MovF, {venta: venta})
+    const caja = await em.findOne(Caja, {movs_f: pago})
+    if (!pago || !caja) {
+      throw new NotFound('Pago o caja no encontrados');
+    }
+    caja.monto -= pago.monto;
+    await em.removeAndFlush(pago);
+    await em.persistAndFlush(caja);
+  };
+  const detalles = await em.find(LineaVenta, {venta: venta});
   detalles.forEach(async detalle => {
     detalle.producto.stock += detalle.cantidad;
     await em.removeAndFlush(detalle);
@@ -130,7 +142,16 @@ export async function cancelarVenta(userId:number, id:number) {
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
-
+  if (venta.estado == "Paga") {
+    const pago = await em.findOne(MovF, {venta: venta})
+    const caja = await em.findOne(Caja, {movs_f: pago})
+    if (!pago || !caja) {
+      throw new NotFound('Pago o caja no encontrados');
+    }
+    caja.monto -= pago.monto;
+    await em.removeAndFlush(pago);
+    await em.persistAndFlush(caja);
+  };
   venta.estado = 'Cancelada';
   await em.flush();
 }
@@ -140,17 +161,18 @@ export async function pagarVenta(data:any, userId:number, id:number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
-  const venta = await em.findOne(Venta, {id: id, usuario: userId}, { populate: ['pago'] });
+  const venta = await em.findOne(Venta, {id: id, usuario: userId});
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
   if (venta.estado === 'Cancelada') {
     throw new Conflict('La venta ya se encuentra cancelada');
   }
-  if (venta.estado === 'Paga' || venta.pago) {
-    throw new Conflict('La venta ya se encuentra pagada. Solo se permite un único pago.');
-  }
 
+  if (venta.estado === 'Paga') {
+    throw new Conflict('La venta ya se encuentra pagada');
+  }
+  
   if (Number(venta.total) <= 0) {
     throw new BadRequest('La venta debe tener un total mayor a 0 para registrar un pago');
   }
@@ -164,126 +186,40 @@ export async function pagarVenta(data:any, userId:number, id:number) {
     throw new NotFound('Caja no encontrada');
   }
 
-  // No se permite pago en cuotas: debe pagarse el total de la venta
-  const monto = Number(venta.total);
-  if (data.monto_pagar && Number(data.monto_pagar) !== monto) {
-    throw new BadRequest(`El pago debe ser por el total de la venta ($${monto}). No se permiten pagos en cuotas.`);
+  if (venta.total < Number(data.monto_pagar)) {
+    throw new Conflict('El monto del pago excede el monto de la venta');
   }
 
   let codigo: string;
-
-  venta.total_pagado = monto;
-  venta.estado = 'Paga';
-  caja.monto += monto;
-
-  await em.persistAndFlush(caja);
-  await em.persistAndFlush(venta);
-}
-
-export async function registrarDetalle(data:any, userId: number, ventaId: number) {
-  const usuario = await em.findOne(Usuario, {id: userId});
-  if (!usuario) {
-    throw new NotFound('Usuario no encontrado');
-  }
-  const producto = await em.findOne(Producto, {id: data.producto, usuario: userId});
-  if (!producto) {
-    throw new NotFound('Producto no encontrado');
-  }
-  const venta = await em.findOne(Venta, {id: ventaId, usuario: userId});
-  if (!venta) {
-    throw new NotFound('Venta no encontrada');
-  }
-
-  if (producto.stock < Number(data.cantidad)) {
-    throw new Conflict('Stock insuficiente');
-  }
-
-  let codigo: string;
-  const cant_detalles = await em.find(Detalle, {usuario: userId});
-  const detalleConCodigoMasGrande = cant_detalles.length
-  ? cant_detalles.reduce((max, detalle) =>
-      Number(detalle.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? detalle : max
+  const arrayPagos = await em.find(MovF, {usuario: userId});
+  const pagoConCodigoMasGrande = arrayPagos.length
+  ? arrayPagos.reduce((max, pago) =>
+      Number(pago.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? pago : max
     )
   : '1';
-  if (detalleConCodigoMasGrande === '1') {
+  if (pagoConCodigoMasGrande === '1') {
     codigo = '1';
   } else {
-    codigo = String(Number(detalleConCodigoMasGrande.cod?.split('_')[1]) + 1);
+    codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
-  const detalle = em.create(Detalle, {
+  const pago = await em.create(MovF, {
+    caja: caja,
+    monto: Number(data.monto_pagar),
+    cod: 'PA_' + codigo,
     venta: venta,
-    producto: producto,
-    cod: 'DE_' + codigo,
-    cantidad: Number(data.cantidad),
-    precio_unitario: Number(data.precio_unitario),
-    descuento: Number(data.descuento),
-    subtotal: Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100)),
+    tipo: 'Ingreso',
+    categoria: data.categoria,
+    descripcion: data.descripcion,
     usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date()
   });
 
-  producto.stock -= Number(data.cantidad);
-  venta.total += Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));
+  venta.estado = 'Paga';
+  caja.monto += data.monto_pagar;
 
-  await em.persistAndFlush(detalle);
-  await em.persistAndFlush(producto);
+  await em.persistAndFlush(caja);
   await em.persistAndFlush(venta);
+  await em.persistAndFlush(pago);
 }
 
-export async function DetalleVenta(userId: number, ventaId: number) {
-  const venta = await em.findOne(Venta, {id: ventaId, usuario: userId});
-  if (!venta) {
-    throw new NotFound('Venta no encontrada');
-  }
-  const detalles = await em.find(Detalle, {venta: venta});
-  return detalles;
-}
-
-export async function DetalleVentaById(userId: number, detalleId: number) {
-  const detalle = await em.findOne(Detalle, {id: detalleId, usuario: userId});
-  if (!detalle) {
-    throw new NotFound('Detalle no encontrado');
-  }
-  return detalle;
-}
-
-
-export async function delete_Detalle_Venta(userId: number, detalleId: number) {
-  const detalle = await em.findOne(Detalle, {id: detalleId, usuario: userId});
-  if (!detalle) {
-    throw new NotFound('Detalle no encontrado');
-  }
-  const venta = await em.findOne(Venta, {id: detalle.venta.id, usuario: userId});
-  if (!venta) {
-    throw new NotFound('Venta no encontrada');
-  }
-  venta.total -= detalle.subtotal;
-  await em.removeAndFlush(detalle);
-  await em.persistAndFlush(venta);
-}
-
-export function detallesByUser(userId: number) {
-  const detalles = em.find(Detalle, {usuario: userId});
-  return detalles;
-}
-
-export async function update_Detalle_Venta(data:any, userId: number, detalleId: number) {
-  const detalle = await em.findOne(Detalle, {id: detalleId, usuario: userId});
-  if (!detalle) {
-    throw new NotFound('Detalle no encontrado');
-  }
-  const venta = await em.findOne(Venta, {id: detalle.venta.id, usuario: userId});
-  if (!venta) {
-    throw new NotFound('Venta no encontrada');
-  }
-  detalle.cantidad = Number(data.cantidad);
-  detalle.precio_unitario = Number(data.precio_unitario);
-  detalle.descuento = Number(data.descuento);
-  detalle.subtotal = Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));
-  venta.total -= detalle.subtotal;
-  venta.total += Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));
-  detalle.actualizadoEn = new Date();
-  await em.persistAndFlush(detalle);
-  await em.persistAndFlush(venta);
-}

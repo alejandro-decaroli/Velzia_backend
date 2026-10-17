@@ -83,11 +83,22 @@ app.get('/', (req: Request, res: Response) => {
     4) Crear pedidos [x]
     5) Crear tabla intermedia de linea de pedidos [x]
     6) Venta, Pedido y Costo deben tener un solo Pago no varios [x]
+    REVISAR CONTROLADORES Y SEEDERS [x]
     7) Pago, ajustes y transferencias son movimientos financieros que tienen los mismos atributos pero distintas descripciones y categorias
-    (Borrar entidades, y crear entidad mov financiero) []
+    (Borrar entidades, y crear entidad mov financiero) [X]
     8) Crear operaciones de pago, transferencia y ajuste de caja []
     9) Arreglar las operaciones de arriba para el caja service []
-    
+    10) Cada usuario debe tener su proveedor, pedido y mov financiero []
+    11) Agregar entidad base con relacion disyunda en el modelo de dominio []
+
+
+
+    12) Probar editar venta en el front []
+    13) probar de actualizar proveedor []
+    14) Actualizar linea de pedido []
+
+    11) El frontend debe tener una pagina con los movimientos de la empresa y ahi filtrar por tipo de movimiento, como en cashflow []
+
     8) Arreglar como se calculan los reportes (ver listado y detalles github) []
     9) Revisar que funcionen todos los http []
     7) Escribir test unitarios e integradores []

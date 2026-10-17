@@ -5,6 +5,7 @@ import { Usuario } from '../entities/Usuario.entities.js';
 import { LineaPedido } from '../entities/LineaPedido.entities.js';
 import { Producto } from '../entities/Producto.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
+import { MovF } from '../entities/MovF.entities.js';
 import createError from 'http-errors';
 
 const { BadRequest, NotFound, Conflict } = createError;
@@ -24,7 +25,7 @@ export async function getAllPedidos(userId?: number, filtroEstado?: string, fech
     const finMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth() + 1, 0, 23, 59, 59, 999);
     where.creadoEn = { $gte: inicioMes, $lte: finMes };
   }
-  const pedidos = await em.find(Pedido, where, { populate: ['proveedor', 'lineas', 'lineas.producto', 'pago'] });
+  const pedidos = await em.find(Pedido, where, { populate: ['proveedor', 'lineas', 'lineas.producto', 'mov_f'] });
   return pedidos;
 }
 
@@ -36,9 +37,9 @@ export async function getByIdPedido(userId: number, id: number) {
   if (userId) {
     where.usuario = userId;
   }
-  let pedido = await em.findOne(Pedido, where, { populate: ['proveedor', 'lineas', 'lineas.producto', 'pago'] });
+  let pedido = await em.findOne(Pedido, where, { populate: ['proveedor', 'lineas', 'lineas.producto', 'mov_f'] });
   if (!pedido) {
-    pedido = await em.findOne(Pedido, { id }, { populate: ['proveedor', 'lineas', 'lineas.producto', 'pago'] });
+    pedido = await em.findOne(Pedido, { id }, { populate: ['proveedor', 'lineas', 'lineas.producto', 'mov_f'] });
   }
   if (!pedido) {
     throw new NotFound('Pedido no encontrado');
@@ -52,9 +53,9 @@ export async function createPedido(data: any, userId?: number) {
     throw new NotFound('Proveedor no encontrado');
   }
 
-  let usuario: Usuario | null = null;
-  if (userId) {
-    usuario = await em.findOne(Usuario, { id: userId });
+  const usuario = await em.findOne(Usuario, { id: userId });
+  if (!usuario) {
+    throw new NotFound("Usuario no encontrado");
   }
 
   let codigo = '1';
@@ -75,37 +76,40 @@ export async function createPedido(data: any, userId?: number) {
     fecha_recepcion: data.fecha_recepcion ? new Date(data.fecha_recepcion) : undefined,
     total: Number(data.total || 0),
     estado: data.estado || 'Pendiente',
-    usuario: usuario || undefined,
+    usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date(),
   });
 
-  // Si se envían líneas de pedido en la creación
+
   if (Array.isArray(data.lineas) && data.lineas.length > 0) {
     let totalCalculado = 0;
     for (const item of data.lineas) {
-      let producto: Producto | null = null;
       if (item.producto) {
-        producto = await em.findOne(Producto, { id: item.producto });
-      }
-      const cantidad = Number(item.cantidad || 0);
-      const precio = Number(item.precio || 0);
-      const subtotal = item.subtotal !== undefined ? Number(item.subtotal) : cantidad * precio;
-      totalCalculado += subtotal;
+        const producto = await em.findOne(Producto, { id: item.producto });
+        if (!producto) {
+          throw new NotFound("Producto no encontrado");
+        }
+        const cantidad = Number(item.cantidad || 0);
+        const precio = Number(item.precio || 0);
+        const subtotal = item.subtotal !== undefined ? Number(item.subtotal) : cantidad * precio;
+        totalCalculado += subtotal;
 
-      const linea = em.create(LineaPedido, {
-        pedido: pedido,
-        cantidad: cantidad,
-        precio: precio,
-        subtotal: subtotal,
-        producto: producto || undefined,
-        usuario: usuario || undefined,
-        creadoEn: new Date(),
-        actualizadoEn: new Date(),
-      });
-      pedido.lineas.add(linea);
+        const linea = em.create(LineaPedido, {
+          pedido: pedido,
+          cantidad: cantidad,
+          precio: precio,
+          subtotal: subtotal,
+          producto: producto,
+          usuario: usuario,
+          creadoEn: new Date(),
+          actualizadoEn: new Date(),
+        });
+        pedido.lineas.add(linea);
     }
     pedido.total = totalCalculado;
+      }
+      
   }
 
   await em.persistAndFlush(pedido);
@@ -143,7 +147,7 @@ export async function pagarPedido(data: any, userId: number, id: number) {
     throw new BadRequest('ID inválido');
   }
   const pedido = await getByIdPedido(userId, id);
-  if (pedido.estado === 'Pagado' || pedido.pago) {
+  if (pedido.estado === 'Pagado' || pedido.mov_f) {
     throw new Conflict('El pedido ya se encuentra pagado. Solo se permite un único pago.');
   }
 
@@ -171,11 +175,35 @@ export async function pagarPedido(data: any, userId: number, id: number) {
   }
 
   let codigo: string;
+  const arrayPagos = await em.find(MovF, {usuario: userId});
+  const pagoConCodigoMasGrande = arrayPagos.length
+  ? arrayPagos.reduce((max, pago) =>
+      Number(pago.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? pago : max
+    )
+  : '1';
+  if (pagoConCodigoMasGrande === '1') {
+    codigo = '1';
+  } else {
+    codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
+  }
+  const pago = await em.create(MovF, {
+    caja: caja,
+    monto: Number(data.monto_pagar),
+    cod: 'PA_' + codigo,
+    pedido: pedido,
+    tipo: 'Ingreso',
+    categoria: data.categoria,
+    descripcion: data.descripcion,
+    usuario: usuario,
+    creadoEn: new Date(),
+    actualizadoEn: new Date()
+  });
 
   caja.monto -= monto;
   pedido.estado = 'Pagado';
 
   await em.persistAndFlush(caja);
   await em.persistAndFlush(pedido);
+  await em.persistAndFlush(pago);
   return pedido;
 }

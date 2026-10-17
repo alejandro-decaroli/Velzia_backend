@@ -41,15 +41,15 @@ export async function getByIdProveedor(userId: number, id: number) {
   return proveedor;
 }
 
-export async function createProveedor(data: any, userId?: number) {
+export async function createProveedor(data: any, userId: number) {
   const cuitDuplicado = await em.findOne(Proveedor, { cuit: data.cuit });
   if (cuitDuplicado) {
     throw new Conflict('Ya existe un proveedor con el mismo CUIT');
   }
 
-  let usuario: Usuario | null = null;
-  if (userId) {
-    usuario = await em.findOne(Usuario, { id: userId });
+  const usuario = await em.findOne(Usuario, { id: userId });
+  if (!usuario) {
+    throw new NotFound("Usuario no encontrado");
   }
 
   let codigo = '1';
@@ -70,7 +70,7 @@ export async function createProveedor(data: any, userId?: number) {
     telefono: data.telefono,
     email: data.email,
     direccion: data.direccion,
-    usuario: usuario || undefined,
+    usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date(),
   });

@@ -33,7 +33,7 @@ async function getById(req: Request, res: Response) {
 async function create(req: Request, res: Response) {
   try {
     const userId = req.user?.id;
-    const proveedor = await createProveedor(req.body, userId ? Number(userId) : undefined);
+    const proveedor = await createProveedor(req.body, Number(userId));
     res.status(201).json({ message: 'Proveedor creado exitosamente', proveedor });
   } catch (error: any) {
     const status = error.status || 500;

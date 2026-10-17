@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, cancelarVenta, pagarVenta, registrarDetalle, detallesByUser, delete_Detalle_Venta, update_Detalle_Venta, DetalleVentaById, DetalleVenta } from '../services/ventaService.js';
+import { createVenta, getAllVentas, getByIdVenta, removeVenta, updateVenta, cancelarVenta, pagarVenta } from '../services/ventaService.js';
+import { registrarDetalle, detallesByUser, delete_Detalle_Venta, update_Detalle_Venta, DetalleVentaById, DetalleVenta } from '../services/lineaVentaService.js';
 
 async function getAll(req: Request, res: Response) {
     try {

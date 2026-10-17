@@ -41,17 +41,15 @@ export async function createLineaPedido(data: any, userId?: number) {
     throw new NotFound('Pedido no encontrado');
   }
 
-  let producto: Producto | null = null;
-  if (data.producto) {
-    producto = await em.findOne(Producto, { id: Number(data.producto) });
-    if (!producto) {
-      throw new NotFound('Producto no encontrado');
-    }
+  
+  const producto = await em.findOne(Producto, { id: Number(data.producto) });
+  if (!producto) {
+    throw new NotFound('Producto no encontrado');
   }
 
-  let usuario: Usuario | null = null;
-  if (userId) {
-    usuario = await em.findOne(Usuario, { id: userId });
+  const usuario = await em.findOne(Usuario, {id: userId});
+  if (!usuario) {
+    throw new NotFound('Usuario no encontrado');
   }
 
   let codigo = '1';
@@ -72,11 +70,11 @@ export async function createLineaPedido(data: any, userId?: number) {
   const linea = em.create(LineaPedido, {
     cod: 'LP_' + codigo,
     pedido: pedido,
-    producto: producto || undefined,
+    producto: producto,
     cantidad: cantidad,
     precio: precio,
     subtotal: subtotal,
-    usuario: usuario || undefined,
+    usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date(),
   });
@@ -93,15 +91,11 @@ export async function updateLineaPedido(data: any, userId: number, id: number) {
   const pedido = await em.findOne(Pedido, { id: linea.pedido.id });
 
   if (data.producto !== undefined) {
-    if (data.producto) {
-      const producto = await em.findOne(Producto, { id: Number(data.producto) });
-      if (!producto) {
-        throw new NotFound('Producto no encontrado');
-      }
-      linea.producto = producto;
-    } else {
-      linea.producto = undefined;
+    const producto = await em.findOne(Producto, { id: Number(data.producto) });
+    if (!producto) {
+      throw new NotFound('Producto no encontrado');
     }
+    linea.producto = producto;
   }
 
   const cantidad = data.cantidad !== undefined ? Number(data.cantidad) : linea.cantidad;

@@ -2,6 +2,7 @@ import { orm } from '../db/orm.js';
 import { Costo } from '../entities/Costo.entities.js';
 import { Caja } from '../entities/Caja.entities.js';
 import { Usuario } from '../entities/Usuario.entities.js';
+import { MovF } from "../entities/MovF.entities.js";
 import createError from 'http-errors';
 const { BadRequest, NotFound, Conflict } = createError;
 
@@ -104,11 +105,11 @@ export async function pagarCosto(data: any, userId: number, id: number) {
   if (isNaN(id)) {
     throw new BadRequest('ID inválido');
   }
-  const costo = await em.findOne(Costo, { id: id, usuario: userId }, { populate: ['pago'] });
+  const costo = await em.findOne(Costo, { id: id, usuario: userId }, { populate: ['mov_f'] });
   if (!costo) {
     throw new NotFound('Costo no encontrado');
   }
-  if (costo.estado === 'Pagada' || costo.pago) {
+  if (costo.estado === 'Pagada' || costo.mov_f) {
     throw new Conflict('El costo ya se encuentra pagado. Solo se permite un único pago.');
   }
 
@@ -135,15 +136,38 @@ export async function pagarCosto(data: any, userId: number, id: number) {
   }
 
   let codigo: string;
+  const arrayPagos = await em.find(MovF, {usuario: userId});
+  const pagoConCodigoMasGrande = arrayPagos.length
+  ? arrayPagos.reduce((max, pago) =>
+      Number(pago.cod?.split('_')[1]) > Number(max.cod?.split('_')[1]) ? pago : max
+    )
+  : '1';
+  if (pagoConCodigoMasGrande === '1') {
+    codigo = '1';
+  } else {
+    codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
+  }
+  const pago = await em.create(MovF, {
+    caja: caja,
+    monto: Number(data.monto_pagar),
+    cod: 'PA_' + codigo,
+    costo: costo,
+    tipo: 'Ingreso',
+    categoria: data.categoria,
+    descripcion: data.descripcion,
+    usuario: usuario,
+    creadoEn: new Date(),
+    actualizadoEn: new Date()
+  });
 
   caja.monto -= monto;
   costo.estado = 'Pagada';
 
   await em.persistAndFlush(caja);
   await em.persistAndFlush(costo);
+  await em.persistAndFlush(pago);
 }
 
-// Aliases for compatibility
 export const getAllCostosFijos = getAllCostos;
 export const getByIdCostoFijo = getByIdCosto;
 export const createCostoFijo = createCosto;

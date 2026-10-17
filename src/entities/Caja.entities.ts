@@ -1,30 +1,19 @@
 import { Entity, Property, ManyToOne, OneToMany, Cascade, Collection } from "@mikro-orm/core";
 import { BaseEntity } from "./BaseEntity.entities.js";
-import { Ajuste } from "./Ajuste.entities.js";
-import { Pago } from "./Pago.entities.js";
-import { Transferencia } from "./Transferencia.entities.js";
 import { Usuario } from "./Usuario.entities.js";
+import type { MovF } from "./MovF.entities.js";
 
 @Entity()
 export class Caja extends BaseEntity {
-    
-    @OneToMany('Ajuste', 'caja', {cascade: [Cascade.ALL], nullable: true})
-    ajustes = new Collection<Ajuste>(this);
-    
-    @OneToMany('Pago', 'caja', {cascade: [Cascade.ALL], nullable: true})
-    pagos = new Collection<Pago>(this);
-    
-    @OneToMany('Transferencia', 'caja_origen', {cascade: [Cascade.ALL], nullable: true})
-    transferencias_origen = new Collection<Transferencia>(this);
-    
-    @OneToMany('Transferencia', 'caja_destino', {cascade: [Cascade.ALL], nullable: true})
-    transferencias_destino = new Collection<Transferencia>(this);
     
     @Property({ type: 'varchar', length: 20, nullable: false, unique: true })
     nombre!: string;
     
     @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
     monto!: number;
+
+    @OneToMany('MovF', 'caja', {cascade: [Cascade.ALL], nullable: true})
+    movs_f = new Collection<MovF>(this);
 
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;

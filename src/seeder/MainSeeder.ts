@@ -3,11 +3,8 @@ import { UserSeeder } from "./UserSeeder.js";
 import { EntityManager } from "@mikro-orm/core";
 import { ClienteSeeder } from "./ClienteSeeder.js";
 import { CajaSeeder } from "./CajaSeeder.js";
-import { TransferenciaSeeder } from "./TransSeeder.js";
-import { AjusteSeeder } from "./AjusteSeeder.js";
 import { ProductoSeeder } from "./ProductoSeeder.js";
 import { VentaSeeder } from "./VentasSeeder.js";
-import { PagoSeeder } from "./PagoSeeder.js";
 import { DetalleSeeder } from "./DetallesSeeder.js";
 import { CostoSeeder } from "./CostoSeeder.js";
 import { ProveedorSeeder } from "./ProveedorSeeder.js";
@@ -22,10 +19,6 @@ export class MainSeeder extends Seeder {
         await clienteSeeder.run(em);
         const cajaSeeder = new CajaSeeder();
         await cajaSeeder.run(em);
-        const transferenciaSeeder = new TransferenciaSeeder();
-        await transferenciaSeeder.run(em);
-        const ajusteSeeder = new AjusteSeeder();
-        await ajusteSeeder.run(em);
         const productoSeeder = new ProductoSeeder();
         await productoSeeder.run(em);
         const costoSeeder = new CostoSeeder();
@@ -40,8 +33,6 @@ export class MainSeeder extends Seeder {
         await ventaSeeder.run(em);
         const detalleSeeder = new DetalleSeeder();
         await detalleSeeder.run(em);
-        const pagoSeeder = new PagoSeeder();
-        await pagoSeeder.run(em);
     }
 }
 

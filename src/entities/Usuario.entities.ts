@@ -2,10 +2,7 @@ import { Entity, OneToMany, Cascade, Property, Collection } from "@mikro-orm/cor
 import { BaseEntity } from "./BaseEntity.entities.js";
 import { Cliente } from "./Cliente.entities.js";
 import { Venta } from "./Venta.entities.js";
-import { Transferencia } from "./Transferencia.entities.js";
-import { Pago } from "./Pago.entities.js";
 import { Costo } from "./Costo.entities.js";
-import { Ajuste } from "./Ajuste.entities.js";
 
 @Entity()
 export class Usuario extends BaseEntity {
@@ -31,17 +28,8 @@ export class Usuario extends BaseEntity {
   @OneToMany('Venta', 'usuario', { cascade: [Cascade.ALL], nullable: true })
   venta = new Collection<Venta>(this);
 
-  @OneToMany('Transferencia', 'usuario', { cascade: [Cascade.ALL], nullable: true })
-  transferencia = new Collection<Transferencia>(this);
-
-  @OneToMany('Pago', 'usuario', { cascade: [Cascade.ALL], nullable: true })
-  pago = new Collection<Pago>(this);
-
   @OneToMany('Costo', 'usuario', { cascade: [Cascade.ALL], nullable: true })
   costo = new Collection<Costo>(this);
-
-  @OneToMany('Ajuste', 'usuario', { cascade: [Cascade.ALL], nullable: true })
-  ajuste = new Collection<Ajuste>(this);
 
   toJSON() {
     const { contrasenia, ...rest } = this;

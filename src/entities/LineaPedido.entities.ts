@@ -19,11 +19,11 @@ export class LineaPedido extends BaseEntity {
   @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
   subtotal!: number;
 
-  @ManyToOne('Producto', { nullable: true, eager: true })
-  producto?: Producto;
+  @ManyToOne('Producto', { nullable: false, eager: true })
+  producto!: Producto;
 
-  @ManyToOne('Usuario', { nullable: true })
-  usuario?: Usuario;
+  @ManyToOne('Usuario', { nullable: false })
+  usuario!: Usuario;
 
   constructor() {
     super();
@@ -33,5 +33,3 @@ export class LineaPedido extends BaseEntity {
   }
 
 }
-
-export { LineaPedido as LineasPedido, LineaPedido as LineaDePedido };
