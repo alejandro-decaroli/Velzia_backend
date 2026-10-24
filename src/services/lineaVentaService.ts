@@ -114,12 +114,12 @@ export async function update_Detalle_Venta(data:any, userId: number, detalleId: 
   if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos', 'Cancelada'].includes(venta.estado)) {
     throw new Conflict('No se puede editar líneas de una venta que ya está pagada o cancelada');
   }
+  const nuevoSubtotal = Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));
+  venta.total = Number(venta.total) - Number(detalle.subtotal) + nuevoSubtotal;
   detalle.cantidad = Number(data.cantidad);
   detalle.precio_unitario = Number(data.precio_unitario);
   detalle.descuento = Number(data.descuento);
-  detalle.subtotal = Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));
-  venta.total -= detalle.subtotal;
-  venta.total += Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));
+  detalle.subtotal = nuevoSubtotal;
   detalle.actualizadoEn = new Date();
   await em.persistAndFlush(detalle);
   await em.persistAndFlush(venta);
