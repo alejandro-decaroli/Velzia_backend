@@ -40,6 +40,9 @@ export async function createLineaPedido(data: any, userId?: number) {
   if (!pedido) {
     throw new NotFound('Pedido no encontrado');
   }
+  if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos', 'Cancelada'].includes(pedido.estado)) {
+    throw new BadRequest('No se puede agregar líneas a un pedido que ya está pagado o cancelado');
+  }
 
   
   const producto = await em.findOne(Producto, { id: Number(data.producto) });
@@ -90,6 +93,10 @@ export async function updateLineaPedido(data: any, userId: number, id: number) {
   const linea = await getByIdLineaPedido(userId, id);
   const pedido = await em.findOne(Pedido, { id: linea.pedido.id });
 
+  if (pedido && ['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos', 'Cancelada'].includes(pedido.estado)) {
+    throw new BadRequest('No se puede editar líneas de un pedido que ya está pagado o cancelado');
+  }
+
   if (data.producto !== undefined) {
     const producto = await em.findOne(Producto, { id: Number(data.producto) });
     if (!producto) {
@@ -119,6 +126,10 @@ export async function updateLineaPedido(data: any, userId: number, id: number) {
 export async function removeLineaPedido(userId: number, id: number) {
   const linea = await getByIdLineaPedido(userId, id);
   const pedido = await em.findOne(Pedido, { id: linea.pedido.id });
+
+  if (pedido && ['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos', 'Cancelada'].includes(pedido.estado)) {
+    throw new BadRequest('No se puede eliminar líneas de un pedido que ya está pagado o cancelado');
+  }
 
   if (pedido) {
     pedido.total = Math.max(0, Number(pedido.total || 0) - Number(linea.subtotal));

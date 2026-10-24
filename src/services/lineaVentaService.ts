@@ -21,6 +21,9 @@ export async function registrarDetalle(data:any, userId: number, ventaId: number
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
+  if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos', 'Cancelada'].includes(venta.estado)) {
+    throw new Conflict('No se puede agregar líneas a una venta que ya está pagada o cancelada');
+  }
 
   if (producto.stock < Number(data.cantidad)) {
     throw new Conflict('Stock insuficiente');
@@ -86,6 +89,9 @@ export async function delete_Detalle_Venta(userId: number, detalleId: number) {
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
+  if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos', 'Cancelada'].includes(venta.estado)) {
+    throw new Conflict('No se puede eliminar líneas de una venta que ya está pagada o cancelada');
+  }
   venta.total -= detalle.subtotal;
   await em.removeAndFlush(detalle);
   await em.persistAndFlush(venta);
@@ -104,6 +110,9 @@ export async function update_Detalle_Venta(data:any, userId: number, detalleId: 
   const venta = await em.findOne(Venta, {id: detalle.venta.id, usuario: userId});
   if (!venta) {
     throw new NotFound('Venta no encontrada');
+  }
+  if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos', 'Cancelada'].includes(venta.estado)) {
+    throw new Conflict('No se puede editar líneas de una venta que ya está pagada o cancelada');
   }
   detalle.cantidad = Number(data.cantidad);
   detalle.precio_unitario = Number(data.precio_unitario);

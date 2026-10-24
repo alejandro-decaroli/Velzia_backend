@@ -94,10 +94,11 @@ app.get('/', (req: Request, res: Response) => {
     9) Arreglar las operaciones de arriba para el caja service [X]
     10) Cada usuario debe tener su proveedor, pedido y mov financiero [X]
     11) El frontend debe tener una pagina con los movimientos de la empresa y ahi filtrar por tipo de movimiento, como en cashflow [X]
+    12) Actualizar linea de pedido y ventas no se actualiza el valor total del pedido y venta al cambiar el valor de las lineas []
+    13) no se puede editar una linea de pedido o venta si pertenece a una venta o pedido pago []
     
     12) Probar editar venta en el front []
     13) probar de actualizar proveedor []
-    14) Actualizar linea de pedido []
     
     
     11) Agregar entidad base con relacion disyunda en el modelo de dominio []
