@@ -12,11 +12,11 @@ export class Costo extends BaseEntity {
     @Property({ type: 'varchar', length: 150, nullable: false })
     descripcion!: string;
 
-    @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
+    @Property({ type: 'numeric', precision: 14, scale: 4, nullable: false })
     monto!: number;
 
-    @Property({ type: 'varchar', length: 20, nullable: false, default: 'Pendiente' })
-    estado!: 'Pendiente' | 'Pagada';
+    @Property({ type: 'varchar', length: 50, nullable: false, default: 'Pendiente' })
+    estado: string = 'Pendiente';
 
     @OneToOne('MovF', 'costo', { nullable: true })
     mov_f?: Rel<MovF>;

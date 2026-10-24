@@ -12,6 +12,7 @@ import productoRouter from "./routes/productoRoutes.js";
 import proveedorRouter from "./routes/proveedorRoutes.js";
 import pedidoRouter from "./routes/pedidoRoutes.js";
 import lineaPedidoRouter from "./routes/lineaPedidoRoutes.js";
+import movimientoRouter from "./routes/movimientoRoutes.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 dotenv.config();
@@ -46,6 +47,9 @@ app.use('/proveedores', proveedorRouter);
 app.use('/pedidos', pedidoRouter);
 app.use('/lineas_pedidos', lineaPedidoRouter);
 app.use('/lineas_pedido', lineaPedidoRouter);
+app.use('/movimientos', movimientoRouter);
+app.use('/movimientos_financieros', movimientoRouter);
+app.use('/historial_financiero', movimientoRouter);
 
 
 app.get('/', (req: Request, res: Response) => {
@@ -86,19 +90,17 @@ app.get('/', (req: Request, res: Response) => {
     REVISAR CONTROLADORES Y SEEDERS [x]
     7) Pago, ajustes y transferencias son movimientos financieros que tienen los mismos atributos pero distintas descripciones y categorias
     (Borrar entidades, y crear entidad mov financiero) [X]
-    8) Crear operaciones de pago, transferencia y ajuste de caja []
-    9) Arreglar las operaciones de arriba para el caja service []
-    10) Cada usuario debe tener su proveedor, pedido y mov financiero []
-    11) Agregar entidad base con relacion disyunda en el modelo de dominio []
-
-
-
+    8) Crear operaciones de pago, transferencia y ajuste de caja [X]
+    9) Arreglar las operaciones de arriba para el caja service [X]
+    10) Cada usuario debe tener su proveedor, pedido y mov financiero [X]
+    11) El frontend debe tener una pagina con los movimientos de la empresa y ahi filtrar por tipo de movimiento, como en cashflow [X]
+    
     12) Probar editar venta en el front []
     13) probar de actualizar proveedor []
     14) Actualizar linea de pedido []
-
-    11) El frontend debe tener una pagina con los movimientos de la empresa y ahi filtrar por tipo de movimiento, como en cashflow []
-
+    
+    
+    11) Agregar entidad base con relacion disyunda en el modelo de dominio []
     8) Arreglar como se calculan los reportes (ver listado y detalles github) []
     9) Revisar que funcionen todos los http []
     7) Escribir test unitarios e integradores []

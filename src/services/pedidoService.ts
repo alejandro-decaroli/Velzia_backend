@@ -17,7 +17,14 @@ export async function getAllPedidos(userId?: number, filtroEstado?: string, fech
     where.usuario = userId;
   }
   if (filtroEstado) {
-    where.estado = filtroEstado;
+    const fNorm = filtroEstado.toLowerCase().trim();
+    if (fNorm.startsWith('pag')) {
+      where.estado = { $in: ['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos'] };
+    } else if (fNorm.startsWith('pend')) {
+      where.estado = { $in: ['Pendiente', 'pendiente'] };
+    } else {
+      where.estado = filtroEstado;
+    }
   }
   if (fecha) {
     const fechaDate = new Date(fecha.split('T')[0]);
@@ -75,7 +82,7 @@ export async function createPedido(data: any, userId?: number) {
     fecha_emision: data.fecha_emision ? new Date(data.fecha_emision) : new Date(),
     fecha_recepcion: data.fecha_recepcion ? new Date(data.fecha_recepcion) : undefined,
     total: Number(data.total || 0),
-    estado: data.estado || 'Pendiente',
+    estado: 'Pendiente',
     usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date(),
@@ -130,7 +137,7 @@ export async function updatePedido(data: any, userId: number, id: number) {
   if (data.fecha_emision !== undefined) pedido.fecha_emision = new Date(data.fecha_emision);
   if (data.fecha_recepcion !== undefined) pedido.fecha_recepcion = data.fecha_recepcion ? new Date(data.fecha_recepcion) : undefined;
   if (data.total !== undefined) pedido.total = Number(data.total);
-  if (data.estado !== undefined) pedido.estado = data.estado;
+  // Está terminantemente prohibido cambiar de estado mediante el botón de editar
   pedido.actualizadoEn = new Date();
 
   await em.flush();
@@ -147,7 +154,7 @@ export async function pagarPedido(data: any, userId: number, id: number) {
     throw new BadRequest('ID inválido');
   }
   const pedido = await getByIdPedido(userId, id);
-  if (pedido.estado === 'Pagado' || pedido.mov_f) {
+  if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos'].includes(pedido.estado) || pedido.mov_f) {
     throw new Conflict('El pedido ya se encuentra pagado. Solo se permite un único pago.');
   }
 
@@ -170,7 +177,7 @@ export async function pagarPedido(data: any, userId: number, id: number) {
     throw new NotFound('Caja no encontrada');
   }
 
-  if (caja.monto < monto) {
+  if (Number(caja.monto) < monto) {
     throw new Conflict('Fondos insuficientes en la caja para pagar el pedido');
   }
 
@@ -186,24 +193,24 @@ export async function pagarPedido(data: any, userId: number, id: number) {
   } else {
     codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
-  const pago = await em.create(MovF, {
+  const pago = em.create(MovF, {
     caja: caja,
-    monto: Number(data.monto_pagar),
+    monto: Number(data.monto_pagar || monto),
     cod: 'PA_' + codigo,
     pedido: pedido,
-    tipo: 'Ingreso',
-    categoria: data.categoria,
-    descripcion: data.descripcion,
+    tipo: 'Egreso',
+    categoria: data.categoria || 'pedido',
+    descripcion: data.descripcion || `Pago de pedido ${pedido.cod || ('#' + pedido.id)}`,
     usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date()
   });
 
-  caja.monto -= monto;
+  caja.monto = Number((Number(caja.monto) - monto).toFixed(4));
+  caja.actualizadoEn = new Date();
   pedido.estado = 'Pagado';
+  pedido.actualizadoEn = new Date();
 
-  await em.persistAndFlush(caja);
-  await em.persistAndFlush(pedido);
-  await em.persistAndFlush(pago);
+  await em.persistAndFlush([caja, pedido, pago]);
   return pedido;
 }

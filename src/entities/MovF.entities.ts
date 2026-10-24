@@ -9,8 +9,8 @@ import { Usuario } from "./Usuario.entities.js";
 @Entity()
 export class MovF extends BaseEntity {
 
-  @Property({ default: 'Egreso', nullable: false })
-  tipo!: 'Ingreso' | 'Egreso';
+  @Property({ type: 'varchar', length: 50, default: 'Egreso', nullable: false })
+  tipo!: 'Ingreso' | 'Egreso' | 'Transferencia';
 
   @Property({ type: 'varchar', length: 50, nullable: false})
   categoria!: string;
@@ -18,7 +18,7 @@ export class MovF extends BaseEntity {
   @Property({ type: 'varchar', length: 150, nullable: false })
   descripcion!: string;
 
-  @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false })
+  @Property({ type: 'numeric', precision: 14, scale: 4, nullable: false })
   monto!: number;
 
   @OneToOne('Venta', { cascade: [Cascade.ALL], nullable: true })

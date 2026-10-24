@@ -9,7 +9,7 @@ export class Caja extends BaseEntity {
     @Property({ type: 'varchar', length: 20, nullable: false, unique: true })
     nombre!: string;
     
-    @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
+    @Property({ type: 'numeric', precision: 14, scale: 4, nullable: false, default: 0 })
     monto!: number;
 
     @OneToMany('MovF', 'caja', {cascade: [Cascade.ALL], nullable: true})

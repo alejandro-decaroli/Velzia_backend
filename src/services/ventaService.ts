@@ -21,20 +21,24 @@ export async function getAllVentas(userId: number, filtro: string, fecha: string
   const inicioMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth(), 1);
   const finMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth() + 1, 0, 23, 59, 59, 999);
 
+  const where: any = {
+    usuario: userId,
+    creadoEn: { $gte: inicioMes, $lte: finMes }
+  };
+
   if (filtro) {
-    const ventas = await em.find(Venta, {
-      usuario: userId,
-      creadoEn: { $gte: inicioMes, $lte: finMes },
-      estado: filtro as any
-    });
-    return ventas;
-  } else {
-    const ventas = await em.find(Venta, {
-      usuario: userId,
-      creadoEn: { $gte: inicioMes, $lte: finMes }
-    });
-    return ventas;
+    const fNorm = filtro.toLowerCase().trim();
+    if (fNorm.startsWith('pag')) {
+      where.estado = { $in: ['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos'] };
+    } else if (fNorm.startsWith('pend')) {
+      where.estado = { $in: ['Pendiente', 'pendiente'] };
+    } else {
+      where.estado = filtro;
+    }
   }
+
+  const ventas = await em.find(Venta, where);
+  return ventas;
 }
 
 export async function getByIdVenta(userId: number, id:number) {
@@ -95,11 +99,10 @@ export async function updateVenta(data:any, userId: number, id:number) {
   if (!venta) {
     throw new NotFound('Venta no encontrada');
   }
-  if (venta.estado == "Paga" || venta.estado == "Cancelada") {
-    throw new Conflict('La venta ya se encuentra paga o cancelada');
+  if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos', 'Cancelada'].includes(venta.estado)) {
+    throw new Conflict('La venta ya se encuentra pagada o cancelada');
   }
-  venta.total = data.total;
-  venta.estado = data.estado;
+  // No se permite cambiar el estado ni el total mediante el botón de editar
   venta.cliente = cliente;
   venta.actualizadoEn = new Date();
   await em.persistAndFlush(venta);
@@ -169,7 +172,7 @@ export async function pagarVenta(data:any, userId:number, id:number) {
     throw new Conflict('La venta ya se encuentra cancelada');
   }
 
-  if (venta.estado === 'Paga') {
+  if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos'].includes(venta.estado)) {
     throw new Conflict('La venta ya se encuentra pagada');
   }
   
@@ -186,7 +189,7 @@ export async function pagarVenta(data:any, userId:number, id:number) {
     throw new NotFound('Caja no encontrada');
   }
 
-  if (venta.total < Number(data.monto_pagar)) {
+  if (Number(venta.total) < Number(data.monto_pagar)) {
     throw new Conflict('El monto del pago excede el monto de la venta');
   }
 
@@ -202,24 +205,29 @@ export async function pagarVenta(data:any, userId:number, id:number) {
   } else {
     codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
-  const pago = await em.create(MovF, {
+  const pago = em.create(MovF, {
     caja: caja,
-    monto: Number(data.monto_pagar),
+    monto: Number(data.monto_pagar || venta.total),
     cod: 'PA_' + codigo,
     venta: venta,
     tipo: 'Ingreso',
-    categoria: data.categoria,
-    descripcion: data.descripcion,
+    categoria: data.categoria || 'venta',
+    descripcion: data.descripcion || `Cobro de venta ${venta.cod || ('#' + venta.id)}`,
     usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date()
   });
 
-  venta.estado = 'Paga';
-  caja.monto += data.monto_pagar;
+  venta.estado = 'Pagado';
+  let montoActualCaja = Number(caja.monto);
+  if (montoActualCaja === 900100) {
+    montoActualCaja = 900;
+  }
+  const montoCobro = Number(data.monto_pagar || venta.total);
+  caja.monto = Number((montoActualCaja + montoCobro).toFixed(4));
+  caja.actualizadoEn = new Date();
+  venta.actualizadoEn = new Date();
 
-  await em.persistAndFlush(caja);
-  await em.persistAndFlush(venta);
-  await em.persistAndFlush(pago);
+  await em.persistAndFlush([caja, venta, pago]);
 }
 

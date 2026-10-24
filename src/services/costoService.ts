@@ -17,12 +17,21 @@ export async function getAllCostos(userId: number, fecha: string, filtro: string
   const fechaDate = new Date(fecha);
   const inicioMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth(), 1);
   const finMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth() + 1, 0, 23, 59, 59, 999);
-  if (!filtro) {
-    const costos = await em.find(Costo, { usuario: userId, creadoEn: { $gte: inicioMes, $lte: finMes } });
-    return costos;
+  const where: any = {
+    usuario: userId,
+    creadoEn: { $gte: inicioMes, $lte: finMes }
+  };
+  if (filtro) {
+    const fNorm = filtro.toLowerCase().trim();
+    if (fNorm.startsWith('pag')) {
+      where.estado = { $in: ['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos'] };
+    } else if (fNorm.startsWith('pend')) {
+      where.estado = { $in: ['Pendiente', 'pendiente'] };
+    } else {
+      where.estado = filtro;
+    }
   }
-  const estadoFiltro = filtro === 'Paga' ? 'Pagada' : filtro;
-  const costos = await em.find(Costo, { usuario: userId, creadoEn: { $gte: inicioMes, $lte: finMes }, estado: estadoFiltro as any });
+  const costos = await em.find(Costo, where);
   return costos;
 }
 
@@ -60,7 +69,7 @@ export async function createCosto(data: any, userId: number) {
     categoria: data.categoria,
     descripcion: data.descripcion,
     monto: Number(data.monto),
-    estado: data.estado || 'Pendiente',
+    estado: 'Pendiente',
     usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date()
@@ -83,9 +92,7 @@ export async function updateCosto(data: any, userId: number, id: number) {
   costo.categoria = data.categoria;
   costo.descripcion = data.descripcion;
   costo.monto = Number(data.monto);
-  if (data.estado) {
-    costo.estado = data.estado;
-  }
+  // Está terminantemente prohibido cambiar de estado mediante el botón de editar
   costo.actualizadoEn = new Date();
   await em.flush();
 }
@@ -109,7 +116,7 @@ export async function pagarCosto(data: any, userId: number, id: number) {
   if (!costo) {
     throw new NotFound('Costo no encontrado');
   }
-  if (costo.estado === 'Pagada' || costo.mov_f) {
+  if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos'].includes(costo.estado) || costo.mov_f) {
     throw new Conflict('El costo ya se encuentra pagado. Solo se permite un único pago.');
   }
 
@@ -131,7 +138,7 @@ export async function pagarCosto(data: any, userId: number, id: number) {
     throw new NotFound('Caja no encontrada');
   }
 
-  if (caja.monto < monto) {
+  if (Number(caja.monto) < monto) {
     throw new Conflict('Fondos insuficientes en la caja para cubrir el costo');
   }
 
@@ -147,25 +154,25 @@ export async function pagarCosto(data: any, userId: number, id: number) {
   } else {
     codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
-  const pago = await em.create(MovF, {
+  const pago = em.create(MovF, {
     caja: caja,
-    monto: Number(data.monto_pagar),
+    monto: Number(data.monto_pagar || monto),
     cod: 'PA_' + codigo,
     costo: costo,
-    tipo: 'Ingreso',
-    categoria: data.categoria,
-    descripcion: data.descripcion,
+    tipo: 'Egreso',
+    categoria: data.categoria || costo.categoria || 'costo',
+    descripcion: data.descripcion || `Pago de costo ${costo.descripcion || costo.cod || costo.id}`,
     usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date()
   });
 
-  caja.monto -= monto;
-  costo.estado = 'Pagada';
+  caja.monto = Number((Number(caja.monto) - monto).toFixed(4));
+  caja.actualizadoEn = new Date();
+  costo.estado = 'Pagado';
+  costo.actualizadoEn = new Date();
 
-  await em.persistAndFlush(caja);
-  await em.persistAndFlush(costo);
-  await em.persistAndFlush(pago);
+  await em.persistAndFlush([caja, costo, pago]);
 }
 
 export const getAllCostosFijos = getAllCostos;

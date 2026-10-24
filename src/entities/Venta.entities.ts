@@ -10,8 +10,8 @@ export class Venta extends BaseEntity {
     @ManyToOne('Cliente', {nullable: false, eager: true})
     cliente!: Cliente;
 
-    @Property({ default: 'Pendiente', nullable: false })
-    estado!: 'Paga' | 'Pendiente' | 'Cancelada';
+    @Property({ type: 'varchar', length: 50, default: 'Pendiente', nullable: false })
+    estado: string = 'Pendiente';
 
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;

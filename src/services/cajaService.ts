@@ -153,12 +153,12 @@ export async function realizarTransferencia(data: any, userId: number) {
     codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
 
-  // Crear MovF asociado a la transferencia
+  // Crear MovF asociado a la transferencia (Tipo 'Transferencia' ya que no constituye ni un ingreso ni un egreso del sistema)
   const movF = em.create(MovF, {
     caja: caja_origen,
     monto: monto,
     cod: 'TR_' + codigo,
-    tipo: 'Egreso',
+    tipo: 'Transferencia',
     categoria: 'transferencia',
     descripcion: data.descripcion || `Transferencia de ${caja_origen.nombre} a ${caja_destino.nombre}`,
     usuario: usuario,
