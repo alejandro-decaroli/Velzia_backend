@@ -98,13 +98,10 @@ app.get('/', (req: Request, res: Response) => {
     13) no se puede editar una linea de pedido o venta si pertenece a una venta o pedido pago [X]
     14) Probar editar venta en el front [X]
     15) probar de actualizar proveedor [X]
+    16) Escribir test unitarios e integradores [X]
     
     
-    7) Escribir test unitarios e integradores []
-    
-    11) Agregar entidad base con relacion disyunda en el modelo de dominio []
-    8) Arreglar como se calculan los reportes (ver listado y detalles github) []
-    9) Revisar que funcionen todos los http []
-    10) Actualizar el propousal []
-    11) Desplegar en Render []
+    17) Arreglar como se calculan los reportes (ver listado y detalles github) []
+    18) Actualizar el propousal []
+    19) Desplegar en Render []
 */

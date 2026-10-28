@@ -10,6 +10,7 @@ import { CostoSeeder } from "./CostoSeeder.js";
 import { ProveedorSeeder } from "./ProveedorSeeder.js";
 import { PedidoSeeder } from "./PedidoSeeder.js";
 import { LineaPedidoSeeder } from "./LineaPedidoSeeder.js";
+import { MovimientoSeeder } from "./MovimientoSeeder.js";
 
 export class MainSeeder extends Seeder {
     async run(em: EntityManager): Promise<void> {
@@ -33,6 +34,8 @@ export class MainSeeder extends Seeder {
         await ventaSeeder.run(em);
         const detalleSeeder = new DetalleSeeder();
         await detalleSeeder.run(em);
+        const movimientoSeeder = new MovimientoSeeder();
+        await movimientoSeeder.run(em);
     }
 }
 
