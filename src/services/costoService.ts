@@ -85,6 +85,9 @@ export async function updateCosto(data: any, userId: number, id: number) {
   if (!costo) {
     throw new NotFound('Costo no encontrado');
   }
+  if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos'].includes(costo.estado)) {
+    throw new Conflict('No se puede editar un costo que ya está pagado');
+  }
   const usuario = await em.findOne(Usuario, { id: userId });
   if (!usuario) {
     throw new NotFound('Usuario no encontrado');

@@ -87,11 +87,28 @@ Si quieren que se ejecuten los seeders al iniciar la app, deben agregar la varia
 
 ## Ejecutar Tests
 
-Ejecutar el siguiente comando:
+Los tests automatizados están implementados con **Jest** y **ts-jest**. Para ejecutarlos:
 
+```bash
+# Ejecutar toda la suite de pruebas
+npm test
+
+# Ejecutar únicamente los tests unitarios
+npm test -- tests/unit
+
+# Ejecutar únicamente los tests integradores
+npm test -- tests/integration
 ```
-  npm run start:tests
-```
+
+### ¿Qué prueban los tests?
+
+* **Tests Unitarios (`tests/unit/`):**
+  * **Validaciones (`validations.test.ts`):** Evalúa el middleware de validación (`ventaValidation` y `handleValidationErrors`), comprobando que responda con `400 Bad Request` y la lista de errores ante datos ausentes o inválidos, o llame a `next()` si los datos son correctos.
+  * **Manejo y Devolución de Errores (`errorHandling.test.ts`):** Evalúa el controlador (`ventaController`) en aislamiento simulando fallos en el servicio, comprobando la devolución adecuada de códigos HTTP (`404 Not Found`, `400 Bad Request` y `500 Internal Server Error`).
+
+* **Tests Integradores (`tests/integration/`):**
+  * **Creación de Venta (`ventaCreacion.test.ts`):** Comprueba la interacción entre las clases `Usuario`, `Cliente` y `Venta`, validando la asignación de relaciones, generación de código secuencial (`VEN_1`, `VEN_2`), inicialización en estado `'Pendiente'` con total `0`, y persistencia.
+  * **Registro de Línea de Venta (`ventaDetalle.test.ts`):** Comprueba la interacción multidominio entre `Venta`, `Producto` y `LineaVenta`, verificando la sincronización atómica: descuento del stock físico del producto, incremento del total en la venta con cálculo de descuentos, y validación de reglas de negocio como stock insuficiente (`409 Conflict`).
 
 
 ## Documentación
