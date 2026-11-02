@@ -14,17 +14,16 @@ export class ProductoSeeder extends Seeder {
             return;
         }
         await em.insertMany(Producto, [
-            { cod: 'PO_1', usuario: usuario, nombre: 'Manzana', descripcion: 'Manzana', stock: 10, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'PO_2', usuario: usuario, nombre: 'Banana', descripcion: 'Banana', stock: 20, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'PO_3', usuario: usuario, nombre: 'Pera', descripcion: 'Pera', stock: 30, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'PO_4', usuario: usuario, nombre: 'Uva', descripcion: 'Uva', stock: 40, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'PO_5', usuario: usuario, nombre: 'Mango', descripcion: 'Mango', stock: 50, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'PO_6', usuario: usuario, nombre: 'Mandarina', descripcion: 'Mandarina', stock: 60, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'PO_7', usuario: usuario, nombre: 'Mora', descripcion: 'Mora', stock: 70, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'PO_8', usuario: usuario, nombre: 'Piña', descripcion: 'Piña', stock: 80, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'PO_9', usuario: usuario, nombre: 'Guayaba', descripcion: 'Guayaba', stock: 90, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'PO_10', usuario: usuario, nombre: 'Sandía', descripcion: 'Sandía', stock: 100, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'PO_1', usuario: usuario, nombre: 'Manzana', descripcion: 'Manzana', stock: 10, costo_actual: 50, precio_venta: 100, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'PO_2', usuario: usuario, nombre: 'Banana', descripcion: 'Banana', stock: 20, costo_actual: 5, precio_venta: 10, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'PO_3', usuario: usuario, nombre: 'Pera', descripcion: 'Pera', stock: 30, costo_actual: 50, precio_venta: 100, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'PO_4', usuario: usuario, nombre: 'Uva', descripcion: 'Uva', stock: 40, costo_actual: 15, precio_venta: 25, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'PO_5', usuario: usuario, nombre: 'Mango', descripcion: 'Mango', stock: 50, costo_actual: 10, precio_venta: 20, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'PO_6', usuario: usuario, nombre: 'Mandarina', descripcion: 'Mandarina', stock: 60, costo_actual: 15, precio_venta: 30, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'PO_7', usuario: usuario, nombre: 'Mora', descripcion: 'Mora', stock: 70, costo_actual: 20, precio_venta: 40, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'PO_8', usuario: usuario, nombre: 'Piña', descripcion: 'Piña', stock: 80, costo_actual: 25, precio_venta: 50, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'PO_9', usuario: usuario, nombre: 'Guayaba', descripcion: 'Guayaba', stock: 90, costo_actual: 30, precio_venta: 60, creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'PO_10', usuario: usuario, nombre: 'Sandía', descripcion: 'Sandía', stock: 100, costo_actual: 40, precio_venta: 80, creadoEn: new Date(), actualizadoEn: new Date() },
         ]);
     }
 }
-    

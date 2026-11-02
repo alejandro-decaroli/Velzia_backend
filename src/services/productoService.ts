@@ -56,11 +56,19 @@ export async function createProducto(data: any, userId: number) {
     } else {
       codigo = String(Number(productoConCodigoMasGrande.cod?.split('_')[1]) + 1);
     }
+    const costoActual = Number(data.costo_actual ?? data.costoActual ?? 0);
+    const precioVenta = Number(data.precio_venta ?? data.precioVenta ?? 0);
+    if (costoActual >= precioVenta) {
+      throw new BadRequest('El costo actual debe ser menor al precio de venta');
+    }
+
     await em.create(Producto, {
         cod: 'PRO_' + codigo,
         nombre: data.nombre,
         descripcion: data.descripcion,
         stock: data.stock,
+        costo_actual: costoActual,
+        precio_venta: precioVenta,
         usuario: usuario,
         creadoEn: new Date(),
         actualizadoEn: new Date(),
@@ -77,9 +85,23 @@ export async function updateProducto(data:any, userId: number, id:number) {
   if (nombre_duplicado && nombre_duplicado.id !== producto.id) {
     throw new Conflict('Los productos no pueden tener el mismo nombre');
   }
+
+  const costoActual = data.costo_actual !== undefined || data.costoActual !== undefined
+    ? Number(data.costo_actual ?? data.costoActual)
+    : Number(producto.costo_actual);
+  const precioVenta = data.precio_venta !== undefined || data.precioVenta !== undefined
+    ? Number(data.precio_venta ?? data.precioVenta)
+    : Number(producto.precio_venta);
+
+  if (costoActual >= precioVenta) {
+    throw new BadRequest('El costo actual debe ser menor al precio de venta');
+  }
+
   producto.nombre = data.nombre;
   producto.descripcion = data.descripcion;
   producto.stock = data.stock;
+  producto.costo_actual = costoActual;
+  producto.precio_venta = precioVenta;
   producto.actualizadoEn = new Date();
   await em.flush();
 }

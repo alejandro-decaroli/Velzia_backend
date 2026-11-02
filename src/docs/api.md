@@ -387,7 +387,7 @@ Content-Type: application/json
 {
   "producto": 1,
   "cantidad": 2,
-  "precio_unitario": 100,
+  "precio": 100,
   "descuento": 25
 }
 

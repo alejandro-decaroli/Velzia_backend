@@ -27,6 +27,9 @@ export class LineaPedido extends BaseEntity {
 
   constructor() {
     super();
+    if (this.producto?.precio_venta && !this.precio) {
+      this.precio = Number(this.producto.precio_venta);
+    }
     if (this.cantidad && this.precio && !this.subtotal) {
       this.subtotal = this.cantidad * this.precio;
     }

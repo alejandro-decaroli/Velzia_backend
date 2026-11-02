@@ -51,6 +51,8 @@ describe('Test Integrador 2 - Registro de Detalle de Venta (Interacción Venta, 
     mockProducto.id = 100;
     mockProducto.nombre = 'Monitor 24 pulg';
     mockProducto.stock = 20;
+    mockProducto.costo_actual = 1000;
+    mockProducto.precio_venta = 1500;
     mockProducto.usuario = mockUsuario;
   });
 
@@ -69,7 +71,7 @@ describe('Test Integrador 2 - Registro de Detalle de Venta (Interacción Venta, 
     const detallePayload = {
       producto: 100,
       cantidad: 5,
-      precio_unitario: 1500,
+      precio: 1500,
       descuento: 10,
     };
 
@@ -91,7 +93,7 @@ describe('Test Integrador 2 - Registro de Detalle de Venta (Interacción Venta, 
         venta: mockVenta,
         producto: mockProducto,
         cantidad: 5,
-        precio_unitario: 1500,
+        precio: 1500,
         descuento: 10,
         subtotal: 6750,
       })
@@ -116,7 +118,7 @@ describe('Test Integrador 2 - Registro de Detalle de Venta (Interacción Venta, 
     const detallePayload = {
       producto: 100,
       cantidad: 10, // Se solicitan 10 unidades (> 3)
-      precio_unitario: 1500,
+      precio: 1500,
       descuento: 0,
     };
 
@@ -141,7 +143,7 @@ describe('Test Integrador 2 - Registro de Detalle de Venta (Interacción Venta, 
     const detallePayload = {
       producto: 100,
       cantidad: 1,
-      precio_unitario: 1500,
+      precio: 1500,
       descuento: 0,
     };
 

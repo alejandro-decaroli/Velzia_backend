@@ -136,12 +136,34 @@ export const productoValidation = [
   body('stock')
     .notEmpty().withMessage('Stock es requerido')
     .isInt({ min: 0 }).withMessage('Stock debe ser un número positivo'),
+  body('costo_actual')
+    .notEmpty().withMessage('Costo actual es requerido')
+    .isFloat({ min: 0 }).withMessage('Costo actual debe ser un número positivo')
+    .custom((value, { req }) => {
+      const precio = Number(req.body.precio_venta ?? req.body.precioVenta);
+      const costo = Number(value);
+      if (!isNaN(precio) && !isNaN(costo) && costo >= precio) {
+        throw new Error('El costo actual debe ser menor al precio de venta');
+      }
+      return true;
+    }),
+  body('precio_venta')
+    .notEmpty().withMessage('Precio de venta es requerido')
+    .isFloat({ min: 0 }).withMessage('Precio de venta debe ser un número positivo')
+    .custom((value, { req }) => {
+      const costo = Number(req.body.costo_actual ?? req.body.costoActual);
+      const precio = Number(value);
+      if (!isNaN(costo) && !isNaN(precio) && costo >= precio) {
+        throw new Error('El costo actual debe ser menor al precio de venta');
+      }
+      return true;
+    }),
 ];
 
 export const detalleValidation = [
-  body('precio_unitario')
-    .notEmpty().withMessage('Precio unitario es requerido')
-    .isFloat({ min: 0 }).withMessage('Precio unitario debe ser un número positivo'),
+  body('precio')
+    .optional()
+    .isFloat({ min: 0 }).withMessage('Precio debe ser un número positivo'),
   body('cantidad')
     .notEmpty().withMessage('Cantidad es requerida')
     .isInt({ min: 0 }).withMessage('Cantidad debe ser un número positivo'),
@@ -191,7 +213,7 @@ export const lineaPedidoValidation = [
     .notEmpty().withMessage('Cantidad es requerida')
     .isFloat({ min: 0.0001 }).withMessage('Cantidad debe ser mayor a 0'),
   body('precio')
-    .notEmpty().withMessage('Precio es requerido')
+    .optional()
     .isFloat({ min: 0 }).withMessage('Precio debe ser un número positivo'),
   body('subtotal')
     .optional()

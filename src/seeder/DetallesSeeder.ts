@@ -26,11 +26,11 @@ export class DetalleSeeder extends Seeder {
             return;
         }
         await em.insertMany(LineaVenta, [
-            { cod: 'DE_1', usuario: usuario, venta: venta_1, producto: producto_1, precio_unitario: 100, descuento:0, cantidad: 2, subtotal: 200, creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'DE_2', usuario: usuario, venta: venta_2, producto: producto_2, precio_unitario: 10, descuento:0, cantidad: 10, subtotal: 100,creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'DE_3', usuario: usuario, venta: venta_3, producto: producto_3, precio_unitario: 100, descuento:0, cantidad: 5, subtotal: 500,creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'DE_4', usuario: usuario, venta: venta_4, producto: producto_4, precio_unitario: 25, descuento:0, cantidad: 4, subtotal: 100,creadoEn: new Date(), actualizadoEn: new Date() },
-            { cod: 'DE_5', usuario: usuario, venta: venta_5, producto: producto_5, precio_unitario: 20, descuento:0, cantidad: 5, subtotal: 100,creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'DE_1', usuario: usuario, venta: venta_1, producto: producto_1, precio: Number(producto_1.precio_venta), descuento: 0, cantidad: 2, subtotal: 2 * Number(producto_1.precio_venta), creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'DE_2', usuario: usuario, venta: venta_2, producto: producto_2, precio: Number(producto_2.precio_venta), descuento: 0, cantidad: 10, subtotal: 10 * Number(producto_2.precio_venta), creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'DE_3', usuario: usuario, venta: venta_3, producto: producto_3, precio: Number(producto_3.precio_venta), descuento: 0, cantidad: 5, subtotal: 5 * Number(producto_3.precio_venta), creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'DE_4', usuario: usuario, venta: venta_4, producto: producto_4, precio: Number(producto_4.precio_venta), descuento: 0, cantidad: 4, subtotal: 4 * Number(producto_4.precio_venta), creadoEn: new Date(), actualizadoEn: new Date() },
+            { cod: 'DE_5', usuario: usuario, venta: venta_5, producto: producto_5, precio: Number(producto_5.precio_venta), descuento: 0, cantidad: 5, subtotal: 5 * Number(producto_5.precio_venta), creadoEn: new Date(), actualizadoEn: new Date() },
         ]);
     }
 }

@@ -99,9 +99,10 @@ app.get('/', (req: Request, res: Response) => {
     14) Probar editar venta en el front [X]
     15) probar de actualizar proveedor [X]
     16) Escribir test unitarios e integradores [X]
-    
-    
-    17) Arreglar como se calculan los reportes (ver listado y detalles github) []
-    18) Actualizar el propousal []
-    19) Desplegar en Render []
+    17) remover precio unitario de lineas de pedido y venta [x]
+    18) Rellenar el precio y el costo en el seeder de productos, error en el front [X]
+    19) agregar en productos carga de excel []
+    20) Arreglar como se calculan los reportes (ver listado y detalles github) []
+    21) Actualizar el propousal []
+    22) Desplegar en Render []
 */

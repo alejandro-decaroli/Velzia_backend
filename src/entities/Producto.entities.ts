@@ -16,6 +16,12 @@ export class Producto extends BaseEntity {
     @Property({ type: 'numeric', nullable: false })
     stock!: number;
 
+    @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
+    costo_actual: number = 0;
+
+    @Property({ type: 'numeric', precision: 10, scale: 4, nullable: false, default: 0 })
+    precio_venta: number = 0;
+
     @ManyToOne('Usuario', {nullable: false})
     usuario!: Usuario;
 

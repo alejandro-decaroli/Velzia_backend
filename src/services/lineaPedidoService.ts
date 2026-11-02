@@ -67,7 +67,11 @@ export async function createLineaPedido(data: any, userId?: number) {
   }
 
   const cantidad = Number(data.cantidad);
-  const precio = Number(data.precio);
+  const precio = Number(
+    producto.precio_venta !== undefined && Number(producto.precio_venta) > 0
+      ? producto.precio_venta
+      : (data.precio ?? 0)
+  );
   const subtotal = data.subtotal !== undefined ? Number(data.subtotal) : cantidad * precio;
 
   const linea = em.create(LineaPedido, {
@@ -97,16 +101,20 @@ export async function updateLineaPedido(data: any, userId: number, id: number) {
     throw new BadRequest('No se puede editar líneas de un pedido que ya está pagado o cancelado');
   }
 
+  let precio = Number(linea.producto?.precio_venta ?? linea.precio ?? 0);
   if (data.producto !== undefined) {
     const producto = await em.findOne(Producto, { id: Number(data.producto) });
     if (!producto) {
       throw new NotFound('Producto no encontrado');
     }
     linea.producto = producto;
+    if (producto.precio_venta !== undefined && Number(producto.precio_venta) > 0) {
+      precio = Number(producto.precio_venta);
+    }
   }
 
   const cantidad = data.cantidad !== undefined ? Number(data.cantidad) : linea.cantidad;
-  const precio = data.precio !== undefined ? Number(data.precio) : linea.precio;
+  // El precio no se puede editar manualmente; se obtiene únicamente del producto
   const nuevoSubtotal = data.subtotal !== undefined ? Number(data.subtotal) : cantidad * precio;
 
   if (pedido) {

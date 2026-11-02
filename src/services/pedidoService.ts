@@ -98,7 +98,11 @@ export async function createPedido(data: any, userId?: number) {
           throw new NotFound("Producto no encontrado");
         }
         const cantidad = Number(item.cantidad || 0);
-        const precio = Number(item.precio || 0);
+        const precio = Number(
+          producto.precio_venta !== undefined && Number(producto.precio_venta) > 0
+            ? producto.precio_venta
+            : (item.precio || 0)
+        );
         const subtotal = item.subtotal !== undefined ? Number(item.subtotal) : cantidad * precio;
         totalCalculado += subtotal;
 

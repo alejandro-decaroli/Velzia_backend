@@ -41,21 +41,28 @@ export async function registrarDetalle(data:any, userId: number, ventaId: number
   } else {
     codigo = String(Number(detalleConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
+  const precio = Number(
+    producto.precio_venta !== undefined && Number(producto.precio_venta) > 0
+      ? producto.precio_venta
+      : (data.precio ?? data.precio_unitario ?? 0)
+  );
+  const subtotal = Number(data.cantidad * precio * ((100 - (data.descuento || 0)) / 100));
+
   const detalle = em.create(LineaVenta, {
     venta: venta,
     producto: producto,
     cod: 'DE_' + codigo,
     cantidad: Number(data.cantidad),
-    precio_unitario: Number(data.precio_unitario),
-    descuento: Number(data.descuento),
-    subtotal: Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100)),
+    precio: precio,
+    descuento: Number(data.descuento || 0),
+    subtotal: subtotal,
     usuario: usuario,
     creadoEn: new Date(),
     actualizadoEn: new Date()
   });
 
   producto.stock -= Number(data.cantidad);
-  venta.total += Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));
+  venta.total += subtotal;
 
   await em.persistAndFlush(detalle);
   await em.persistAndFlush(producto);
@@ -114,11 +121,30 @@ export async function update_Detalle_Venta(data:any, userId: number, detalleId: 
   if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos', 'Cancelada'].includes(venta.estado)) {
     throw new Conflict('No se puede editar líneas de una venta que ya está pagada o cancelada');
   }
-  const nuevoSubtotal = Number(data.cantidad * data.precio_unitario * ((100 - data.descuento) / 100));
+
+  let producto = detalle.producto;
+  if (data.producto !== undefined) {
+    const nuevoProducto = await em.findOne(Producto, { id: Number(data.producto), usuario: userId });
+    if (!nuevoProducto) {
+      throw new NotFound('Producto no encontrado');
+    }
+    producto = nuevoProducto;
+    detalle.producto = nuevoProducto;
+  }
+
+  const cantidad = data.cantidad !== undefined ? Number(data.cantidad) : Number(detalle.cantidad);
+  const precio = Number(
+    producto && producto.precio_venta !== undefined && Number(producto.precio_venta) > 0
+      ? producto.precio_venta
+      : (detalle.precio || 0)
+  );
+  const descuento = data.descuento !== undefined ? Number(data.descuento) : Number(detalle.descuento || 0);
+  const nuevoSubtotal = Number(cantidad * precio * ((100 - descuento) / 100));
+
   venta.total = Number(venta.total) - Number(detalle.subtotal) + nuevoSubtotal;
-  detalle.cantidad = Number(data.cantidad);
-  detalle.precio_unitario = Number(data.precio_unitario);
-  detalle.descuento = Number(data.descuento);
+  detalle.cantidad = cantidad;
+  detalle.precio = precio;
+  detalle.descuento = descuento;
   detalle.subtotal = nuevoSubtotal;
   detalle.actualizadoEn = new Date();
   await em.persistAndFlush(detalle);
