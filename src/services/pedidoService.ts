@@ -26,7 +26,7 @@ export async function getAllPedidos(userId?: number, filtroEstado?: string, fech
       where.estado = filtroEstado;
     }
   }
-  if (fecha) {
+  if (fecha && !['all', 'todas', 'todos', 'historico'].includes(fecha.toLowerCase())) {
     const fechaDate = new Date(fecha.split('T')[0]);
     const inicioMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth(), 1);
     const finMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth() + 1, 0, 23, 59, 59, 999);

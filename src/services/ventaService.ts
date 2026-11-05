@@ -12,19 +12,23 @@ const { BadRequest, NotFound, Conflict } = createError;
 const em = orm.em;
 
 export async function getAllVentas(userId: number, filtro: string, fecha: string) {
-  if (!fecha) {
-    fecha = new Date().toISOString().split('T')[0];
-  } else {
-    fecha = fecha.split('T')[0];
-  }
-  const fechaDate = new Date(fecha);
-  const inicioMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth(), 1);
-  const finMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth() + 1, 0, 23, 59, 59, 999);
-
   const where: any = {
-    usuario: userId,
-    creadoEn: { $gte: inicioMes, $lte: finMes }
+    usuario: userId
   };
+
+  if (fecha && ['all', 'todas', 'todos', 'historico'].includes(fecha.toLowerCase())) {
+    // Consulta histórica sin restricción de fecha mensual
+  } else {
+    if (!fecha) {
+      fecha = new Date().toISOString().split('T')[0];
+    } else {
+      fecha = fecha.split('T')[0];
+    }
+    const fechaDate = new Date(fecha);
+    const inicioMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth(), 1);
+    const finMes = new Date(fechaDate.getFullYear(), fechaDate.getMonth() + 1, 0, 23, 59, 59, 999);
+    where.creadoEn = { $gte: inicioMes, $lte: finMes };
+  }
 
   if (filtro) {
     const fNorm = filtro.toLowerCase().trim();

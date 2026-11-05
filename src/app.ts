@@ -80,29 +80,7 @@ app.get('/', (req: Request, res: Response) => {
 
 
 /*
-    
-    1) Eliminar todo de moneda y tasas [x]
-    2) Cambiar atributos y nombre de costos fijos [x]
-    3) Crear proveedores [x]
-    4) Crear pedidos [x]
-    5) Crear tabla intermedia de linea de pedidos [x]
-    6) Venta, Pedido y Costo deben tener un solo Pago no varios [x]
-    REVISAR CONTROLADORES Y SEEDERS [x]
-    7) Pago, ajustes y transferencias son movimientos financieros que tienen los mismos atributos pero distintas descripciones y categorias
-    (Borrar entidades, y crear entidad mov financiero) [X]
-    8) Crear operaciones de pago, transferencia y ajuste de caja [X]
-    9) Arreglar las operaciones de arriba para el caja service [X]
-    10) Cada usuario debe tener su proveedor, pedido y mov financiero [X]
-    11) El frontend debe tener una pagina con los movimientos de la empresa y ahi filtrar por tipo de movimiento, como en cashflow [X]
-    12) Actualizar linea de pedido y ventas no se actualiza el valor total del pedido y venta al cambiar el valor de las lineas [X]
-    13) no se puede editar una linea de pedido o venta si pertenece a una venta o pedido pago [X]
-    14) Probar editar venta en el front [X]
-    15) probar de actualizar proveedor [X]
-    16) Escribir test unitarios e integradores [X]
-    17) remover precio unitario de lineas de pedido y venta [x]
-    18) Rellenar el precio y el costo en el seeder de productos, error en el front [X]
     19) agregar en productos carga de excel []
-    20) Arreglar como se calculan los reportes (ver listado y detalles github) []
     21) Actualizar el propousal []
     22) Desplegar en Render []
 */
