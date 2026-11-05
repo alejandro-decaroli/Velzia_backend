@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createProducto, getAllProductos, getByIdProducto, updateProducto, removeProducto } from '../services/productoService.js'
+import { createProducto, getAllProductos, getByIdProducto, updateProducto, removeProducto, createBulkProductos } from '../services/productoService.js'
 async function getAll(req: Request, res: Response) {
     try {
       const userId = req.user?.id;
@@ -55,10 +55,26 @@ async function remove(req: Request, res: Response) {
     }
   }
 
+async function bulkCreate(req: Request, res: Response) {
+  try {
+    const userId = req.user?.id;
+    const { productos } = req.body;
+    const resultado = await createBulkProductos(productos, Number(userId));
+    res.status(201).json({ 
+      message: `${resultado.insertados} productos importados exitosamente`, 
+      ...resultado 
+    });
+  } catch (error: any) {
+    const status = error.status || 500;
+    res.status(status).json({ message: error.message || 'Error al importar productos' });
+  }
+}
+
 export {
   getAll,
   getById,
   create,
+  bulkCreate,
   update,
   remove
 }; 

@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { handleValidationErrors, idParamValidation, productoValidation } from '../middlewares/validations.js';
-import { create, getAll, getById, update, remove } from '../controllers/productoController.js';
+import { create, getAll, getById, update, remove, bulkCreate } from '../controllers/productoController.js';
 import { verifyToken } from '../middlewares/auth.js';
 
 const productoRouter = express.Router();
@@ -9,6 +9,11 @@ productoRouter.get('/',
   verifyToken,
   handleValidationErrors,
   (req: Request, res: Response) => {getAll(req, res)}
+);
+
+productoRouter.post('/bulk',
+  verifyToken,
+  (req: Request, res: Response) => { bulkCreate(req, res); }
 );
 
 productoRouter.get('/:id', 

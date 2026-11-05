@@ -126,4 +126,21 @@ describe('Unit Tests - Producto Validaciones de Costo Actual y Precio de Venta',
     expect(lineaPedido.precio).toBe(120000);
     expect(lineaPedido.subtotal).toBe(600000);
   });
+
+  it('debe validar la estructura de bulkCreate en productoController', async () => {
+    const { bulkCreate } = await import('../../src/controllers/productoController.js');
+
+    // Test con lista vacía
+    mockReq = {
+      user: { id: 1 } as any,
+      body: { productos: [] }
+    };
+    await bulkCreate(mockReq as Request, mockRes as Response);
+    expect(mockRes.status).toHaveBeenCalledWith(400);
+    expect(mockRes.json).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: expect.stringContaining('Debe enviar una lista')
+      })
+    );
+  });
 });
