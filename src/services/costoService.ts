@@ -14,7 +14,6 @@ export async function getAllCostos(userId: number, fecha: string, filtro: string
   };
 
   if (fecha && ['all', 'todas', 'todos', 'historico'].includes(fecha.toLowerCase())) {
-    // Consulta histórica sin restricción de fecha mensual
   } else {
     if (!fecha) {
       fecha = new Date().toISOString().split('T')[0];
@@ -101,7 +100,6 @@ export async function updateCosto(data: any, userId: number, id: number) {
   costo.categoria = data.categoria;
   costo.descripcion = data.descripcion;
   costo.monto = Number(data.monto);
-  // Está terminantemente prohibido cambiar de estado mediante el botón de editar
   costo.actualizadoEn = new Date();
   await em.flush();
 }

@@ -17,7 +17,6 @@ export async function getAllVentas(userId: number, filtro: string, fecha: string
   };
 
   if (fecha && ['all', 'todas', 'todos', 'historico'].includes(fecha.toLowerCase())) {
-    // Consulta histórica sin restricción de fecha mensual
   } else {
     if (!fecha) {
       fecha = new Date().toISOString().split('T')[0];
@@ -106,7 +105,6 @@ export async function updateVenta(data:any, userId: number, id:number) {
   if (['Paga', 'Pagada', 'Pagado', 'Pago', 'pagos', 'Cancelada'].includes(venta.estado)) {
     throw new Conflict('La venta ya se encuentra pagada o cancelada');
   }
-  // No se permite cambiar el estado ni el total mediante el botón de editar
   venta.cliente = cliente;
   venta.actualizadoEn = new Date();
   await em.persistAndFlush(venta);

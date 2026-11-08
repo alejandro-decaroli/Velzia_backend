@@ -114,7 +114,6 @@ export async function updateLineaPedido(data: any, userId: number, id: number) {
   }
 
   const cantidad = data.cantidad !== undefined ? Number(data.cantidad) : linea.cantidad;
-  // El precio no se puede editar manualmente; se obtiene únicamente del producto
   const nuevoSubtotal = data.subtotal !== undefined ? Number(data.subtotal) : cantidad * precio;
 
   if (pedido) {

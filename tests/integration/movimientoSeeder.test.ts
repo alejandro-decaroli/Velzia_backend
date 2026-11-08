@@ -63,7 +63,7 @@ describe('MovimientoSeeder Tests', () => {
         return Promise.resolve(null);
       }),
       find: jest.fn((entity: any, filter: any) => {
-        if (entity === MovF) return Promise.resolve([]); // No hay movimientos previos
+        if (entity === MovF) return Promise.resolve([]);
         if (entity === Venta) return Promise.resolve(ventasPagas);
         if (entity === Pedido) return Promise.resolve(pedidosPagos);
         if (entity === Costo) return Promise.resolve(costosPagos);
@@ -85,10 +85,8 @@ describe('MovimientoSeeder Tests', () => {
     expect(mockEm.persistAndFlush).toHaveBeenCalledTimes(1);
     const movsGuardados: MovF[] = mockEm.persistAndFlush.mock.calls[0][0];
 
-    // 2 ventas + 1 pedido + 1 costo = 4 movimientos
     expect(movsGuardados).toHaveLength(4);
 
-    // 1. Movimiento de Venta 1 (Ingreso)
     expect(movsGuardados[0].tipo).toBe('Ingreso');
     expect(movsGuardados[0].categoria).toBe('venta');
     expect(movsGuardados[0].monto).toBe(200);
@@ -96,20 +94,17 @@ describe('MovimientoSeeder Tests', () => {
     expect(movsGuardados[0].caja).toBe(caja);
     expect(movsGuardados[0].cod).toBe('PA_1');
 
-    // 2. Movimiento de Venta 2 (Ingreso)
     expect(movsGuardados[1].tipo).toBe('Ingreso');
     expect(movsGuardados[1].monto).toBe(100);
     expect(movsGuardados[1].venta).toBe(ventasPagas[1]);
     expect(movsGuardados[1].cod).toBe('PA_2');
 
-    // 3. Movimiento de Pedido 1 (Egreso)
     expect(movsGuardados[2].tipo).toBe('Egreso');
     expect(movsGuardados[2].categoria).toBe('pedido');
     expect(movsGuardados[2].monto).toBe(1500);
     expect(movsGuardados[2].pedido).toBe(pedidosPagos[0]);
     expect(movsGuardados[2].cod).toBe('PA_3');
 
-    // 4. Movimiento de Costo 1 (Egreso)
     expect(movsGuardados[3].tipo).toBe('Egreso');
     expect(movsGuardados[3].categoria).toBe('Impuesto');
     expect(movsGuardados[3].monto).toBe(200);
@@ -119,7 +114,7 @@ describe('MovimientoSeeder Tests', () => {
 
   it('no debe insertar movimientos si ya existen movimientos en la base de datos (idempotencia)', async () => {
     mockEm.find.mockImplementation((entity: any) => {
-      if (entity === MovF) return Promise.resolve([new MovF()]); // Ya existen
+      if (entity === MovF) return Promise.resolve([new MovF()]);
       return Promise.resolve([]);
     });
 

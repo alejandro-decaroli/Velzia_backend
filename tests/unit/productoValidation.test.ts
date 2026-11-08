@@ -24,7 +24,7 @@ describe('Unit Tests - Producto Validaciones de Costo Actual y Precio de Venta',
         nombre: 'Teclado Mecánico',
         stock: 15,
         costo_actual: 5000,
-        precio_venta: 4500, // costo_actual (5000) >= precio_venta (4500) -> Inválido
+        precio_venta: 4500,
       },
     };
 
@@ -53,7 +53,7 @@ describe('Unit Tests - Producto Validaciones de Costo Actual y Precio de Venta',
         nombre: 'Mouse Inalámbrico',
         stock: 20,
         costo_actual: 3000,
-        precio_venta: 3000, // Iguales -> Inválido
+        precio_venta: 3000,
       },
     };
 
@@ -82,7 +82,7 @@ describe('Unit Tests - Producto Validaciones de Costo Actual y Precio de Venta',
         nombre: 'Auriculares Gamer',
         stock: 10,
         costo_actual: 2500,
-        precio_venta: 4900, // 2500 < 4900 -> Válido
+        precio_venta: 4900,
       },
     };
 
@@ -102,10 +102,8 @@ describe('Unit Tests - Producto Validaciones de Costo Actual y Precio de Venta',
     producto.costo_actual = 80000;
     producto.precio_venta = 120000;
 
-    // Verificar que costo_actual < precio_venta
     expect(Number(producto.costo_actual)).toBeLessThan(Number(producto.precio_venta));
 
-    // LineaVenta: debe tomar precio del precio_venta del producto
     const lineaVenta = new LineaVenta();
     lineaVenta.producto = producto;
     lineaVenta.precio = Number(producto.precio_venta);
@@ -116,7 +114,6 @@ describe('Unit Tests - Producto Validaciones de Costo Actual y Precio de Venta',
     expect(lineaVenta.precio).toBe(120000);
     expect(lineaVenta.subtotal).toBe(240000);
 
-    // LineaPedido: debe tomar precio del precio_venta del producto
     const lineaPedido = new LineaPedido();
     lineaPedido.producto = producto;
     lineaPedido.precio = Number(producto.precio_venta);
@@ -130,7 +127,6 @@ describe('Unit Tests - Producto Validaciones de Costo Actual y Precio de Venta',
   it('debe validar la estructura de bulkCreate en productoController', async () => {
     const { bulkCreate } = await import('../../src/controllers/productoController.js');
 
-    // Test con lista vacía
     mockReq = {
       user: { id: 1 } as any,
       body: { productos: [] }

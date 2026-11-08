@@ -15,18 +15,15 @@ describe('Unit Tests - Validaciones (ventaValidation y handleValidationErrors)',
     mockNext = jest.fn() as any;
   });
 
-  // Test Unitario 1: Fallo de validación cuando los campos requeridos no se envían o son inválidos
   it('debe responder con estado 400 y mensaje de error cuando "cliente" está ausente o no es un entero', async () => {
     mockReq = {
-      body: {}, // Cliente no presente
+      body: {},
     };
 
-    // Ejecutar cada regla de validación de express-validator sobre la request
     for (const validation of ventaValidation) {
       await validation.run(mockReq as Request);
     }
 
-    // Ejecutar el middleware que evalúa los resultados de la validación
     handleValidationErrors(mockReq as Request, mockRes as Response, mockNext);
 
     expect(mockRes.status).toHaveBeenCalledWith(400);
@@ -42,11 +39,10 @@ describe('Unit Tests - Validaciones (ventaValidation y handleValidationErrors)',
     expect(mockNext).not.toHaveBeenCalled();
   });
 
-  // Test Unitario 1 (caso exitoso): Validación correcta cuando los datos cumplen las reglas
   it('debe llamar a next() y no devolver error cuando los datos de validación son válidos', async () => {
     mockReq = {
       body: {
-        cliente: 1, // ID entero válido
+        cliente: 1,
       },
     };
 

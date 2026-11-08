@@ -23,17 +23,17 @@ const config: Options<PostgreSqlDriver> = {
     ignoreSchema: [],
   },
   migrations: {
-    path: './dist/src/migrations',          // Ruta donde se guardarán las migraciones compiladas
-    pathTs: './src/migrations',            // Ruta para archivos TypeScript de migraciones
-    glob: '!(*.d).{js,ts}',                // Patrón para encontrar archivos de migración
-    transactional: true,                   // Ejecutar migraciones en transacciones
-    disableForeignKeys: false,             // No deshabilitar foreign keys durante migraciones
-    allOrNothing: true,                    // Revertir todas las migraciones si una falla
-    dropTables: false,                     // No eliminar tablas automáticamente
-    safe: false,                           // Permitir migraciones destructivas
-    snapshot: true,                        // Crear snapshot del esquema
-    emit: 'ts',                            // Generar migraciones en TypeScript
-    generator: TSMigrationGenerator,       // Usar generador de TypeScript
+    path: './dist/src/migrations',
+    pathTs: './src/migrations',
+    glob: '!(*.d).{js,ts}',
+    transactional: true,
+    disableForeignKeys: false,
+    allOrNothing: true,
+    dropTables: false,
+    safe: false,
+    snapshot: true,
+    emit: 'ts',
+    generator: TSMigrationGenerator,
   }
 }
 

@@ -32,7 +32,6 @@ export async function getByIdProveedor(userId: number, id: number) {
   }
   let proveedor = await em.findOne(Proveedor, where, { populate: ['pedidos'] });
   if (!proveedor) {
-    // Si no lo encuentra con usuario específico, intentar buscarlo por ID
     proveedor = await em.findOne(Proveedor, { id }, { populate: ['pedidos'] });
   }
   if (!proveedor) {

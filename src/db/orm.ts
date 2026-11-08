@@ -14,7 +14,6 @@ export const syncSchema = async () => {
         const em = orm.em.fork();
         await em.nativeUpdate('MovF', { categoria: 'transferencia' }, { tipo: 'Transferencia' });
     } catch {
-        // En caso de que no exista aún la tabla
     }
 }
 

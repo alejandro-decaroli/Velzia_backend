@@ -133,13 +133,11 @@ export async function realizarTransferencia(data: any, userId: number) {
     throw new NotFound('Usuario no encontrado');
   }
 
-  // Actualizar saldos de las cajas
   caja_origen.monto = Number(caja_origen.monto) - monto;
   caja_destino.monto = Number(caja_destino.monto) + monto;
   caja_origen.actualizadoEn = new Date();
   caja_destino.actualizadoEn = new Date();
 
-  // Generar código para MovF
   let codigo: string;
   const arrayPagos = await em.find(MovF, { usuario: userId });
   const pagoConCodigoMasGrande = arrayPagos.length
@@ -153,7 +151,6 @@ export async function realizarTransferencia(data: any, userId: number) {
     codigo = String(Number(pagoConCodigoMasGrande.cod?.split('_')[1]) + 1);
   }
 
-  // Crear MovF asociado a la transferencia (Tipo 'Transferencia' ya que no constituye ni un ingreso ni un egreso del sistema)
   const movF = em.create(MovF, {
     caja: caja_origen,
     monto: monto,

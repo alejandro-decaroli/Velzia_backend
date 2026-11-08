@@ -88,7 +88,6 @@ export async function createPedido(data: any, userId?: number) {
     actualizadoEn: new Date(),
   });
 
-
   if (Array.isArray(data.lineas) && data.lineas.length > 0) {
     let totalCalculado = 0;
     for (const item of data.lineas) {
@@ -141,7 +140,6 @@ export async function updatePedido(data: any, userId: number, id: number) {
   if (data.fecha_emision !== undefined) pedido.fecha_emision = new Date(data.fecha_emision);
   if (data.fecha_recepcion !== undefined) pedido.fecha_recepcion = data.fecha_recepcion ? new Date(data.fecha_recepcion) : undefined;
   if (data.total !== undefined) pedido.total = Number(data.total);
-  // Está terminantemente prohibido cambiar de estado mediante el botón de editar
   pedido.actualizadoEn = new Date();
 
   await em.flush();

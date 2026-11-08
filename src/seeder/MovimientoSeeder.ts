@@ -21,7 +21,6 @@ export class MovimientoSeeder extends Seeder {
       return;
     }
 
-    // Obtener las ventas, pedidos y costos que se encuentran pagos en los seeders
     const ventasPagas = await em.find(Venta, {
       usuario,
       estado: { $in: ['Paga', 'Pagada', 'Pagado', 'Pago'] },
@@ -40,7 +39,6 @@ export class MovimientoSeeder extends Seeder {
     let contador = 1;
     const movimientos: MovF[] = [];
 
-    // 1. Movimientos financieros de Ventas pagas (Tipo: Ingreso)
     for (const venta of ventasPagas) {
       const mov = em.create(MovF, {
         cod: `PA_${contador++}`,
@@ -57,7 +55,6 @@ export class MovimientoSeeder extends Seeder {
       movimientos.push(mov);
     }
 
-    // 2. Movimientos financieros de Pedidos pagos (Tipo: Egreso)
     for (const pedido of pedidosPagos) {
       const mov = em.create(MovF, {
         cod: `PA_${contador++}`,
@@ -74,7 +71,6 @@ export class MovimientoSeeder extends Seeder {
       movimientos.push(mov);
     }
 
-    // 3. Movimientos financieros de Costos pagos (Tipo: Egreso)
     for (const costo of costosPagos) {
       const mov = em.create(MovF, {
         cod: `PA_${contador++}`,

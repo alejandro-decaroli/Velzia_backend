@@ -37,7 +37,6 @@ async function getById(req: Request, res: Response) {
 async function create(req: Request, res: Response) {
   try {
     const userId = req.user?.id;
-    // Si pedido viene en params (ej: /pedidos/:id/lineas) o en body
     const data = {
       ...req.body,
       pedido: req.body.pedido || req.params.pedidoId

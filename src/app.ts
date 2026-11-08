@@ -77,10 +77,3 @@ app.get('/', (req: Request, res: Response) => {
         process.exit(1); 
     }
 })();
-
-
-/*
-    19) agregar en productos carga de excel []
-    21) Actualizar el propousal []
-    22) Desplegar en Render []
-*/

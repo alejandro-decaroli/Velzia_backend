@@ -3,7 +3,6 @@ import { Cliente } from '../../src/entities/Cliente.entities.js';
 import { Usuario } from '../../src/entities/Usuario.entities.js';
 import { Venta } from '../../src/entities/Venta.entities.js';
 
-// Creamos un EntityManager simulado que opera con las clases reales
 const mockEm = {
   findOne: jest.fn<any>(),
   find: jest.fn<any>(),
@@ -15,7 +14,6 @@ const mockEm = {
   persistAndFlush: jest.fn<any>(),
 };
 
-// Mockeamos la capa de BD/ORM para permitir la ejecución de los servicios
 jest.unstable_mockModule('../../src/db/orm.js', () => ({
   orm: {
     em: mockEm,
@@ -33,7 +31,6 @@ describe('Test Integrador 1 - Creación de Venta (Interacción Usuario, Cliente 
     const ventaService = await import('../../src/services/ventaService.js');
     createVenta = ventaService.createVenta;
 
-    // Instancias de las clases del modelo de dominio
     mockUsuario = new Usuario();
     mockUsuario.id = 1;
     mockUsuario.nombre = 'Gonzalo';
@@ -47,7 +44,6 @@ describe('Test Integrador 1 - Creación de Venta (Interacción Usuario, Cliente 
   });
 
   it('debe coordinar la interacción entre Usuario, Cliente y Venta para crear una nueva venta con código secuencial y estado Pendiente', async () => {
-    // 1. Simular la existencia previa de Usuario y Cliente
     mockEm.findOne.mockImplementation((entity: any, filter: any) => {
       if (entity === Cliente && filter.id === 10 && filter.usuario === 1) {
         return Promise.resolve(mockCliente);
@@ -58,13 +54,10 @@ describe('Test Integrador 1 - Creación de Venta (Interacción Usuario, Cliente 
       return Promise.resolve(null);
     });
 
-    // 2. Simular que no existen ventas previas (para que el código sea VEN_1)
     mockEm.find.mockResolvedValueOnce([]);
 
-    // 3. Ejecutar la operación de creación de venta
     await createVenta({ cliente: 10 }, 1);
 
-    // 4. Verificar la interacción con el EntityManager y las entidades
     expect(mockEm.findOne).toHaveBeenCalledWith(Cliente, { id: 10, usuario: 1 });
     expect(mockEm.findOne).toHaveBeenCalledWith(Usuario, { id: 1 });
     expect(mockEm.create).toHaveBeenCalledWith(
@@ -78,7 +71,6 @@ describe('Test Integrador 1 - Creación de Venta (Interacción Usuario, Cliente 
       })
     );
 
-    // 5. Verificar que se persistió la instancia de la clase Venta
     expect(mockEm.persistAndFlush).toHaveBeenCalledTimes(1);
     const ventaGuardada = mockEm.persistAndFlush.mock.calls[0][0] as Venta;
     expect(ventaGuardada).toBeInstanceOf(Venta);
@@ -100,7 +92,6 @@ describe('Test Integrador 1 - Creación de Venta (Interacción Usuario, Cliente 
       return Promise.resolve(null);
     });
 
-    // Venta previa existente con código VEN_1
     const ventaPrevia = new Venta();
     ventaPrevia.cod = 'VEN_1';
     mockEm.find.mockResolvedValueOnce([ventaPrevia]);
@@ -122,7 +113,7 @@ describe('Test Integrador 1 - Creación de Venta (Interacción Usuario, Cliente 
       if (entity === Usuario && filter.id === 1) {
         return Promise.resolve(mockUsuario);
       }
-      return Promise.resolve(null); // Cliente no encontrado
+      return Promise.resolve(null);
     });
 
     await expect(createVenta({ cliente: 999 }, 1)).rejects.toThrow('Cliente no encontrado');

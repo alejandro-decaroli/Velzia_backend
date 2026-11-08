@@ -7,7 +7,6 @@ const { NotFound, BadRequest } = createError;
 const mockGetByIdVenta = jest.fn();
 const mockCreateVenta = jest.fn();
 
-// Mockeamos la capa de servicio para aislar completamente el controlador (Unit Test puro)
 jest.unstable_mockModule('../../src/services/ventaService.js', () => ({
   getByIdVenta: mockGetByIdVenta,
   createVenta: mockCreateVenta,
@@ -18,7 +17,6 @@ jest.unstable_mockModule('../../src/services/ventaService.js', () => ({
   pagarVenta: jest.fn(),
 }));
 
-// Mockeamos lineaVentaService que también importa ventaController
 jest.unstable_mockModule('../../src/services/lineaVentaService.js', () => ({
   registrarDetalle: jest.fn(),
   detallesByUser: jest.fn(),
@@ -40,7 +38,6 @@ describe('Unit Tests - Manejo y Devolución Correcta de Errores (ventaController
       json: jest.fn().mockReturnThis() as any,
     };
 
-    // Import dinámico después de mockear las dependencias
     const module = await import('../../src/controllers/ventaController.js');
     ventaController = module.default || module;
   });
@@ -51,7 +48,6 @@ describe('Unit Tests - Manejo y Devolución Correcta de Errores (ventaController
       params: { id: '999' },
     };
 
-    // Simulamos que el servicio lanza NotFound (status 404)
     mockGetByIdVenta.mockRejectedValueOnce(new NotFound('Venta no encontrada'));
 
     await ventaController.getById(mockReq as Request, mockRes as Response);
@@ -68,7 +64,6 @@ describe('Unit Tests - Manejo y Devolución Correcta de Errores (ventaController
       params: { id: 'abc' },
     };
 
-    // Simulamos que el servicio rechaza con BadRequest (status 400)
     mockGetByIdVenta.mockRejectedValueOnce(new BadRequest('ID inválido'));
 
     await ventaController.getById(mockReq as Request, mockRes as Response);
@@ -85,7 +80,6 @@ describe('Unit Tests - Manejo y Devolución Correcta de Errores (ventaController
       params: { id: '1' },
     };
 
-    // Error no controlado (ej. fallo de conexión a BD)
     mockGetByIdVenta.mockRejectedValueOnce(new Error('Fallo crítico de conexión'));
 
     await ventaController.getById(mockReq as Request, mockRes as Response);

@@ -26,14 +26,12 @@ cajaRouter.get('/',
   (req: Request, res: Response) => {getAll(req, res)}
 );
 
-// Conciliación de todas las cajas (monto actual)
 cajaRouter.get('/conciliacion',
   verifyToken,
   handleValidationErrors,
   (req: Request, res: Response) => {getConciliacion(req, res)}
 );
 
-// Realizar transferencia entre cajas
 cajaRouter.post('/transferencia',
   verifyToken,
   transferenciaValidation,
@@ -48,7 +46,6 @@ cajaRouter.post('/transferir',
   (req: Request, res: Response) => {transferir(req, res)}
 );
 
-// Realizar conciliación (recibiendo caja_id en body o en param)
 cajaRouter.post('/conciliacion',
   verifyToken,
   conciliacionValidation,

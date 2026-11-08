@@ -17,7 +17,6 @@ export async function getAllMovimientos(
     const fechaTrim = fecha.split('T')[0];
     const fechaDate = new Date(fechaTrim);
     if (!isNaN(fechaDate.getTime())) {
-      // Si se pasa fecha, incluimos los movimientos hasta el final de ese día
       const finDia = new Date(fechaTrim + 'T23:59:59.999Z');
       whereClause.creadoEn = { $lte: finDia };
     }
