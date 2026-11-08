@@ -1,5 +1,25 @@
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 import { Request, Response, NextFunction } from 'express';
+import createError from 'http-errors';
+
+const { BadRequest } = createError;
+
+const mockCreateBulkProductos = jest.fn(async (productosData: any[]) => {
+  if (!Array.isArray(productosData) || productosData.length === 0) {
+    throw new BadRequest('Debe enviar una lista de productos para importar');
+  }
+  return { insertados: productosData.length };
+});
+
+jest.unstable_mockModule('../../src/services/productoService.js', () => ({
+  createBulkProductos: mockCreateBulkProductos,
+  createProducto: jest.fn(),
+  getAllProductos: jest.fn(),
+  getByIdProducto: jest.fn(),
+  updateProducto: jest.fn(),
+  removeProducto: jest.fn(),
+}));
+
 import { productoValidation, handleValidationErrors } from '../../src/middlewares/validations.js';
 import { Producto } from '../../src/entities/Producto.entities.js';
 import { LineaVenta } from '../../src/entities/LineaVenta.entities.js';

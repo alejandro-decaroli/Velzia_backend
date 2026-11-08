@@ -38,10 +38,9 @@ Ir a la raiz del proyecto
   cd Velzia_backend
 ```
 
-Crear un archivo .env y escribir las variables de entorno que se proporcionan debajo.
+Crear un archivo `.env` en la raíz del proyecto y escribir las variables de entorno que se proporcionan debajo.
 
 ```bash
-  cd src
   touch .env
 ``` 
 
@@ -87,16 +86,16 @@ Si quieren que se ejecuten los seeders al iniciar la app, deben agregar la varia
 
 ## Ejecutar Tests
 
-Los tests automatizados están implementados con **Jest** y **ts-jest**. Para ejecutarlos:
+Los tests automatizados están implementados con **Jest** y **ts-jest** (6 suites de pruebas y 18 tests en total). Para ejecutarlos:
 
 ```bash
-# Ejecutar toda la suite de pruebas
+# Ejecutar toda la suite de pruebas (18 tests)
 npm test
 
-# Ejecutar únicamente los tests unitarios
+# Ejecutar únicamente los tests unitarios (10 tests)
 npm test -- tests/unit
 
-# Ejecutar únicamente los tests integradores
+# Ejecutar únicamente los tests integradores (8 tests)
 npm test -- tests/integration
 ```
 
@@ -105,10 +104,12 @@ npm test -- tests/integration
 * **Tests Unitarios (`tests/unit/`):**
   * **Validaciones (`validations.test.ts`):** Evalúa el middleware de validación (`ventaValidation` y `handleValidationErrors`), comprobando que responda con `400 Bad Request` y la lista de errores ante datos ausentes o inválidos, o llame a `next()` si los datos son correctos.
   * **Manejo y Devolución de Errores (`errorHandling.test.ts`):** Evalúa el controlador (`ventaController`) en aislamiento simulando fallos en el servicio, comprobando la devolución adecuada de códigos HTTP (`404 Not Found`, `400 Bad Request` y `500 Internal Server Error`).
+  * **Validación de Productos y Costos (`productoValidation.test.ts`):** Valida que el `costo_actual` de un producto deba ser estrictamente menor a su `precio_venta` (`400 Bad Request` si es mayor o igual), comprueba la sincronización de precios y cálculo de subtotales en las entidades `Producto`, `LineaVenta` y `LineaPedido`, y evalúa la validación de formato del endpoint de importación masiva (`bulkCreate`) en `productoController`.
 
 * **Tests Integradores (`tests/integration/`):**
   * **Creación de Venta (`ventaCreacion.test.ts`):** Comprueba la interacción entre las clases `Usuario`, `Cliente` y `Venta`, validando la asignación de relaciones, generación de código secuencial (`VEN_1`, `VEN_2`), inicialización en estado `'Pendiente'` con total `0`, y persistencia.
   * **Registro de Línea de Venta (`ventaDetalle.test.ts`):** Comprueba la interacción multidominio entre `Venta`, `Producto` y `LineaVenta`, verificando la sincronización atómica: descuento del stock físico del producto, incremento del total en la venta con cálculo de descuentos, y validación de reglas de negocio como stock insuficiente (`409 Conflict`).
+  * **Seeder de Movimientos Financieros (`movimientoSeeder.test.ts`):** Comprueba la generación e inserción coordinada de movimientos financieros (`MovF`) a partir de ventas, pedidos y costos en estado pagado, verificando la clasificación de flujo (`'Ingreso'` vs `'Egreso'`), vinculación a la caja y correlatividad de códigos secuenciales (`PA_1`, `PA_2`).
 
 
 ## Documentación
@@ -136,8 +137,7 @@ Enlace al video: https://drive.google.com/file/d/1K-A6cGTddqLqrD3fay0Tg4iFZyRbmp
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![Svelte](https://img.shields.io/badge/svelte-%23f1413d.svg?style=for-the-badge&logo=svelte&logoColor=white)
-![Svelte](https://img.shields.io/badge/svelte-%23f1413d.svg?style=for-the-badge&logo=svelte&logoColor=white)
+![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 ![Render](https://img.shields.io/badge/Render-%46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)
 ## License
 
