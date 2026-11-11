@@ -18,7 +18,7 @@ const config: Options<PostgreSqlDriver> = {
   driver: PostgreSqlDriver,
   debug: process.env.NODE_ENV === 'development',
   schemaGenerator: { 
-    disableForeignKeys: true,
+    disableForeignKeys: false,
     createForeignKeyConstraints: true,
     ignoreSchema: [],
   },
