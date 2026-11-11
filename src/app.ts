@@ -20,17 +20,18 @@ dotenv.config();
 const PORT = parseInt(process.env.PORT || "3000", 10);
 
 const app = express();
-const front_url = process.env.NODE_ENV === "development"
-    ? "http://localhost:5173"
-    : process.env.FRONTEND_URL || "https://velzia-frontend.onrender.com";
+const allowedOrigins = [
+    "https://velzia-frontend.onrender.com",
+    "http://localhost:5173",
+    ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL.replace(/\/$/, "")] : [])
+];
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(
-    {origin: [front_url.toString()], 
+app.use(cors({
+    origin: allowedOrigins,
     credentials: true,
-    }
-));
+}));
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     RequestContext.create(orm.em, next);   
